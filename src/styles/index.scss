@@ -1,0 +1,7 @@
+// Testing here, need to create each file like colors.scss of variables.scss later
+
+$primary-color: #64ff00;
+
+:export {
+  primaryColor: $primary-color;
+}
