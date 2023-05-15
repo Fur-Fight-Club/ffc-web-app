@@ -5,7 +5,7 @@ type LoginLayoutProps = {
 export default function LoginLayout({ children }: LoginLayoutProps) {
   return (
     <main>
-      <div>ceci est le layout Login</div>
+      <div>CONNECTION LAYOUT</div>
       <div>{children}</div>
     </main>
   );
