@@ -1,6 +1,6 @@
 'use client';
 
-import NavbarTest from '@/components/Navbar';
+import NavbarTest from '@components/Navbar';
 import Image from 'next/image';
 import styles from './page.module.scss';
 
