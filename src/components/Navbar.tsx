@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-const Nav = () => {
+const NavbarTest = () => {
   const [variant, setVariant] = useState('default');
   const [activeColor, setActiveColor] = useState('primary');
 
@@ -12,7 +12,7 @@ const Nav = () => {
   const router = useRouter();
 
   return (
-    <Navbar isBordered={isDark} variant="sticky" maxWidth="fluid">
+    <Navbar isBordered={isDark} variant="floating" maxWidth="fluid">
       <Navbar.Brand>
         <Image src="/logo_test.png" alt="Acme Logo" width={50} height={50} />
         <Text b color="inherit" hideIn="xs">
@@ -51,4 +51,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default NavbarTest;
