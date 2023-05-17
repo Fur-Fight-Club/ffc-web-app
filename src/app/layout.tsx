@@ -1,4 +1,5 @@
 'use client';
+
 import { NextUIProvider } from '@nextui-org/react';
 import { Poppins } from 'next/font/google';
 import * as React from 'react';

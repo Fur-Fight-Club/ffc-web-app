@@ -1,11 +1,19 @@
+"use client";
+
+import fireAnimation from "@assets/anims/fire.json";
+import Lottie from "lottie-react";
+import styles from "./layout.module.scss";
+
 type LoginLayoutProps = {
   children: React.ReactNode;
 };
 
 export default function LoginLayout({ children }: LoginLayoutProps) {
   return (
-    <main>
-      <div>CONNECTION LAYOUT</div>
+    <main className={styles.wrapper}>
+      <div className={styles.leftPanel}>
+        <Lottie animationData={fireAnimation} />
+      </div>
       <div>{children}</div>
     </main>
   );
