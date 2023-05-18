@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import fireAnimation from "@assets/anims/fire.json";
-import Lottie from "lottie-react";
-import styles from "./layout.module.scss";
+import fireAnimation from '@assets/animations/fire.json';
+import Lottie from 'lottie-react';
+import styles from './layout.module.scss';
 
 type LoginLayoutProps = {
   children: React.ReactNode;

@@ -82,7 +82,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
         </NextThemesProvider>
-        ;
       </body>
     </html>
   );

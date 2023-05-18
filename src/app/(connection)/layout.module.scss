@@ -1,10 +1,18 @@
 .wrapper {
   display: flex;
-  background: red;
-  height: 100%;
+  // background: red;
+  height: 100vh;
+  padding: 1rem;
 }
 
 .leftPanel {
-  background: blue;
-  width: 60%;
+  background: #b91919;
+  border-radius: 1rem;
+  width: 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-box-shadow: 0 0 17px 13px rgba(125, 0, 0, 0.13);
+  -moz-box-shadow: 0 0 17px 13px rgba(125, 0, 0, 0.13);
+  box-shadow: 0 0 17px 13px rgba(125, 0, 0, 0.13);
 }
