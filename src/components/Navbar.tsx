@@ -1,5 +1,13 @@
 'use client';
-import { Button, Link, Navbar, Text, useTheme } from '@nextui-org/react';
+import {
+  Button,
+  Link,
+  Navbar,
+  Switch,
+  Text,
+  useTheme,
+} from '@nextui-org/react';
+import { useTheme as useNextTheme } from 'next-themes';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -10,6 +18,7 @@ const NavbarTest = () => {
 
   const { isDark } = useTheme();
   const router = useRouter();
+  const { setTheme } = useNextTheme();
 
   return (
     <Navbar isBordered={isDark} variant="floating" maxWidth="fluid">
@@ -32,6 +41,10 @@ const NavbarTest = () => {
         <Navbar.Link href="#">Company</Navbar.Link>
       </Navbar.Content>
       <Navbar.Content>
+        <Switch
+          checked={isDark}
+          onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+        />
         <Navbar.Link color="inherit" onClick={() => router.push('/login')}>
           Login
         </Navbar.Link>

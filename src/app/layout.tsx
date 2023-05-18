@@ -39,7 +39,7 @@ const lightTheme = createTheme({
 });
 
 const darkTheme = createTheme({
-  type: 'light',
+  type: 'dark',
   theme: {
     colors: {
       primaryLight: '$green200',
