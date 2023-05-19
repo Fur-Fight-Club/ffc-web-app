@@ -1,81 +1,57 @@
 import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+  CreditCard,
+  House,
+  MapPin,
+  UserRectangle,
+} from '@phosphor-icons/react';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import Link from 'next/link';
+import { Menu, MenuItem, Sidebar, useProSidebar } from 'react-pro-sidebar';
+import { Flex } from 'src/styles/flex';
 
-const { Header, Sider, Content } = Layout;
-
-interface SidebarTestProps {
-  children?: React.ReactNode;
-}
-
-const SidebarTest = ({ children }: SidebarTestProps) => {
-  const [collapsed, setCollapsed] = useState(false);
+export const SidebarAdmin = () => {
+  const { collapseSidebar } = useProSidebar();
 
   return (
-    <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div
-          className="demo-logo-vertical"
-          style={{ display: 'flex', justifyContent: 'center', padding: '16px' }}
-        >
-          <Image src="/test.png" alt="logo" width={80} height={80} />
-        </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'nav 1',
-            },
-            {
-              key: '2',
-              icon: <VideoCameraOutlined />,
-              label: 'nav 2',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'nav 3',
-            },
-          ]}
-        />
-      </Sider>
-      <Layout>
-        <Header style={{ padding: 0, background: 'white' }}>
-          <p>TITLE PAGE ?</p>
-          {/* <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          /> */}
-        </Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: 'white',
-            borderRadius: '3px',
-          }}
-        >
-          {children}
-        </Content>
-      </Layout>
-    </Layout>
+    <>
+      <Sidebar breakPoint="lg" backgroundColor="white">
+        <Menu>
+          <Flex justify={'center'} style={{ margin: '1rem' }}>
+            <Image src="/test.png" alt="logo" width={40} height={40} />
+          </Flex>
+
+          {/* <SubMenu label="Utilisateur" icon={<User />}>
+          <MenuItem> Documentation</MenuItem>
+          <MenuItem> Calendar</MenuItem>
+        </SubMenu> */}
+          <MenuItem
+            icon={<House size={25} color="#e0dfdb" weight="fill" />}
+            component={<Link href="/admin" />}
+          >
+            Dashboard
+          </MenuItem>
+          <MenuItem
+            icon={<UserRectangle size={25} color="#e0dfdb" weight="fill" />}
+            component={<Link href="/admin/accounts" />}
+          >
+            Utilisateurs
+          </MenuItem>
+          <MenuItem
+            icon={<MapPin size={25} color="#e0dfdb" weight="fill" />}
+            component={<Link href="/admin/arena" />}
+          >
+            Arènes
+          </MenuItem>
+          <MenuItem
+            icon={<CreditCard size={25} color="#e0dfdb" weight="fill" />}
+          >
+            Payements
+          </MenuItem>
+        </Menu>
+        <main>
+          <button onClick={() => collapseSidebar()}>Collapse</button>
+        </main>
+      </Sidebar>
+    </>
   );
 };
-
-export default SidebarTest;
