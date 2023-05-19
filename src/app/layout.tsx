@@ -17,7 +17,9 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="fr">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className} style={{ minHeight: '100vh' }}>
+        {children}
+      </body>
     </html>
   );
 }
