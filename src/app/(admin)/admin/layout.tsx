@@ -14,7 +14,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
         <ProSidebarProvider>
           <SidebarAdmin />
-          <Flex direction={'column'}>{children}</Flex>
+          <Flex direction={'column'} style={{ width: '100%' }}>
+            <div style={{ margin: '20px' }}>{children}</div>
+          </Flex>
         </ProSidebarProvider>
       </div>
     </main>

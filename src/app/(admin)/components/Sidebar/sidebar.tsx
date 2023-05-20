@@ -1,4 +1,6 @@
+import { Button } from '@nextui-org/react';
 import {
+  CaretCircleRight,
   CreditCard,
   House,
   MapPin,
@@ -6,15 +8,38 @@ import {
 } from '@phosphor-icons/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { Menu, MenuItem, Sidebar, useProSidebar } from 'react-pro-sidebar';
 import { Flex } from 'src/styles/flex';
 
 export const SidebarAdmin = () => {
   const { collapseSidebar } = useProSidebar();
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    const updateWindowWidth = () => {
+      const width = window.innerWidth;
+      if (width > 768) {
+        collapseSidebar(false);
+        setCollapsed(false);
+      }
+      if (width < 768) {
+        collapseSidebar(true);
+        setCollapsed(true);
+      }
+    };
+    window.addEventListener('resize', updateWindowWidth);
+    return () => window.removeEventListener('resize', updateWindowWidth);
+  }, [collapseSidebar]);
+
+  const handleToggleSidebar = () => {
+    collapseSidebar(!collapsed);
+    setCollapsed(!collapsed);
+  };
 
   return (
     <>
-      <Sidebar breakPoint="lg" backgroundColor="white">
+      <Sidebar backgroundColor="white">
         <Menu>
           <Flex justify={'center'} style={{ margin: '1rem' }}>
             <Image src="/test.png" alt="logo" width={40} height={40} />
@@ -48,9 +73,17 @@ export const SidebarAdmin = () => {
             Payements
           </MenuItem>
         </Menu>
-        <main>
-          <button onClick={() => collapseSidebar()}>Collapse</button>
-        </main>
+
+        <Flex justify={'center'} style={{ margin: '1rem' }}>
+          <Button
+            auto
+            light
+            ripple={false}
+            icon={<CaretCircleRight size={32} color="#889096" weight="fill" />}
+            onPress={() => handleToggleSidebar()}
+            style={collapsed ? { transform: 'rotate(180deg)' } : {}}
+          />
+        </Flex>
       </Sidebar>
     </>
   );
