@@ -1,6 +1,6 @@
 import { Button } from '@nextui-org/react';
 import {
-  CaretCircleRight,
+  CaretCircleLeft,
   CreditCard,
   House,
   MapPin,
@@ -19,7 +19,7 @@ export const SidebarAdmin = () => {
   useEffect(() => {
     const updateWindowWidth = () => {
       const width = window.innerWidth;
-      if (width > 768) {
+      if (width > 768 && collapsed) {
         collapseSidebar(false);
         setCollapsed(false);
       }
@@ -30,7 +30,7 @@ export const SidebarAdmin = () => {
     };
     window.addEventListener('resize', updateWindowWidth);
     return () => window.removeEventListener('resize', updateWindowWidth);
-  }, [collapseSidebar]);
+  }, [collapseSidebar, collapsed]);
 
   const handleToggleSidebar = () => {
     collapseSidebar(!collapsed);
@@ -79,7 +79,7 @@ export const SidebarAdmin = () => {
             auto
             light
             ripple={false}
-            icon={<CaretCircleRight size={32} color="#889096" weight="fill" />}
+            icon={<CaretCircleLeft size={32} color="#889096" weight="fill" />}
             onPress={() => handleToggleSidebar()}
             style={collapsed ? { transform: 'rotate(180deg)' } : {}}
           />
