@@ -72,20 +72,24 @@ export default function AccountsAdmin() {
           </Col>
         );
       case 'status':
-        return <Badge color={cellValue}>{user?.is_email_verified}</Badge>;
+        return (
+          <Badge color={user?.is_email_verified === true ? 'primary' : 'error'}>
+            {user?.is_email_verified === true ? 'Active' : 'Inactive'}
+          </Badge>
+        );
 
       case 'actions':
         return (
           <Row justify="center" align="center">
             <Col css={{ d: 'flex' }}>
-              <Tooltip content="Details">
+              <Tooltip content="Détails">
                 <IconButton onClick={() => console.log('View user', user?.id)}>
                   <Eye size={20} color="#889096" weight="fill" />
                 </IconButton>
               </Tooltip>
             </Col>
             <Col css={{ d: 'flex' }}>
-              <Tooltip content="Edit user">
+              <Tooltip content="Editer">
                 <IconButton onClick={() => console.log('Edit user', user?.id)}>
                   <Pencil size={20} color="#889096" weight="fill" />
                 </IconButton>
@@ -93,7 +97,7 @@ export default function AccountsAdmin() {
             </Col>
             <Col css={{ d: 'flex' }}>
               <Tooltip
-                content="Delete user"
+                content="Supprimer"
                 color="error"
                 onClick={() => console.log('Delete user', user?.id)}
               >
