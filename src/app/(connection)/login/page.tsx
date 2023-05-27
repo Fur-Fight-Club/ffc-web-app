@@ -34,7 +34,9 @@ export default function Home() {
       <h1>Fur Fight Club</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input label="Email" placeholder="email..." {...register('email')} />
+        <p>{errors.email?.message}</p>
         <Input type="password" label="password..." {...register('password')} />
+        <p>{errors.password?.message}</p>
         <Input type="submit" />
       </form>
     </div>
