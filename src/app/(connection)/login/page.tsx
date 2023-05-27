@@ -1,9 +1,21 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@nextui-org/react';
-
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import styles from './page.module.scss';
+
+const loginSchema = z
+  .object({
+    email: z.string().email({ message: 'Invalid email address' }),
+    password: z
+      .string()
+      .min(8, { message: 'Password must be at least 8 characters long' }),
+  })
+  .required();
+
+type FormData = z.infer<typeof loginSchema>;
 
 export default function Home() {
   const {
@@ -11,33 +23,18 @@ export default function Home() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<IFormInput>();
+  } = useForm<FormData>({ resolver: zodResolver(loginSchema) });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  const onSubmit = (data: FormData) => console.log(data);
 
-  console.log(watch('example'));
-
-  interface IFormInput {
-    email: string;
-    password: string;
-  }
+  console.log(watch('email'), watch('password'));
 
   return (
     <div className={styles.container}>
       <h1>Fur Fight Club</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          label="Email"
-          placeholder="email..."
-          {...register('email')}
-          required={true}
-        />
-        <Input
-          type="password"
-          label="password..."
-          {...register('password')}
-          required={true}
-        />
+        <Input label="Email" placeholder="email..." {...register('email')} />
+        <Input type="password" label="password..." {...register('password')} />
         <Input type="submit" />
       </form>
     </div>
