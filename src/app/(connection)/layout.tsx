@@ -14,7 +14,7 @@ export default function LoginLayout({ children }: LoginLayoutProps) {
       <div className={styles.leftPanel}>
         <Lottie animationData={fireAnimation} />
       </div>
-      <div>{children}</div>
+      <div className={styles.rightPanel}>{children}</div>
     </main>
   );
 }
