@@ -60,8 +60,8 @@ export default function Home() {
           {...register('password')}
           bordered
           borderWeight="light"
-          color={errors.email?.message ? 'error' : undefined}
-          helperText={errors.email?.message}
+          color={errors.password?.message ? 'error' : undefined}
+          helperText={errors.password?.message}
           helperColor="error"
         />
 
