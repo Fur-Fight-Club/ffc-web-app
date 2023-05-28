@@ -1,19 +1,18 @@
 'use client';
 import { useState } from 'react';
+
 import { useQuery } from 'react-query';
-import { GET } from 'src/app/api/route';
 
 import { IconButton } from '@components/IconButton';
 import { Badge, Col, Row, Table, Text, Tooltip, User } from '@nextui-org/react';
 import { Eye, Pencil, Trash } from '@phosphor-icons/react';
+import { getUsers } from 'src/app/api/getUsers';
 
 export default function AccountsAdmin() {
   const [users, setUsers] = useState([]);
   const { data } = useQuery(['user'], getUsers, {
     onSuccess: (data) => {
       setUsers(data);
-      console.log(data);
-      console.log(data[0].is_email_verified);
     },
   });
 
@@ -23,11 +22,6 @@ export default function AccountsAdmin() {
     { name: 'STATUS', uid: 'status' },
     { name: 'ACTIONS', uid: 'actions' },
   ];
-
-  async function getUsers() {
-    const res = await GET('http://localhost:4000/user/');
-    return res.json();
-  }
 
   type UserType = {
     id: string | number;
@@ -112,6 +106,7 @@ export default function AccountsAdmin() {
         return cellValue;
     }
   };
+
   return (
     <Table
       aria-label="Example table with custom cells"
@@ -132,6 +127,7 @@ export default function AccountsAdmin() {
           </Table.Column>
         )}
       </Table.Header>
+
       <Table.Body items={users}>
         {(item: UserType) => (
           <Table.Row>
