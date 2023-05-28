@@ -45,6 +45,9 @@ const NavbarTest = () => {
           checked={isDark}
           onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
         />
+        <Navbar.Link color="inherit" onClick={() => router.push('/admin')}>
+          ADMIN
+        </Navbar.Link>
         <Navbar.Link color="inherit" onClick={() => router.push('/login')}>
           Login
         </Navbar.Link>
