@@ -5,7 +5,6 @@ import { Button, Input, Spacer } from '@nextui-org/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Divider from './components/Divider';
-import InputError from './components/InputError/InputError';
 import styles from './page.module.scss';
 
 const loginSchema = z
@@ -43,19 +42,31 @@ export default function Home() {
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <Input
           className={styles.input}
-          label="Adresse email"
+          label="Adresse email :"
           placeholder="pouet@example.com"
           {...register('email')}
+          bordered
+          borderWeight="light"
+          color={errors.email?.message ? 'error' : undefined}
+          helperText={errors.email?.message}
+          helperColor="error"
         />
-        {errors.email?.message && (
-          <InputError errorMessage={errors.email.message} />
-        )}
+
+        <Spacer y={1.3} />
+
+        <Input.Password
+          label="Mot de passe :"
+          placeholder="********"
+          {...register('password')}
+          bordered
+          borderWeight="light"
+          color={errors.email?.message ? 'error' : undefined}
+          helperText={errors.email?.message}
+          helperColor="error"
+        />
+
         <Spacer y={1} />
-        <Input label="Mot de passe" type="password" {...register('password')} />
-        {errors.password?.message && (
-          <InputError errorMessage={errors.password.message} />
-        )}
-        <Spacer y={1} />
+
         <Button type="submit">Connexion</Button>
       </form>
       <Divider />
