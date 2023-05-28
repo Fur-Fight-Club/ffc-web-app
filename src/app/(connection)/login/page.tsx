@@ -1,7 +1,8 @@
 'use client';
 
+import Input from '@components/UI/Input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Input, Spacer } from '@nextui-org/react';
+import { Button, Spacer } from '@nextui-org/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Divider from './components/Divider';
@@ -40,32 +41,25 @@ export default function Home() {
       </p>
       <Divider />
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <Spacer y={1.3} />
+
         <Input
-          className={styles.input}
           label="Adresse email :"
           placeholder="pouet@example.com"
-          {...register('email')}
-          bordered
-          borderWeight="light"
-          color={errors.email?.message ? 'error' : undefined}
-          helperText={errors.email?.message}
-          helperColor="error"
+          register={register('email')}
+          errorMessage={errors.email?.message}
         />
 
         <Spacer y={1.3} />
 
-        <Input.Password
-          label="Mot de passe :"
-          placeholder="********"
-          {...register('password')}
-          bordered
-          borderWeight="light"
-          color={errors.password?.message ? 'error' : undefined}
-          helperText={errors.password?.message}
-          helperColor="error"
+        <Input
+          label="Adresse email :"
+          placeholder="pouet@example.com"
+          register={register('password')}
+          errorMessage={errors.password?.message}
         />
 
-        <Spacer y={1} />
+        <Spacer y={2.5} />
 
         <Button type="submit">Connexion</Button>
       </form>
