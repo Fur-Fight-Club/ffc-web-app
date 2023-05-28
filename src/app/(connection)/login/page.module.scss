@@ -1,6 +1,19 @@
 .container {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+
+  // width: 100%;
   height: 100%;
+
   background: #fff;
-  box-shadow: 0 1px 10px 1.5px #ddd;
+
+  // box-shadow: 0 1px 10px 1.5px #ddd;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
