@@ -4,6 +4,8 @@ import { NextUIProvider, createTheme } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { Poppins } from 'next/font/google';
 import * as React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import './globals.scss';
 
 const poppins = Poppins({
@@ -68,20 +70,25 @@ type RootLayoutProps = {
   children: React.ReactNode;
 };
 
+const queryClient = new QueryClient();
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="fr">
-      <body className={poppins.className}>
-        <NextThemesProvider
-          defaultTheme="system"
-          attribute="class"
-          value={{
-            light: lightTheme.className,
-            dark: darkTheme.className,
-          }}
-        >
-          <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
-        </NextThemesProvider>
+      <body className={poppins.className} style={{ minHeight: '100vh' }}>
+        <QueryClientProvider client={queryClient}>
+          <NextThemesProvider
+            defaultTheme="system"
+            attribute="class"
+            value={{
+              light: lightTheme.className,
+              dark: darkTheme.className,
+            }}
+          >
+            <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
+          </NextThemesProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
       </body>
     </html>
   );
