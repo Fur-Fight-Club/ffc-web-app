@@ -1,26 +1,27 @@
 .wrapper {
   display: flex;
+
   // background: red;
   height: 100vh;
   padding: 1rem;
 }
 
 .leftPanel {
-  background: #b91919;
-  border-radius: 1rem;
-  flex-basis: 45%;
   display: flex;
+  flex-basis: 45%;
   align-items: center;
   justify-content: center;
-  -webkit-box-shadow: 0 0 17px 13px rgba(125, 0, 0, 0.13);
-  -moz-box-shadow: 0 0 17px 13px rgba(125, 0, 0, 0.13);
-  box-shadow: 0 0 17px 13px rgba(125, 0, 0, 0.13);
+
+  background: #b91919;
+  border-radius: 1rem;
+  box-shadow: 0 0 17px 13px rgb(125 0 0 / 13%);
 }
 
 .rightPanel {
   display: flex;
-  align-items: center;
   flex-basis: 55%;
+  align-items: center;
   justify-content: center;
+
   padding: 2rem;
 }
