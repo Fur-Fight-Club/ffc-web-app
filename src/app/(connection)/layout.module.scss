@@ -6,7 +6,7 @@
   padding: 1rem;
 }
 
-.leftPanel {
+.imgPanel {
   display: flex;
   flex-basis: 45%;
   align-items: center;
@@ -14,14 +14,13 @@
 
   background: #b91919;
   border-radius: 1rem;
-  box-shadow: 0 0 17px 13px rgb(125 0 0 / 13%);
+
+  // box-shadow: 0 0 17px 13px rgb(125 0 0 / 13%);
 }
 
-.rightPanel {
+.contentPanel {
   display: flex;
   flex-basis: 55%;
   align-items: center;
   justify-content: center;
-
-  padding: 2rem;
 }

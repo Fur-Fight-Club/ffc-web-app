@@ -11,10 +11,10 @@ type LoginLayoutProps = {
 export default function LoginLayout({ children }: LoginLayoutProps) {
   return (
     <main className={styles.wrapper}>
-      <div className={styles.leftPanel}>
+      <div className={styles.contentPanel}>{children}</div>
+      <div className={styles.imgPanel}>
         <Lottie animationData={fireAnimation} />
       </div>
-      <div className={styles.rightPanel}>{children}</div>
     </main>
   );
 }

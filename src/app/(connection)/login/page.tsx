@@ -1,9 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@nextui-org/react';
+import { Button, Input, Spacer } from '@nextui-org/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import Divider from './components/Divider';
 import styles from './page.module.scss';
 
 const loginSchema = z
@@ -33,14 +34,27 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <h1>Fur Fight Club</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Input label="Email" placeholder="email..." {...register('email')} />
+      <h1>Connectez-vous</h1>
+      <p>
+        {"Faite combattre votre monstre, parier dessus, et gagner de l'argent"}
+      </p>
+      <Divider />
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <Input
+          className={styles.input}
+          label="Adresse email"
+          placeholder="pouet@example.com"
+          {...register('email')}
+        />
         <p>{errors.email?.message}</p>
-        <Input type="password" label="password..." {...register('password')} />
+        <Spacer y={1} />
+        <Input label="Mot de passe" type="password" {...register('password')} />
         <p>{errors.password?.message}</p>
-        <Input type="submit" />
+        <Spacer y={1} />
+        <Button type="submit">Connexion</Button>
       </form>
+      <Divider />
+      <p>Pas de compte ? Inscivez-vous ici</p>
     </div>
   );
 }
