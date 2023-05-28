@@ -25,7 +25,9 @@ export default function Home() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(loginSchema) });
 
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = (data: FormData) => {
+    console.log('submit', data);
+  };
 
   console.log(watch('email'), watch('password'));
 

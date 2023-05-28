@@ -8,7 +8,7 @@
 .leftPanel {
   background: #b91919;
   border-radius: 1rem;
-  flex-basis: 55%;
+  flex-basis: 45%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,8 +20,7 @@
 .rightPanel {
   display: flex;
   align-items: center;
-  flex-basis: 45%;
+  flex-basis: 55%;
   justify-content: center;
-  background: green;
   padding: 2rem;
 }
