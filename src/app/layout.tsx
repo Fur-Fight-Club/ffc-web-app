@@ -1,13 +1,13 @@
 'use client';
 
 import { NextUIProvider, createTheme } from '@nextui-org/react';
+import styles from '@styles/_colors.module.scss';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { Poppins } from 'next/font/google';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import './globals.scss';
-import styles from './layout.module.scss';
 
 const poppins = Poppins({
   weight: '400',
@@ -20,8 +20,8 @@ const lightTheme = createTheme({
   theme: {
     colors: {
       primaryLight: '$green200',
-      primaryLightHover: '$green300',
-      primaryLightActive: '$green400',
+      primaryLightHover: styles.primaryLight,
+      primaryLightActive: styles.secondaryLight,
       primaryLightContrast: '$green600',
       primary: styles.primary,
       primaryBorder: '$green500',
@@ -29,15 +29,10 @@ const lightTheme = createTheme({
       primarySolidHover: '$green700',
       primarySolidContrast: '$white',
       primaryShadow: '$green500',
-      success: styles.success,
-      warning: styles.warning,
-      danger: styles.danger,
 
       gradient:
         'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
       link: '#5E1DAD',
-
-      myColor: '#ff4ecd',
     },
     space: {},
     fonts: {},

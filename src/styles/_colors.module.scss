@@ -1,0 +1,38 @@
+/* stylelint-disable scss/dollar-variable-pattern */
+/* stylelint-disable scss/dollar-variable-empty-line-before */
+/* stylelint-disable order/properties-order */
+
+// main colors
+
+$primary: #b91919;
+$primaryLight: #b9191947;
+
+$secondary: #d93501;
+$secondaryLight: #e75b30;
+$secondary2: #e3593b;
+
+// neutral colors
+
+$white: #fff;
+$black: #000;
+
+// feedback colors
+
+$success: #44c969;
+$warning: #ffb800;
+$danger: #ee2828;
+
+:export {
+  primary: $primary;
+  primaryLight: $primaryLight;
+
+  secondary: $secondary;
+  secondaryLight: $secondaryLight;
+
+  black: $black;
+  white: $white;
+
+  danger: $danger;
+  success: $success;
+  warning: $warning;
+}

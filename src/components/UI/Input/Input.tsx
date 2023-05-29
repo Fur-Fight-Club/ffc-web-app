@@ -17,6 +17,7 @@ const Input = ({ errorMessage, register, ...props }: InputProps) => {
     borderWeight: 'light',
     color: errorMessage ? 'error' : undefined,
     helperText: errorMessage,
+    helperColor: 'error',
   };
 
   return props.type === 'password' ? (
