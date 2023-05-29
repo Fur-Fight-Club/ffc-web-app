@@ -1,12 +1,12 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import Divider from '@components/UI/Divider';
 import Input from '@components/UI/Input';
 import { Button, Spacer } from '@nextui-org/react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { LoginType, loginSchema } from 'src/model/user.schema';
-import Divider from '../../../components/UI/Divider';
 import styles from './page.module.scss';
 
 export default function Home() {
