@@ -23,7 +23,12 @@ const NavbarTest = () => {
   return (
     <Navbar isBordered={isDark} variant="floating" maxWidth="fluid">
       <Navbar.Brand>
-        <Image src="/logo_test.png" alt="Acme Logo" width={50} height={50} />
+        <Image
+          src="/images/ffc-logo.svg"
+          alt="Acme Logo"
+          width={50}
+          height={50}
+        />
         <Text b color="inherit" hideIn="xs">
           ACME
         </Text>

@@ -40,7 +40,7 @@ export default function LoginLayout({ children }: LoginLayoutProps) {
 
           <div></div>
         </nav>
-        {children}
+        <div className={styles.content}>{children}</div>
       </div>
       <div className={styles.imgPanel}>
         <Lottie animationData={fireAnimation} />
