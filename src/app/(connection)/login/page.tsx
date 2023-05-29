@@ -1,11 +1,12 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 
 import Input from '@components/UI/Input';
 import { Button, Spacer } from '@nextui-org/react';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
 import { LoginType, loginSchema } from 'src/model/user.schema';
-import Divider from './components/Divider';
+import Divider from '../../../components/UI/Divider';
 import styles from './page.module.scss';
 
 export default function Home() {
@@ -54,7 +55,21 @@ export default function Home() {
         <Button type="submit">Connexion</Button>
       </form>
       <Divider />
-      <p>Pas de compte ? Inscivez-vous ici</p>
+      <p className={styles.linkLabel}>
+        Pas de compte ?{' '}
+        <Link href={'/register'}>
+          <span className={styles.ctaLabel}>Inscrivez-vous ici</span>
+        </Link>
+      </p>
+      <p className={styles.linkLabel}>
+        Mot de passe oublié ?{' '}
+        <Link href={'/register'}>
+          <span className={styles.ctaLabel}>
+            Réinitialisez votre mot de passe
+          </span>
+        </Link>
+      </p>
+      <Spacer y={3} />
     </div>
   );
 }

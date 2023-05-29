@@ -6,16 +6,29 @@
   align-items: stretch;
   justify-content: center;
 
-  // width: 100%;
   height: 100%;
 
   background: $white;
-
-  // box-shadow: 0 1px 10px 1.5px #ddd;
 }
 
 .form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+}
+
+.ctaLabel {
+  font-weight: bold;
+  color: $secondary;
+  text-decoration: underline;
+  transition: color 0.2s ease-in-out;
+
+  font-size &:hover {
+    /* stylelint-disable-next-line scss/no-global-function-names */
+    color: darken($secondary, 10%);
+  }
+}
+
+.linkLabel {
+  font-size: 0.85rem;
 }
