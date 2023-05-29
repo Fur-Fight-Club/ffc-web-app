@@ -1,7 +1,7 @@
 'use client';
 import { Button, Input, Modal, Radio, Text } from '@nextui-org/react';
 import { Envelope, IdentificationCard } from '@phosphor-icons/react';
-import { EditUserType } from 'src/model/user.schema';
+import { EditUserType, RoleType } from 'src/model/user.schema';
 
 export const Modals = (props: {
   visible: boolean;
@@ -9,6 +9,11 @@ export const Modals = (props: {
   user: EditUserType;
 }) => {
   const { visible, closeHandler, user } = props;
+
+  const roleOptions: { label: string; value: RoleType }[] = [
+    { label: 'Utilisateur', value: 'USER' },
+    { label: 'Admin', value: 'ADMIN' },
+  ];
 
   return (
     <Modal
@@ -57,15 +62,14 @@ export const Modals = (props: {
 
         <Radio.Group
           label={<Text>Rôles</Text>}
-          defaultValue="1"
+          defaultValue={user.role}
           orientation="horizontal"
         >
-          <Radio size="sm" value="1">
-            Utilisateur
-          </Radio>
-          <Radio size="sm" value="2">
-            Admin
-          </Radio>
+          {roleOptions.map((option) => (
+            <Radio size="sm" key={option.value} value={option.value}>
+              {option.label}
+            </Radio>
+          ))}
         </Radio.Group>
       </Modal.Body>
       <Modal.Footer>
