@@ -6,16 +6,23 @@ const userSchema = z.object({
   id: z.number(),
   firstname: z
     .string()
-    .min(2, { message: 'Firstname must be at last 2 characters long' })
-    .max(255),
+    .min(2, { message: 'Le prénom doit comporter au moins 2 caractères' })
+    .max(255)
+    .regex(/^[A-Za-z]+$/, {
+      message: 'Le prénom doit être composé uniquement de lettres',
+    }),
+
   lastname: z
     .string()
-    .min(2, { message: 'Firstname must be at last 2 characters long' })
-    .max(255),
-  email: z.string().email({ message: 'Invalid email address' }),
-  password: z
-    .string()
-    .min(8, { message: 'Password must be at least 8 characters long' }),
+    .min(2, { message: 'Le nom doit comporter au moins 2 caractères' })
+    .max(255)
+    .regex(/^[A-Za-z]+$/, {
+      message: 'Le nom doit être composé uniquement de lettres',
+    }),
+  email: z.string().email({ message: 'Adresse électronique invalide' }),
+  password: z.string().min(8, {
+    message: 'Le mot de passe doit comporter au moins 8 caractères',
+  }),
   role: roleEnum,
 });
 

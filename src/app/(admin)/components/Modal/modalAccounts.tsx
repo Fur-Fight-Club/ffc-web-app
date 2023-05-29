@@ -89,6 +89,7 @@ export const Modals = (props: {
           onChange={(e) => {
             setFormData({ ...formData, firstname: e.target.value });
           }}
+          helperText={formErrors?.firstname}
         />
         <Spacer y={0.6} />
         <Input
@@ -104,6 +105,7 @@ export const Modals = (props: {
           onChange={(e) => {
             setFormData({ ...formData, lastname: e.target.value });
           }}
+          helperText={formErrors?.lastname}
         />
         <Spacer y={0.6} />
         <Input
@@ -117,6 +119,7 @@ export const Modals = (props: {
           onChange={(e) => {
             setFormData({ ...formData, email: e.target.value });
           }}
+          helperText={formErrors?.email}
         />
         <Spacer y={0.6} />
 
