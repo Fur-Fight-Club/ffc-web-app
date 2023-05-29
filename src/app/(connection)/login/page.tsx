@@ -1,23 +1,12 @@
 'use client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
 import Input from '@components/UI/Input';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Spacer } from '@nextui-org/react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { LoginType, loginSchema } from 'src/model/user.schema';
 import Divider from './components/Divider';
 import styles from './page.module.scss';
-
-const loginSchema = z
-  .object({
-    email: z.string().email({ message: 'Invalid email address' }),
-    password: z
-      .string()
-      .min(8, { message: 'Password must be at least 8 characters long' }),
-  })
-  .required();
-
-type FormData = z.infer<typeof loginSchema>;
 
 export default function Home() {
   const {
@@ -25,9 +14,9 @@ export default function Home() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(loginSchema) });
+  } = useForm<LoginType>({ resolver: zodResolver(loginSchema) });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: LoginType) => {
     console.log('submit', data);
   };
 
