@@ -44,7 +44,7 @@ export default function Home() {
         <Input
           label="Mot de passe :"
           type="password"
-          placeholder="pouet@example.com"
+          placeholder="********"
           register={register('password')}
           errorMessage={errors.password?.message}
         />
