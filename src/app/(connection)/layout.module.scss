@@ -1,7 +1,7 @@
+@import '/src/styles';
+
 .wrapper {
   display: flex;
-
-  // background: red;
   height: 100vh;
   padding: 1rem;
 }
@@ -12,10 +12,8 @@
   align-items: center;
   justify-content: center;
 
-  background: #b91919;
+  background: $primary;
   border-radius: 1rem;
-
-  // box-shadow: 0 0 17px 13px rgb(125 0 0 / 13%);
 }
 
 .contentPanel {
@@ -43,7 +41,7 @@
 
 .goBack {
   margin-left: 1rem;
-  color: black;
+  color: $black;
 
   &:visited {
     color: none;

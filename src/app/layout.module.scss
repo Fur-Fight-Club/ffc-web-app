@@ -1,0 +1,14 @@
+/* stylelint-disable order/properties-order */
+@import '/src/styles';
+
+:export {
+  primary: $primary;
+  secondary: $secondary;
+
+  black: $black;
+  white: $white;
+
+  danger: $danger;
+  success: $success;
+  warning: $warning;
+}

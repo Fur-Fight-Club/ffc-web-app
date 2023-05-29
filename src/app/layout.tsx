@@ -7,6 +7,7 @@ import * as React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import './globals.scss';
+import styles from './layout.module.scss';
 
 const poppins = Poppins({
   weight: '400',
@@ -22,12 +23,15 @@ const lightTheme = createTheme({
       primaryLightHover: '$green300',
       primaryLightActive: '$green400',
       primaryLightContrast: '$green600',
-      primary: '#b91919',
+      primary: styles.primary,
       primaryBorder: '$green500',
       primaryBorderHover: '$green600',
       primarySolidHover: '$green700',
       primarySolidContrast: '$white',
       primaryShadow: '$green500',
+      success: styles.success,
+      warning: styles.warning,
+      danger: styles.danger,
 
       gradient:
         'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
@@ -78,7 +82,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={poppins.className} style={{ minHeight: '100vh' }}>
         <QueryClientProvider client={queryClient}>
           <NextThemesProvider
-            defaultTheme="system"
+            defaultTheme="light"
             attribute="class"
             value={{
               light: lightTheme.className,
