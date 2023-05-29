@@ -6,12 +6,31 @@ import { getUsers } from 'src/app/api/Users/getUsers';
 
 import { IconButton } from '@components/IconButton';
 import { Badge, Col, Row, Table, Text, Tooltip, User } from '@nextui-org/react';
-import { Eye, Pencil, Trash } from '@phosphor-icons/react';
+import { Pencil, Trash } from '@phosphor-icons/react';
+import { EditUserType } from 'src/model/user.schema';
+import { Modals } from '../../components/Modal/modalAccounts';
 
 export default function AccountsAdmin() {
-  const [users, setUsers] = useState([]);
-
   const queryClient = useQueryClient();
+
+  const [users, setUsers] = useState([]);
+  const [userData, setUserData] = useState<EditUserType>({} as EditUserType);
+
+  const [visible, setVisible] = useState(false);
+  const handleModal = (userId: number) => {
+    const userD = users.find((user: EditUserType) => user.id === userId);
+    if (userD) {
+      setUserData(userD);
+      setVisible(true);
+    } else {
+      console.log('user not found');
+      setVisible(false);
+    }
+  };
+  const closeModal = () => {
+    setUserData({} as EditUserType);
+    setVisible(false);
+  };
 
   const { data } = useQuery(['user'], getUsers, {
     onSuccess: (data) => {
@@ -19,7 +38,6 @@ export default function AccountsAdmin() {
     },
   });
 
-  //Delete user with mutation
   const deleteUserMutation = useMutation(deleteUser, {
     onSuccess: (data) => {
       queryClient.invalidateQueries('user');
@@ -28,18 +46,6 @@ export default function AccountsAdmin() {
 
   const handleDeleteUser = (id: number) => {
     deleteUserMutation.mutate(id);
-  };
-
-  type UserType = {
-    id: string | number;
-    firstname?: string;
-    lastname?: string;
-    email?: string;
-    role?: string;
-    team?: string;
-    status: 'active' | 'paused' | 'vacation';
-    age?: string;
-    avatar?: string;
   };
 
   const columns = [
@@ -90,15 +96,8 @@ export default function AccountsAdmin() {
         return (
           <Row justify="center" align="center">
             <Col css={{ d: 'flex' }}>
-              <Tooltip content="Détails">
-                <IconButton onClick={() => console.log('View user', user?.id)}>
-                  <Eye size={20} color="#889096" weight="fill" />
-                </IconButton>
-              </Tooltip>
-            </Col>
-            <Col css={{ d: 'flex' }}>
               <Tooltip content="Editer">
-                <IconButton onClick={() => console.log('Edit user', user?.id)}>
+                <IconButton onClick={() => handleModal(user?.id)}>
                   <Pencil size={20} color="#889096" weight="fill" />
                 </IconButton>
               </Tooltip>
@@ -122,35 +121,39 @@ export default function AccountsAdmin() {
   };
 
   return (
-    <Table
-      aria-label="Example table with custom cells"
-      css={{
-        height: 'auto',
-        minWidth: '100%',
-      }}
-      selectionMode="none"
-    >
-      <Table.Header columns={columns}>
-        {(column) => (
-          <Table.Column
-            key={column.uid}
-            hideHeader={column.uid === 'actions'}
-            align={column.uid === 'actions' ? 'center' : 'start'}
-          >
-            {column.name}
-          </Table.Column>
-        )}
-      </Table.Header>
+    <>
+      <Table
+        aria-label="Example table with custom cells"
+        css={{
+          height: 'auto',
+          minWidth: '100%',
+        }}
+        selectionMode="none"
+      >
+        <Table.Header columns={columns}>
+          {(column) => (
+            <Table.Column
+              key={column.uid}
+              hideHeader={column.uid === 'actions'}
+              align={column.uid === 'actions' ? 'center' : 'start'}
+            >
+              {column.name}
+            </Table.Column>
+          )}
+        </Table.Header>
 
-      <Table.Body items={users}>
-        {(item: UserType) => (
-          <Table.Row>
-            {(columnKey) => (
-              <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-            )}
-          </Table.Row>
-        )}
-      </Table.Body>
-    </Table>
+        <Table.Body items={users}>
+          {(item: EditUserType) => (
+            <Table.Row>
+              {(columnKey) => (
+                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+              )}
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table>
+
+      <Modals visible={visible} closeHandler={closeModal} user={userData} />
+    </>
   );
 }
