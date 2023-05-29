@@ -21,6 +21,26 @@
 .contentPanel {
   display: flex;
   flex-basis: 55%;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.navbar {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: 1rem 0;
+}
+
+.goBack {
+  color: black;
+
+  &:visited {
+    color: none;
+  }
 }
