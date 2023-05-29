@@ -42,7 +42,8 @@ export default function Home() {
         <Spacer y={1.3} />
 
         <Input
-          label="Adresse email :"
+          label="Mot de passe :"
+          type="password"
           placeholder="pouet@example.com"
           register={register('password')}
           errorMessage={errors.password?.message}
