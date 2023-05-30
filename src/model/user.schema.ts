@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const roleEnum = z.enum(['USER', 'ADMIN']);
 
-const userSchema = z.object({
-  id: z.number(),
+const userBaseSchema = z.object({
+  id: z.number().optional(),
   firstname: z
     .string()
     .min(2, { message: 'Firstname must be at least 2 characters long' })
@@ -28,20 +28,26 @@ const userSchema = z.object({
     .refine((password) => /[^a-zA-Z0-9]/.test(password), {
       message: 'Password must contain at least one special character',
     }),
-  role: roleEnum,
+  confirmPassword: z.string().optional(),
+  role: roleEnum.optional(),
 });
 
-export const loginSchema = userSchema.pick({ email: true, password: true });
-export const editUserSchema = userSchema.omit({ password: true });
-
-export const registerSchema = userSchema.pick({
-  firstname: true,
-  lastname: true,
-  email: true,
-  password: true,
-});
-
-export type UserType = z.infer<typeof userSchema>;
+export const loginSchema = userBaseSchema.pick({ email: true, password: true });
 export type LoginType = z.infer<typeof loginSchema>;
-export type RegisterType = z.infer<typeof registerSchema>;
+
+export const editUserSchema = userBaseSchema.omit({ password: true });
 export type EditUserType = z.infer<typeof editUserSchema>;
+
+export const registerSchema = userBaseSchema
+  .pick({
+    firstname: true,
+    lastname: true,
+    email: true,
+    password: true,
+    confirmPassword: true,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
+export type RegisterType = z.infer<typeof registerSchema>;

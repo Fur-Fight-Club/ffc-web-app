@@ -25,12 +25,13 @@ export default function Home() {
     watch('lastname'),
     watch('firstname'),
     watch('email'),
-    watch('password')
+    watch('password'),
+    watch('confirmPassword')
   );
 
   return (
     <div className={styles.container}>
-      <h1>Inscivez-vous</h1>
+      <h1>Inscrivez-vous</h1>
       <p>
         {"Faite combattre votre monstre, parier dessus, et gagner de l'argent"}
       </p>
@@ -70,8 +71,8 @@ export default function Home() {
           label="Mot de passe :"
           type="password"
           placeholder="********"
-          register={register('password')}
-          errorMessage={errors.password?.message}
+          register={register('confirmPassword')}
+          errorMessage={errors.confirmPassword?.message}
         />
         <Spacer y={2.5} />
         <Button type="submit">Connexion</Button>
@@ -79,13 +80,13 @@ export default function Home() {
       <Divider />
       <p className={styles.linkLabel}>
         Déjà inscrit ?{' '}
-        <Link href={'/register'}>
+        <Link href={'/login'}>
           <span className={styles.ctaLabel}>connectez-vous ici</span>
         </Link>
       </p>
       <p className={styles.linkLabel}>
         Mot de passe oublié ?{' '}
-        <Link href={'/register'}>
+        <Link href={'/reset-password'}>
           <span className={styles.ctaLabel}>
             Réinitialisez votre mot de passe
           </span>
