@@ -25,6 +25,19 @@ export async function POST(request: string) {
   return NextResponse.json(await res.json());
 }
 
+export async function PATCH(request: string, bodyData: any) {
+  const req = new URL(request);
+  const res = await fetch(req, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(bodyData),
+  });
+
+  return NextResponse.json(await res.json());
+}
+
 export async function DELETE(request: string) {
   const req = new URL(request);
   const res = await fetch(req, {

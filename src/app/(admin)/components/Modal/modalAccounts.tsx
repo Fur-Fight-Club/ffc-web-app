@@ -2,8 +2,18 @@
 import { useEffect, useState } from 'react';
 import { EditUserType, RoleType, editUserSchema } from 'src/model/user.schema';
 
-import { Button, Input, Modal, Radio, Spacer, Text } from '@nextui-org/react';
+import {
+  Button,
+  Input,
+  Loading,
+  Modal,
+  Radio,
+  Spacer,
+  Text,
+} from '@nextui-org/react';
 import { Envelope, IdentificationCard } from '@phosphor-icons/react';
+import { useMutation, useQueryClient } from 'react-query';
+import { patchUser } from 'src/app/api/Users/patchUser';
 import { ZodError } from 'zod';
 
 export const Modals = (props: {
@@ -11,6 +21,7 @@ export const Modals = (props: {
   closeHandler: any;
   user: EditUserType;
 }) => {
+  const queryClient = useQueryClient();
   const { visible, closeHandler, user } = props;
 
   const [formData, setFormData] = useState<EditUserType>(user);
@@ -18,6 +29,13 @@ export const Modals = (props: {
   const [formErrors, setFormErrors] = useState<EditUserType>(
     {} as EditUserType
   );
+
+  const patchUserMutation = useMutation(patchUser, {
+    onSuccess: (isLoading) => {
+      queryClient.invalidateQueries('user');
+      closeHandler();
+    },
+  });
 
   const roleOptions: { label: string; value: RoleType }[] = [
     { label: 'Utilisateur', value: 'USER' },
@@ -30,7 +48,7 @@ export const Modals = (props: {
 
   const handleSave = () => {
     if (validateForm()) {
-      console.log('save', formData);
+      patchUserMutation.mutate(formData);
       closeHandler();
     }
   };
@@ -91,7 +109,9 @@ export const Modals = (props: {
           }}
           helperText={formErrors?.firstname}
         />
-        <Spacer y={0.6} />
+
+        <Spacer y={0.2} />
+
         <Input
           bordered
           fullWidth
@@ -107,7 +127,9 @@ export const Modals = (props: {
           }}
           helperText={formErrors?.lastname}
         />
-        <Spacer y={0.6} />
+
+        <Spacer y={0.2} />
+
         <Input
           bordered
           fullWidth
@@ -121,7 +143,8 @@ export const Modals = (props: {
           }}
           helperText={formErrors?.email}
         />
-        <Spacer y={0.6} />
+
+        <Spacer y={0.2} />
 
         <Radio.Group
           label={<Text>Rôles</Text>}
@@ -140,6 +163,7 @@ export const Modals = (props: {
           Close
         </Button>
         <Button auto onPress={handleSave} disabled={!isValidate}>
+          {patchUserMutation.isLoading ? <Loading type="points" /> : ''}
           Sauvegarder
         </Button>
       </Modal.Footer>

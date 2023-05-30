@@ -27,7 +27,7 @@ const userSchema = z.object({
 });
 
 export const loginSchema = userSchema.pick({ email: true, password: true });
-export const editUserSchema = userSchema.omit({ password: true, id: true });
+export const editUserSchema = userSchema.omit({ password: true });
 
 export type RoleType = z.infer<typeof roleEnum>;
 export type UserType = z.infer<typeof userSchema>;
