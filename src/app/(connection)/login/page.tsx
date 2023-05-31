@@ -6,6 +6,7 @@ import Input from '@components/UI/Input';
 import { Button, Spacer } from '@nextui-org/react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { LoginType, loginSchema } from 'src/model/user.schema';
 import styles from './page.module.scss';
 
@@ -19,6 +20,8 @@ export default function Home() {
 
   const onSubmit = (data: LoginType) => {
     console.log('submit', data);
+    // TODO : call api and check error return
+    toast.error('Connexion échouée. Vérifiez vos identifiants et réessayez');
   };
 
   console.log(watch('email'), watch('password'));

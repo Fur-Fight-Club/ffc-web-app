@@ -5,6 +5,7 @@ import styles from '@styles/_colors.module.scss';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { Poppins } from 'next/font/google';
 import * as React from 'react';
+import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import './globals.scss';
@@ -84,6 +85,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
               dark: darkTheme.className,
             }}
           >
+            <Toaster
+              position="bottom-left"
+              reverseOrder={false}
+              gutter={8}
+              containerClassName=""
+              containerStyle={{}}
+              toastOptions={{
+                className: '',
+                duration: 5000,
+              }}
+            />
             <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
           </NextThemesProvider>
           <ReactQueryDevtools initialIsOpen={false} />

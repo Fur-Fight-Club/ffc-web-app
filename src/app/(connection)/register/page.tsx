@@ -1,4 +1,5 @@
 'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Divider from '@components/UI/Divider';
@@ -6,6 +7,7 @@ import Input from '@components/UI/Input';
 import { Button, Row, Spacer } from '@nextui-org/react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { RegisterType, registerSchema } from 'src/model/user.schema';
 import styles from './page.module.scss';
 
@@ -19,6 +21,10 @@ export default function Home() {
 
   const onSubmit = (data: RegisterType) => {
     console.log('submit', data);
+    // TODO : call api and check error return
+    toast.success(
+      'Inscription réussie ! Allez vérifier vos emails pour valider votre compte'
+    );
   };
 
   console.log(
@@ -81,7 +87,7 @@ export default function Home() {
           errorMessage={errors.confirmPassword?.message}
         />
         <Spacer y={1.3} />
-        <Button type="submit">Connexion</Button>
+        <Button type="submit">{"S'inscrire"}</Button>
       </form>
       <Divider />
       <p className={styles.linkLabel}>
