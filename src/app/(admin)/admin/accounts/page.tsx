@@ -6,7 +6,7 @@ import { getUsers } from 'src/app/api/Users/getUsers';
 
 import { IconButton } from '@components/IconButton';
 import { Badge, Col, Row, Table, Text, Tooltip, User } from '@nextui-org/react';
-import { Pencil, Trash } from '@phosphor-icons/react';
+import { PawPrint, Pencil, Trash } from '@phosphor-icons/react';
 import { EditUserType } from 'src/model/user.schema';
 import { Modals } from '../../components/Modal/modalAccounts';
 
@@ -95,6 +95,13 @@ export default function AccountsAdmin() {
       case 'actions':
         return (
           <Row justify="center" align="center">
+            <Col css={{ d: 'flex' }}>
+              <Tooltip content="Voir les monstres">
+                <IconButton onClick={() => console.log(user?.id)}>
+                  <PawPrint size={20} color="#889096" weight="fill" />
+                </IconButton>
+              </Tooltip>
+            </Col>
             <Col css={{ d: 'flex' }}>
               <Tooltip content="Editer">
                 <IconButton onClick={() => handleModal(user?.id)}>
