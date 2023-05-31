@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { createApi } from '@reduxjs/toolkit/dist/query/react';
-import { baseQuery } from '@store/api';
-import { setLoading } from '@store/application/slice';
-import { GenericApiError } from '@store/store.model';
 import toast from 'react-hot-toast';
+import { baseQuery } from '../api';
+import { setLoading } from '../application/slice';
+import { GenericApiError } from '../store.model';
 import {
   AddBankAccountRequest,
   BankAccount,

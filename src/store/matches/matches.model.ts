@@ -1,10 +1,10 @@
-import { Monster, WeightCategoryType } from "@store/monsters/monsters.model";
+import { Monster, WeightCategoryType } from '../monsters/monsters.model';
 
 export interface Matches {
   matches: Match[];
 }
 
-export type MatchWaitingListStatus = "ACCEPTED" | "REJECTED" | "PENDING";
+export type MatchWaitingListStatus = 'ACCEPTED' | 'REJECTED' | 'PENDING';
 
 export interface MatchWaitingList {
   id: number;

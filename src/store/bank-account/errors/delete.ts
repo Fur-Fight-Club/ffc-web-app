@@ -1,5 +1,5 @@
-import { GenericApiError } from '@store/store.model';
 import toast from 'react-hot-toast';
+import { GenericApiError } from '../../store.model';
 
 export enum Errors {}
 

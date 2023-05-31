@@ -1,13 +1,13 @@
+import { NotificationSettings } from 'ffc-prisma-package/dist/client';
+
+import { Monster } from '../monsters/monsters.model';
+import { MatchMessage } from '../notifications/notifications.model';
 import {
   Invoice,
   StripeAccount,
   StripePayments,
   Transaction,
-  Wallet,
-} from "@store/payments/payments.model";
-import { MatchMessage } from "@store/notifications/notifications.model";
-import { Monster } from "@store/monsters/monsters.model";
-import { NotificationSettings } from "ffc-prisma-package/dist/client";
+} from '../payments/payments.model';
 
 export interface App {
   user: User;
@@ -31,7 +31,7 @@ export interface BasicUser {
   lastname: string;
   email: string;
   password: string;
-  role: "ADMIN" | "USER" | "MONSTER_OWNER";
+  role: 'ADMIN' | 'USER' | 'MONSTER_OWNER';
   email_token: string;
   is_email_verified: boolean;
 }
@@ -65,7 +65,7 @@ export class UpdateResponse {
   firstname: string;
   lastname: string;
   email: string;
-  role: "ADMIN" | "USER" | "MONSTER_OWNER";
+  role: 'ADMIN' | 'USER' | 'MONSTER_OWNER';
   email_token: string;
   is_email_verified: boolean;
 }
@@ -81,7 +81,7 @@ export interface MeResponse {
 
 export class UpsertNotificationTokenRequest {
   token: string;
-  platform: "IOS" | "ANDROID" | "WEB";
+  platform: 'IOS' | 'ANDROID' | 'WEB';
 }
 
 export type UpsertNotificationTokenResponse = NotificationSettings;

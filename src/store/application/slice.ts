@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { GenericApiError } from '@store/store.model';
 import toast from 'react-hot-toast';
+import { GenericApiError } from '../store.model';
 import { baseQuery } from './../api';
 
 import {

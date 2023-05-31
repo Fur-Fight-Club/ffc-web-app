@@ -1,7 +1,7 @@
-import { User } from "@store/application/application.model";
-import { Match } from "@store/matches/matches.model";
+import { User } from '../application/application.model';
+import { Match } from '../matches/matches.model';
 
-export type NotificationPlatform = "IOS" | "ANDROID" | "WEB";
+export type NotificationPlatform = 'IOS' | 'ANDROID' | 'WEB';
 
 export interface NotificationSettings {
   id: number;
