@@ -17,7 +17,7 @@ export const createBankAccountErrorsHandler = (error: GenericApiError) => {
       toast.error('Vous avez déjà un compte bancaire enregistré.');
       break;
     default:
-      toast.error('🚫 Oups ! Une inconnue est survenue, veuillez réessayer');‡
+      toast.error('🚫 Oups ! Une inconnue est survenue, veuillez réessayer');
       break;
   }
 };
