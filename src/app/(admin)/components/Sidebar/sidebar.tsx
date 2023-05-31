@@ -42,7 +42,12 @@ export const SidebarAdmin = () => {
       <Sidebar backgroundColor="white">
         <Menu>
           <Flex justify={'center'} style={{ margin: '1rem' }}>
-            <Image src="/test.png" alt="logo" width={40} height={40} />
+            <Image
+              src="/images/ffc-logo.svg"
+              alt="logo"
+              width={80}
+              height={80}
+            />
           </Flex>
 
           {/* <SubMenu label="Utilisateur" icon={<User />}>

@@ -1,9 +1,11 @@
 'use client';
 
 import { NextUIProvider, createTheme } from '@nextui-org/react';
+import styles from '@styles/_colors.module.scss';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { Poppins } from 'next/font/google';
 import * as React from 'react';
+import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import './globals.scss';
@@ -19,10 +21,10 @@ const lightTheme = createTheme({
   theme: {
     colors: {
       primaryLight: '$green200',
-      primaryLightHover: '$green300',
-      primaryLightActive: '$green400',
+      primaryLightHover: styles.primaryLight,
+      primaryLightActive: styles.secondaryLight,
       primaryLightContrast: '$green600',
-      primary: '#4ADE7B',
+      primary: styles.primary,
       primaryBorder: '$green500',
       primaryBorderHover: '$green600',
       primarySolidHover: '$green700',
@@ -32,8 +34,6 @@ const lightTheme = createTheme({
       gradient:
         'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
       link: '#5E1DAD',
-
-      myColor: '#ff4ecd',
     },
     space: {},
     fonts: {},
@@ -48,7 +48,7 @@ const darkTheme = createTheme({
       primaryLightHover: '$green300',
       primaryLightActive: '$green400',
       primaryLightContrast: '$green600',
-      primary: '#4ADE7B',
+      primary: '#b91919',
       primaryBorder: '$green500',
       primaryBorderHover: '$green600',
       primarySolidHover: '$green700',
@@ -78,13 +78,24 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={poppins.className} style={{ minHeight: '100vh' }}>
         <QueryClientProvider client={queryClient}>
           <NextThemesProvider
-            defaultTheme="system"
+            defaultTheme="light"
             attribute="class"
             value={{
               light: lightTheme.className,
               dark: darkTheme.className,
             }}
           >
+            <Toaster
+              position="bottom-left"
+              reverseOrder={false}
+              gutter={8}
+              containerClassName=""
+              containerStyle={{}}
+              toastOptions={{
+                className: '',
+                duration: 5000,
+              }}
+            />
             <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
           </NextThemesProvider>
           <ReactQueryDevtools initialIsOpen={false} />

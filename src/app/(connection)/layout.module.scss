@@ -1,7 +1,7 @@
+@import '/src/styles';
+
 .wrapper {
   display: flex;
-
-  // background: red;
   height: 100vh;
   padding: 1rem;
 }
@@ -12,15 +12,44 @@
   align-items: center;
   justify-content: center;
 
-  background: #b91919;
+  background: $primary;
+  background: linear-gradient(0deg, $primary 0%, $secondary3 100%);
+  background: linear-gradient(0deg, $primary 0%, $secondary3 100%);
   border-radius: 1rem;
-
-  // box-shadow: 0 0 17px 13px rgb(125 0 0 / 13%);
 }
 
 .contentPanel {
   display: flex;
   flex-basis: 55%;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.content {
+  height: 100%;
+}
+
+.navbar {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: 1rem 0;
+}
+
+.goBack {
+  margin-left: 1rem;
+  color: $black;
+
+  &:visited {
+    color: none;
+  }
+}
+
+.logo {
+  transform: translate(-30%);
 }

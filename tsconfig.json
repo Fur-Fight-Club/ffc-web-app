@@ -23,7 +23,8 @@
     "paths": {
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
-      "@api/*": ["./src/api/*"]
+      "@api/*": ["./src/api/*"],
+      "@styles/*": ["./src/styles/*"]
     }
   },
   "include": [

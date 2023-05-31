@@ -10,16 +10,20 @@ interface InputProps extends Partial<NextUIInputProps> {
 }
 
 const Input = ({ errorMessage, register, ...props }: InputProps) => {
-  return (
-    <NextUIInput
-      {...props}
-      {...register}
-      bordered
-      borderWeight="light"
-      color={errorMessage ? 'error' : undefined}
-      helperText={errorMessage}
-      helperColor="error"
-    />
+  const commonProps: Partial<NextUIInputProps> = {
+    ...props,
+    ...register,
+    bordered: true,
+    borderWeight: 'light',
+    color: errorMessage ? 'error' : undefined,
+    helperText: errorMessage,
+    helperColor: 'error',
+  };
+
+  return props.type === 'password' ? (
+    <NextUIInput.Password {...commonProps} />
+  ) : (
+    <NextUIInput {...commonProps} />
   );
 };
 
