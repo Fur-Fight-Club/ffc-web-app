@@ -1,6 +1,6 @@
 'use client';
 
-import fireAnimation from '@assets/animations/fire.json';
+import fireAnimation from '@assets/animations/swords.json';
 import { CaretLeft } from '@phosphor-icons/react';
 import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
@@ -21,7 +21,7 @@ export default function LoginLayout({ children }: LoginLayoutProps) {
       <div className={styles.contentPanel}>
         <nav className={styles.navbar}>
           <motion.a
-            onClick={router.back}
+            onClick={() => router.push('/')}
             className={styles.goBack}
             whileHover={{ scale: 1.3, color: '#b91919' }}
           >
