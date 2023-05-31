@@ -1,25 +1,26 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-import { CACHE_KEY, endpoint, initialState, reducerPath } from "./constants";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { baseQuery } from "@store/api";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import toast from 'react-hot-toast';
+import { GenericApiError } from '../store.model';
+import { baseQuery } from './../api';
+
 import {
   DeleteNotificationTokenRequest,
   LoginRequest,
   LoginResponse,
   MeResponse,
   RegisterRequest,
+  UpdateRequest,
+  UpdateResponse,
   UpdateTokenActiveStateRequest,
   UpsertNotificationTokenRequest,
   UpsertNotificationTokenResponse,
-  UpdateRequest,
-  UpdateResponse,
   User,
-} from "./application.model";
-import { GenericApiError } from "@store/store.model";
-import { loginErrorsHandler } from "./errors/login.error";
-import Toast from "react-native-toast-message";
-import { registerErrorsHandler } from "./errors/register.error";
-import { askResetPasswordErrorsHandler } from "./errors/ask-reset.error";
+} from './application.model';
+import { CACHE_KEY, endpoint, initialState, reducerPath } from './constants';
+import { askResetPasswordErrorsHandler } from './errors/ask-reset.error';
+import { loginErrorsHandler } from './errors/login.error';
+import { registerErrorsHandler } from './errors/register.error';
 
 export const applicationApi = createApi({
   reducerPath,
@@ -30,7 +31,7 @@ export const applicationApi = createApi({
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: (user) => ({
         url: `${endpoint.login}`,
-        method: "POST",
+        method: 'POST',
         body: user,
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
@@ -39,11 +40,7 @@ export const applicationApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setToken(data.access_token));
-          Toast.show({
-            type: "success",
-            text1: "👋 Bienvenue !",
-            text2: "Ravi de vous revoir",
-          });
+          toast.success('👋 Bienvenue !');
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -56,7 +53,7 @@ export const applicationApi = createApi({
     register: builder.mutation<User, RegisterRequest>({
       query: (user) => ({
         url: `${endpoint.register}`,
-        method: "POST",
+        method: 'POST',
         body: user,
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
@@ -65,11 +62,7 @@ export const applicationApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setUser(data));
-          Toast.show({
-            type: "success",
-            text1: "👋 Bienvenue !",
-            text2: "Bienvenue sur Fury Fight Club !",
-          });
+          toast.success('Bienvenue sur Fury Fight Club !');
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -82,7 +75,7 @@ export const applicationApi = createApi({
     askResetPassword: builder.mutation<void, string>({
       query: (email) => ({
         url: `${endpoint.askResetPassword}`,
-        method: "POST",
+        method: 'POST',
         body: { email },
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
@@ -90,11 +83,7 @@ export const applicationApi = createApi({
         try {
           await queryFulfilled;
           dispatch(setLoading(false));
-          Toast.show({
-            type: "success",
-            text1: "📨 Mail envoyé !",
-            text2: "Vérifiez votre boîte mail !",
-          });
+          toast.success('📨 Mail envoyé !');
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -107,7 +96,7 @@ export const applicationApi = createApi({
     getUser: builder.query<MeResponse, void>({
       query: () => ({
         url: `${endpoint.me}`,
-        method: "GET",
+        method: 'GET',
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         dispatch(setLoading(true));
@@ -120,11 +109,7 @@ export const applicationApi = createApi({
           console.log(error.error.data);
 
           dispatch(setLoading(false));
-          Toast.show({
-            type: "error",
-            text1: "🚨 Erreur !",
-            text2: "Une erreur est survenue, veuillez réessayer",
-          });
+          toast.error('🚨 Une erreur est survenue, veuillez réessayer');
         }
       },
     }),
@@ -136,7 +121,7 @@ export const applicationApi = createApi({
     >({
       query: (body) => ({
         url: `${endpoint.notificationToken}`,
-        method: "POST",
+        method: 'POST',
         body,
       }),
 
@@ -151,11 +136,7 @@ export const applicationApi = createApi({
           console.log(error);
 
           dispatch(setLoading(false));
-          Toast.show({
-            type: "error",
-            text1: "🚨 Erreur !",
-            text2: "Une erreur est survenue, veuillez relancer l'application",
-          });
+          toast.error('🚨 Une erreur est survenue, veuillez réessayer');
         }
       },
     }),
@@ -167,7 +148,7 @@ export const applicationApi = createApi({
     >({
       query: (body) => ({
         url: `${endpoint.notificationToken}`,
-        method: "DELETE",
+        method: 'DELETE',
         body,
       }),
 
@@ -193,7 +174,7 @@ export const applicationApi = createApi({
     >({
       query: (body) => ({
         url: `${endpoint.notificationTokenActive}`,
-        method: "PATCH",
+        method: 'PATCH',
         body,
       }),
 
@@ -202,23 +183,21 @@ export const applicationApi = createApi({
         try {
           await queryFulfilled;
           dispatch(setLoading(false));
-          Toast.show({
-            type: "success",
-            text1: "📳 Notification !",
-            text2: `Vous avez bien ${
-              body.active ? "activé" : "désactivé"
-            } les notifications`,
-          });
+          // Toast.show({
+          //   type: 'success',
+          //   text1: '📳 Notification !',
+          //   text2: `Vous avez bien ${
+          //     body.active ? 'activé' : 'désactivé'
+          //   } les notifications`,
+          // });
+          toast.success('📳 Notification !');
         } catch (err) {
           const error = err as GenericApiError;
           console.log(error);
           dispatch(setLoading(false));
-          Toast.show({
-            type: "error",
-            text1: "🚨 Erreur !",
-            text2:
-              "Erreur lors de la mise à jour de vos paramètres, veuillez réessayer",
-          });
+          toast.error(
+            '🚨 Erreur lors de la mise à jour de vos paramètres , veuillez réssayer'
+          );
         }
       },
     }),
@@ -227,7 +206,7 @@ export const applicationApi = createApi({
     UpdateUser: builder.mutation<UpdateResponse, UpdateRequest>({
       query: (user) => ({
         url: `${endpoint.update}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: user,
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
@@ -240,11 +219,7 @@ export const applicationApi = createApi({
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
-          Toast.show({
-            type: "error",
-            text1: "🚨 Erreur !",
-            text2: "Une erreur est survenue, veuillez réessayer",
-          });
+          toast.error('🚨 Une erreur est survenue, veuillez réessayer');
         }
       },
     }),
@@ -252,7 +227,7 @@ export const applicationApi = createApi({
 });
 
 export const applicationSlice = createSlice({
-  name: "application",
+  name: 'application',
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {

@@ -1,37 +1,29 @@
-import { configureStore, isRejectedWithValue } from "@reduxjs/toolkit";
-import { ThunkAction } from "redux-thunk";
-import { Action, Middleware, MiddlewareAPI } from "redux";
-import { reducers } from "./reducers";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { configureStore, isRejectedWithValue } from '@reduxjs/toolkit';
+import { Action, Middleware, MiddlewareAPI } from 'redux';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { ThunkAction } from 'redux-thunk';
+import { reducers } from './reducers';
 
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  persistReducer,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-} from "redux-persist";
-import { combineReducers } from "redux";
-import { applicationApi } from "./application/slice";
-import { walletApi } from "./wallet/slice";
-import { bankAccountApi } from "./bank-account/slice";
+import { combineReducers } from 'redux';
+import { applicationApi } from './application/slice';
+import { bankAccountApi } from './bank-account/slice';
+import { walletApi } from './wallet/slice';
 
 const combinedReducers = combineReducers({
   ...reducers,
 });
 
 const persistConfig = {
-  key: "root",
-  storage: AsyncStorage,
+  key: 'root',
+  storage: storage,
 };
 
 export const rtkQueryErrorLogger: Middleware =
   (api: MiddlewareAPI) => (next) => (action) => {
     // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
     if (isRejectedWithValue(action)) {
-      console.warn("We got a rejected action!", action.error);
+      console.warn('We got a rejected action!', action.error);
     } else {
       //console.log(action);
     }
@@ -53,6 +45,8 @@ export const store = configureStore({
       bankAccountApi.middleware
     ),
 });
+
+export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
 export type AppState = ReturnType<typeof store.getState>;
