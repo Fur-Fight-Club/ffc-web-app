@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import Divider from '@components/UI/Divider';
 import Input from '@components/UI/Input';
-import { Button, Spacer } from '@nextui-org/react';
+import { Button, Row, Spacer } from '@nextui-org/react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { RegisterType, registerSchema } from 'src/model/user.schema';
@@ -37,21 +37,27 @@ export default function Home() {
       </p>
       <Divider />
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+        <Row>
+          <Input
+            label="Nom :"
+            placeholder="Morinus"
+            register={register('lastname')}
+            errorMessage={errors.lastname?.message}
+            fullWidth
+          />
+
+          <Spacer x={1} />
+
+          <Input
+            label="Prénom :"
+            placeholder="Adrianus 1er"
+            register={register('firstname')}
+            errorMessage={errors.firstname?.message}
+            fullWidth
+          />
+        </Row>
         <Spacer y={1.3} />
-        <Input
-          label="Nom :"
-          placeholder="Morinus"
-          register={register('lastname')}
-          errorMessage={errors.lastname?.message}
-        />
-        <Spacer y={1.3} />
-        <Input
-          label="Prénom :"
-          placeholder="Adrianus 1er"
-          register={register('firstname')}
-          errorMessage={errors.firstname?.message}
-        />
-        <Spacer y={1.3} />
+
         <Input
           label="Adresse email :"
           placeholder="mrledirecteur@pedagogique.com"
@@ -74,7 +80,7 @@ export default function Home() {
           register={register('confirmPassword')}
           errorMessage={errors.confirmPassword?.message}
         />
-        <Spacer y={2.5} />
+        <Spacer y={1.3} />
         <Button type="submit">Connexion</Button>
       </form>
       <Divider />
