@@ -1,8 +1,8 @@
-import Toast from "react-native-toast-message";
-import { GenericApiError } from "@store/store.model";
+import { GenericApiError } from '@store/store.model';
+import toast from 'react-hot-toast';
 
 export enum Errors {
-  VALIDATION = "Validation failed",
+  VALIDATION = 'Validation failed',
 }
 
 export const buyCreditsErrorsHandler = (error: GenericApiError) => {
@@ -10,18 +10,10 @@ export const buyCreditsErrorsHandler = (error: GenericApiError) => {
 
   switch (error.error.data.message) {
     case Errors.VALIDATION:
-      Toast.show({
-        type: "error",
-        text1: "🪙 Oups !",
-        text2: "Impossible d'acheter cette quantité de crédits.",
-      });
+      toast.error("Impossible d'acheter cette quantité de crédits.");
       break;
     default:
-      Toast.show({
-        type: "error",
-        text1: "🪙 Oups !",
-        text2: "Une erreur inconnue est survenue, veuillez réessayer.",
-      });
+      toast.error('🚫 Oups ! Une erreur est survenue, veuillez réessayer');
       break;
   }
 };

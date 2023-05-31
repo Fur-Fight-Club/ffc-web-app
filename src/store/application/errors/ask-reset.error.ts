@@ -1,34 +1,22 @@
-import { GenericApiError } from "@store/store.model";
-import Toast from "react-native-toast-message";
+import { GenericApiError } from '@store/store.model';
+import toast from 'react-hot-toast';
 
 export enum AskResetPasswordErrors {
-  VALIDATION = "Validation failed",
-  NOT_FOUND = "Can find this user",
+  VALIDATION = 'Validation failed',
+  NOT_FOUND = 'Can find this user',
 }
 
 export const askResetPasswordErrorsHandler = (error: GenericApiError) => {
   switch (error.error.data.message) {
     case AskResetPasswordErrors.VALIDATION:
-      Toast.show({
-        type: "error",
-        text1: "✍️ Oups !",
-        text2: "Veuillez vérifier votre adresse mail",
-      });
+      toast.error('Veuillez vérifier votre adresse mail');
       break;
     case AskResetPasswordErrors.NOT_FOUND:
-      Toast.show({
-        type: "error",
-        text1: "🤨 Hum...",
-        text2: "Nous ne trouvons pas votre adresse mail",
-      });
+      toast.error('Nous ne trouvons pas votre adresse mail');
       break;
 
     default:
-      Toast.show({
-        type: "error",
-        text1: "🚫 Oups !",
-        text2: "Une erreur est survenue, veuillez réessayer",
-      });
+      toast.error('🚫 Oups ! Une erreur est survenue, veuillez réessayer');
       break;
   }
 };

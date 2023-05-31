@@ -1,9 +1,7 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-import { CACHE_KEY, endpoint, initialState, reducerPath } from "./constants";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { baseQuery } from "@store/api";
-import { GenericApiError } from "@store/store.model";
-import Toast from "react-native-toast-message";
+import { createSlice } from '@reduxjs/toolkit';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQuery } from '@store/api';
+import { CACHE_KEY, initialState, reducerPath } from './constants';
 
 export const matchesApi = createApi({
   reducerPath,
@@ -13,7 +11,7 @@ export const matchesApi = createApi({
 });
 
 export const matchesSlice = createSlice({
-  name: "matches",
+  name: 'matches',
   initialState,
   reducers: {},
 });

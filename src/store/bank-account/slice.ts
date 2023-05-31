@@ -1,18 +1,18 @@
-import { baseQuery } from "@store/api";
-import { CACHE_KEY, endpoint, initialState, reducerPath } from "./constants";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createApi } from '@reduxjs/toolkit/dist/query/react';
+import { baseQuery } from '@store/api';
+import { setLoading } from '@store/application/slice';
+import { GenericApiError } from '@store/store.model';
+import toast from 'react-hot-toast';
 import {
   AddBankAccountRequest,
   BankAccount,
   BankAccountResponse,
-} from "./bank-account.model";
-import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import { setLoading } from "@store/application/slice";
-import Toast from "react-native-toast-message";
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { GenericApiError } from "@store/store.model";
-import { createBankAccountErrorsHandler } from "./errors/create";
-import { deleteBankAccountErrorsHandler } from "./errors/delete";
-import { getBankAccountErrorsHandler } from "./errors/get";
+} from './bank-account.model';
+import { CACHE_KEY, endpoint, initialState, reducerPath } from './constants';
+import { createBankAccountErrorsHandler } from './errors/create';
+import { deleteBankAccountErrorsHandler } from './errors/delete';
+import { getBankAccountErrorsHandler } from './errors/get';
 
 export const bankAccountApi = createApi({
   reducerPath,
@@ -26,7 +26,7 @@ export const bankAccountApi = createApi({
     >({
       query: (bankAccount) => ({
         url: `${endpoint.bankAccount}`,
-        method: "POST",
+        method: 'POST',
         body: bankAccount,
       }),
       async onQueryStarted(resource, { dispatch, queryFulfilled }) {
@@ -35,11 +35,7 @@ export const bankAccountApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setBankAccount(data));
-          Toast.show({
-            type: "success",
-            text1: "🏦 Compte bancaire !",
-            text2: "Votre compte bancaire a été ajouté avec succès.",
-          });
+          toast.success('🏦 Votre compte bancaire à été ajouté avec succès !');
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -52,7 +48,7 @@ export const bankAccountApi = createApi({
     deleteBankAccount: builder.mutation<BankAccountResponse, void>({
       query: () => ({
         url: `${endpoint.bankAccount}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
 
       async onQueryStarted(resource, { dispatch, queryFulfilled }) {
@@ -61,11 +57,9 @@ export const bankAccountApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setBankAccount(data));
-          Toast.show({
-            type: "success",
-            text1: "🏦 Compte bancaire !",
-            text2: "Votre compte bancaire a été supprimé avec succès.",
-          });
+          toast.success(
+            '🏦 Votre compte bancaire à été supprimé avec succès !'
+          );
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -78,7 +72,7 @@ export const bankAccountApi = createApi({
     getBankAccount: builder.query<BankAccountResponse, void>({
       query: () => ({
         url: `${endpoint.bankAccount}`,
-        method: "GET",
+        method: 'GET',
       }),
 
       async onQueryStarted(resource, { dispatch, queryFulfilled }) {
@@ -101,7 +95,7 @@ export const bankAccountApi = createApi({
 });
 
 export const bankAccountSlice = createSlice({
-  name: "bankAccount",
+  name: 'bankAccount',
   initialState,
   reducers: {
     setBankAccount: (state, action: PayloadAction<BankAccount>) => {

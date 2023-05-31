@@ -1,8 +1,8 @@
-import Toast from "react-native-toast-message";
-import { GenericApiError } from "@store/store.model";
+import { GenericApiError } from '@store/store.model';
+import toast from 'react-hot-toast';
 
 export enum Errors {
-  NOT_FOUND = "Bank account not found",
+  NOT_FOUND = 'Bank account not found',
 }
 
 export const getBankAccountErrorsHandler = (error: GenericApiError) => {
@@ -11,11 +11,7 @@ export const getBankAccountErrorsHandler = (error: GenericApiError) => {
     case Errors.NOT_FOUND:
       break;
     default:
-      Toast.show({
-        type: "error",
-        text1: "💸 Oups !",
-        text2: "Une erreur inconnue est survenue, veuillez réessayer.",
-      });
+      toast.error('🚫 Oups ! Une erreur est survenue, veuillez réessayer');
       break;
   }
 };

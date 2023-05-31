@@ -1,11 +1,13 @@
 'use client';
+import * as React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { Provider } from 'react-redux';
+import { store } from 'src/store/store';
 
 import { NextUIProvider, createTheme } from '@nextui-org/react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { Poppins } from 'next/font/google';
-import * as React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import './globals.scss';
 
 const poppins = Poppins({
@@ -76,19 +78,22 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="fr">
       <body className={poppins.className} style={{ minHeight: '100vh' }}>
-        <QueryClientProvider client={queryClient}>
-          <NextThemesProvider
-            defaultTheme="system"
-            attribute="class"
-            value={{
-              light: lightTheme.className,
-              dark: darkTheme.className,
-            }}
-          >
-            <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
-          </NextThemesProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <NextThemesProvider
+              defaultTheme="system"
+              attribute="class"
+              value={{
+                light: lightTheme.className,
+                dark: darkTheme.className,
+              }}
+            >
+              <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
+            </NextThemesProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </Provider>
+        ,
       </body>
     </html>
   );
