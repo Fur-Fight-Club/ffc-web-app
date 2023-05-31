@@ -1,11 +1,11 @@
 import { configureStore, isRejectedWithValue } from '@reduxjs/toolkit';
 import { Action, Middleware, MiddlewareAPI } from 'redux';
+import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { ThunkAction } from 'redux-thunk';
 import { reducers } from './reducers';
 
 import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
 import { applicationApi } from './application/slice';
 import { bankAccountApi } from './bank-account/slice';
 import { walletApi } from './wallet/slice';
@@ -45,6 +45,8 @@ export const store = configureStore({
       bankAccountApi.middleware
     ),
 });
+
+export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
 export type AppState = ReturnType<typeof store.getState>;
