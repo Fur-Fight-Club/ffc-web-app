@@ -45,25 +45,22 @@ export default function Home() {
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <Row>
           <Input
-            label="Nom :"
-            placeholder="Morinus"
-            register={register('lastname')}
-            errorMessage={errors.lastname?.message}
-            fullWidth
-          />
-
-          <Spacer x={1} />
-
-          <Input
             label="Prénom :"
             placeholder="Adrianus 1er"
             register={register('firstname')}
             errorMessage={errors.firstname?.message}
             fullWidth
           />
+          <Spacer x={1} />
+          <Input
+            label="Nom :"
+            placeholder="Morinus"
+            register={register('lastname')}
+            errorMessage={errors.lastname?.message}
+            fullWidth
+          />
         </Row>
         <Spacer y={1.3} />
-
         <Input
           label="Adresse email :"
           placeholder="mrledirecteur@pedagogique.com"
@@ -86,7 +83,7 @@ export default function Home() {
           register={register('confirmPassword')}
           errorMessage={errors.confirmPassword?.message}
         />
-        <Spacer y={1.3} />
+        <Spacer y={1.5} />
         <Button type="submit">{"S'inscrire"}</Button>
       </form>
       <Divider />

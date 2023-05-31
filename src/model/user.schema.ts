@@ -51,3 +51,6 @@ export const registerSchema = userBaseSchema
     path: ['confirmPassword'],
   });
 export type RegisterType = z.infer<typeof registerSchema>;
+
+export const resetPasswordSchema = userBaseSchema.pick({ email: true });
+export type ResetPasswordType = z.infer<typeof resetPasswordSchema>;

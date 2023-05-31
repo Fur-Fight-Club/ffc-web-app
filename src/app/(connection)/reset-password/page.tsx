@@ -7,7 +7,7 @@ import { Button, Spacer } from '@nextui-org/react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { LoginType, loginSchema } from 'src/model/user.schema';
+import { ResetPasswordType, resetPasswordSchema } from 'src/model/user.schema';
 import styles from './page.module.scss';
 
 export default function Home() {
@@ -16,60 +16,52 @@ export default function Home() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<LoginType>({ resolver: zodResolver(loginSchema) });
+  } = useForm<ResetPasswordType>({
+    resolver: zodResolver(resetPasswordSchema),
+  });
 
-  const onSubmit = (data: LoginType) => {
+  const onSubmit = (data: ResetPasswordType) => {
     console.log('submit', data);
     // TODO : call api and check error return
-    toast.error('Connexion échouée. Vérifiez vos identifiants et réessayez');
+    toast.success(
+      'Demande de réinitialisation de mot de passe envoyée ! Vérifiez vos emails'
+    );
   };
 
-  console.log(watch('email'), watch('password'));
+  console.log(watch('email'));
 
   return (
     <div className={styles.container}>
-      <h1>Connectez-vous</h1>
-      <p>
-        {"Faite combattre votre monstre, parier dessus, et gagner de l'argent"}
+      <h1>Un trou de mémoire ?</h1>
+      <p className={styles.paragraph}>
+        {
+          'Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.'
+        }
       </p>
       <Divider />
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <Spacer y={1.3} />
-
         <Input
           label="Adresse email :"
           placeholder="mrledirecteur@pedagogique.com"
           register={register('email')}
           errorMessage={errors.email?.message}
         />
-
-        <Spacer y={1.3} />
-
-        <Input
-          label="Mot de passe :"
-          type="password"
-          placeholder="********"
-          register={register('password')}
-          errorMessage={errors.password?.message}
-        />
-
-        <Spacer y={2.5} />
-
+        <Spacer y={1.5} />
         <Button type="submit">Connexion</Button>
+        <Spacer y={1.5} />
       </form>
       <Divider />
+      <p className={styles.linkLabel}>
+        La mémoire vous revient ?{' '}
+        <Link href={'/login'}>
+          <span className={styles.ctaLabel}>Connectez-vous ici</span>
+        </Link>
+      </p>
       <p className={styles.linkLabel}>
         Pas de compte ?{' '}
         <Link href={'/register'}>
           <span className={styles.ctaLabel}>Inscrivez-vous ici</span>
-        </Link>
-      </p>
-      <p className={styles.linkLabel}>
-        Mot de passe oublié ?{' '}
-        <Link href={'/reset-password'}>
-          <span className={styles.ctaLabel}>
-            Réinitialisez votre mot de passe
-          </span>
         </Link>
       </p>
       <Spacer y={3} />
