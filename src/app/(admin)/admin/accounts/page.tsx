@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteUser } from 'src/app/api/Users/deletUser';
 import { getUsers } from 'src/app/api/Users/getUsers';
@@ -8,28 +8,43 @@ import { IconButton } from '@components/IconButton';
 import { Badge, Col, Row, Table, Text, Tooltip, User } from '@nextui-org/react';
 import { PawPrint, Pencil, Trash } from '@phosphor-icons/react';
 import { EditUserType } from 'src/model/user.schema';
+import { useLoginMutation } from 'src/store/application/slice';
 import { Modals } from '../../components/Modal/modalAccounts';
+import { ModalsMonster } from '../../components/Modal/modalMonster';
 
 export default function AccountsAdmin() {
   const queryClient = useQueryClient();
 
   const [users, setUsers] = useState([]);
   const [userData, setUserData] = useState<EditUserType>({} as EditUserType);
+  const [userIdMonster, setUserIdMonster] = useState<number>(0);
 
-  const [visible, setVisible] = useState(false);
-  const handleModal = (userId: number) => {
+  const [visibleModalAccount, setVisibleModalAccount] = useState(false);
+  const [visibleModalMonster, setVisibleModalMonster] = useState(false);
+
+  const handleModalAccount = (userId: number) => {
     const userD = users.find((user: EditUserType) => user.id === userId);
     if (userD) {
       setUserData(userD);
-      setVisible(true);
+      setVisibleModalAccount(true);
     } else {
       console.log('user not found');
-      setVisible(false);
+      setVisibleModalAccount(false);
     }
   };
-  const closeModal = () => {
+  const closeModalAccount = () => {
     setUserData({} as EditUserType);
-    setVisible(false);
+    setVisibleModalAccount(false);
+  };
+
+  const handleModalMonster = (userId: number) => {
+    setUserIdMonster(userId);
+    setVisibleModalMonster(true);
+  };
+
+  const closeModalMonster = () => {
+    setUserIdMonster(0);
+    setVisibleModalMonster(false);
   };
 
   const { data } = useQuery(['user'], getUsers, {
@@ -87,7 +102,7 @@ export default function AccountsAdmin() {
         );
       case 'status':
         return (
-          <Badge color={user?.is_email_verified === true ? 'primary' : 'error'}>
+          <Badge color={user?.is_email_verified === true ? 'success' : 'error'}>
             {user?.is_email_verified === true ? 'Active' : 'Inactive'}
           </Badge>
         );
@@ -97,14 +112,14 @@ export default function AccountsAdmin() {
           <Row justify="center" align="center">
             <Col css={{ d: 'flex' }}>
               <Tooltip content="Voir les monstres">
-                <IconButton onClick={() => console.log(user?.id)}>
+                <IconButton onClick={() => handleModalMonster(user?.id)}>
                   <PawPrint size={20} color="#889096" weight="fill" />
                 </IconButton>
               </Tooltip>
             </Col>
             <Col css={{ d: 'flex' }}>
               <Tooltip content="Editer">
-                <IconButton onClick={() => handleModal(user?.id)}>
+                <IconButton onClick={() => handleModalAccount(user?.id)}>
                   <Pencil size={20} color="#889096" weight="fill" />
                 </IconButton>
               </Tooltip>
@@ -127,8 +142,24 @@ export default function AccountsAdmin() {
     }
   };
 
+  const [fakeLogin, { data: pouetData }] = useLoginMutation();
+
+  useEffect(() => {
+    return console.log(pouetData);
+  }, [pouetData]);
+
   return (
     <>
+      <button
+        onClick={() =>
+          fakeLogin({
+            email: 'mcamus@condorcet93.fr',
+            password: 'BOITE2caramel',
+          })
+        }
+      >
+        FAKE LOGIN
+      </button>
       <Table
         aria-label="Users table"
         css={{
@@ -160,7 +191,16 @@ export default function AccountsAdmin() {
         </Table.Body>
       </Table>
 
-      <Modals visible={visible} closeHandler={closeModal} user={userData} />
+      <Modals
+        visible={visibleModalAccount}
+        closeHandler={closeModalAccount}
+        user={userData}
+      />
+      <ModalsMonster
+        visible={visibleModalMonster}
+        closeHandler={closeModalMonster}
+        userId={userIdMonster}
+      />
     </>
   );
 }
