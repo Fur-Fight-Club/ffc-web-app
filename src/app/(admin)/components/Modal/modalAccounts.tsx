@@ -72,12 +72,18 @@ export const Modals = (props: {
     }
   };
 
+  const handleRadioChange = (value: RoleType) => {
+    setFormData({ ...formData, role: value });
+  };
+
   useEffect(() => {
     if (validateForm()) {
       setIsValidate(true);
     } else {
       setIsValidate(false);
     }
+    console.log('formData', formData);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData]);
 
@@ -150,6 +156,8 @@ export const Modals = (props: {
           label={<Text>Rôles</Text>}
           defaultValue={user.role}
           orientation="horizontal"
+          value={formData?.role}
+          onChange={handleRadioChange}
         >
           {roleOptions.map((option) => (
             <Radio size="sm" key={option.value} value={option.value}>
