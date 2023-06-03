@@ -13,15 +13,19 @@
 .headerContent {
   z-index: 10;
   display: flex;
+  padding: 1.6rem;
 }
 
 .lottieWarriors {
   position: absolute;
+  transform: translateY(10%);
   height: 100vh;
 }
 
-.title {
-  font-weight: 900;
+.catchPhrase {
+  display: flex;
+  flex-direction: column;
+  margin-left: 3rem;
 }
 
 .section {

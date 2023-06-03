@@ -2,6 +2,7 @@
 
 import warriorsAnimation from '@assets/animations/warriors.json';
 import NavbarTest from '@components/Navbar';
+import { Text } from '@nextui-org/react';
 import Lottie from 'lottie-react';
 import BetList, { BetListItem } from './components/BetList';
 import styles from './page.module.scss';
@@ -18,7 +19,14 @@ export default function Home() {
                 <BetListItem key={i} />
               ))}
             </BetList>
-            <h1>Pouet</h1>
+            <div className={styles.catchPhrase}>
+              <Text h1 weight={'bold'} size={'$6xl'}>
+                Faites combattre vos monstres
+              </Text>
+              <Text h1 weight={'bold'} size={'$4xl'}>
+                {"Et gagnez de l'argent !"}
+              </Text>
+            </div>
           </div>
 
           <Lottie
