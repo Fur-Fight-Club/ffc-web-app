@@ -1,15 +1,29 @@
 @import '/src/styles/';
 
-.textColor {
-  color: $danger;
+.main {
+  height: 100vh;
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+.header {
+  position: relative;
+  height: 100%;
+  background: red;
+}
 
-  min-height: 100vh;
-  padding: 6rem;
+.lottieWarriors {
+  position: absolute;
+  height: 100vh;
+}
+
+.title {
+  font-weight: 900;
+}
+
+.section {
+  height: 100%;
+  background: blue;
+
+  &:nth-child(3) {
+    background: green;
+  }
 }

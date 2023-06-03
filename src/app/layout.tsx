@@ -105,7 +105,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </QueryClientProvider>
           {/* </PersistGate> */}
         </Provider>
-        ,
       </body>
     </html>
   );
