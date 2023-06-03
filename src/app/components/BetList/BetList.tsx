@@ -1,14 +1,16 @@
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 import { motion } from 'framer-motion';
+import { mergeClassNames } from 'src/utils/main';
 import styles from './BetList.module.scss';
 
 type BetListProps = {
   children?: React.ReactNode;
+  className?: string;
 };
 
-const BetList = ({ children }: BetListProps) => {
+const BetList = ({ children, className }: BetListProps) => {
   return (
-    <div className={styles.betList}>
+    <div className={mergeClassNames([styles.betList, className])}>
       <div className={styles.header}>
         {/* TODO : Make calendar component here */}
         <div className={styles.calendar}></div>

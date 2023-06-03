@@ -1,13 +1,14 @@
 import { Badge, Row } from '@nextui-org/react';
+import { mergeClassNames } from 'src/utils/main';
 import styles from './BetListItem.module.scss';
 
 type BetListItemProps = {
-  children?: React.ReactNode;
+  className?: string;
 };
 
-const BetListItem = ({ children }: BetListItemProps) => {
+const BetListItem = ({ className }: BetListItemProps) => {
   return (
-    <div className={styles.betListItem}>
+    <div className={mergeClassNames([styles.betListItem, className])}>
       <div className={styles.monsterCard}>
         <div className={styles.monster}></div>
         <Row>
