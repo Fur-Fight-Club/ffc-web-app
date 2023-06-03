@@ -82,7 +82,6 @@ export const Modals = (props: {
     } else {
       setIsValidate(false);
     }
-    console.log('formData', formData);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData]);

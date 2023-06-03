@@ -55,3 +55,8 @@ export type RegisterType = z.infer<typeof registerSchema>;
 
 export const resetPasswordSchema = userBaseSchema.pick({ email: true });
 export type ResetPasswordType = z.infer<typeof resetPasswordSchema>;
+
+const getMonstersOfUserSchema = userBaseSchema.pick({
+  id: true,
+});
+export type GetMonstersOfUserType = z.infer<typeof getMonstersOfUserSchema>;
