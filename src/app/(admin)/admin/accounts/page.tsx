@@ -5,6 +5,7 @@ import { deleteUser } from 'src/app/api/Users/deletUser';
 import { getUsers } from 'src/app/api/Users/getUsers';
 
 import { IconButton } from '@components/IconButton';
+import { ModalAcceptContent } from '@components/Modal/modalAcceptContent';
 import { Badge, Col, Row, Table, Text, Tooltip, User } from '@nextui-org/react';
 import { PawPrint, Pencil, Trash } from '@phosphor-icons/react';
 import { EditUserType } from 'src/model/user.schema';
@@ -18,9 +19,11 @@ export default function AccountsAdmin() {
   const [users, setUsers] = useState([]);
   const [userData, setUserData] = useState<EditUserType>({} as EditUserType);
   const [userIdMonster, setUserIdMonster] = useState<number>(0);
+  const [accept, setAccept] = useState<boolean>(false);
 
   const [visibleModalAccount, setVisibleModalAccount] = useState(false);
   const [visibleModalMonster, setVisibleModalMonster] = useState(false);
+  const [acceptModal, setAcceptModal] = useState(false);
 
   const handleModalAccount = (userId: number) => {
     const userD = users.find((user: EditUserType) => user.id === userId);
@@ -47,6 +50,14 @@ export default function AccountsAdmin() {
     setVisibleModalMonster(false);
   };
 
+  const handleAcceptModal = () => {
+    setAcceptModal(true);
+  };
+
+  const closeAcceptModal = () => {
+    setAcceptModal(false);
+  };
+
   const { data } = useQuery(['user'], getUsers, {
     onSuccess: (data) => {
       setUsers(data);
@@ -61,10 +72,12 @@ export default function AccountsAdmin() {
 
   const handleDeleteUser = (id: number) => {
     deleteUserMutation.mutate(id);
+    closeAcceptModal();
+    setAcceptModal(false);
   };
 
   const columns = [
-    { name: 'NAME', uid: 'name' },
+    { name: 'NOM', uid: 'name' },
     { name: 'ROLE', uid: 'role' },
     { name: 'STATUS', uid: 'status' },
     { name: 'ACTIONS', uid: 'actions' },
@@ -150,6 +163,9 @@ export default function AccountsAdmin() {
 
   return (
     <>
+      <div>
+        <h2>Gestion des Utilisateurs</h2>
+      </div>
       <button
         onClick={() =>
           fakeLogin({
@@ -200,6 +216,14 @@ export default function AccountsAdmin() {
         visible={visibleModalMonster}
         closeHandler={closeModalMonster}
         userId={userIdMonster}
+      />
+
+      <ModalAcceptContent
+        visible={acceptModal}
+        closeHandler={() => closeAcceptModal}
+        accepted={accept}
+        actionName="supprimer"
+        actionTarget="l'utilisateur"
       />
     </>
   );
