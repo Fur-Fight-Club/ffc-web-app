@@ -30,7 +30,7 @@ export const endpoint = {
   login: 'http://localhost:4000/user/login',
   register: 'user/register',
   askResetPassword: 'account/ask-reset-password',
-  me: 'user/me',
+  me: 'http://localhost:4000/user/me',
   update: 'user/update',
   notificationToken: 'push-notifications',
   notificationTokenActive: 'push-notifications/active',

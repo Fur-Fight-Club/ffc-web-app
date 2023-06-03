@@ -8,7 +8,7 @@ import { IconButton } from '@components/IconButton';
 import { Badge, Col, Row, Table, Text, Tooltip, User } from '@nextui-org/react';
 import { PawPrint, Pencil, Trash } from '@phosphor-icons/react';
 import { EditUserType } from 'src/model/user.schema';
-import { useLoginMutation } from 'src/store/application/slice';
+import { useGetUserQuery, useLoginMutation } from 'src/store/application/slice';
 import { Modals } from '../../components/Modal/modalAccounts';
 
 export default function AccountsAdmin() {
@@ -129,6 +129,12 @@ export default function AccountsAdmin() {
   };
 
   const [pouet, { data: pouetData }] = useLoginMutation();
+
+  // const [me, { data: meData }] = useGetUserQuery();
+
+  // call RTK query to get user data
+  const { data: meData } = useGetUserQuery();
+  console.log(meData);
 
   console.log(pouetData);
 
