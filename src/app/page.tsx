@@ -1,6 +1,6 @@
 'use client';
 
-import BetList from './components/BetList/BetList';
+import BetList, { BetListItem } from './components/BetList';
 import styles from './page.module.scss';
 
 export default function Home() {
@@ -14,7 +14,11 @@ export default function Home() {
             className={styles.lottieWarriors}
           /> */}
           <h2 className={styles.title}>La première règle du FFC</h2>
-          <BetList></BetList>
+          <BetList>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((item, i) => (
+              <BetListItem key={i}>test</BetListItem>
+            ))}
+          </BetList>
         </header>
         <section className={styles.section}>
           <h2 className={styles.title}>{"Qu'est-ce que le FFC ?"} </h2>

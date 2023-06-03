@@ -10,8 +10,10 @@ const BetList = ({ children }: BetListProps) => {
   return (
     <div className={styles.betList}>
       <div className={styles.header}>
+        {/* TODO : Make calendar component here */}
         <div className={styles.calendar}></div>
         <div>Samedi 3 janvier</div>
+        {/* TODO : Make IconButton component here */}
         <span>
           <motion.button whileHover={{ scale: 1.3 }}>
             <CaretLeft size={32} weight="bold" color="black" />
