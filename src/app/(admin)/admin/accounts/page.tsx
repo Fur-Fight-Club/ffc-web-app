@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteUser } from 'src/app/api/Users/deletUser';
 import { getUsers } from 'src/app/api/Users/getUsers';
@@ -8,7 +8,7 @@ import { IconButton } from '@components/IconButton';
 import { Badge, Col, Row, Table, Text, Tooltip, User } from '@nextui-org/react';
 import { PawPrint, Pencil, Trash } from '@phosphor-icons/react';
 import { EditUserType } from 'src/model/user.schema';
-import { useLoginMutation } from 'src/store/application/slice';
+import { useGetUserQuery, useLoginMutation } from 'src/store/application/slice';
 import { Modals } from '../../components/Modal/modalAccounts';
 
 export default function AccountsAdmin() {
@@ -130,14 +130,23 @@ export default function AccountsAdmin() {
 
   const [pouet, { data: pouetData }] = useLoginMutation();
 
-  useEffect(() => {
-    pouet({ email: 'mcamus@condorcet93.fr', password: 'BOITE2caramel' });
-  }, [pouet, pouetData]);
+  // const [me, { data: meData }] = useGetUserQuery();
+
+  // call RTK query to get user data
+  const { data: meData } = useGetUserQuery();
+  console.log(meData);
 
   console.log(pouetData);
 
   return (
     <>
+      <button
+        onClick={() =>
+          pouet({ email: 'mcamus@condorcet93.fr', password: 'BOITE2caramel' })
+        }
+      >
+        FAKE LOGIN
+      </button>
       <Table
         aria-label="Example table with custom cells"
         css={{

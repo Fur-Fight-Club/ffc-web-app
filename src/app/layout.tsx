@@ -8,8 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistor, store } from 'src/store/store';
+import { store } from 'src/store/store';
 
 import './globals.scss';
 
@@ -80,32 +79,32 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="fr">
       <body className={poppins.className} style={{ minHeight: '100vh' }}>
         <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <QueryClientProvider client={queryClient}>
-              <NextThemesProvider
-                defaultTheme="light"
-                attribute="class"
-                value={{
-                  light: lightTheme.className,
-                  dark: darkTheme.className,
+          {/* <PersistGate loading={null} persistor={persistor}> */}
+          <QueryClientProvider client={queryClient}>
+            <NextThemesProvider
+              defaultTheme="light"
+              attribute="class"
+              value={{
+                light: lightTheme.className,
+                dark: darkTheme.className,
+              }}
+            >
+              <Toaster
+                position="bottom-left"
+                reverseOrder={false}
+                gutter={8}
+                containerClassName=""
+                containerStyle={{}}
+                toastOptions={{
+                  className: '',
+                  duration: 5000,
                 }}
-              >
-                <Toaster
-                  position="bottom-left"
-                  reverseOrder={false}
-                  gutter={8}
-                  containerClassName=""
-                  containerStyle={{}}
-                  toastOptions={{
-                    className: '',
-                    duration: 5000,
-                  }}
-                />
-                <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
-              </NextThemesProvider>
-              <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
-          </PersistGate>
+              />
+              <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
+            </NextThemesProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+          {/* </PersistGate> */}
         </Provider>
         ,
       </body>

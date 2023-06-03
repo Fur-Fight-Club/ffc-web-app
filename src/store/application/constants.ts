@@ -27,10 +27,10 @@ export const reducerPath = 'applicationApi';
 export const CACHE_KEY = 'App';
 
 export const endpoint = {
-  login: 'user/login',
+  login: 'http://localhost:4000/user/login',
   register: 'user/register',
   askResetPassword: 'account/ask-reset-password',
-  me: 'user/me',
+  me: 'http://localhost:4000/user/me',
   update: 'user/update',
   notificationToken: 'push-notifications',
   notificationTokenActive: 'push-notifications/active',
