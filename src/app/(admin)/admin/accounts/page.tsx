@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteUser } from 'src/app/api/Users/deletUser';
 import { getUsers } from 'src/app/api/Users/getUsers';
@@ -130,14 +130,17 @@ export default function AccountsAdmin() {
 
   const [pouet, { data: pouetData }] = useLoginMutation();
 
-  useEffect(() => {
-    pouet({ email: 'mcamus@condorcet93.fr', password: 'BOITE2caramel' });
-  }, [pouet, pouetData]);
-
   console.log(pouetData);
 
   return (
     <>
+      <button
+        onClick={() =>
+          pouet({ email: 'mcamus@condorcet93.fr', password: 'BOITE2caramel' })
+        }
+      >
+        FAKE LOGIN
+      </button>
       <Table
         aria-label="Example table with custom cells"
         css={{
