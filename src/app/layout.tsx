@@ -6,7 +6,6 @@ import { Poppins } from 'next/font/google';
 import * as React from 'react';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { Provider } from 'react-redux';
 import { store } from 'src/store/store';
 
@@ -102,11 +101,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
               />
               <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
             </NextThemesProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           </QueryClientProvider>
           {/* </PersistGate> */}
         </Provider>
-        ,
       </body>
     </html>
   );

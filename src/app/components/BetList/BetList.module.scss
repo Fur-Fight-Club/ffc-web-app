@@ -1,0 +1,40 @@
+@import '/src/styles';
+
+.betList {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 4rem 1fr;
+  gap: 1rem 0;
+
+  width: 27rem;
+  height: 45rem;
+
+  background: $white;
+  border: $black 0.1rem solid;
+  border-radius: 0.75rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem;
+
+  background: $greyLight;
+  border-radius: 0.75rem 0.75rem 0 0 / 0.75rem 0.75rem 0 0;
+}
+
+.calendar {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: black;
+  border-radius: 0.5rem;
+}
+
+.betListContent {
+  overflow: scroll;
+  display: grid;
+  gap: 1rem 0;
+  border-radius: 0 0 0.75rem 0.75rem / 0 0 0.75rem 0.75rem;
+}

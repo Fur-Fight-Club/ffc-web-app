@@ -1,7 +1,10 @@
 'use client';
 
+import warriorsAnimation from '@assets/animations/warriors.json';
 import NavbarTest from '@components/Navbar';
-import Image from 'next/image';
+import { Text } from '@nextui-org/react';
+import Lottie from 'lottie-react';
+import BetList, { BetListItem } from './components/BetList';
 import styles from './page.module.scss';
 
 export default function Home() {
@@ -9,94 +12,44 @@ export default function Home() {
     <>
       <NavbarTest />
       <main className={styles.main}>
-        <div className={styles.description}>
-          <p className={styles.textColor}>
-            Get started by editing&nbsp;
-            <code className={styles.code}>src/app/page.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+        <header className={styles.header}>
+          <div className={styles.headerContent}>
+            <BetList>
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((item, i) => (
+                <BetListItem key={i} />
+              ))}
+            </BetList>
+            <div className={styles.catchPhrase}>
+              <Text h1 weight={'bold'} size={'$6xl'}>
+                Faites combattre vos monstres
+              </Text>
+              <Text h1 weight={'bold'} size={'$4xl'}>
+                {"Et gagnez de l'argent !"}
+              </Text>
+            </div>
           </div>
-        </div>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
+          <Lottie
+            animationData={warriorsAnimation}
+            className={styles.lottieWarriors}
           />
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>Explore the Next.js 13 playground.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL with Vercel.
-            </p>
-          </a>
-        </div>
+        </header>
+        <section className={styles.section}>
+          <h2 className={styles.title}>{"Qu'est-ce que le FFC ?"} </h2>
+        </section>
+        <section className={styles.section}>
+          <h2 className={styles.title}>{'Comment ça fonctionne ?'} </h2>
+        </section>
+        <section className={styles.section}>
+          <h2 className={styles.title}>{'Entrez dans la légende'} </h2>
+        </section>
+        <footer className={styles.footer}>
+          <ul>
+            <li>pouet</li>
+            <li>pouet</li>
+            <li>pouet</li>
+          </ul>
+        </footer>
       </main>
     </>
   );
