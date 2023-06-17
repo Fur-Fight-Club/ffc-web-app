@@ -13,7 +13,15 @@ $secondary3: #ff9077;
 
 // neutral colors
 
-$white: #fff;
+$whiteT200: #fff;
+$whiteT100: #fefefe;
+$white: #fdfdfd;
+$whiteS100: #e4e4e4;
+$whiteS200: #cacaca;
+$whiteS300: #b1b1b1;
+$whiteS400: #989898;
+$whiteS500: #7f7f7f;
+
 $black: #000;
 
 $greyLight: #e9e9e9;
@@ -30,8 +38,16 @@ $danger: #ee2828;
 
   secondary: $secondary;
 
-  black: $black;
+  whiteT200: $whiteT200;
+  whiteT100: $whiteT100;
   white: $white;
+  whiteS100: $whiteS100;
+  whiteS200: $whiteS200;
+  whiteS300: $whiteS300;
+  whiteS400: $whiteS400;
+  whiteS500: $whiteS500;
+
+  black: $black;
 
   danger: $danger;
   success: $success;
