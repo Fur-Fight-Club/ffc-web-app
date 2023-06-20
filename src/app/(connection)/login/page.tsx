@@ -6,7 +6,6 @@ import Input from '@components/UI/Input';
 import { Button, Spacer } from '@nextui-org/react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
 import { LoginType, loginSchema } from 'src/model/user.schema';
 import { useLoginMutation } from 'src/store/application/slice';
 import styles from './page.module.scss';
@@ -24,7 +23,6 @@ export default function Home() {
   const onSubmit = (data: LoginType) => {
     console.log('submit', data);
     loginMutation(data);
-    toast.error('Connexion échouée. Vérifiez vos identifiants et réessayez');
   };
 
   return (
