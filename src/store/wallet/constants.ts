@@ -10,7 +10,7 @@ export const reducerPath = "walletApi";
 export const CACHE_KEY = "Wallet";
 
 export const endpoint = {
-  get: "wallet/balance",
-  withdraw: "wallet/withdraw",
-  buyCredits: "credits/buy",
+  get: `${process.env.NEXT_PUBLIC_ENDPOINT}/wallet/balance`,
+  withdraw: `${process.env.NEXT_PUBLIC_ENDPOINT}/wallet/withdraw`,
+  buyCredits: `${process.env.NEXT_PUBLIC_ENDPOINT}/credits/buy`,
 };

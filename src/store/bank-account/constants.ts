@@ -14,5 +14,5 @@ export const reducerPath = "bankAccountApi";
 export const CACHE_KEY = "BankAccount";
 
 export const endpoint = {
-  bankAccount: "bank-account",
+  bankAccount: `${process.env.NEXT_PUBLIC_ENDPOINT}/bank-account`,
 };
