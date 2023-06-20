@@ -1,14 +1,15 @@
-'use client';
-import { zodResolver } from '@hookform/resolvers/zod';
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import Divider from '@components/UI/Divider';
-import Input from '@components/UI/Input';
-import { Button, Spacer } from '@nextui-org/react';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import { ResetPasswordType, resetPasswordSchema } from 'src/model/user.schema';
-import styles from './page.module.scss';
+import Divider from "@components/UI/Divider";
+import Input from "@components/UI/Input";
+import { Spacer } from "@nextui-org/react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import { ResetPasswordType, resetPasswordSchema } from "src/model/user.schema";
+import styles from "./page.module.scss";
+import { Button } from "@components/UI/Button/Button.component";
 
 export default function Home() {
   const {
@@ -21,21 +22,21 @@ export default function Home() {
   });
 
   const onSubmit = (data: ResetPasswordType) => {
-    console.log('submit', data);
+    console.log("submit", data);
     // TODO : call api and check error return
     toast.success(
-      'Demande de réinitialisation de mot de passe envoyée ! Vérifiez vos emails'
+      "Demande de réinitialisation de mot de passe envoyée ! Vérifiez vos emails"
     );
   };
 
-  console.log(watch('email'));
+  console.log(watch("email"));
 
   return (
     <div className={styles.container}>
       <h1>Un trou de mémoire ?</h1>
       <p className={styles.paragraph}>
         {
-          'Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.'
+          "Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe."
         }
       </p>
       <Divider />
@@ -44,23 +45,25 @@ export default function Home() {
         <Input
           label="Adresse email :"
           placeholder="mrledirecteur@pedagogique.com"
-          register={register('email')}
+          register={register("email")}
           errorMessage={errors.email?.message}
         />
         <Spacer y={1.5} />
-        <Button type="submit">Connexion</Button>
+        <Button type="submit" analyticsId="login-button-reset-password">
+          Connexion
+        </Button>
         <Spacer y={1.5} />
       </form>
       <Divider />
       <p className={styles.linkLabel}>
-        La mémoire vous revient ?{' '}
-        <Link href={'/login'}>
+        La mémoire vous revient ?{" "}
+        <Link href={"/login"}>
           <span className={styles.ctaLabel}>Connectez-vous ici</span>
         </Link>
       </p>
       <p className={styles.linkLabel}>
-        Pas de compte ?{' '}
-        <Link href={'/register'}>
+        Pas de compte ?{" "}
+        <Link href={"/register"}>
           <span className={styles.ctaLabel}>Inscrivez-vous ici</span>
         </Link>
       </p>

@@ -1,14 +1,15 @@
-'use client';
-import { zodResolver } from '@hookform/resolvers/zod';
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import Divider from '@components/UI/Divider';
-import Input from '@components/UI/Input';
-import { Button, Spacer } from '@nextui-org/react';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import { LoginType, loginSchema } from 'src/model/user.schema';
-import styles from './page.module.scss';
+import Divider from "@components/UI/Divider";
+import Input from "@components/UI/Input";
+import { Spacer } from "@nextui-org/react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import { LoginType, loginSchema } from "src/model/user.schema";
+import styles from "./page.module.scss";
+import { Button } from "@components/UI/Button/Button.component";
 
 export default function Home() {
   const {
@@ -19,12 +20,12 @@ export default function Home() {
   } = useForm<LoginType>({ resolver: zodResolver(loginSchema) });
 
   const onSubmit = (data: LoginType) => {
-    console.log('submit', data);
+    console.log("submit", data);
     // TODO : call api and check error return
-    toast.error('Connexion échouée. Vérifiez vos identifiants et réessayez');
+    toast.error("Connexion échouée. Vérifiez vos identifiants et réessayez");
   };
 
-  console.log(watch('email'), watch('password'));
+  console.log(watch("email"), watch("password"));
 
   return (
     <div className={styles.container}>
@@ -39,7 +40,7 @@ export default function Home() {
         <Input
           label="Adresse email :"
           placeholder="mrledirecteur@pedagogique.com"
-          register={register('email')}
+          register={register("email")}
           errorMessage={errors.email?.message}
         />
 
@@ -49,24 +50,26 @@ export default function Home() {
           label="Mot de passe :"
           type="password"
           placeholder="********"
-          register={register('password')}
+          register={register("password")}
           errorMessage={errors.password?.message}
         />
 
         <Spacer y={2.5} />
 
-        <Button type="submit">Connexion</Button>
+        <Button type="submit" analyticsId="login-button">
+          Connexion
+        </Button>
       </form>
       <Divider />
       <p className={styles.linkLabel}>
-        Pas de compte ?{' '}
-        <Link href={'/register'}>
+        Pas de compte ?{" "}
+        <Link href={"/register"}>
           <span className={styles.ctaLabel}>Inscrivez-vous ici</span>
         </Link>
       </p>
       <p className={styles.linkLabel}>
-        Mot de passe oublié ?{' '}
-        <Link href={'/reset-password'}>
+        Mot de passe oublié ?{" "}
+        <Link href={"/reset-password"}>
           <span className={styles.ctaLabel}>
             Réinitialisez votre mot de passe
           </span>

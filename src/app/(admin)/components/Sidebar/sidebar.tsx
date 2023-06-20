@@ -1,16 +1,16 @@
-import { Button } from '@nextui-org/react';
+import { Button } from "@components/UI/Button/Button.component";
 import {
   CaretCircleLeft,
   CreditCard,
   House,
   MapPin,
   UserRectangle,
-} from '@phosphor-icons/react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { Menu, MenuItem, Sidebar, useProSidebar } from 'react-pro-sidebar';
-import { Flex } from 'src/styles/flex';
+} from "@phosphor-icons/react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Menu, MenuItem, Sidebar, useProSidebar } from "react-pro-sidebar";
+import { Flex } from "src/styles/flex";
 
 export const SidebarAdmin = () => {
   const { collapseSidebar } = useProSidebar();
@@ -28,8 +28,8 @@ export const SidebarAdmin = () => {
         setCollapsed(true);
       }
     };
-    window.addEventListener('resize', updateWindowWidth);
-    return () => window.removeEventListener('resize', updateWindowWidth);
+    window.addEventListener("resize", updateWindowWidth);
+    return () => window.removeEventListener("resize", updateWindowWidth);
   }, [collapseSidebar, collapsed]);
 
   const handleToggleSidebar = () => {
@@ -41,7 +41,7 @@ export const SidebarAdmin = () => {
     <>
       <Sidebar backgroundColor="white">
         <Menu>
-          <Flex justify={'center'} style={{ margin: '1rem' }}>
+          <Flex justify={"center"} style={{ margin: "1rem" }}>
             <Image
               src="/images/ffc-logo.svg"
               alt="logo"
@@ -79,14 +79,15 @@ export const SidebarAdmin = () => {
           </MenuItem>
         </Menu>
 
-        <Flex justify={'center'} style={{ margin: '1rem' }}>
+        <Flex justify={"center"} style={{ margin: "1rem" }}>
           <Button
             auto
             light
             ripple={false}
             icon={<CaretCircleLeft size={32} color="#889096" weight="fill" />}
             onPress={() => handleToggleSidebar()}
-            style={collapsed ? { transform: 'rotate(180deg)' } : {}}
+            style={collapsed ? { transform: "rotate(180deg)" } : {}}
+            analyticsId="btn-toggle-sidebar"
           />
         </Flex>
       </Sidebar>

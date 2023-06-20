@@ -1,20 +1,13 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { EditUserType, RoleType, editUserSchema } from 'src/model/user.schema';
+"use client";
+import { useEffect, useState } from "react";
+import { EditUserType, RoleType, editUserSchema } from "src/model/user.schema";
 
-import {
-  Button,
-  Input,
-  Loading,
-  Modal,
-  Radio,
-  Spacer,
-  Text,
-} from '@nextui-org/react';
-import { Envelope, IdentificationCard } from '@phosphor-icons/react';
-import { useMutation, useQueryClient } from 'react-query';
-import { patchUser } from 'src/app/api/Users/patchUser';
-import { ZodError } from 'zod';
+import { Input, Loading, Modal, Radio, Spacer, Text } from "@nextui-org/react";
+import { Envelope, IdentificationCard } from "@phosphor-icons/react";
+import { useMutation, useQueryClient } from "react-query";
+import { patchUser } from "src/app/api/Users/patchUser";
+import { ZodError } from "zod";
+import { Button } from "@components/UI/Button/Button.component";
 
 export const Modals = (props: {
   visible: boolean;
@@ -32,14 +25,14 @@ export const Modals = (props: {
 
   const patchUserMutation = useMutation(patchUser, {
     onSuccess: (isLoading) => {
-      queryClient.invalidateQueries('user');
+      queryClient.invalidateQueries("user");
       closeHandler();
     },
   });
 
   const roleOptions: { label: string; value: RoleType }[] = [
-    { label: 'Utilisateur', value: 'USER' },
-    { label: 'Admin', value: 'ADMIN' },
+    { label: "Utilisateur", value: "USER" },
+    { label: "Admin", value: "ADMIN" },
   ];
 
   useEffect(() => {
@@ -166,11 +159,22 @@ export const Modals = (props: {
         </Radio.Group>
       </Modal.Body>
       <Modal.Footer>
-        <Button auto flat color="error" onPress={closeHandler}>
+        <Button
+          auto
+          flat
+          color="error"
+          onPress={closeHandler}
+          analyticsId="close-modal-account"
+        >
           Close
         </Button>
-        <Button auto onPress={handleSave} disabled={!isValidate}>
-          {patchUserMutation.isLoading ? <Loading type="points" /> : ''}
+        <Button
+          auto
+          onPress={handleSave}
+          disabled={!isValidate}
+          analyticsId="save-moda-account"
+        >
+          {patchUserMutation.isLoading ? <Loading type="points" /> : ""}
           Sauvegarder
         </Button>
       </Modal.Footer>
