@@ -1,24 +1,27 @@
-'use client';
-import { NextUIProvider, createTheme } from '@nextui-org/react';
-import styles from '@styles/_colors.module.scss';
-import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import { Poppins } from 'next/font/google';
-import * as React from 'react';
-import { Toaster } from 'react-hot-toast';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { Provider } from 'react-redux';
-import { store } from 'src/store/store';
+"use client";
+import { NextUIProvider, createTheme } from "@nextui-org/react";
+import styles from "@styles/_colors.module.scss";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { Poppins } from "next/font/google";
+import * as React from "react";
+import { Toaster } from "react-hot-toast";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Provider } from "react-redux";
+import { store } from "src/store/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
 
-import './globals.scss';
+import "./globals.scss";
+import { AnalyticsWrapper } from "@components/AnalyticsWrapper/AnalyticsWrapper.component";
 
 const poppins = Poppins({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 const lightTheme = createTheme({
-  type: 'light',
+  type: "light",
   theme: {
     colors: {
       primaryLight: styles.primaryT200,
@@ -33,8 +36,8 @@ const lightTheme = createTheme({
       primaryShadow: styles.primary,
 
       gradient:
-        'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
-      link: '#5E1DAD',
+        "linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)",
+      link: "#5E1DAD",
     },
     space: {},
     fonts: {},
@@ -42,25 +45,25 @@ const lightTheme = createTheme({
 });
 
 const darkTheme = createTheme({
-  type: 'dark',
+  type: "dark",
   theme: {
     colors: {
-      primaryLight: '$green200',
-      primaryLightHover: '$green300',
-      primaryLightActive: '$green400',
-      primaryLightContrast: '$green600',
-      primary: '#b91919',
-      primaryBorder: '$green500',
-      primaryBorderHover: '$green600',
-      primarySolidHover: '$green700',
-      primarySolidContrast: '$white',
-      primaryShadow: '$green500',
+      primaryLight: "$green200",
+      primaryLightHover: "$green300",
+      primaryLightActive: "$green400",
+      primaryLightContrast: "$green600",
+      primary: "#b91919",
+      primaryBorder: "$green500",
+      primaryBorderHover: "$green600",
+      primarySolidHover: "$green700",
+      primarySolidContrast: "$white",
+      primaryShadow: "$green500",
 
       gradient:
-        'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
-      link: '#5E1DAD',
+        "linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)",
+      link: "#5E1DAD",
 
-      myColor: '#ff4ecd',
+      myColor: "#ff4ecd",
     },
     space: {},
     fonts: {},
@@ -73,37 +76,41 @@ type RootLayoutProps = {
 
 const queryClient = new QueryClient();
 
+let persistor = persistStore(store);
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="fr">
-      <body className={poppins.className} style={{ minHeight: '100vh' }}>
+      <body className={poppins.className} style={{ minHeight: "100vh" }}>
         <Provider store={store}>
-          {/* <PersistGate loading={null} persistor={persistor}> */}
-          <QueryClientProvider client={queryClient}>
-            <NextThemesProvider
-              defaultTheme="light"
-              attribute="class"
-              value={{
-                light: lightTheme.className,
-                dark: darkTheme.className,
-              }}
-            >
-              <Toaster
-                position="bottom-left"
-                reverseOrder={false}
-                gutter={8}
-                containerClassName=""
-                containerStyle={{}}
-                toastOptions={{
-                  className: '',
-                  duration: 5000,
-                }}
-              />
-              <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
-            </NextThemesProvider>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          </QueryClientProvider>
-          {/* </PersistGate> */}
+          <PersistGate loading={null} persistor={persistor}>
+            <AnalyticsWrapper>
+              <QueryClientProvider client={queryClient}>
+                <NextThemesProvider
+                  defaultTheme="light"
+                  attribute="class"
+                  value={{
+                    light: lightTheme.className,
+                    dark: darkTheme.className,
+                  }}
+                >
+                  <Toaster
+                    position="bottom-left"
+                    reverseOrder={false}
+                    gutter={8}
+                    containerClassName=""
+                    containerStyle={{}}
+                    toastOptions={{
+                      className: "",
+                      duration: 5000,
+                    }}
+                  />
+                  <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
+                </NextThemesProvider>
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+              </QueryClientProvider>
+            </AnalyticsWrapper>
+          </PersistGate>
         </Provider>
       </body>
     </html>

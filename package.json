@@ -21,6 +21,7 @@
     "antd": "^5.5.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
+    "ffc-prisma-package": "^2.14.1",
     "framer-motion": "^10.12.16",
     "lottie-react": "^2.4.0",
     "next": "13.4.1",
@@ -32,12 +33,14 @@
     "react-hot-toast": "^2.4.1",
     "react-pro-sidebar": "^1.0.0",
     "react-query": "^3.39.3",
-    "react-redux": "^8.0.7",
+    "react-redux": "^8.1.0",
     "redux-persist": "^6.0.0",
     "typescript": "5.0.4",
+    "uuid": "^9.0.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.2",
     "prettier": "^2.8.8",
     "sass": "^1.62.1",
     "stylelint": "^15.6.2",
