@@ -2,15 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { Button } from "@components/UI/Button/Button.component";
 import Divider from "@components/UI/Divider";
 import Input from "@components/UI/Input";
 import { Row, Spacer } from "@nextui-org/react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import { RegisterType, registerSchema } from "src/model/user.schema";
+import { useRegisterMutation } from "src/store/application/slice";
 import styles from "./page.module.scss";
-import { Button } from "@components/UI/Button/Button.component";
 
 export default function Home() {
   const {
@@ -25,7 +25,7 @@ export default function Home() {
   console.log(process.env.NEXT_PUBLIC_ENDPOINT);
 
   const onSubmit = (data: RegisterType) => {
-    console.log('submit', data);
+    console.log("submit", data);
 
     registerMutation(data);
 
