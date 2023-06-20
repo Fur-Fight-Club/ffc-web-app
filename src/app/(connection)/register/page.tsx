@@ -7,8 +7,8 @@ import Input from '@components/UI/Input';
 import { Button, Row, Spacer } from '@nextui-org/react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
 import { RegisterType, registerSchema } from 'src/model/user.schema';
+import { useRegisterMutation } from 'src/store/application/slice';
 import styles from './page.module.scss';
 
 export default function Home() {
@@ -19,21 +19,19 @@ export default function Home() {
     formState: { errors },
   } = useForm<RegisterType>({ resolver: zodResolver(registerSchema) });
 
+  const [registerMutation, { data: registerData }] = useRegisterMutation();
+
+  console.log(process.env.NEXT_PUBLIC_ENDPOINT);
+
   const onSubmit = (data: RegisterType) => {
     console.log('submit', data);
-    // TODO : call api and check error return
-    toast.success(
-      'Inscription réussie ! Allez vérifier vos emails pour valider votre compte'
-    );
-  };
 
-  console.log(
-    watch('lastname'),
-    watch('firstname'),
-    watch('email'),
-    watch('password'),
-    watch('confirmPassword')
-  );
+    registerMutation(data);
+
+    // toast.success(
+    //   'Inscription réussie ! Allez vérifier vos emails pour valider votre compte'
+    // );
+  };
 
   return (
     <div className={styles.container}>

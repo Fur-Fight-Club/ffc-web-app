@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { LoginType, loginSchema } from 'src/model/user.schema';
+import { useLoginMutation } from 'src/store/application/slice';
 import styles from './page.module.scss';
 
 export default function Home() {
@@ -18,13 +19,13 @@ export default function Home() {
     formState: { errors },
   } = useForm<LoginType>({ resolver: zodResolver(loginSchema) });
 
+  const [loginMutation, { data: loginData }] = useLoginMutation();
+
   const onSubmit = (data: LoginType) => {
     console.log('submit', data);
-    // TODO : call api and check error return
+    loginMutation(data);
     toast.error('Connexion échouée. Vérifiez vos identifiants et réessayez');
   };
-
-  console.log(watch('email'), watch('password'));
 
   return (
     <div className={styles.container}>
