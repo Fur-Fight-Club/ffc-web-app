@@ -18,7 +18,7 @@ export interface App {
     uuid: string;
     enabled: boolean;
     session: {
-      pageVisited: string[];
+      pageVisited: { page: string; timestamp: number }[];
       startTime: number;
       endTime: number;
     };
