@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
+import { usePathname } from "next/navigation";
 
 export type ButtonProps = NUIButtonProps & {
   analyticsId?: string;
@@ -20,6 +21,7 @@ export const Button: React.FunctionComponent<ButtonProps> = ({
   onPress,
   ...props
 }) => {
+  const pathname = usePathname();
   const { analytics, user } = useSelector(applicationState);
   const handleClick = (e: PressEvent) => {
     onPress && onPress(e);
@@ -29,7 +31,7 @@ export const Button: React.FunctionComponent<ButtonProps> = ({
       user: user.id,
       uuid: analytics.uuid,
       timestamp: Date.now(),
-      pathname: window.location.pathname,
+      pathname,
       buttonContent: props.children,
     };
     console.log(analyticsPayload);
