@@ -20,21 +20,19 @@ export default function Home() {
     formState: { errors },
   } = useForm<RegisterType>({ resolver: zodResolver(registerSchema) });
 
-  const onSubmit = (data: RegisterType) => {
-    console.log("submit", data);
-    // TODO : call api and check error return
-    toast.success(
-      "Inscription réussie ! Allez vérifier vos emails pour valider votre compte"
-    );
-  };
+  const [registerMutation, { data: registerData }] = useRegisterMutation();
 
-  console.log(
-    watch("lastname"),
-    watch("firstname"),
-    watch("email"),
-    watch("password"),
-    watch("confirmPassword")
-  );
+  console.log(process.env.NEXT_PUBLIC_ENDPOINT);
+
+  const onSubmit = (data: RegisterType) => {
+    console.log('submit', data);
+
+    registerMutation(data);
+
+    // toast.success(
+    //   'Inscription réussie ! Allez vérifier vos emails pour valider votre compte'
+    // );
+  };
 
   return (
     <div className={styles.container}>

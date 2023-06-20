@@ -19,13 +19,11 @@ export default function Home() {
     formState: { errors },
   } = useForm<LoginType>({ resolver: zodResolver(loginSchema) });
 
-  const onSubmit = (data: LoginType) => {
-    console.log("submit", data);
-    // TODO : call api and check error return
-    toast.error("Connexion échouée. Vérifiez vos identifiants et réessayez");
-  };
+  const [loginMutation, { data: loginData }] = useLoginMutation();
 
-  console.log(watch("email"), watch("password"));
+  const onSubmit = (data: LoginType) => {
+    loginMutation(data);
+  };
 
   return (
     <div className={styles.container}>
