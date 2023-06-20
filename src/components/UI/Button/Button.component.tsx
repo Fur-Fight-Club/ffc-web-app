@@ -20,14 +20,14 @@ export const Button: React.FunctionComponent<ButtonProps> = ({
   onPress,
   ...props
 }) => {
-  const { uuid, user } = useSelector(applicationState);
+  const { analytics, user } = useSelector(applicationState);
   const handleClick = (e: PressEvent) => {
     onPress && onPress(e);
     const analyticsPayload = {
       event: "button_click",
       id: analyticsId ?? "default",
       user: user.id,
-      uuid,
+      uuid: analytics.uuid,
       timestamp: Date.now(),
       pathname: window.location.pathname,
       buttonContent: props.children,

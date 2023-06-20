@@ -13,7 +13,29 @@ interface AnalyticsWrapperProps {
 export const AnalyticsWrapper: React.FunctionComponent<
   AnalyticsWrapperProps
 > = ({ children }) => {
-  const { uuid, user } = useSelector(applicationState);
+  const { analytics, user } = useSelector(applicationState);
+
+  const userAgent = {
+    browser: {
+      name: navigator.userAgent.match(
+        /(Chrome|Firefox|Safari|Opera|Edge|IE)\//i
+      )?.[1],
+      version: navigator.userAgent.match(
+        /(Chrome|Firefox|Safari|Opera|Edge|IE)\/([\d.]+)/i
+      )?.[2],
+    },
+    os: {
+      name: navigator.userAgent.match(
+        /(Windows|Mac OS|Linux|iOS|Android)\s[\d_\.]+/i
+      )?.[1],
+      version: navigator.userAgent.match(
+        /(Windows|Mac OS|Linux|iOS|Android)\s([\d_\.]+)/i
+      )?.[2],
+    },
+    platform:
+      navigator.userAgent.match(/(Mobile|Tablet|Desktop)/i)?.[1] ?? "Desktop",
+    language: navigator.language,
+  };
 
   const handleClick = (event: any) => {
     const analyticsWrapperPayload = {
@@ -29,8 +51,9 @@ export const AnalyticsWrapper: React.FunctionComponent<
         width: window.innerWidth,
         height: window.innerHeight,
       },
+      userAgent,
       user: user.id,
-      uuid,
+      uuid: analytics.uuid,
     };
 
     console.log(analyticsWrapperPayload);

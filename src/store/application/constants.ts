@@ -21,7 +21,15 @@ export const initialState: App = {
   loading: false,
   notification_token: null,
   token: "",
-  uuid: uuidv4(),
+  analytics: {
+    uuid: uuidv4(),
+    enabled: true,
+    session: {
+      pageVisited: [],
+      startTime: -1,
+      endTime: -1,
+    },
+  },
 };
 
 export const reducerPath = "applicationApi";

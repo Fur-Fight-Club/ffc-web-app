@@ -14,7 +14,15 @@ export interface App {
   loading: boolean;
   notification_token: string | null;
   token: string;
-  uuid: string;
+  analytics: {
+    uuid: string;
+    enabled: boolean;
+    session: {
+      pageVisited: string[];
+      startTime: number;
+      endTime: number;
+    };
+  };
 }
 
 export interface User extends BasicUser {
