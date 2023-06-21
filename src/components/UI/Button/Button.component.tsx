@@ -11,6 +11,8 @@ import {
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { usePathname } from "next/navigation";
+import { ButtonClickEvent } from "src/store/application/constants";
+import { useCreateButtonClickEventMutation } from "src/store/application/slice";
 
 export type ButtonProps = NUIButtonProps & {
   analyticsId?: string;
@@ -23,18 +25,19 @@ export const Button: React.FunctionComponent<ButtonProps> = ({
 }) => {
   const pathname = usePathname();
   const { analytics, user } = useSelector(applicationState);
+  const [createButtonClickEvent] = useCreateButtonClickEventMutation();
   const handleClick = (e: PressEvent) => {
     onPress && onPress(e);
-    const analyticsPayload = {
+    const analyticsPayload: ButtonClickEvent = {
       event: "button_click",
-      id: analyticsId ?? "default",
+      event_id: analyticsId ?? "default",
       user: user.id,
       uuid: analytics.uuid,
       timestamp: Date.now(),
       pathname,
-      buttonContent: props.children,
+      buttonContent: props.children as string,
     };
-    console.log(analyticsPayload);
+    analytics.enabled && createButtonClickEvent(analyticsPayload);
   };
   return <NUIButton {...props} onPress={handleClick} />;
 };

@@ -1,8 +1,8 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { createApi } from '@reduxjs/toolkit/query/react';
-import toast from 'react-hot-toast';
-import { GenericApiError } from '../store.model';
-import { baseQuery } from './../api';
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import toast from "react-hot-toast";
+import { GenericApiError } from "../store.model";
+import { baseQuery } from "./../api";
 
 import {
   DeleteNotificationTokenRequest,
@@ -16,11 +16,20 @@ import {
   UpsertNotificationTokenRequest,
   UpsertNotificationTokenResponse,
   User,
-} from './application.model';
-import { CACHE_KEY, endpoint, initialState, reducerPath } from './constants';
-import { askResetPasswordErrorsHandler } from './errors/ask-reset.error';
-import { loginErrorsHandler } from './errors/login.error';
-import { registerErrorsHandler } from './errors/register.error';
+} from "./application.model";
+import {
+  ButtonClickEvent,
+  CACHE_KEY,
+  LeaveAppEvent,
+  MouseClickEvent,
+  PathnameChangeEvent,
+  endpoint,
+  initialState,
+  reducerPath,
+} from "./constants";
+import { askResetPasswordErrorsHandler } from "./errors/ask-reset.error";
+import { loginErrorsHandler } from "./errors/login.error";
+import { registerErrorsHandler } from "./errors/register.error";
 
 export const applicationApi = createApi({
   reducerPath,
@@ -31,7 +40,7 @@ export const applicationApi = createApi({
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: (user) => ({
         url: `${endpoint.login}`,
-        method: 'POST',
+        method: "POST",
         body: user,
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
@@ -40,7 +49,7 @@ export const applicationApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setToken(data.access_token));
-          toast.success('👋 Bienvenue !');
+          toast.success("👋 Bienvenue !");
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -53,7 +62,7 @@ export const applicationApi = createApi({
     register: builder.mutation<User, RegisterRequest>({
       query: (user) => ({
         url: `${endpoint.register}`,
-        method: 'POST',
+        method: "POST",
         body: user,
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
@@ -62,7 +71,7 @@ export const applicationApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setUser(data));
-          toast.success('Bienvenue sur Fury Fight Club !');
+          toast.success("Bienvenue sur Fury Fight Club !");
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -75,7 +84,7 @@ export const applicationApi = createApi({
     askResetPassword: builder.mutation<void, string>({
       query: (email) => ({
         url: `${endpoint.askResetPassword}`,
-        method: 'POST',
+        method: "POST",
         body: { email },
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
@@ -83,7 +92,7 @@ export const applicationApi = createApi({
         try {
           await queryFulfilled;
           dispatch(setLoading(false));
-          toast.success('📨 Mail envoyé !');
+          toast.success("📨 Mail envoyé !");
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -96,7 +105,7 @@ export const applicationApi = createApi({
     getUser: builder.query<MeResponse, void>({
       query: () => ({
         url: `${endpoint.me}`,
-        method: 'GET',
+        method: "GET",
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         dispatch(setLoading(true));
@@ -109,7 +118,7 @@ export const applicationApi = createApi({
           console.log(error.error.data);
 
           dispatch(setLoading(false));
-          toast.error('🚨 Une erreur est survenue, veuillez réessayer');
+          toast.error("🚨 Une erreur est survenue, veuillez réessayer");
         }
       },
     }),
@@ -121,7 +130,7 @@ export const applicationApi = createApi({
     >({
       query: (body) => ({
         url: `${endpoint.notificationToken}`,
-        method: 'POST',
+        method: "POST",
         body,
       }),
 
@@ -136,7 +145,7 @@ export const applicationApi = createApi({
           console.log(error);
 
           dispatch(setLoading(false));
-          toast.error('🚨 Une erreur est survenue, veuillez réessayer');
+          toast.error("🚨 Une erreur est survenue, veuillez réessayer");
         }
       },
     }),
@@ -148,7 +157,7 @@ export const applicationApi = createApi({
     >({
       query: (body) => ({
         url: `${endpoint.notificationToken}`,
-        method: 'DELETE',
+        method: "DELETE",
         body,
       }),
 
@@ -174,7 +183,7 @@ export const applicationApi = createApi({
     >({
       query: (body) => ({
         url: `${endpoint.notificationTokenActive}`,
-        method: 'PATCH',
+        method: "PATCH",
         body,
       }),
 
@@ -190,13 +199,13 @@ export const applicationApi = createApi({
           //     body.active ? 'activé' : 'désactivé'
           //   } les notifications`,
           // });
-          toast.success('📳 Notification !');
+          toast.success("📳 Notification !");
         } catch (err) {
           const error = err as GenericApiError;
           console.log(error);
           dispatch(setLoading(false));
           toast.error(
-            '🚨 Erreur lors de la mise à jour de vos paramètres , veuillez réssayer'
+            "🚨 Erreur lors de la mise à jour de vos paramètres , veuillez réssayer"
           );
         }
       },
@@ -206,7 +215,7 @@ export const applicationApi = createApi({
     UpdateUser: builder.mutation<UpdateResponse, UpdateRequest>({
       query: (user) => ({
         url: `${endpoint.update}`,
-        method: 'PATCH',
+        method: "PATCH",
         body: user,
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
@@ -219,15 +228,89 @@ export const applicationApi = createApi({
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
-          toast.error('🚨 Une erreur est survenue, veuillez réessayer');
+          toast.error("🚨 Une erreur est survenue, veuillez réessayer");
         }
       },
+    }),
+
+    /**
+     * ANALYTICS MUTATIONS AND QUERIES
+     */
+    // Mutations
+    createButtonClickEvent: builder.mutation<
+      { success: boolean },
+      ButtonClickEvent
+    >({
+      query: (body) => ({
+        url: `${endpoint.analytics}/button-click`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    createMouseClickEvent: builder.mutation<
+      { success: boolean },
+      MouseClickEvent
+    >({
+      query: (body) => ({
+        url: `${endpoint.analytics}/mouse-click`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    createPathnameChangeEvent: builder.mutation<
+      { success: boolean },
+      PathnameChangeEvent
+    >({
+      query: (body) => ({
+        url: `${endpoint.analytics}/pathname-change`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    createLeaveAppEvent: builder.mutation<{ success: boolean }, LeaveAppEvent>({
+      query: (body) => ({
+        url: `${endpoint.analytics}/leave-app`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    // Queries
+    getButtonClickEvents: builder.query<ButtonClickEvent[], void>({
+      query: () => ({
+        url: `${endpoint.analytics}/button-click`,
+        method: "GET",
+      }),
+    }),
+
+    getMouseClickEvents: builder.query<MouseClickEvent[], void>({
+      query: () => ({
+        url: `${endpoint.analytics}/mouse-click`,
+        method: "GET",
+      }),
+    }),
+
+    getPathnameChangeEvents: builder.query<PathnameChangeEvent[], void>({
+      query: () => ({
+        url: `${endpoint.analytics}/pathname-change`,
+        method: "GET",
+      }),
+    }),
+
+    getLeaveAppEvents: builder.query<LeaveAppEvent[], void>({
+      query: () => ({
+        url: `${endpoint.analytics}/leave-app`,
+        method: "GET",
+      }),
     }),
   }),
 });
 
 export const applicationSlice = createSlice({
-  name: 'application',
+  name: "application",
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
@@ -261,6 +344,25 @@ export const applicationSlice = createSlice({
       firstname && (state.user.firstname = firstname);
       lastname && (state.user.lastname = lastname);
     },
+    setAnalyticsEnable: (state, action: PayloadAction<boolean>) => {
+      state.analytics.enabled = action.payload;
+    },
+    setSessionTime: (
+      state,
+      action: PayloadAction<{
+        startTime: number;
+        endTime: number;
+      }>
+    ) => {
+      state.analytics.session.startTime = action.payload.startTime;
+      state.analytics.session.endTime = action.payload.endTime;
+    },
+    setSessionPagesVisited: (
+      state,
+      action: PayloadAction<{ page: string; timestamp: number }[]>
+    ) => {
+      state.analytics.session.pageVisited = action.payload;
+    },
   },
 });
 
@@ -271,6 +373,9 @@ export const {
   setToken,
   setUserInformation,
   setUpdateUser,
+  setAnalyticsEnable,
+  setSessionTime,
+  setSessionPagesVisited,
 } = applicationSlice.actions;
 
 export const {
@@ -281,4 +386,14 @@ export const {
   useUpsertNotificationTokenMutation,
   useDeleteNotificationTokenMutation,
   useUpdateUserMutation,
+  // Analytics mutations
+  useCreateButtonClickEventMutation,
+  useCreateMouseClickEventMutation,
+  useCreatePathnameChangeEventMutation,
+  useCreateLeaveAppEventMutation,
+  // Analytics queries
+  useGetButtonClickEventsQuery,
+  useGetMouseClickEventsQuery,
+  useGetPathnameChangeEventsQuery,
+  useGetLeaveAppEventsQuery,
 } = applicationApi;
