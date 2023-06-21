@@ -11,6 +11,11 @@ import {
   setSessionPagesVisited,
   setSessionTime,
 } from "src/store/application/slice";
+import {
+  LeaveAppEvent,
+  MouseClickEvent,
+  PathnameChangeEvent,
+} from "src/store/application/constants";
 
 interface AnalyticsWrapperProps {
   children: any;
@@ -56,9 +61,9 @@ export const AnalyticsWrapper: React.FunctionComponent<
     const handleUnload = (event: any) => {
       event.preventDefault();
       // Prepare the payload for the server
-      const pageUnloadAnalyticsPayload = {
+      const pageUnloadAnalyticsPayload: LeaveAppEvent = {
         event: "page_unload",
-        id: "analyticsWrapper",
+        event_id: "analyticsWrapper",
         user: user.id,
         uuid: analytics.uuid,
         timestamp: Date.now(),
@@ -111,9 +116,9 @@ export const AnalyticsWrapper: React.FunctionComponent<
     );
 
     // Prepare the payload for the server
-    const pageAnalyticsPayload = {
+    const pageAnalyticsPayload: PathnameChangeEvent = {
       event: "pathname_change",
-      id: pathname,
+      event_id: pathname,
       uuid: analytics.uuid,
       timestamp: Date.now(),
       user: user.id,
@@ -139,9 +144,9 @@ export const AnalyticsWrapper: React.FunctionComponent<
    * Handle the click for heatmaps
    */
   const handleClick = (event: any) => {
-    const analyticsWrapperPayload = {
+    const analyticsWrapperPayload: MouseClickEvent = {
       event: "mouse_click",
-      id: "analyticsWrapper",
+      event_id: "analyticsWrapper",
       timestamp: Date.now(),
       pathname,
       click: {

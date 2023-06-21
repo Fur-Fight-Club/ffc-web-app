@@ -32,6 +32,91 @@ export const initialState: App = {
   },
 };
 
+export interface ButtonClickEvent {
+  event: string;
+  event_id: string;
+  timestamp: number;
+  user: number;
+  uuid: string;
+  pathname: string;
+  buttonContent: string;
+}
+
+export interface PathnameChangeEvent {
+  event: string;
+  event_id: string;
+  timestamp: number;
+  user: number;
+  uuid: string;
+  startTime: number;
+  endTime: number;
+  userAgent: {
+    browser: {
+      name?: string;
+      version?: string;
+    };
+    os: {
+      name?: string;
+      version?: string;
+    };
+    platform?: string;
+    language?: string;
+  };
+}
+
+export interface MouseClickEvent {
+  event: string;
+  event_id: string;
+  timestamp: number;
+  user: number;
+  uuid: string;
+  pathname: string;
+  click: {
+    x: number;
+    y: number;
+  };
+  window: {
+    width: number;
+    height: number;
+  };
+  userAgent: {
+    browser: {
+      name?: string;
+      version?: string;
+    };
+    os: {
+      name?: string;
+      version?: string;
+    };
+    platform?: string;
+    language?: string;
+  };
+}
+
+export interface LeaveAppEvent {
+  event: string;
+  event_id: string;
+  timestamp: number;
+  user: number;
+  uuid: string;
+  visitedPages: {
+    page: string;
+    timestamp: number;
+  }[];
+  userAgent: {
+    browser: {
+      name?: string;
+      version?: string;
+    };
+    os: {
+      name?: string;
+      version?: string;
+    };
+    platform?: string;
+    language?: string;
+  };
+}
+
 export const reducerPath = "applicationApi";
 
 export const CACHE_KEY = "App";
