@@ -10,12 +10,16 @@ import { usePathname } from "next/navigation";
 import {
   setSessionPagesVisited,
   setSessionTime,
+  useCreateLeaveAppEventMutation,
+  useCreateMouseClickEventMutation,
+  useCreatePathnameChangeEventMutation,
 } from "src/store/application/slice";
 import {
   LeaveAppEvent,
   MouseClickEvent,
   PathnameChangeEvent,
 } from "src/store/application/constants";
+import { date } from "zod";
 
 interface AnalyticsWrapperProps {
   children: any;
@@ -57,37 +61,41 @@ export const AnalyticsWrapper: React.FunctionComponent<
   /**
    * Handle page leave
    */
+  const [createPageLeaveEvent] = useCreateLeaveAppEventMutation();
+  const handleLeave = () => {
+    console.log("handleLeave");
+
+    const pageUnloadAnalyticsPayload: LeaveAppEvent = {
+      event: "page_unload",
+      event_id: "analyticsWrapper",
+      user: user.id,
+      uuid: analytics.uuid,
+      timestamp: Date.now(),
+      visitedPages: analytics.session.pageVisited,
+      userAgent,
+    };
+
+    // Send the payload to the server
+    analytics.enabled && createPageLeaveEvent(pageUnloadAnalyticsPayload);
+
+    // Clean visited pages
+    dispatch(setSessionPagesVisited([]));
+
+    // Reset session time
+    dispatch(
+      setSessionTime({
+        startTime: -1,
+        endTime: -1,
+      })
+    );
+  };
   useEffect(() => {
     const handleUnload = (event: any) => {
       event.preventDefault();
-      // Prepare the payload for the server
-      const pageUnloadAnalyticsPayload: LeaveAppEvent = {
-        event: "page_unload",
-        event_id: "analyticsWrapper",
-        user: user.id,
-        uuid: analytics.uuid,
-        timestamp: Date.now(),
-        visitedPages: analytics.session.pageVisited,
-        userAgent,
-      };
-
-      // Send the payload to the server
-      console.log(pageUnloadAnalyticsPayload);
-      // TODO: Send the payload to the server
-
-      // Clean visited pages
-      dispatch(setSessionPagesVisited([]));
-
-      // Reset session time
-      dispatch(
-        setSessionTime({
-          startTime: -1,
-          endTime: -1,
-        })
-      );
     };
 
     window.addEventListener("beforeunload", handleUnload);
+    handleLeave();
 
     return () => {
       window.removeEventListener("beforeunload", handleUnload);
@@ -97,8 +105,8 @@ export const AnalyticsWrapper: React.FunctionComponent<
   /**
    * Handle the page change
    */
+  const [createPathnameChangeEvent] = useCreatePathnameChangeEventMutation();
   useEffect(() => {
-    console.log("Pathname changed to: ", pathname);
     // Add the visited page to the state
     dispatch(
       setSessionPagesVisited([
@@ -123,13 +131,12 @@ export const AnalyticsWrapper: React.FunctionComponent<
       timestamp: Date.now(),
       user: user.id,
       startTime: analytics.session.startTime,
-      endTime: analytics.session.endTime,
+      endTime: Date.now(),
       userAgent,
     };
 
     // Send the payload to the server
-    console.log(pageAnalyticsPayload);
-    // TODO: Send the payload to the server
+    analytics.enabled && createPathnameChangeEvent(pageAnalyticsPayload);
 
     // Reset the startTime of the visited page
     dispatch(
@@ -143,6 +150,7 @@ export const AnalyticsWrapper: React.FunctionComponent<
   /**
    * Handle the click for heatmaps
    */
+  const [createClickEvent] = useCreateMouseClickEventMutation();
   const handleClick = (event: any) => {
     const analyticsWrapperPayload: MouseClickEvent = {
       event: "mouse_click",
@@ -162,7 +170,7 @@ export const AnalyticsWrapper: React.FunctionComponent<
       uuid: analytics.uuid,
     };
 
-    console.log(analyticsWrapperPayload);
+    analytics.enabled && createClickEvent(analyticsWrapperPayload);
   };
 
   return (
