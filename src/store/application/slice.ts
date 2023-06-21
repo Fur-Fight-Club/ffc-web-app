@@ -17,7 +17,16 @@ import {
   UpsertNotificationTokenResponse,
   User,
 } from "./application.model";
-import { CACHE_KEY, endpoint, initialState, reducerPath } from "./constants";
+import {
+  ButtonClickEvent,
+  CACHE_KEY,
+  LeaveAppEvent,
+  MouseClickEvent,
+  PathnameChangeEvent,
+  endpoint,
+  initialState,
+  reducerPath,
+} from "./constants";
 import { askResetPasswordErrorsHandler } from "./errors/ask-reset.error";
 import { loginErrorsHandler } from "./errors/login.error";
 import { registerErrorsHandler } from "./errors/register.error";
@@ -223,6 +232,80 @@ export const applicationApi = createApi({
         }
       },
     }),
+
+    /**
+     * ANALYTICS MUTATIONS AND QUERIES
+     */
+    // Mutations
+    createButtonClickEvent: builder.mutation<
+      { success: boolean },
+      ButtonClickEvent
+    >({
+      query: (body) => ({
+        url: `${endpoint.analytics}/button-click`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    createMouseClickEvent: builder.mutation<
+      { success: boolean },
+      MouseClickEvent
+    >({
+      query: (body) => ({
+        url: `${endpoint.analytics}/mouse-click`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    createPathnameChangeEvent: builder.mutation<
+      { success: boolean },
+      PathnameChangeEvent
+    >({
+      query: (body) => ({
+        url: `${endpoint.analytics}/pathname-change`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    createLeaveAppEvent: builder.mutation<{ success: boolean }, LeaveAppEvent>({
+      query: (body) => ({
+        url: `${endpoint.analytics}/leave-app`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    // Queries
+    getButtonClickEvents: builder.query<ButtonClickEvent[], void>({
+      query: () => ({
+        url: `${endpoint.analytics}/button-click`,
+        method: "GET",
+      }),
+    }),
+
+    getMouseClickEvents: builder.query<MouseClickEvent[], void>({
+      query: () => ({
+        url: `${endpoint.analytics}/mouse-click`,
+        method: "GET",
+      }),
+    }),
+
+    getPathnameChangeEvents: builder.query<PathnameChangeEvent[], void>({
+      query: () => ({
+        url: `${endpoint.analytics}/pathname-change`,
+        method: "GET",
+      }),
+    }),
+
+    getLeaveAppEvents: builder.query<LeaveAppEvent[], void>({
+      query: () => ({
+        url: `${endpoint.analytics}/leave-app`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -303,4 +386,14 @@ export const {
   useUpsertNotificationTokenMutation,
   useDeleteNotificationTokenMutation,
   useUpdateUserMutation,
+  // Analytics mutations
+  useCreateButtonClickEventMutation,
+  useCreateMouseClickEventMutation,
+  useCreatePathnameChangeEventMutation,
+  useCreateLeaveAppEventMutation,
+  // Analytics queries
+  useGetButtonClickEventsQuery,
+  useGetMouseClickEventsQuery,
+  useGetPathnameChangeEventsQuery,
+  useGetLeaveAppEventsQuery,
 } = applicationApi;

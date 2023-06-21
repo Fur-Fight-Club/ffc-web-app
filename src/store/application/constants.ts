@@ -122,11 +122,12 @@ export const reducerPath = "applicationApi";
 export const CACHE_KEY = "App";
 
 export const endpoint = {
-  login: `${process.env.NEXT_PUBLIC_ENDPOINT}/user/login`,
-  register: `${process.env.NEXT_PUBLIC_ENDPOINT}/user/register`,
-  askResetPassword: `${process.env.NEXT_PUBLIC_ENDPOINT}account/ask-reset-password`,
-  me: `${process.env.NEXT_PUBLIC_ENDPOINT}/user/me`,
-  update: `${process.env.NEXT_PUBLIC_ENDPOINT}/user/update`,
-  notificationToken: `${process.env.NEXT_PUBLIC_ENDPOINT}/push-notifications`,
-  notificationTokenActive: `${process.env.NEXT_PUBLIC_ENDPOINT}/push-notifications/active`,
+  login: "user/login",
+  register: "user/register",
+  askResetPassword: "account/ask-reset-password",
+  me: "user/me",
+  update: "user/update",
+  notificationToken: "push-notifications",
+  notificationTokenActive: "push-notifications/active",
+  analytics: "analytics-events",
 };
