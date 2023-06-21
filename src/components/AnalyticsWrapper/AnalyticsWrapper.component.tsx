@@ -63,8 +63,6 @@ export const AnalyticsWrapper: React.FunctionComponent<
    */
   const [createPageLeaveEvent] = useCreateLeaveAppEventMutation();
   const handleLeave = () => {
-    console.log("handleLeave");
-
     const pageUnloadAnalyticsPayload: LeaveAppEvent = {
       event: "page_unload",
       event_id: "analyticsWrapper",
