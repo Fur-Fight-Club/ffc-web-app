@@ -33,6 +33,8 @@ const userBaseSchema = z.object({
   role: roleEnum.optional(),
 });
 
+export type User = z.infer<typeof userBaseSchema>;
+
 export const loginSchema = userBaseSchema.pick({ email: true, password: true });
 export type LoginType = z.infer<typeof loginSchema>;
 
