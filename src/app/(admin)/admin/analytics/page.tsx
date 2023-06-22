@@ -176,6 +176,10 @@ export default function AnalyticsPage1() {
               </Text>
               <Spacer y={1} />
               <Doughnut
+                style={{
+                  position: "relative",
+                  top: "-1rem",
+                }}
                 options={{
                   plugins: {
                     legend: {
