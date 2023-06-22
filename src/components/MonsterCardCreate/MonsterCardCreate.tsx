@@ -20,18 +20,24 @@ type MonsterCardCreateProps = {
 
 const MonsterCardCreate = ({ className, monster }: MonsterCardCreateProps) => {
   const [name, setName] = useState("");
-  const [weight, setWeight] = useState(0);
-  const [weightCategory, setWeightCategory] = useState("");
+  const [weight, setWeight] = useState("");
   const [monsterType, setMonsterType] = useState("");
   const [logoMonsterType, setLogoMonsterType] = useState("");
+  const [weightCategory, setWeightCategory] = useState("");
   const [picture, setPicture] = useState("");
 
   useEffect(() => {
     if (monster) {
       if (monster.name) setName(monster.name);
       if (monster.weight) setWeight(monster.weight);
+      if (monster.monster_type) {
+        setMonsterType(convertApiTypeToType(monster.monster_type.anchorKey));
+      }
+      if (monster.monster_type)
+        setLogoMonsterType(
+          convertApiTypeToLogo(monster.monster_type.anchorKey)
+        );
       if (monster.weight_category) setWeightCategory(monster.weight_category);
-      if (monster.monster_type) setMonsterType(monster.monster_type);
       if (monster.picture) setPicture(monster.picture);
     }
   }, [monster]);
@@ -73,7 +79,8 @@ const MonsterCardCreate = ({ className, monster }: MonsterCardCreateProps) => {
   };
 
   const generateRandomWeight = () => {
-    return Math.random() * (1000000 - 1) + 1;
+    const roundedWeight = Math.random() * (1000000 - 1) + 1;
+    return roundedWeight.toFixed(2);
   };
 
   const generateRandomMonsterType = () => {
@@ -88,7 +95,6 @@ const MonsterCardCreate = ({ className, monster }: MonsterCardCreateProps) => {
   };
 
   const generateRandomPicture = () => {
-    //number between 1 and 4
     const randomIndex = Math.floor(Math.random() * 4) + 1;
     let monsterAnimation;
     switch (randomIndex) {
@@ -112,7 +118,6 @@ const MonsterCardCreate = ({ className, monster }: MonsterCardCreateProps) => {
     return monsterAnimation;
   };
 
-  const roundedWeight = weight.toFixed(2);
   return (
     <div className={mergeClassNames([styles.MonsterCardCreate, className])}>
       <div className={styles.monsterCard}>
@@ -125,7 +130,7 @@ const MonsterCardCreate = ({ className, monster }: MonsterCardCreateProps) => {
         </div>
         <div className={styles.characteristic}>{monsterType}</div>
         <div className={styles.characteristic}>{weightCategory}</div>
-        <div className={styles.characteristic}>💪🏿 : {roundedWeight}</div>
+        <div className={styles.characteristic}>💪🏿 : {weight}</div>
       </div>
     </div>
   );
