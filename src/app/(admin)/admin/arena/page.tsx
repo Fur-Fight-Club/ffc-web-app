@@ -1,10 +1,10 @@
 "use client";
 
-import { useQuery, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 
 import { Button } from "@components/UI/Button/Button.component";
-import { useState } from "react";
-import { getArenas } from "src/app/api/Arena/getArenas";
+import { useEffect, useState } from "react";
+import { useGetArenasQuery } from "src/store/arenas/slice";
 
 export default function ArenaAdmin() {
   const queryClient = useQueryClient();
@@ -13,12 +13,13 @@ export default function ArenaAdmin() {
 
   const [visibleModal, setVisibleModal] = useState(false);
 
-  const { data } = useQuery(["arena"], getArenas, {
-    onSuccess: (data) => {
-      setArenas(data);
+  const { data } = useGetArenasQuery();
+
+  useEffect(() => {
+    if (data) {
       console.log(data);
-    },
-  });
+    }
+  }, [data]);
 
   return (
     <>
