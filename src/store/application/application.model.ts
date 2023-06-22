@@ -66,6 +66,7 @@ export class UpdateRequest {
 }
 
 export class LoginResponse {
+  [x: string]: any;
   access_token: string;
 }
 

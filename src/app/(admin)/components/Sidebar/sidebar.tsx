@@ -88,7 +88,9 @@ export const SidebarAdmin = () => {
             onPress={() => handleToggleSidebar()}
             style={collapsed ? { transform: "rotate(180deg)" } : {}}
             analyticsId="btn-toggle-sidebar"
-          />
+          >
+            {""}
+          </Button>
         </Flex>
       </Sidebar>
     </>

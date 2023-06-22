@@ -49,6 +49,7 @@ export const applicationApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setToken(data.access_token));
+
           toast.success("👋 Bienvenue !");
         } catch (err) {
           const error = err as GenericApiError;
@@ -102,7 +103,7 @@ export const applicationApi = createApi({
     }),
 
     // User's informations route
-    getUser: builder.query<MeResponse, void>({
+    getUser: builder.query<MeResponse, string>({
       query: () => ({
         url: `${endpoint.me}`,
         method: "GET",
