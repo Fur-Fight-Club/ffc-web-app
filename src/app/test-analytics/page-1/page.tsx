@@ -13,6 +13,27 @@ export default function TestAnalyticsPage1() {
       >
         Test
       </Button>
+      <Button
+        analyticsId="another-test"
+        color={"gradient"}
+        onPress={() => console.log("I've been pressed!")}
+      >
+        Coucou
+      </Button>
+      <Button
+        analyticsId="btn-bruh"
+        color={"gradient"}
+        onPress={() => console.log("I've been pressed!")}
+      >
+        BRUH 8^()
+      </Button>
+      <Button
+        analyticsId="btn-emoji"
+        color={"gradient"}
+        onPress={() => console.log("I've been pressed!")}
+      >
+        💀
+      </Button>
       <Spacer y={1} />
       <Button
         color={"gradient"}
