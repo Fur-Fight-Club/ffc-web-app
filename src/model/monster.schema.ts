@@ -25,11 +25,11 @@ const monsterTypeEnumSchema = z.enum([
 export const monsterSchema = z.object({
   id: z.number().int(),
   name: z.string(),
-  weight: z.number(),
-  weight_category: weightCategoryEnumSchema,
-  monster_type: monsterTypeEnumSchema,
+  weight: z.string(),
+  weight_category: z.string(),
+  monster_type: z.string(),
   User: z.object({}),
-  fk_user: z.number().int(),
+  fk_user: z.string(),
   Fighter: z.array(z.number().int()),
   picture: z.string().optional(),
 });

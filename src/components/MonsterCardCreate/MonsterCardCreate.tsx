@@ -12,6 +12,7 @@ import monsterAnimation1 from "@assets/animations/monster/monster_default_1.json
 import monsterAnimation2 from "@assets/animations/monster/monster_default_2.json";
 import monsterAnimation3 from "@assets/animations/monster/monster_default_3.json";
 import monsterAnimation4 from "@assets/animations/monster/monster_default_4.json";
+import { Image, Text } from "@nextui-org/react";
 
 type MonsterCardCreateProps = {
   className?: string;
@@ -25,13 +26,14 @@ const MonsterCardCreate = ({ className, monster }: MonsterCardCreateProps) => {
   const [logoMonsterType, setLogoMonsterType] = useState("");
   const [weightCategory, setWeightCategory] = useState("");
   const [picture, setPicture] = useState("");
+  const [pictureAnimation, setPictureAnimation] = useState("");
 
   useEffect(() => {
     if (monster) {
       if (monster.name) setName(monster.name);
       if (monster.weight) setWeight(monster.weight);
       if (monster.monster_type) {
-        setMonsterType(convertApiTypeToType(monster.monster_type.anchorKey));
+        setMonsterType(convertApiTypeToType(monster.monster_type));
       }
       if (monster.monster_type)
         setLogoMonsterType(
@@ -57,7 +59,7 @@ const MonsterCardCreate = ({ className, monster }: MonsterCardCreateProps) => {
         setMonsterType(generateRandomMonsterType());
       }
       if (!monster || !monster.picture) {
-        setPicture(generateRandomPicture());
+        setPictureAnimation(generateRandomPicture());
       }
     }, 1000);
 
@@ -123,10 +125,19 @@ const MonsterCardCreate = ({ className, monster }: MonsterCardCreateProps) => {
       <div className={styles.monsterCard}>
         <div className={styles.top}>
           <div className={styles.name}>{name}</div>
-          <div className={styles.typeLogo}>{logoMonsterType}</div>
+          <div className={styles.typeLogo}>
+            <span className={styles.weight}>{weight}</span> {logoMonsterType}
+          </div>
         </div>
         <div className={styles.picture}>
-          <Lottie className={styles.lottie} animationData={picture} />
+          {picture ? (
+            <Image src={picture} alt="Default Image" objectFit="cover" />
+          ) : (
+            <Lottie
+              className={styles.lottie}
+              animationData={pictureAnimation}
+            />
+          )}
         </div>
         <div className={styles.characteristic}>{monsterType}</div>
         <div className={styles.characteristic}>{weightCategory}</div>

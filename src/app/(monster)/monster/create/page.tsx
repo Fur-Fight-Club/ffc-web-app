@@ -1,80 +1,82 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import MonsterCardCreate from "@components/MonsterCardCreate";
 import { Button } from "@components/UI/Button/Button.component";
 import Divider from "@components/UI/Divider";
-import Input from "@components/UI/Input";
-import { Dropdown, Row, Spacer, Text, Col } from "@nextui-org/react";
-import { useForm } from "react-hook-form";
-import {
-  CreateMonsterType,
-  createMonsterSchema,
-} from "src/model/monster.schema";
+import { Row, Spacer, Text, Col, Input } from "@nextui-org/react";
 import styles from "./page.module.scss";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
   monsterType,
   weightCategories,
   convertApiTypeToType,
 } from "../../utils";
-import type { UploadProps } from "antd";
-import { Button as AntButton, message, Upload } from "antd";
-import { resolve } from "path";
+import { Select } from "antd";
+import { applicationState } from "src/store/application/selector";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { useCreateMonsterMutation } from "src/store/monsters/slice";
 
 export default function CreateMonster() {
-  const [file, setFile] = useState({});
-  const [selectedMonsterType, setSelectedMonsterType] = useState("");
-  const [selectedWeightCategory, setSelectedWeightCategory] = useState("");
-  const selectedType = useMemo(
-    () => Array.from(selectedMonsterType).join(", ").replaceAll("_", " "),
-    [selectedMonsterType]
-  );
-  const selectedWeight = useMemo(
-    () => Array.from(selectedWeightCategory).join(", ").replaceAll("_", " "),
-    [selectedWeightCategory]
-  );
+  const { user } = useSelector(applicationState);
 
-  const props: UploadProps = {
-    onChange(info) {
-      setFile(info);
-    },
-  };
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<CreateMonsterType>();
+  /**
+   * STATE
+   */
+  const [name, setName] = useState("");
+  const [weight, setWeight] = useState(0);
+  const [monster_type, setMonster_type] = useState("");
+  const [weight_category, setWeight_category] = useState("");
+  const [picture, setPicture] = useState<string | undefined>(undefined);
 
   const monster = {
-    name: watch("name"),
-    weight: watch("weight"),
-    monster_type:
-      selectedMonsterType == "Choisir le type de votre monstre"
-        ? undefined
-        : selectedMonsterType,
-    weight_category:
-      selectedWeightCategory == "Choisir la catégorie de poids du monstre"
-        ? undefined
-        : selectedWeightCategory,
+    name: name,
+    weight: weight,
+    monster_type: monster_type,
+    weight_category: weight_category,
+    picture: picture,
   };
 
-  const onSubmit = (data: CreateMonsterType) => {
-    data.monster_type = selectedMonsterType.anchorKey;
-    data.weight_category = selectedWeightCategory.anchorKey;
-    data.weight = Number(data.weight);
+  const pictureRef = React.useRef<HTMLInputElement>(null);
+  const handleAddPicture = async (file: File) => {
+    // Check if file is an image
+
     if (
-      !data.name ||
-      selectedMonsterType.anchorKey === "Choisir le type de votre monstre" ||
-      selectedWeightCategory.anchorKey ===
-        "Choisir la catégorie de poids du monstre" ||
-      !monster.weight
+      !file.type.includes("image") &&
+      !["image/png", "image/jpeg", "image/jpg"].includes(file.type)
     ) {
-      console.log("Error");
+      toast.error("Votre photo n'est pas une image !");
+    } else {
+      setPicture(await toBase64(file));
+      toast.success(`Votre photo  "${file.name}" est prêt a être envoyé`);
     }
-    console.log(file);
+  };
+
+  const toBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      // When the file is loaded
+      reader.onload = () => resolve(reader.result as string);
+      // If an error occured
+      reader.onerror = (error) => reject(error);
+    });
+
+  // Send monter to backend
+  const [addMonster] = useCreateMonsterMutation();
+
+  const handleAddMonster = async () => {
+    addMonster({
+      name,
+      weight,
+      // @ts-ignore
+      monster_type,
+      // @ts-ignore
+      weight_category,
+      // @ts-ignore
+      picture,
+      fk_user: user.id ?? -1,
+    });
   };
 
   return (
@@ -87,91 +89,70 @@ export default function CreateMonster() {
           }
         </p>
         <Divider />
-        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          <Input
-            label="Nom de votre monstre :"
-            placeholder="Godzilla"
-            register={register("name")}
-            errorMessage={errors.name?.message}
-            fullWidth
-          />
-          <Spacer y={1.3} />
-          <Input
-            label="Poids de votre monstre :"
-            type="number"
-            placeholder="500"
-            register={register("weight")}
-            errorMessage={errors.weight?.message}
-          />
-          <Spacer y={1.3} />
-          <Row>
-            <Col>
-              <Text>Type de votre monstre :</Text>
-              <Dropdown>
-                <Dropdown.Button flat color="default">
-                  {selectedType === ""
-                    ? "Choisir le type de votre monstre"
-                    : convertApiTypeToType(selectedType)}
-                </Dropdown.Button>
-                <Dropdown.Menu
-                  register={register("monster_type")}
-                  color="primary"
-                  disallowEmptySelection
-                  selectionMode="single"
-                  selectedKeys={selectedMonsterType}
-                  onSelectionChange={setSelectedMonsterType}
-                  errorMessage={errors.monster_type?.message}
-                  items={monsterType.map((type) => ({
-                    label: convertApiTypeToType(type),
-                    value: type,
-                  }))}
-                >
-                  {(type) => (
-                    <Dropdown.Item key={type.value}>{type.label}</Dropdown.Item>
-                  )}
-                </Dropdown.Menu>
-              </Dropdown>
-            </Col>
-            <Spacer x={1} />
-            <Col>
-              <Text>Categorie de votre monstre :</Text>
-              <Dropdown>
-                <Dropdown.Button flat color="default">
-                  {selectedWeight === ""
-                    ? "Choisir la categorie de votre monstre"
-                    : selectedWeight}
-                </Dropdown.Button>
-                <Dropdown.Menu
-                  register={register("weight_category")}
-                  aria-label="Single selection actions"
-                  color="primary"
-                  disallowEmptySelection
-                  selectionMode="single"
-                  selectedKeys={selectedWeightCategory}
-                  onSelectionChange={setSelectedWeightCategory}
-                  errorMessage={errors.weight_category?.message}
-                  items={weightCategories.map((type) => ({
-                    label: type,
-                    value: type,
-                  }))}
-                >
-                  {(type) => (
-                    <Dropdown.Item key={type.value}>{type.label}</Dropdown.Item>
-                  )}
-                </Dropdown.Menu>
-              </Dropdown>
-            </Col>
-          </Row>
-          <Spacer y={1.5} />
-          <Text>Ajouter une image à votre monstre :</Text>
-          <Upload {...props}>
-            <AntButton>Click to Upload</AntButton>
-          </Upload>
-          <Spacer y={1.5} />
-          <Button type="submit" analyticsId="register-button">
-            {"Créer votre monstre"}
-          </Button>
-        </form>
+        <Input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          label="Nom de votre monstre :"
+          placeholder="Godzilla"
+          fullWidth
+        />
+        <Spacer y={1.3} />
+        <Input
+          value={weight}
+          onChange={(e) => setWeight(Number(e.target.value))}
+          type="number"
+          placeholder="500"
+        />
+        <Spacer y={1.3} />
+        <Row>
+          <Col>
+            <Text>Type de votre monstre :</Text>
+            <Select
+              defaultValue="Choisir le type de votre monstre"
+              style={{ width: 260 }}
+              onChange={(e) => setMonster_type(e)}
+              options={monsterType.map((type) => ({
+                label: convertApiTypeToType(type),
+                value: type,
+              }))}
+            />
+          </Col>
+          <Spacer x={1} />
+          <Col>
+            <Text>Categorie de votre monstre :</Text>
+            <Select
+              defaultValue="Choisir la categorie de votre monstre"
+              style={{ width: 300 }}
+              onChange={(e) => setWeight_category(e)}
+              options={weightCategories.map((type) => ({
+                label: type,
+                value: type,
+              }))}
+            />
+          </Col>
+        </Row>
+        <Spacer y={1.5} />
+        <Text>Ajouter une image à votre monstre :</Text>
+        <Spacer y={0.5} />
+        <Button onPress={() => pictureRef.current?.click()}>
+          Ajouter une photo
+        </Button>
+        <input
+          type="file"
+          ref={pictureRef}
+          style={{
+            display: "none",
+          }}
+          onChange={async (e) => {
+            if (e.target.files) {
+              handleAddPicture(e.target.files[0]);
+            }
+          }}
+        />
+        <Spacer y={1.5} />
+        <Button analyticsId="createMonster-button" onPress={handleAddMonster}>
+          Créer votre monstre
+        </Button>
         <Spacer y={3} />
       </div>
       <div className={styles.imgPanel}>
