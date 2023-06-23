@@ -4,15 +4,22 @@ import {
   CreditCard,
   House,
   MapPin,
+  SignOut,
   UserRectangle,
 } from "@phosphor-icons/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, MenuItem, Sidebar, useProSidebar } from "react-pro-sidebar";
+import { useLogoutMutation } from "src/store/application/slice";
 import { Flex } from "src/styles/flex";
 
 export const SidebarAdmin = () => {
+  const router = useRouter();
+
+  const [logoutMutation, { isSuccess }] = useLogoutMutation();
+
   const { collapseSidebar } = useProSidebar();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -31,6 +38,11 @@ export const SidebarAdmin = () => {
     window.addEventListener("resize", updateWindowWidth);
     return () => window.removeEventListener("resize", updateWindowWidth);
   }, [collapseSidebar, collapsed]);
+
+  const handleLogout = () => {
+    logoutMutation();
+    router.push("/");
+  };
 
   const handleToggleSidebar = () => {
     collapseSidebar(!collapsed);
@@ -77,6 +89,12 @@ export const SidebarAdmin = () => {
           >
             Payements
           </MenuItem>
+          <MenuItem
+            icon={<SignOut size={25} color="#e0dfdb" weight="light" />}
+            onClick={handleLogout}
+          >
+            Se déconnecter
+          </MenuItem>
         </Menu>
 
         <Flex justify={"center"} style={{ margin: "1rem" }}>
@@ -88,7 +106,9 @@ export const SidebarAdmin = () => {
             onPress={() => handleToggleSidebar()}
             style={collapsed ? { transform: "rotate(180deg)" } : {}}
             analyticsId="btn-toggle-sidebar"
-          />
+          >
+            {""}
+          </Button>
         </Flex>
       </Sidebar>
     </>

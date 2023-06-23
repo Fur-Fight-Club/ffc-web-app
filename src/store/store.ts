@@ -1,21 +1,22 @@
-import { configureStore, isRejectedWithValue } from '@reduxjs/toolkit';
-import { Action, Middleware, MiddlewareAPI } from 'redux';
-import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import { ThunkAction } from 'redux-thunk';
-import { reducers } from './reducers';
+import { configureStore, isRejectedWithValue } from "@reduxjs/toolkit";
+import { Action, Middleware, MiddlewareAPI } from "redux";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { ThunkAction } from "redux-thunk";
+import { reducers } from "./reducers";
 
-import { combineReducers } from 'redux';
-import { applicationApi } from './application/slice';
-import { bankAccountApi } from './bank-account/slice';
-import { walletApi } from './wallet/slice';
+import { combineReducers } from "redux";
+import { applicationApi } from "./application/slice";
+import { ArenaApi } from "./arenas/slice";
+import { bankAccountApi } from "./bank-account/slice";
+import { walletApi } from "./wallet/slice";
 
 const combinedReducers = combineReducers({
   ...reducers,
 });
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage: storage,
 };
 
@@ -23,7 +24,7 @@ export const rtkQueryErrorLogger: Middleware =
   (api: MiddlewareAPI) => (next) => (action) => {
     // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
     if (isRejectedWithValue(action)) {
-      console.warn('We got a rejected action!', action.error);
+      console.warn("We got a rejected action!", action.error);
     } else {
       //console.log(action);
     }
@@ -42,7 +43,8 @@ export const store = configureStore({
       rtkQueryErrorLogger,
       applicationApi.middleware,
       walletApi.middleware,
-      bankAccountApi.middleware
+      bankAccountApi.middleware,
+      ArenaApi.middleware
     ),
 });
 

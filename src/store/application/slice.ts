@@ -49,11 +49,34 @@ export const applicationApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setToken(data.access_token));
+
           toast.success("👋 Bienvenue !");
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
           loginErrorsHandler(error);
+        }
+      },
+    }),
+
+    // Logout
+    logout: builder.mutation({
+      query: () => ({
+        url: `${endpoint.logout}`,
+        method: "POST",
+      }),
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          await queryFulfilled;
+          dispatch(setLoading(false));
+          dispatch(setUser(initialState.user));
+          dispatch(setToken(initialState.token));
+          toast.success("👋 A bientôt !");
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          console.log(error);
         }
       },
     }),
@@ -102,17 +125,19 @@ export const applicationApi = createApi({
     }),
 
     // User's informations route
-    getUser: builder.query<MeResponse, void>({
+    getUser: builder.query<MeResponse, string>({
       query: () => ({
         url: `${endpoint.me}`,
         method: "GET",
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         dispatch(setLoading(true));
+
         try {
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setUserInformation(data));
+          toast.success("/ME route success");
         } catch (err) {
           const error = err as GenericApiError;
           console.log(error.error.data);
@@ -381,6 +406,7 @@ export const {
 
 export const {
   useLoginMutation,
+  useLogoutMutation,
   useRegisterMutation,
   useAskResetPasswordMutation,
   useGetUserQuery,

@@ -1,18 +1,37 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
+import { Button } from "@components/UI/Button/Button.component";
 import Divider from "@components/UI/Divider";
 import Input from "@components/UI/Input";
 import { Spacer } from "@nextui-org/react";
 import Link from "next/link";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
 import { LoginType, loginSchema } from "src/model/user.schema";
+import { applicationState } from "src/store/application/selector";
+import { useGetUserQuery, useLoginMutation } from "src/store/application/slice";
 import styles from "./page.module.scss";
 import { Button } from "@components/UI/Button/Button.component";
 import { useLoginMutation } from "src/store/application/slice";
 
 export default function Home() {
+  const router = useRouter();
+  const { user, token } = useSelector(applicationState);
+
+  const [loginMutation, { isSuccess }] = useLoginMutation();
+
+  const { refetch } = useGetUserQuery("");
+
+  useEffect(() => {
+    if (token !== "") {
+      refetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
   const {
     register,
     handleSubmit,
@@ -20,7 +39,12 @@ export default function Home() {
     formState: { errors },
   } = useForm<LoginType>({ resolver: zodResolver(loginSchema) });
 
-  const [loginMutation, { data: loginData }] = useLoginMutation();
+  useEffect(() => {
+    if (user?.role) {
+      user.role.includes("ADMIN") ? router.push("/admin") : router.push("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const onSubmit = (data: LoginType) => {
     loginMutation(data);
