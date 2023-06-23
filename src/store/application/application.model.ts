@@ -15,6 +15,7 @@ export interface App {
   notification_token: string | null;
   token: string;
   analytics: {
+    firstTimeVisiting: boolean;
     uuid: string;
     enabled: boolean;
     session: {
@@ -40,24 +41,24 @@ export interface BasicUser {
   lastname: string;
   email: string;
   password: string;
-  role: "ADMIN" | "USER" | "MONSTER_OWNER";
+  role: "ADMIN" | "USER" | "MONSTER_OWNER" | null;
   email_token: string;
   is_email_verified: boolean;
 }
 
-export class LoginRequest {
+export interface LoginRequest {
   email: string;
   password: string;
 }
 
-export class RegisterRequest {
+export interface RegisterRequest {
   firstname: string;
   lastname: string;
   email: string;
   password: string;
 }
 
-export class UpdateRequest {
+export interface UpdateRequest {
   id?: number;
   firstname?: string;
   lastname?: string;
@@ -65,11 +66,11 @@ export class UpdateRequest {
   password?: string;
 }
 
-export class LoginResponse {
+export interface LoginResponse {
   access_token: string;
 }
 
-export class UpdateResponse {
+export interface UpdateResponse {
   id: number;
   firstname: string;
   lastname: string;
@@ -88,18 +89,18 @@ export interface MeResponse {
   user: BasicUser;
 }
 
-export class UpsertNotificationTokenRequest {
+export interface UpsertNotificationTokenRequest {
   token: string;
   platform: "IOS" | "ANDROID" | "WEB";
 }
 
 export type UpsertNotificationTokenResponse = NotificationSettings;
 
-export class DeleteNotificationTokenRequest {
+export interface DeleteNotificationTokenRequest {
   token: string;
 }
 
-export class UpdateTokenActiveStateRequest {
+export interface UpdateTokenActiveStateRequest {
   token: string;
   active: boolean;
 }
