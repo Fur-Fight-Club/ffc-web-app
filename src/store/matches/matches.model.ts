@@ -1,10 +1,11 @@
-import { Monster, WeightCategoryType } from '../monsters/monsters.model';
+import { Arena, MatchMessage, Monster } from "ffc-prisma-package/dist/client";
+import { WeightCategoryType } from "../monsters/monsters.model";
 
 export interface Matches {
   matches: Match[];
 }
 
-export type MatchWaitingListStatus = 'ACCEPTED' | 'REJECTED' | 'PENDING';
+export type MatchWaitingListStatus = "ACCEPTED" | "REJECTED" | "PENDING";
 
 export interface MatchWaitingList {
   id: number;
@@ -17,15 +18,33 @@ export interface MatchWaitingList {
 
 export interface Match {
   id: number;
-  monster1: object;
-  monster2: object;
+  Monster1: Monster;
+  Monster2: Monster;
   fk_monster1: number;
   fk_monster2: number;
   matchStartDate: Date;
   matchEndDate: Date;
-  MatchWaitingList: object[];
-  Arena: object;
+  MatchWaitingList: MatchWaitingList[];
+  Arena: Arena;
   fk_arena: number;
-  MatchMessage: object[];
+  MatchMessage: MatchMessage[];
   weight_category: WeightCategoryType;
+  Transaction: {
+    Wallet: {
+      User: {
+        firstname: string;
+        lastname: string;
+      };
+    };
+    Monster: {
+      name: Monster["name"];
+    };
+    amount: number;
+  }[];
+}
+
+export interface PlaceBet {
+  matchId: number;
+  monster: number;
+  amount: number;
 }

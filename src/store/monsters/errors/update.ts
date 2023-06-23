@@ -5,15 +5,14 @@ export enum Errors {
   VALIDATION = "Validation failed",
 }
 
-export const buyCreditsErrorsHandler = (error: GenericApiError) => {
-  console.log({ buyCreditsErrorsHandler: JSON.stringify(error) });
+export const updateMonstersHandler = (error: GenericApiError) => {
+  console.log({ updateMonstersHandler: JSON.stringify(error.error.data) });
 
   switch (error.error.data.message) {
     case Errors.VALIDATION:
-      toast.error("Impossible d'acheter cette quantité de crédits.");
-      break;
+      toast.error("Vérifiez tous les champs et réessayez.");
+
     default:
       toast.error("Une erreur inconnue est survenue, veuillez réessayer.");
-      break;
   }
 };

@@ -1,25 +1,24 @@
-import { User } from '../application/application.model';
-import { Match, MatchWaitingList } from '../matches/matches.model';
+import { MatchWaitingList, Match, User } from "ffc-prisma-package/dist/client";
 
 export type WeightCategoryType =
-  | 'A_FINE_BOI'
-  | 'HE_CHOMNK'
-  | 'A_HECKING_CHONKER'
-  | 'HEFTY_CHONK'
-  | 'MEGA_CHONKER'
-  | 'OH_LAWD_HE_COMIN';
+  | "A_FINE_BOI"
+  | "HE_CHOMNK"
+  | "A_HECKING_CHONKER"
+  | "HEFTY_CHONK"
+  | "MEGA_CHONKER"
+  | "OH_LAWD_HE_COMIN";
 
 export type MonsterType =
-  | 'ELEMENTARY'
-  | 'FANTASTIC'
-  | 'MYTHOLOGICAL'
-  | 'SCARY'
-  | 'AQUATIC'
-  | 'WINGED'
-  | 'PREHISTORIC'
-  | 'MECHANICAL'
-  | 'EXTRATERRESTRIAL'
-  | 'MAGICAL';
+  | "ELEMENTARY"
+  | "FANTASTIC"
+  | "MYTHOLOGICAL"
+  | "SCARY"
+  | "AQUATIC"
+  | "WINGED"
+  | "PREHISTORIC"
+  | "MECHANICAL"
+  | "EXTRATERRESTRIAL"
+  | "MAGICAL";
 
 export interface Monster {
   id: number;
@@ -33,4 +32,5 @@ export interface Monster {
   MatchWaitingList: MatchWaitingList[];
   MatchFighter1: Match[];
   MatchFighter2: Match[];
+  picture: string;
 }

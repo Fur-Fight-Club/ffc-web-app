@@ -1,4 +1,4 @@
-import { User } from '../application/application.model';
+import { User } from "@store/application/application.model";
 
 export interface Wallet {
   id: number;
@@ -18,9 +18,9 @@ export interface Invoice {
   url: string;
 }
 
-export type TransactionType = 'IN' | 'OUT';
+export type TransactionType = "IN" | "OUT";
 
-export type TransactionTag = 'WITHDRAW' | 'BUY_CREDIT' | 'FEE' | 'BET';
+export type TransactionTag = "WITHDRAW" | "BUY_CREDIT" | "FEE" | "BET";
 
 export interface Transaction {
   id: number;
@@ -52,7 +52,7 @@ export interface StripeBankAccount {
   last4: string;
 }
 
-export type StripePaymentStatus = 'SUCCEEDED' | 'FAILED' | 'PENDING';
+export type StripePaymentStatus = "SUCCEEDED" | "FAILED" | "PENDING";
 
 export interface StripePayments {
   id: number;

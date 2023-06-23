@@ -8,6 +8,8 @@ import { reducers } from "./reducers";
 import { combineReducers } from "redux";
 import { applicationApi } from "./application/slice";
 import { ArenaApi } from "./arenas/slice";
+import { monstersApi } from "./monsters/slice";
+import { matchesApi } from "./matches/slice";
 import { bankAccountApi } from "./bank-account/slice";
 import { walletApi } from "./wallet/slice";
 
@@ -44,7 +46,9 @@ export const store = configureStore({
       applicationApi.middleware,
       walletApi.middleware,
       bankAccountApi.middleware,
-      ArenaApi.middleware
+      ArenaApi.middleware,
+      monstersApi.middleware,
+      matchesApi.middleware
     ),
 });
 
