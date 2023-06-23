@@ -36,9 +36,7 @@ const MonsterCardCreate = ({ className, monster }: MonsterCardCreateProps) => {
         setMonsterType(convertApiTypeToType(monster.monster_type));
       }
       if (monster.monster_type)
-        setLogoMonsterType(
-          convertApiTypeToLogo(monster.monster_type.anchorKey)
-        );
+        setLogoMonsterType(convertApiTypeToLogo(monster.monster_type));
       if (monster.weight_category) setWeightCategory(monster.weight_category);
       if (monster.picture) setPicture(monster.picture);
     }
@@ -131,7 +129,12 @@ const MonsterCardCreate = ({ className, monster }: MonsterCardCreateProps) => {
         </div>
         <div className={styles.picture}>
           {picture ? (
-            <Image src={picture} alt="Default Image" objectFit="cover" />
+            <Image
+              width={250}
+              src={picture}
+              alt="Default Image"
+              objectFit="cover"
+            />
           ) : (
             <Lottie
               className={styles.lottie}

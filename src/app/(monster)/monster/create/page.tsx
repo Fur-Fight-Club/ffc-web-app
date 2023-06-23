@@ -135,7 +135,7 @@ export default function CreateMonster() {
         <Text>Ajouter une image à votre monstre :</Text>
         <Spacer y={0.5} />
         <Button onPress={() => pictureRef.current?.click()}>
-          Ajouter une photo
+          {picture ? "Changer l'image" : "Ajouter une image"}
         </Button>
         <input
           type="file"
