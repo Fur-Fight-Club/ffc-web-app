@@ -12,9 +12,28 @@ import {
 import { useEffect, useState } from "react";
 import styles from "./page.module.scss";
 
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
-ChartJS.register(ArcElement, Tooltip, Legend);
+import {
+  Chart as ChartJS,
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Doughnut, Line } from "react-chartjs-2";
+ChartJS.register(
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 import {
   useGetButtonClickEventsQuery,
@@ -22,7 +41,6 @@ import {
   useGetMouseClickEventsQuery,
   useGetPathnameChangeEventsQuery,
 } from "src/store/application/slice";
-import NumberScroller from "number-scroller";
 import { numbers } from "src/utils/number.utils";
 import { analytics } from "src/utils/analytics.utils";
 import { generateRandomColors } from "src/utils/utils";
@@ -84,10 +102,6 @@ export default function AnalyticsPage1() {
   }, []);
 
   useEffect(() => {
-    // console.log({ buttonEvents });
-    // console.log({ clickEvents });
-    // console.log({ pathnameEvents });
-    // console.log({ leaveEvents });
     setAverageTimeSpentColor(
       generateRandomColors(
         analytics.averageTimeSpentOnEachPage(pathnameEvents ?? []).length
@@ -110,8 +124,6 @@ export default function AnalyticsPage1() {
         clickEvents ?? []
       )
     );
-
-    console.log(analytics.uniqueButtonClicked(buttonEvents ?? []));
   }, [buttonEvents, clickEvents, pathnameEvents, leaveEvents]);
   return (
     <div>
@@ -197,9 +209,11 @@ export default function AnalyticsPage1() {
           <Card className={styles.cardFlex}>
             <Card.Body>
               <Text h3 className={styles.mainTextNumber}>
-                XX %
+                {analytics.averageSessionTime(leaveEvents ?? [])}
               </Text>
-              <Text className={styles.subtitleNumber}>placeholder</Text>
+              <Text className={styles.subtitleNumber}>
+                Durée moyenne d'une session
+              </Text>
             </Card.Body>
           </Card>
         </Grid>
@@ -262,9 +276,45 @@ export default function AnalyticsPage1() {
           xs={12}
           md={6}
           css={{
-            height: "42vh",
+            height: "50vh",
           }}
-        ></Grid>
+        >
+          <Card className={styles.cardFlex}>
+            <Card.Body
+              css={{
+                overflow: "hidden",
+              }}
+            >
+              <Line
+                options={{
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      position: "top" as const,
+                    },
+                    title: {
+                      display: true,
+                      text: "Nombre de visite des 7 derniers jours",
+                    },
+                  },
+                }}
+                data={{
+                  labels: ["J-6", "J-5", "J-4", "J-3", "J-2", "J-1", "J-0"],
+                  datasets: [
+                    {
+                      label: "Nombre de visites",
+                      data: analytics
+                        .getLastVisitors(leaveEvents ?? [])
+                        .map((v) => v.count),
+                      borderColor: "rgb(255, 99, 132)",
+                      backgroundColor: "rgba(255, 99, 132, 0.5)",
+                    },
+                  ],
+                }}
+              />
+            </Card.Body>
+          </Card>
+        </Grid>
         {/**
          * GRAPHIQUE TEMPS MOYEN PAR PAGE
          */}
@@ -281,10 +331,6 @@ export default function AnalyticsPage1() {
                 overflow: "hidden",
               }}
             >
-              <Text className={styles.subtitleNumber}>
-                Temps passé en moyenne sur une page
-              </Text>
-              <Spacer y={1} />
               <Doughnut
                 style={{
                   position: "relative",
@@ -292,6 +338,10 @@ export default function AnalyticsPage1() {
                 }}
                 options={{
                   plugins: {
+                    title: {
+                      display: true,
+                      text: "Temps passé en moyenne sur une page",
+                    },
                     legend: {
                       display: true,
                     },
@@ -390,10 +440,6 @@ export default function AnalyticsPage1() {
                 overflow: "hidden",
               }}
             >
-              <Text className={styles.subtitleNumber}>
-                Proportion des plateformes
-              </Text>
-              <Spacer y={1} />
               <Doughnut
                 style={{
                   position: "relative",
@@ -401,6 +447,10 @@ export default function AnalyticsPage1() {
                 }}
                 options={{
                   plugins: {
+                    title: {
+                      display: true,
+                      text: "Proportion des plateformes",
+                    },
                     legend: {
                       display: true,
                     },
@@ -456,10 +506,6 @@ export default function AnalyticsPage1() {
                 overflow: "hidden",
               }}
             >
-              <Text className={styles.subtitleNumber}>
-                Proportion des navigateurs
-              </Text>
-              <Spacer y={1} />
               <Doughnut
                 style={{
                   position: "relative",
@@ -467,6 +513,10 @@ export default function AnalyticsPage1() {
                 }}
                 options={{
                   plugins: {
+                    title: {
+                      display: true,
+                      text: "Proportion des navigateurs",
+                    },
                     legend: {
                       display: true,
                     },
@@ -524,10 +574,6 @@ export default function AnalyticsPage1() {
                 overflow: "hidden",
               }}
             >
-              <Text className={styles.subtitleNumber}>
-                Proportion des langues
-              </Text>
-              <Spacer y={1} />
               <Doughnut
                 style={{
                   position: "relative",
@@ -535,6 +581,10 @@ export default function AnalyticsPage1() {
                 }}
                 options={{
                   plugins: {
+                    title: {
+                      display: true,
+                      text: "Proportion des langues",
+                    },
                     legend: {
                       display: true,
                     },
