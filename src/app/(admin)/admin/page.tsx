@@ -42,9 +42,9 @@ import {
   useGetPathnameChangeEventsQuery,
 } from "src/store/application/slice";
 import { numbers } from "src/utils/number.utils";
-import { analytics } from "src/utils/analytics.utils";
 import { generateRandomColors } from "src/utils/utils";
 import { toast } from "react-hot-toast";
+import { analytics } from "src/utils/analytics.utils";
 
 export default function AnalyticsPage1() {
   const { data: buttonEvents, refetch: refetchButtonsEvents } =
