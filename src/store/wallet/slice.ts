@@ -90,6 +90,47 @@ export const walletApi = createApi({
         }
       },
     }),
+
+    // Get all wallets
+    getAllWallets: builder.query<Wallet[], void>({
+      query: () => ({
+        url: `${endpoint.getAll}`,
+        method: "GET",
+      }),
+
+      async onQueryStarted(resource, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setLoading(false));
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          getBalanceErrorsHandler(error);
+        }
+      },
+    }),
+
+    // Set user wallet balance
+    setUserWallet: builder.query<Wallet, { userId: number; amount: number }>({
+      query: ({ userId, ...body }) => ({
+        url: `${endpoint.getUserWallet(userId)}`,
+        method: "PATCH",
+        body,
+      }),
+
+      async onQueryStarted(resource, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setLoading(false));
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          getBalanceErrorsHandler(error);
+        }
+      },
+    }),
   }),
 });
 
@@ -109,4 +150,6 @@ export const {
   useGetWalletBalanceQuery,
   useWithdrawWalletMutation,
   useBuyCreditsMutation,
+  useGetAllWalletsQuery,
+  useSetUserWalletQuery,
 } = walletApi;

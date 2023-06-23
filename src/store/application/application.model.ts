@@ -1,13 +1,13 @@
 import { NotificationSettings, Wallet } from "ffc-prisma-package/dist/client";
 
 import { Monster } from "../monsters/monsters.model";
-import { MatchMessage } from "../notifications/notifications.model";
 import {
   Invoice,
   StripeAccount,
   StripePayments,
   Transaction,
 } from "../payments/payments.model";
+import { MatchMessage } from "../notifications/notifications.model";
 
 export interface App {
   user: User;

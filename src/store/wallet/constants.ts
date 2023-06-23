@@ -13,4 +13,6 @@ export const endpoint = {
   get: "wallet/balance",
   withdraw: "wallet/withdraw",
   buyCredits: "credits/buy",
+  getAll: "wallet/users",
+  getUserWallet: (userId: number) => `wallet/users/${userId}/balance`,
 };
