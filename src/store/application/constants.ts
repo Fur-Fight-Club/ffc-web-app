@@ -1,5 +1,5 @@
-import { App } from "./application.model";
 import { v4 as uuidv4 } from "uuid";
+import { App } from "./application.model";
 
 export const initialState: App = {
   user: {
@@ -8,7 +8,7 @@ export const initialState: App = {
     lastname: "",
     email: "",
     password: "",
-    role: "USER",
+    role: null,
     email_token: "",
     is_email_verified: false,
     Invoice: [],
@@ -123,6 +123,7 @@ export const CACHE_KEY = "App";
 
 export const endpoint = {
   login: "user/login",
+  logout: "user/logout",
   register: "user/register",
   askResetPassword: "account/ask-reset-password",
   me: "user/me",

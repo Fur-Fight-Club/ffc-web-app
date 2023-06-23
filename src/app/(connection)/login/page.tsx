@@ -17,13 +17,18 @@ import styles from "./page.module.scss";
 
 export default function Home() {
   const router = useRouter();
-  const { user } = useSelector(applicationState);
+  const { user, token } = useSelector(applicationState);
 
   const [loginMutation, { isSuccess }] = useLoginMutation();
 
-  const { isSuccess: isSucessGetUser } = useGetUserQuery("", {
-    skip: !isSuccess,
-  });
+  const { refetch } = useGetUserQuery("");
+
+  useEffect(() => {
+    if (token !== "") {
+      refetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   const {
     register,
@@ -32,15 +37,16 @@ export default function Home() {
     formState: { errors },
   } = useForm<LoginType>({ resolver: zodResolver(loginSchema) });
 
+  useEffect(() => {
+    if (user?.role) {
+      user.role.includes("ADMIN") ? router.push("/admin") : router.push("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
   const onSubmit = (data: LoginType) => {
     loginMutation(data);
   };
-
-  useEffect(() => {
-    console.log(user.role);
-    user.role.includes("ADMIN") ? router.push("/admin") : router.push("/");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSucessGetUser]);
 
   return (
     <div className={styles.container}>

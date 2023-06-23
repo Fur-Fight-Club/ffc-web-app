@@ -40,21 +40,21 @@ export interface BasicUser {
   lastname: string;
   email: string;
   password: string;
-  role: "ADMIN" | "USER" | "MONSTER_OWNER";
+  role: "ADMIN" | "USER" | "MONSTER_OWNER" | null;
   email_token: string;
   is_email_verified: boolean;
 }
 
 export class LoginRequest {
-  email: string;
-  password: string;
+  email!: string;
+  password!: string;
 }
 
 export class RegisterRequest {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
+  firstname!: string;
+  lastname!: string;
+  email!: string;
+  password!: string;
 }
 
 export class UpdateRequest {
@@ -67,17 +67,17 @@ export class UpdateRequest {
 
 export class LoginResponse {
   [x: string]: any;
-  access_token: string;
+  access_token!: string;
 }
 
 export class UpdateResponse {
-  id: number;
-  firstname: string;
-  lastname: string;
-  email: string;
-  role: "ADMIN" | "USER" | "MONSTER_OWNER";
-  email_token: string;
-  is_email_verified: boolean;
+  id!: number;
+  firstname!: string;
+  lastname!: string;
+  email!: string;
+  role!: "ADMIN" | "USER" | "MONSTER_OWNER";
+  email_token!: string;
+  is_email_verified!: boolean;
 }
 
 export interface MeResponse {
@@ -90,17 +90,17 @@ export interface MeResponse {
 }
 
 export class UpsertNotificationTokenRequest {
-  token: string;
-  platform: "IOS" | "ANDROID" | "WEB";
+  token!: string;
+  platform!: "IOS" | "ANDROID" | "WEB";
 }
 
 export type UpsertNotificationTokenResponse = NotificationSettings;
 
 export class DeleteNotificationTokenRequest {
-  token: string;
+  token!: string;
 }
 
 export class UpdateTokenActiveStateRequest {
-  token: string;
-  active: boolean;
+  token!: string;
+  active!: boolean;
 }
