@@ -11,7 +11,7 @@ export default function UserLayout({ children }: UserLayoutProps) {
   return (
     <div className={styles.wrapper}>
       <NavbarTest />
-      {children}
+      <div className={styles.contentWrapper}>{children}</div>
     </div>
   );
 }
