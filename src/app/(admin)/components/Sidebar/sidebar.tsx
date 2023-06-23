@@ -12,14 +12,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, MenuItem, Sidebar, useProSidebar } from "react-pro-sidebar";
-import { useLogoutMutation } from "src/store/application/slice";
+import { useDispatch } from "react-redux";
+import { logout } from "src/store/application/slice";
 import { Flex } from "src/styles/flex";
 
 export const SidebarAdmin = () => {
   const router = useRouter();
-
-  const [logoutMutation, { isSuccess }] = useLogoutMutation();
-
+  const dispatch = useDispatch();
   const { collapseSidebar } = useProSidebar();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -40,7 +39,7 @@ export const SidebarAdmin = () => {
   }, [collapseSidebar, collapsed]);
 
   const handleLogout = () => {
-    logoutMutation();
+    dispatch(logout());
     router.push("/");
   };
 

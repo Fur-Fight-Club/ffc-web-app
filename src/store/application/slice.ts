@@ -59,28 +59,6 @@ export const applicationApi = createApi({
       },
     }),
 
-    // Logout
-    logout: builder.mutation({
-      query: () => ({
-        url: `${endpoint.logout}`,
-        method: "POST",
-      }),
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
-        dispatch(setLoading(true));
-        try {
-          await queryFulfilled;
-          dispatch(setLoading(false));
-          dispatch(setUser(initialState.user));
-          dispatch(setToken(initialState.token));
-          toast.success("👋 A bientôt !");
-        } catch (err) {
-          const error = err as GenericApiError;
-          dispatch(setLoading(false));
-          console.log(error);
-        }
-      },
-    }),
-
     // Register
     register: builder.mutation<User, RegisterRequest>({
       query: (user) => ({
@@ -337,6 +315,11 @@ export const applicationSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    logout(state) {
+      state.user = initialState.user;
+      state.token = initialState.token;
+      state.analytics.firstTimeVisiting = true;
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
@@ -398,11 +381,11 @@ export const {
   setAnalyticsEnable,
   setSessionTime,
   setSessionPagesVisited,
+  logout,
 } = applicationSlice.actions;
 
 export const {
   useLoginMutation,
-  useLogoutMutation,
   useRegisterMutation,
   useAskResetPasswordMutation,
   useGetUserQuery,
