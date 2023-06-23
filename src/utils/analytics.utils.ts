@@ -182,13 +182,120 @@ function getButtonClickEventsCount(buttonClickEvents: ButtonClickEvent[]) {
   return uniqueButtons;
 }
 
+function getAverageSessionTime(leaveAppEvents: LeaveAppEvent[]) {
+  if (leaveAppEvents.length === 0) return "—";
+  let timeSpent = 0;
+
+  leaveAppEvents.forEach((event) => {
+    if (event.visitedPages.length === 0) return;
+
+    timeSpent +=
+      event.visitedPages[event.visitedPages.length - 1].timestamp -
+      event.visitedPages[0].timestamp;
+  });
+
+  return formatDuration(timeSpent / leaveAppEvents.length);
+}
+
+function getLast7DayVisitCount(appLeaveEvents: LeaveAppEvent[]) {
+  const D1 = [
+    new Date().setHours(0, 0, 0, 0),
+    new Date().setHours(23, 59, 59, 999),
+  ];
+  const D2 = [
+    new Date().setHours(0, 0, 0, 0) - 86400000,
+    new Date().setHours(23, 59, 59, 999) - 86400000,
+  ];
+  const D3 = [
+    new Date().setHours(0, 0, 0, 0) - 86400000 * 2,
+    new Date().setHours(23, 59, 59, 999) - 86400000 * 2,
+  ];
+  const D4 = [
+    new Date().setHours(0, 0, 0, 0) - 86400000 * 3,
+    new Date().setHours(23, 59, 59, 999) - 86400000 * 3,
+  ];
+  const D5 = [
+    new Date().setHours(0, 0, 0, 0) - 86400000 * 4,
+    new Date().setHours(23, 59, 59, 999) - 86400000 * 4,
+  ];
+  const D6 = [
+    new Date().setHours(0, 0, 0, 0) - 86400000 * 5,
+    new Date().setHours(23, 59, 59, 999) - 86400000 * 5,
+  ];
+  const D7 = [
+    new Date().setHours(0, 0, 0, 0) - 86400000 * 6,
+    new Date().setHours(23, 59, 59, 999) - 86400000 * 6,
+  ];
+
+  const day1 = appLeaveEvents.filter((event) => {
+    return event.timestamp >= D1[0] && event.timestamp <= D1[1];
+  });
+
+  const day2 = appLeaveEvents.filter((event) => {
+    return event.timestamp >= D2[0] && event.timestamp <= D2[1];
+  });
+
+  const day3 = appLeaveEvents.filter((event) => {
+    return event.timestamp >= D3[0] && event.timestamp <= D3[1];
+  });
+
+  const day4 = appLeaveEvents.filter((event) => {
+    return event.timestamp >= D4[0] && event.timestamp <= D4[1];
+  });
+
+  const day5 = appLeaveEvents.filter((event) => {
+    return event.timestamp >= D5[0] && event.timestamp <= D5[1];
+  });
+
+  const day6 = appLeaveEvents.filter((event) => {
+    return event.timestamp >= D6[0] && event.timestamp <= D6[1];
+  });
+
+  const day7 = appLeaveEvents.filter((event) => {
+    return event.timestamp >= D7[0] && event.timestamp <= D7[1];
+  });
+
+  return [
+    {
+      day: 7,
+      count: day7.length,
+    },
+    {
+      day: 6,
+      count: day6.length,
+    },
+    {
+      day: 5,
+      count: day5.length,
+    },
+    {
+      day: 4,
+      count: day4.length,
+    },
+    {
+      day: 3,
+      count: day3.length,
+    },
+    {
+      day: 2,
+      count: day2.length,
+    },
+    {
+      day: 1,
+      count: day1.length,
+    },
+  ];
+}
+
 export const analytics = {
   uniqueVisitor: countUniqueUuids,
   uniqueButtonClicked: getButtonClickEventsCount,
   debounceRate: calculateDebounceRate,
   averagePageVisited: calculateAveragePageVisited,
   averageTimeSpentOnEachPage: calculateAverageTimeSpentOnEachPage,
+  averageSessionTime: getAverageSessionTime,
   aggregateUserAgents: aggregateAllUserAgents,
+  getLastVisitors: getLast7DayVisitCount,
   proportion: {
     language: getProportionOfLanguage,
     platform: getProportionOfPlatform,
