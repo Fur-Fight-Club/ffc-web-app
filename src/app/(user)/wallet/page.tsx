@@ -58,6 +58,7 @@ const WalletPage = (props: WalletPageProps) => {
           amount={30.9}
           label="Total"
           color={colors.secondaryT500}
+          contratsColor={colors.black}
           unityLabel="€"
         />
         <Spacer x={1} />
@@ -73,7 +74,6 @@ const WalletPage = (props: WalletPageProps) => {
           amount={30.9}
           label="Jetons perdus"
           color={colors.dangerLight}
-          contratsColor={colors.danger}
           unityLabel="Jetons"
         />
       </Row>
