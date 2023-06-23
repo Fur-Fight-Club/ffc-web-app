@@ -6,11 +6,7 @@ import Divider from "@components/UI/Divider";
 import { Row, Spacer, Text, Col, Input } from "@nextui-org/react";
 import styles from "./page.module.scss";
 import React, { useState } from "react";
-import {
-  monsterType,
-  weightCategories,
-  convertApiTypeToType,
-} from "../../utils";
+import { monsterType, weightCategories, convertApiTypeToType } from "../utils";
 import { Select } from "antd";
 import { applicationState } from "src/store/application/selector";
 import { useSelector } from "react-redux";
