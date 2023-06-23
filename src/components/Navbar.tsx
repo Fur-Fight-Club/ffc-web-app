@@ -1,8 +1,9 @@
 "use client";
+
 import { Link, Navbar, Switch, Text, useTheme } from "@nextui-org/react";
 import { useTheme as useNextTheme } from "next-themes";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "./UI/Button/Button.component";
 
@@ -12,6 +13,7 @@ const NavbarTest = () => {
 
   const { isDark } = useTheme();
   const router = useRouter();
+  const pathname = usePathname();
   const { setTheme } = useNextTheme();
 
   return (
@@ -32,12 +34,27 @@ const NavbarTest = () => {
         hideIn="xs"
         variant="highlight-rounded"
       >
-        <Navbar.Link href="#"> Features</Navbar.Link>
-        <Navbar.Link isActive href="#">
-          Customers
+        <Navbar.Link
+          href="#"
+          {...(pathname === "/dashboard" && { isActive: true })}
+          onPress={() => router.push("/dashboard")}
+        >
+          Dashboard
         </Navbar.Link>
-        <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link href="#">Company</Navbar.Link>
+        <Navbar.Link
+          href="#"
+          {...(pathname === "/wallet" && { isActive: true })}
+          onPress={() => router.push("/wallet")}
+        >
+          Portefeuille
+        </Navbar.Link>
+        <Navbar.Link
+          href="#"
+          {...(pathname === "/profile" && { isActive: true })}
+          onPress={() => router.push("/profile")}
+        >
+          Profile
+        </Navbar.Link>
       </Navbar.Content>
       <Navbar.Content>
         <Switch
