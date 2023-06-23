@@ -137,13 +137,9 @@ export const applicationApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setUserInformation(data));
-          toast.success("/ME route success");
         } catch (err) {
           const error = err as GenericApiError;
-          console.log(error.error.data);
-
           dispatch(setLoading(false));
-          toast.error("🚨 Une erreur est survenue, veuillez réessayer");
         }
       },
     }),

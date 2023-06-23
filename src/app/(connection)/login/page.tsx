@@ -14,8 +14,6 @@ import { LoginType, loginSchema } from "src/model/user.schema";
 import { applicationState } from "src/store/application/selector";
 import { useGetUserQuery, useLoginMutation } from "src/store/application/slice";
 import styles from "./page.module.scss";
-import { Button } from "@components/UI/Button/Button.component";
-import { useLoginMutation } from "src/store/application/slice";
 
 export default function Home() {
   const router = useRouter();
