@@ -3,6 +3,7 @@ import { ArenaApi, arenaSlice } from "./arenas/slice";
 import { bankAccountApi, bankAccountSlice } from "./bank-account/slice";
 import { matchesApi, matchesSlice } from "./matches/slice";
 import { monstersApi, monstersSlice } from "./monsters/slice";
+import { userApi, userSlice } from "./user/slice";
 import { walletApi, walletSlice } from "./wallet/slice";
 
 export const reducers = {
@@ -18,4 +19,6 @@ export const reducers = {
   [monstersApi.reducerPath]: monstersApi.reducer,
   [ArenaApi.reducerPath]: ArenaApi.reducer,
   [arenaSlice.name]: arenaSlice.reducer,
+  [userApi.reducerPath]: userApi.reducer,
+  [userSlice.name]: userSlice.reducer,
 } as const;
