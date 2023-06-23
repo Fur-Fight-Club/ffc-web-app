@@ -50,18 +50,7 @@ export interface PathnameChangeEvent {
   uuid: string;
   startTime: number;
   endTime: number;
-  userAgent: {
-    browser: {
-      name?: string;
-      version?: string;
-    };
-    os: {
-      name?: string;
-      version?: string;
-    };
-    platform?: string;
-    language?: string;
-  };
+  userAgent: UserAgent;
 }
 
 export interface MouseClickEvent {
@@ -71,26 +60,9 @@ export interface MouseClickEvent {
   user: number;
   uuid: string;
   pathname: string;
-  click: {
-    x: number;
-    y: number;
-  };
-  window: {
-    width: number;
-    height: number;
-  };
-  userAgent: {
-    browser: {
-      name?: string;
-      version?: string;
-    };
-    os: {
-      name?: string;
-      version?: string;
-    };
-    platform?: string;
-    language?: string;
-  };
+  click: Click;
+  window: Window;
+  userAgent: UserAgent;
 }
 
 export interface LeaveAppEvent {
@@ -99,22 +71,50 @@ export interface LeaveAppEvent {
   timestamp: number;
   user: number;
   uuid: string;
-  visitedPages: {
-    page: string;
-    timestamp: number;
-  }[];
-  userAgent: {
-    browser: {
-      name?: string;
-      version?: string;
-    };
-    os: {
-      name?: string;
-      version?: string;
-    };
-    platform?: string;
-    language?: string;
-  };
+  visitedPages: VisitedPage[];
+  userAgent: UserAgent;
+}
+
+export interface UserAgent {
+  browser: Browser;
+  os: OS;
+  platform?: string;
+  language?: string;
+}
+
+export interface OS {
+  name?: string;
+  version?: string;
+}
+
+export type OsName = "Windows" | "Mac OS" | "Linux" | "Android" | "iOS";
+
+export interface Browser {
+  name?: BrowserName;
+  version?: string;
+}
+
+export type BrowserName =
+  | "Chrome"
+  | "Firefox"
+  | "Safari"
+  | "Opera"
+  | "Edge"
+  | "IE";
+
+export interface VisitedPage {
+  page: string;
+  timestamp: number;
+}
+
+export interface Window {
+  width: number;
+  height: number;
+}
+
+export interface Click {
+  x: number;
+  y: number;
 }
 
 export const reducerPath = "applicationApi";
