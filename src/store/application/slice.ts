@@ -346,6 +346,7 @@ export const applicationSlice = createSlice({
     },
     setAnalyticsEnable: (state, action: PayloadAction<boolean>) => {
       state.analytics.enabled = action.payload;
+      state.analytics.firstTimeVisiting = false;
     },
     setSessionTime: (
       state,

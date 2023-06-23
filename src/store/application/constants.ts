@@ -8,7 +8,7 @@ export const initialState: App = {
     lastname: "",
     email: "",
     password: "",
-    role: "USER",
+    role: null,
     email_token: "",
     is_email_verified: false,
     Invoice: [],
@@ -22,6 +22,7 @@ export const initialState: App = {
   notification_token: null,
   token: "",
   analytics: {
+    firstTimeVisiting: true,
     uuid: uuidv4(),
     enabled: true,
     session: {
