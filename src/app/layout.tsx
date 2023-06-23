@@ -13,6 +13,7 @@ import { persistStore } from "redux-persist";
 
 import "./globals.scss";
 import { AnalyticsWrapper } from "@components/AnalyticsWrapper/AnalyticsWrapper.component";
+import { AnalyticsCookieBar } from "@components/UI/AnalyticsCookieBar/AnalyticsCookieBar.component";
 
 const poppins = Poppins({
   weight: "400",
@@ -85,6 +86,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <AnalyticsWrapper>
+              <AnalyticsCookieBar />
               <QueryClientProvider client={queryClient}>
                 <NextThemesProvider
                   defaultTheme="light"
