@@ -54,8 +54,10 @@ $greyLight: #e9e9e9;
 // feedback colors
 
 $success: #44c969;
+$successLight: #ccf4d7;
 $warning: #ffb800;
 $danger: #ee2828;
+$dangerLight: #f9e1e1;
 
 :export {
   primaryT500: $primaryT500;
@@ -96,6 +98,8 @@ $danger: #ee2828;
   black: $black;
 
   danger: $danger;
+  dangerLight: $dangerLight;
   success: $success;
+  successLight: $successLight;
   warning: $warning;
 }
