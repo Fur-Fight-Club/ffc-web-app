@@ -31,6 +31,27 @@ export const ArenaApi = createApi({
         }
       },
     }),
+
+    // Create Arena
+    createArena: builder.mutation({
+      query: (arena) => ({
+        url: `${endpoint.create}`,
+        method: "POST",
+        body: arena,
+      }),
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setLoading(false));
+          dispatch(updateArena(data));
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          // createArenaErrorsHandler(error);
+        }
+      },
+    }),
   }),
 });
 
@@ -41,9 +62,12 @@ export const arenaSlice = createSlice({
     setArenas: (state, action) => {
       state.arenas = action.payload;
     },
+    updateArena: (state, action) => {
+      state.arenas.push(action.payload);
+    },
   },
 });
 
-export const { setArenas } = arenaSlice.actions;
+export const { setArenas, updateArena } = arenaSlice.actions;
 
-export const { useGetArenasQuery } = ArenaApi;
+export const { useGetArenasQuery, useCreateArenaMutation } = ArenaApi;

@@ -22,16 +22,8 @@ export default function Home() {
 
   const [registerMutation, { data: registerData }] = useRegisterMutation();
 
-  console.log(process.env.NEXT_PUBLIC_ENDPOINT);
-
   const onSubmit = (data: RegisterType) => {
-    console.log("submit", data);
-
     registerMutation(data);
-
-    // toast.success(
-    //   'Inscription réussie ! Allez vérifier vos emails pour valider votre compte'
-    // );
   };
 
   return (

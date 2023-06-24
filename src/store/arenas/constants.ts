@@ -10,4 +10,5 @@ export const CACHE_KEY = "Arenas";
 
 export const endpoint = {
   get: "/arenas",
+  create: "/arenas",
 };

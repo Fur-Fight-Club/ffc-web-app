@@ -2,21 +2,28 @@
 
 import { IconButton } from "@components/IconButton";
 import { Button } from "@components/UI/Button/Button.component";
-import { Col, Row, Table, Text, Tooltip } from "@nextui-org/react";
+import { Col, Row, Spacer, Table, Text, Tooltip } from "@nextui-org/react";
 import { PawPrint, Pencil, Trash } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { useGetArenasQuery } from "src/store/arenas/slice";
+import { ModalCreateArena } from "./components/modalCreateArena";
 
 export default function ArenaAdmin() {
   const [arenas, setArenas] = useState([]);
+  const { data, refetch } = useGetArenasQuery();
 
-  // const [visibleModal, setVisibleModal] = useState(false);
+  const [visibleModal, setVisibleModal] = useState(false);
 
-  const { data, isSuccess } = useGetArenasQuery();
+  const handleModal = () => {
+    setVisibleModal(true);
+  };
+
+  const closeModal = () => {
+    setVisibleModal(false);
+  };
 
   useEffect(() => {
-    if (isSuccess) {
-      console.log(data);
+    if (data) {
       setArenas(data);
     }
   }, [data]);
@@ -84,7 +91,12 @@ export default function ArenaAdmin() {
   return (
     <>
       <div>Arena admin page</div>
-      <Button>Ajouter une arène (modal)</Button>
+
+      <Spacer y={1.5} />
+
+      <Button onPress={handleModal}>Ajouter une arène</Button>
+
+      <Spacer y={0.5} />
 
       <Table
         aria-label="Users table"
@@ -116,6 +128,12 @@ export default function ArenaAdmin() {
           )}
         </Table.Body>
       </Table>
+
+      <ModalCreateArena
+        visible={visibleModal}
+        closeHandler={closeModal}
+        refetch={refetch}
+      />
     </>
   );
 }

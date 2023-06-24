@@ -2,12 +2,12 @@
 import { useEffect, useState } from "react";
 import { EditUserType, RoleType, editUserSchema } from "src/model/user.schema";
 
-import { Input, Loading, Modal, Radio, Spacer, Text } from "@nextui-org/react";
+import { Button } from "@components/UI/Button/Button.component";
+import { Input, Modal, Radio, Spacer, Text } from "@nextui-org/react";
 import { Envelope, IdentificationCard } from "@phosphor-icons/react";
 import { useMutation, useQueryClient } from "react-query";
 import { patchUser } from "src/app/api/Users/patchUser";
 import { ZodError } from "zod";
-import { Button } from "@components/UI/Button/Button.component";
 
 export const Modals = (props: {
   visible: boolean;
@@ -24,8 +24,10 @@ export const Modals = (props: {
   );
 
   const patchUserMutation = useMutation(patchUser, {
-    onSuccess: (isLoading) => {
+    onSuccess: (isLoading, data) => {
       queryClient.invalidateQueries("user");
+      console.log(data);
+
       closeHandler();
     },
   });
@@ -174,7 +176,6 @@ export const Modals = (props: {
           disabled={!isValidate}
           analyticsId="save-moda-account"
         >
-          {patchUserMutation.isLoading ? <Loading type="points" /> : ""}
           Sauvegarder
         </Button>
       </Modal.Footer>
