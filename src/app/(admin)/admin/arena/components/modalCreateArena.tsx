@@ -11,6 +11,7 @@ import { useCreateArenaMutation } from "src/store/arenas/slice";
 export const ModalCreateArena = (props: {
   visible: boolean;
   closeHandler: any;
+  refetch: any;
 }) => {
   const {
     register,
@@ -19,15 +20,16 @@ export const ModalCreateArena = (props: {
     formState: { errors },
   } = useForm<Arena>();
 
-  const { visible, closeHandler } = props;
+  const { visible, closeHandler, refetch } = props;
 
   const [selectedAddress, setSelectedAddress] = useState("");
-
   const [arenaMutation, { data }] = useCreateArenaMutation();
 
   const onSubmit = (data: Arena) => {
-    arenaMutation(data);
-    closeHandler();
+    arenaMutation(data).then(() => {
+      refetch(); // Appeler refetch après la mutation
+      closeHandler();
+    });
   };
 
   return (

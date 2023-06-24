@@ -44,7 +44,7 @@ export const ArenaApi = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
-          // createArenaSuccessHandler(data);
+          dispatch(updateArena(data));
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -62,9 +62,12 @@ export const arenaSlice = createSlice({
     setArenas: (state, action) => {
       state.arenas = action.payload;
     },
+    updateArena: (state, action) => {
+      state.arenas.push(action.payload);
+    },
   },
 });
 
-export const { setArenas } = arenaSlice.actions;
+export const { setArenas, updateArena } = arenaSlice.actions;
 
 export const { useGetArenasQuery, useCreateArenaMutation } = ArenaApi;

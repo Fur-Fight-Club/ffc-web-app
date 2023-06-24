@@ -10,7 +10,7 @@ import { ModalCreateArena } from "./components/modalCreateArena";
 
 export default function ArenaAdmin() {
   const [arenas, setArenas] = useState([]);
-  const { data, isSuccess } = useGetArenasQuery();
+  const { data, refetch } = useGetArenasQuery();
 
   const [visibleModal, setVisibleModal] = useState(false);
 
@@ -129,7 +129,11 @@ export default function ArenaAdmin() {
         </Table.Body>
       </Table>
 
-      <ModalCreateArena visible={visibleModal} closeHandler={closeModal} />
+      <ModalCreateArena
+        visible={visibleModal}
+        closeHandler={closeModal}
+        refetch={refetch}
+      />
     </>
   );
 }
