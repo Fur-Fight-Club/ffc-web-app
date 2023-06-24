@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-sync-scripts */
 "use client";
 import { NextUIProvider, createTheme } from "@nextui-org/react";
 import styles from "@styles/_colors.module.scss";
@@ -7,13 +8,13 @@ import * as React from "react";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
-import { store } from "src/store/store";
-import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import { store } from "src/store/store";
 
-import "./globals.scss";
 import { AnalyticsWrapper } from "@components/AnalyticsWrapper/AnalyticsWrapper.component";
 import { AnalyticsCookieBar } from "@components/UI/AnalyticsCookieBar/AnalyticsCookieBar.component";
+import "./globals.scss";
 
 const poppins = Poppins({
   weight: "400",

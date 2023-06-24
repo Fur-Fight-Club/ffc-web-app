@@ -22,9 +22,6 @@ export default function Home() {
 
   const [loginMutation, { isSuccess }] = useLoginMutation();
 
-  // je ne veux pas que la query se lance au chargement de la page
-  //
-
   const { refetch } = useGetUserQuery("");
 
   useEffect(() => {
