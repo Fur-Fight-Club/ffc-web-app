@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { LoginType, loginSchema } from "src/model/user.schema";
 import { applicationState } from "src/store/application/selector";
 import { useGetUserQuery, useLoginMutation } from "src/store/application/slice";
+import { isUserAdmin, isUserLoggedIn } from "src/utils/utils";
 import styles from "./page.module.scss";
 
 export default function Home() {
@@ -20,6 +21,9 @@ export default function Home() {
   const { user, token } = useSelector(applicationState);
 
   const [loginMutation, { isSuccess }] = useLoginMutation();
+
+  // je ne veux pas que la query se lance au chargement de la page
+  //
 
   const { refetch } = useGetUserQuery("");
 
@@ -38,8 +42,8 @@ export default function Home() {
   } = useForm<LoginType>({ resolver: zodResolver(loginSchema) });
 
   useEffect(() => {
-    if (user?.role) {
-      user.role.includes("ADMIN") ? router.push("/admin") : router.push("/");
+    if (isUserLoggedIn(user)) {
+      isUserAdmin(user) ? router.push("/admin") : router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);

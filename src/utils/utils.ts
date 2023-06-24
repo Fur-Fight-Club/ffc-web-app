@@ -1,3 +1,5 @@
+import { User } from "src/store/application/application.model";
+
 export const parseWheightCategory = (weight: string) => {
   //'A_HECKING_CHONKER' => 'A HECKING CHONKER'
   const weightCategory = weight.split("_").join(" ");
@@ -19,4 +21,18 @@ export const generateRandomColors = (x: number) => {
     colors.push([`rgba(${r},${g},${b},1)`, `rgba(${r},${g},${b},.2)`]);
   }
   return colors;
+};
+
+export const isUserLoggedIn = (user: User) => {
+  if (user?.role) {
+    return user?.role.includes("USER") || user?.role.includes("ADMIN");
+  }
+  return false;
+};
+
+export const isUserAdmin = (user: User) => {
+  if (user?.role) {
+    return user?.role.includes("ADMIN");
+  }
+  return false;
 };

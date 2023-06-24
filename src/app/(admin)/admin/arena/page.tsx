@@ -23,9 +23,9 @@ export default function ArenaAdmin() {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (data) {
       console.log(data);
-      setArenas(data);
+      // setArenas(data);
     }
   }, [data]);
 
