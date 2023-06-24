@@ -1,5 +1,6 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Arena } from "src/store/arenas/arenas.model";
@@ -8,6 +9,7 @@ import { useCreateArenaMutation } from "src/store/arenas/slice";
 import { Button } from "@components/UI/Button/Button.component";
 import Input from "@components/UI/Input";
 import { Modal, Spacer, Text } from "@nextui-org/react";
+import { CreateArenaType, createArenaSchema } from "src/model/arena.schema";
 
 export const ModalCreateArena = (props: {
   visible: boolean;
@@ -19,9 +21,7 @@ export const ModalCreateArena = (props: {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<Arena>();
-
-  console.log(errors);
+  } = useForm<CreateArenaType>({ resolver: zodResolver(createArenaSchema) });
 
   const { visible, closeHandler, refetch } = props;
 
@@ -52,35 +52,26 @@ export const ModalCreateArena = (props: {
           <Input
             label="Nom de l'arène :"
             placeholder="Chez momo"
-            register={register("name", {
-              required: "Le nom de l'arène est requis",
-              minLength: {
-                value: 3,
-                message:
-                  "Le nom de l'arène doit contenir au moins 3 caractères",
-              },
-              maxLength: {
-                value: 50,
-                message: "Le nom de l'arène ne peut pas dépasser 50 caractères",
-              },
-            })}
+            register={register("name")}
             fullWidth
+            errorMessage={errors.name?.message}
           />
-
-          {errors.name && <span>{errors.name.message}</span>}
 
           <Spacer y={0.2} />
           <Input
             label="Adresse:"
             placeholder="9 allée des mimosas"
             register={register("address")}
+            errorMessage={errors.address?.message}
             fullWidth
           />
+
           <Spacer y={0.2} />
           <Input
             label="Ville:"
             placeholder="Paris"
             register={register("city")}
+            errorMessage={errors.city?.message}
             fullWidth
           />
           <Spacer y={0.2} />
@@ -88,6 +79,7 @@ export const ModalCreateArena = (props: {
             label="Zipcode:"
             placeholder="75002"
             register={register("zipcode")}
+            errorMessage={errors.zipcode?.message}
             fullWidth
           />
           <Spacer y={0.2} />
@@ -95,6 +87,7 @@ export const ModalCreateArena = (props: {
             label="Pays:"
             placeholder="France"
             register={register("country")}
+            errorMessage={errors.country?.message}
             fullWidth
           />
         </Modal.Body>
