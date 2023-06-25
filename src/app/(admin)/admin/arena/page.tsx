@@ -3,13 +3,18 @@
 import { IconButton } from "@components/IconButton";
 import { Button } from "@components/UI/Button/Button.component";
 import { Col, Row, Spacer, Table, Text, Tooltip } from "@nextui-org/react";
-import { PawPrint, Pencil, Trash } from "@phosphor-icons/react";
+import { Trash } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
-import { useGetArenasQuery } from "src/store/arenas/slice";
+import {
+  useDeleteArenaMutation,
+  useGetArenasQuery,
+} from "src/store/arenas/slice";
 import { ModalCreateArena } from "./components/modalCreateArena";
 
 export default function ArenaAdmin() {
   const [arenas, setArenas] = useState([]);
+
+  const [arenaDeleteMutation, { isSuccess }] = useDeleteArenaMutation();
   const { data, refetch } = useGetArenasQuery();
 
   const [visibleModal, setVisibleModal] = useState(false);
@@ -20,6 +25,12 @@ export default function ArenaAdmin() {
 
   const closeModal = () => {
     setVisibleModal(false);
+  };
+
+  const onDelete = (id: string) => {
+    arenaDeleteMutation(id).then(() => {
+      refetch();
+    });
   };
 
   useEffect(() => {
@@ -56,27 +67,23 @@ export default function ArenaAdmin() {
       case "actions":
         return (
           <Row justify="center" align="center">
-            <Col css={{ d: "flex" }}>
+            {/* <Col css={{ d: "flex" }}>
               <Tooltip content="Voir les monstres">
                 <IconButton onClick={() => console.log("hello")}>
                   <PawPrint size={20} color="#889096" weight="fill" />
                 </IconButton>
               </Tooltip>
-            </Col>
-            <Col css={{ d: "flex" }}>
+            </Col> */}
+            {/* <Col css={{ d: "flex" }}>
               <Tooltip content="Editer">
                 <IconButton onClick={() => console.log("hello")}>
                   <Pencil size={20} color="#889096" weight="fill" />
                 </IconButton>
               </Tooltip>
-            </Col>
+            </Col> */}
             <Col css={{ d: "flex" }}>
-              <Tooltip
-                content="Supprimer"
-                color="error"
-                onClick={() => console.log("hello")}
-              >
-                <IconButton>
+              <Tooltip content="Supprimer">
+                <IconButton onClick={() => onDelete(arena.id)}>
                   <Trash size={20} color="#889096" weight="fill" />
                 </IconButton>
               </Tooltip>
