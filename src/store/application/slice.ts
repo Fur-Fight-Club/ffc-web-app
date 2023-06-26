@@ -30,6 +30,7 @@ import {
 import { askResetPasswordErrorsHandler } from "./errors/ask-reset.error";
 import { loginErrorsHandler } from "./errors/login.error";
 import { registerErrorsHandler } from "./errors/register.error";
+import { Monster } from "../monsters/monsters.model";
 
 export const applicationApi = createApi({
   reducerPath,
@@ -334,7 +335,7 @@ export const applicationSlice = createSlice({
         ...action.payload.user,
         Invoice: action.payload.invoices,
         MatchMessage: [],
-        Monster: [],
+        Monster: action.payload.user.Monster,
         StripeAccount: action.payload.stripeAccount,
         Wallet: action.payload.wallet[0],
         transaction: action.payload.transaction,
@@ -368,6 +369,16 @@ export const applicationSlice = createSlice({
     ) => {
       state.analytics.session.pageVisited = action.payload;
     },
+    setMonsters: (state, action: PayloadAction<Monster>) => {
+      const temp = [...state.user.Monster, action.payload];
+      state.user.Monster = temp;
+    },
+    removeMonster: (state, action: PayloadAction<number>) => {
+      const temp = state.user.Monster.filter(
+        (monster) => monster.id !== action.payload
+      );
+      state.user.Monster = temp;
+    }
   },
 });
 
@@ -381,6 +392,8 @@ export const {
   setAnalyticsEnable,
   setSessionTime,
   setSessionPagesVisited,
+  setMonsters,
+  removeMonster,
   logout,
 } = applicationSlice.actions;
 

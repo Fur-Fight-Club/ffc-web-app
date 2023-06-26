@@ -12,11 +12,9 @@ import { applicationState } from "src/store/application/selector";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useCreateMonsterMutation } from "src/store/monsters/slice";
-import { useRouter } from "next/navigation";
 
 export default function CreateMonster() {
   const { user } = useSelector(applicationState);
-  const router = useRouter();
 
   /**
    * STATE
@@ -28,11 +26,11 @@ export default function CreateMonster() {
   const [picture, setPicture] = useState<string | undefined>(undefined);
 
   const monster = {
-    name: name,
-    weight: weight,
-    monster_type: monster_type,
-    weight_category: weight_category,
-    picture: picture,
+    name: "Godzilla",
+    weight: "90000000",
+    monster_type: "PREHISTORIC",
+    weight_category: "OH_LAWD_HE_COMIN",
+    picture: "https://i.imgur.com/ZC77E1t.jpg",
   };
 
   const pictureRef = React.useRef<HTMLInputElement>(null);
@@ -64,27 +62,7 @@ export default function CreateMonster() {
   const [addMonster] = useCreateMonsterMutation();
 
   const handleAddMonster = async () => {
-    if (name === "") {
-      toast.error("Veuillez entrer un name");
-      return;
-    }
-
-    if (weight === 0) {
-      toast.error("Veuillez entrer un poids");
-      return;
-    }
-
-    if (monster_type === "") {
-      toast.error("Veuillez entrer un type");
-      return;
-    }
-
-    if (weight_category === "") {
-      toast.error("Veuillez entrer une categorie");
-      return;
-    }
-
-    const createMonster = await addMonster({
+    addMonster({
       name,
       weight,
       // @ts-ignore
@@ -95,15 +73,12 @@ export default function CreateMonster() {
       picture,
       fk_user: user.id ?? -1,
     });
-    if (createMonster.data) {
-      router.push("dashboard");
-    }
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.formMonster}>
-        <h1>Créer votre monstre</h1>
+        <h1>Modification de {monster.name}</h1>
         <p>
           {
             "Faite combattre votre monstre, parier dessus, et gagner de l'argent"
@@ -111,7 +86,7 @@ export default function CreateMonster() {
         </p>
         <Divider />
         <Input
-          value={name}
+          value={monster.name}
           onChange={(e) => setName(e.target.value)}
           label="Nom de votre monstre :"
           placeholder="Godzilla"
@@ -119,7 +94,7 @@ export default function CreateMonster() {
         />
         <Spacer y={1.3} />
         <Input
-          value={weight}
+          value={monster.weight}
           onChange={(e) => setWeight(Number(e.target.value))}
           type="number"
           placeholder="500"
@@ -129,7 +104,7 @@ export default function CreateMonster() {
           <Col>
             <Text>Type de votre monstre :</Text>
             <Select
-              defaultValue="Choisir le type de votre monstre"
+              defaultValue={convertApiTypeToType(monster.monster_type)}
               style={{ width: 260 }}
               onChange={(e) => setMonster_type(e)}
               options={monsterType.map((type) => ({
@@ -142,7 +117,7 @@ export default function CreateMonster() {
           <Col>
             <Text>Categorie de votre monstre :</Text>
             <Select
-              defaultValue="Choisir la categorie de votre monstre"
+              defaultValue={monster.weight_category}
               style={{ width: 300 }}
               onChange={(e) => setWeight_category(e)}
               options={weightCategories.map((type) => ({
@@ -156,7 +131,7 @@ export default function CreateMonster() {
         <Text>Ajouter une image à votre monstre :</Text>
         <Spacer y={0.5} />
         <Button onPress={() => pictureRef.current?.click()}>
-          {picture ? "Changer l'image" : "Ajouter une image"}
+          {monster.picture ? "Changer l'image" : "Ajouter une image"}
         </Button>
         <input
           type="file"
@@ -172,7 +147,7 @@ export default function CreateMonster() {
         />
         <Spacer y={1.5} />
         <Button analyticsId="createMonster-button" onPress={handleAddMonster}>
-          Créer votre monstre
+          Modifier votre monstre
         </Button>
         <Spacer y={3} />
       </div>
