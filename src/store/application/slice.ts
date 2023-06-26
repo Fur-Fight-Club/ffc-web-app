@@ -6,6 +6,8 @@ import { baseQuery } from "./../api";
 
 import {
   DeleteNotificationTokenRequest,
+  GetHeatmapDataDto,
+  HeatmapData,
   LoginRequest,
   LoginResponse,
   MeResponse,
@@ -312,6 +314,26 @@ export const applicationApi = createApi({
         method: "GET",
       }),
     }),
+
+    getHeatmapData: builder.mutation<HeatmapData[], GetHeatmapDataDto>({
+      query: (body) => ({
+        url: `${endpoint.analytics}/heatmap-data`,
+        method: "POST",
+        body,
+      }),
+
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setLoading(false));
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          toast.error("🚨 Une erreur est survenue, veuillez réessayer");
+        }
+      },
+    }),
   }),
 });
 
@@ -421,6 +443,7 @@ export const {
   useGetMouseClickEventsQuery,
   useGetPathnameChangeEventsQuery,
   useGetLeaveAppEventsQuery,
+  useGetHeatmapDataMutation,
   // Callback
   usePaymentCallbackMutation,
 } = applicationApi;
