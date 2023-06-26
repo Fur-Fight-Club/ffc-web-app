@@ -12,9 +12,11 @@ import { applicationState } from "src/store/application/selector";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useCreateMonsterMutation } from "src/store/monsters/slice";
+import { useRouter } from "next/navigation";
 
 export default function CreateMonster() {
   const { user } = useSelector(applicationState);
+  const router = useRouter();
 
   /**
    * STATE
@@ -62,7 +64,27 @@ export default function CreateMonster() {
   const [addMonster] = useCreateMonsterMutation();
 
   const handleAddMonster = async () => {
-    addMonster({
+    if (name === "") {
+      toast.error("Veuillez entrer un name");
+      return;
+    }
+
+    if (weight === 0) {
+      toast.error("Veuillez entrer un poids");
+      return;
+    }
+
+    if (monster_type === "") {
+      toast.error("Veuillez entrer un type");
+      return;
+    }
+
+    if (weight_category === "") {
+      toast.error("Veuillez entrer une categorie");
+      return;
+    }
+
+    const createMonster = await addMonster({
       name,
       weight,
       // @ts-ignore
@@ -73,6 +95,9 @@ export default function CreateMonster() {
       picture,
       fk_user: user.id ?? -1,
     });
+    if (createMonster.data) {
+      router.push("dashboard");
+    }
   };
 
   return (

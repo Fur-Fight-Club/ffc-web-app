@@ -7,9 +7,9 @@ import { createMonsterErrorsHandler } from "./errors/create";
 import { updateMonstersHandler } from "./errors/update";
 import { deleteMonstersHandler } from "./errors/delete";
 import { baseQuery } from "../api";
-import { setLoading } from "../application/slice";
 import { GenericApiError } from "../store.model";
 import { toast } from "react-hot-toast";
+import { setMonsters as setMyMonsters, removeMonster, setLoading} from "../application/slice";
 
 export const monstersApi = createApi({
   reducerPath,
@@ -80,6 +80,7 @@ export const monstersApi = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
+          dispatch(setMyMonsters(data));
           toast.success("Le monstre a bien été créé.");
         } catch (err) {
           const error = err as GenericApiError;
@@ -129,6 +130,7 @@ export const monstersApi = createApi({
         try {
           await queryFulfilled;
           dispatch(setLoading(false));
+          dispatch(removeMonster(resource));
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -140,7 +142,7 @@ export const monstersApi = createApi({
 });
 
 export const monstersSlice = createSlice({
-  name: "monsters",
+  name: "monster",
   initialState,
   reducers: {
     setMonsters: (state, action: PayloadAction<Monster[]>) => {
