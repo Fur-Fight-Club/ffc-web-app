@@ -19,7 +19,7 @@ import { Flex } from "src/styles/flex";
 export const SidebarAdmin = () => {
   const router = useRouter();
   const pathname = usePathname();
-  console.log(pathname === "/admin/accounts");
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const dispatch = useDispatch();
   const { collapseSidebar } = useProSidebar();
@@ -43,12 +43,18 @@ export const SidebarAdmin = () => {
 
   const redirectTo = (path: string) => {
     router.push(path);
+    setIsRedirecting(true);
   };
 
   const handleLogout = () => {
     redirectTo("/");
-    dispatch(logout());
   };
+
+  useEffect(() => {
+    if (isRedirecting && pathname === "/") {
+      dispatch(logout());
+    }
+  }, [pathname, isRedirecting, dispatch]);
 
   const handleToggleSidebar = () => {
     collapseSidebar(!collapsed);
