@@ -383,7 +383,9 @@ export default function AnalyticsPage1() {
                 }}
                 data={{
                   labels: analytics
-                    .averageTimeSpentOnEachPage(pathnameEvents ?? [])
+                    .averageTimeSpentOnEachPage(
+                      analytics.filter.pathname(pathnameEvents ?? [])
+                    )
                     .map((timeSpent) => timeSpent.page),
                   datasets: [
                     {
@@ -432,7 +434,9 @@ export default function AnalyticsPage1() {
               </Table.Header>
               <Table.Body>
                 {analytics
-                  .averageTimeSpentOnEachPage(pathnameEvents ?? [])
+                  .averageTimeSpentOnEachPage(
+                    analytics.filter.pathname(pathnameEvents ?? [])
+                  )
                   .map((timeSpent) => (
                     <Table.Row>
                       <Table.Cell>
