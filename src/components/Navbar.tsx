@@ -91,39 +91,7 @@ const NavbarTest = () => {
             Monster
           </Navbar.Link>
         </Navbar.Content>
-        <Navbar.Content>
-          <Navbar.Link color="inherit" onClick={() => router.push("/admin")}>
-            ADMIN
-          </Navbar.Link>
-          <Navbar.Link color="inherit" onClick={() => router.push("/login")}>
-            Login
-          </Navbar.Link>
-          <Navbar.Link>
-            <Button
-              auto
-              flat
-              as={Link}
-              color="primary"
-              onClick={() => router.push("/register")}
-            >
-              Dashboard
-            </Button>
-          </Navbar.Link>
-          <Navbar.Link
-            href="#"
-            {...(pathname === "/wallet" && { isActive: true })}
-            onPress={() => router.push("/wallet")}
-          >
-            Portefeuille
-          </Navbar.Link>
-          <Navbar.Link
-            href="#"
-            {...(pathname === "/profile" && { isActive: true })}
-            onPress={() => router.push("/profile")}
-          >
-            Profile
-          </Navbar.Link>
-        </Navbar.Content>
+        <Navbar.Content></Navbar.Content>
         <Navbar.Content>
           <Switch
             checked={isDark}
@@ -138,7 +106,7 @@ const NavbarTest = () => {
           )}
 
           <Navbar.Link href="#">
-            <Button auto onPress={handleLogout}>
+            <Button bordered auto onPress={handleLogout}>
               Déconnexion
             </Button>
           </Navbar.Link>
