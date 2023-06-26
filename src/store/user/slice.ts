@@ -6,6 +6,9 @@ import { User } from "src/model/user.schema";
 import { endpoints } from "./constants";
 import { GenericApiError } from "../store.model";
 import { setLoading } from "../application/slice";
+import { endpoint } from "../application/constants";
+import toast from "react-hot-toast";
+import { askResetPasswordErrorsHandler } from "../application/errors/ask-reset.error";
 
 export const userApi = createApi({
   reducerPath,
@@ -113,7 +116,7 @@ export const userApi = createApi({
     }),
 
     // Update user email
-    PaymentRequestUpdateEvent: builder.mutation<
+    updateEmail: builder.mutation<
       User,
       { id: number; email: string; oldEmail: string }
     >({
@@ -134,6 +137,75 @@ export const userApi = createApi({
         }
       },
     }),
+
+    // Confirm account
+    confirmAccount: builder.mutation<
+      { confirm: boolean },
+      { email_token: string }
+    >({
+      query: (body) => ({
+        url: endpoints.confirmAccount,
+        method: "POST",
+        body,
+      }),
+
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setLoading(false));
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          console.log(error.error.data);
+        }
+      },
+    }),
+
+    // Ask reset password
+    askResetPassword: builder.mutation<void, string>({
+      query: (email) => ({
+        url: `${endpoint.askResetPassword}`,
+        method: "POST",
+        body: { email },
+      }),
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          await queryFulfilled;
+          dispatch(setLoading(false));
+          toast.success("📨 Mail envoyé !");
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          askResetPasswordErrorsHandler(error);
+        }
+      },
+    }),
+
+    // Ask reset password
+    resetPassword: builder.mutation<
+      User,
+      { email_token: string; password: string }
+    >({
+      query: (body) => ({
+        url: `${endpoints.resetPassword}`,
+        method: "POST",
+        body,
+      }),
+
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setLoading(false));
+          toast.success("🔑 Mot de passe modifié !");
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          console.log(error.error.data);
+        }
+      },
+    }),
   }),
 });
 
@@ -143,6 +215,16 @@ export const userSlice = createSlice({
   reducers: {},
 });
 
-export const {} = userApi;
+export const {
+  useUpdateMutation,
+  useGetQuery,
+  useGetAllQuery,
+  useDeleteMutation,
+  useUpdatePasswordMutation,
+  useConfirmAccountMutation,
+  useAskResetPasswordMutation,
+  useResetPasswordMutation,
+  useUpdateEmailMutation,
+} = userApi;
 
 export const {} = userSlice.actions;

@@ -82,27 +82,6 @@ export const applicationApi = createApi({
       },
     }),
 
-    // Ask reset password
-    askResetPassword: builder.mutation<void, string>({
-      query: (email) => ({
-        url: `${endpoint.askResetPassword}`,
-        method: "POST",
-        body: { email },
-      }),
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
-        dispatch(setLoading(true));
-        try {
-          await queryFulfilled;
-          dispatch(setLoading(false));
-          toast.success("📨 Mail envoyé !");
-        } catch (err) {
-          const error = err as GenericApiError;
-          dispatch(setLoading(false));
-          askResetPasswordErrorsHandler(error);
-        }
-      },
-    }),
-
     // User's informations route
     getUser: builder.query<MeResponse, string>({
       query: () => ({
@@ -427,7 +406,6 @@ export const {
 export const {
   useLoginMutation,
   useRegisterMutation,
-  useAskResetPasswordMutation,
   useGetUserQuery,
   useUpsertNotificationTokenMutation,
   useDeleteNotificationTokenMutation,

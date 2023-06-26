@@ -13,4 +13,6 @@ export const endpoints = {
   delete: (id: number) => `user/${id}`,
   updatePassword: (id: number) => `user/password-update`,
   updateEmail: (id: number) => `user/email-update`,
+  confirmAccount: "account/confirm",
+  resetPassword: "account/reset-password",
 };
