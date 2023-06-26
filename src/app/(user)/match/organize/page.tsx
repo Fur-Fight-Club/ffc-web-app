@@ -1,6 +1,6 @@
 "use client";
 
-import CardList from "@components/CardList/CardList";
+import CardList from "@components/CardList/components/CardList";
 import { Grid } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";

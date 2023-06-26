@@ -1,4 +1,3 @@
-import CardList from "./CardList";
-import MonsterItem from "./MonsterItem";
+import CardList from "./components/CardList";
 
 export default CardList;
