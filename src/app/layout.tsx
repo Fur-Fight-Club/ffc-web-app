@@ -29,7 +29,7 @@ const lightTheme = createTheme({
       primaryLight: styles.primaryT200,
       primaryLightHover: styles.primaryT200,
       primaryLightActive: styles.primaryT200,
-      primaryLightContrast: styles.primaryS500,
+      primaryLightContrast: styles.white,
       primary: styles.primary,
       primaryBorder: styles.primaryS100,
       primaryBorderHover: styles.primaryS200,
