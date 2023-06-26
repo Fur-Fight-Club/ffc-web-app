@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import Icon from '../../../../shared/Icon/Icon';
-import { DropdownContext } from '../../dropdown-context';
-import styles from './Dropdown.module.scss';
+import { CaretUp } from "@phosphor-icons/react";
+import { DropdownContext } from "../../dropdown-context";
+import styles from "./Dropdown.module.scss";
 
-import { mergeClassNames } from 'src/utils/ReactUtils';
+import { mergeClassNames } from "@utils/main";
 
 type DropdownProps = {
   children: React.ReactNode;
@@ -13,7 +13,7 @@ type DropdownProps = {
   icon?: React.ReactNode;
 };
 
-const defaultIcon = <Icon name="fleche-b" width={24} height={24} />;
+const defaultIcon = <CaretUp size={24} weight="fill" />;
 
 const Dropdown = ({
   children,

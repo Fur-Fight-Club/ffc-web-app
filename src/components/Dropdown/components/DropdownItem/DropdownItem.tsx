@@ -1,9 +1,9 @@
-import { useContext } from 'react';
+import { useContext } from "react";
 
-import { DropdownContext } from '../../dropdown-context';
-import styles from './DropdownItem.module.scss';
+import { DropdownContext } from "../../dropdown-context";
+import styles from "./DropdownItem.module.scss";
 
-import { mergeClassNames } from 'src/utils/ReactUtils';
+import { mergeClassNames } from "@utils/main";
 
 type DropdownItemProps = {
   children: React.ReactNode;
