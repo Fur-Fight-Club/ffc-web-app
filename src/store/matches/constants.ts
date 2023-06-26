@@ -13,4 +13,10 @@ export const endpoint = {
   getOne: (id: number) => `/match/${id}`,
   placeBet: (id: number) => `/match/${id}/bet`,
   sendMessage: (id: number) => `/match/${id}/message`,
+  createMatch: "/match/create",
+  joinMatch: (id: number) => `/match/join/${id}`,
+  joinMatchValidate: (id: number) => `/match/join/validate/${id}`,
+  joinMatchReject: (id: number) => `/match/join/reject/${id}`,
+  closeMatch: (id: number) => `/match/close/${id}`,
+  deleteMatch: (id: number) => `/match/delete/${id}`,
 };

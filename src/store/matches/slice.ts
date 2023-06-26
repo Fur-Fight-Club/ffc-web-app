@@ -49,6 +49,118 @@ export const matchesApi = createApi({
       },
     }),
 
+    // Create a match
+    createMatch: builder.mutation<Match, Match>({
+      query: ({ id, ...body }) => ({
+        url: `${endpoint.createMatch}`,
+        method: "POST",
+        body,
+      }),
+
+      onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+        } catch (err) {
+          const error = err as GenericApiError;
+          getMatchesErrorHandler(error);
+        }
+      },
+    }),
+
+    // Join a match
+    joinMatch: builder.mutation<Match, { matchId: number; monsterId: number }>({
+      query: ({ matchId, monsterId }) => ({
+        url: `${endpoint.joinMatch(matchId)}/join`,
+        method: "PATCH",
+        body: { monster: monsterId },
+      }),
+
+      onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+        } catch (err) {
+          const error = err as GenericApiError;
+          getMatchesErrorHandler(error);
+        }
+      },
+    }),
+
+    // Validate join request
+    validateJoinRequest: builder.mutation<
+      Match,
+      { matchId: number; monsterId: number }
+    >({
+      query: ({ matchId, monsterId }) => ({
+        url: `${endpoint.joinMatchValidate(matchId)}`,
+        method: "PATCH",
+        body: { monster: monsterId },
+      }),
+
+      onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+        } catch (err) {
+          const error = err as GenericApiError;
+          getMatchesErrorHandler(error);
+        }
+      },
+    }),
+
+    // Reject join request
+    rejectJoinRequest: builder.mutation<
+      Match,
+      { matchId: number; monsterId: number }
+    >({
+      query: ({ matchId, monsterId }) => ({
+        url: `${endpoint.joinMatchReject(matchId)}`,
+        method: "PATCH",
+        body: { monster: monsterId },
+      }),
+
+      onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+        } catch (err) {
+          const error = err as GenericApiError;
+          getMatchesErrorHandler(error);
+        }
+      },
+    }),
+
+    // Close a match
+    closeMatch: builder.mutation<Match, number>({
+      query: (id) => ({
+        url: `${endpoint.closeMatch(id)}`,
+        method: "PATCH",
+      }),
+
+      onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+        } catch (err) {
+          const error = err as GenericApiError;
+          getMatchesErrorHandler(error);
+        }
+      },
+    }),
+
+    // Delete a match
+    deleteMatch: builder.mutation<Match, number>({
+      query: (id) => ({
+        url: `${endpoint.deleteMatch(id)}`,
+        method: "DELETE",
+      }),
+
+      onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
+        try {
+          const response = await queryFulfilled;
+        } catch (err) {
+          const error = err as GenericApiError;
+          getMatchesErrorHandler(error);
+        }
+      },
+    }),
+
     // Send message
     sendMessage: builder.mutation<
       MatchMessage,
