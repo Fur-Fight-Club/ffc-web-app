@@ -1,15 +1,24 @@
 "use client";
 
-import { Link, Navbar, Switch, Text, useTheme } from "@nextui-org/react";
-import { Moon, Sun } from "@phosphor-icons/react";
-import { useTheme as useNextTheme } from "next-themes";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { logout } from "src/store/application/slice";
-import { isUserAdmin, isUserLoggedIn } from "src/utils/utils";
+import { getInitials, isUserAdmin, isUserLoggedIn } from "src/utils/utils";
+
+import {
+  Avatar,
+  Dropdown,
+  Link,
+  Navbar,
+  Switch,
+  Text,
+  useTheme,
+} from "@nextui-org/react";
+import { Moon, Sun } from "@phosphor-icons/react";
+import { useTheme as useNextTheme } from "next-themes";
 import { Button } from "./UI/Button/Button.component";
 
 const NavbarTest = () => {
@@ -44,7 +53,7 @@ const NavbarTest = () => {
   if (isUserLogged) {
     return (
       <Navbar isBordered={isDark} variant="floating" maxWidth="fluid">
-        <Navbar.Brand>
+        <Navbar.Brand onClick={() => router.push("/")}>
           <Image
             src="/images/ffc-logo.svg"
             alt="Acme Logo"
@@ -66,18 +75,7 @@ const NavbarTest = () => {
           >
             Dashboard
           </Navbar.Link>
-          <Navbar.Link
-            {...(isInUrl("wallet") && { isActive: true })}
-            onPress={() => router.push("/wallet")}
-          >
-            Portefeuille
-          </Navbar.Link>
-          <Navbar.Link
-            {...(isInUrl("profile") && { isActive: true })}
-            onPress={() => router.push("/profile")}
-          >
-            Profile
-          </Navbar.Link>
+
           <Navbar.Link
             {...(isInUrl("match") && { isActive: true })}
             onPress={() => router.push("/match")}
@@ -91,7 +89,7 @@ const NavbarTest = () => {
             Monster
           </Navbar.Link>
         </Navbar.Content>
-        <Navbar.Content></Navbar.Content>
+
         <Navbar.Content>
           <Switch
             checked={isDark}
@@ -99,17 +97,41 @@ const NavbarTest = () => {
             iconOff={<Sun />}
             onChange={(e) => setTheme(e.target.checked ? "dark" : "light")}
           />
-          {isUserisAdmin && (
-            <Navbar.Link color="inherit" onClick={() => router.push("/admin")}>
-              Dashboard Admin
-            </Navbar.Link>
-          )}
 
-          <Navbar.Link href="#">
-            <Button bordered auto onPress={handleLogout}>
-              Déconnexion
-            </Button>
-          </Navbar.Link>
+          <Dropdown placement="bottom-left">
+            <Dropdown.Trigger>
+              <Avatar
+                bordered
+                size="lg"
+                as="button"
+                color="primary"
+                textColor="white"
+                text={getInitials(user.firstname, user.lastname)}
+              />
+            </Dropdown.Trigger>
+            <Dropdown.Menu color="secondary" aria-label="Avatar Actions">
+              <Dropdown.Item key="admin">
+                {isUserisAdmin && (
+                  <Text onClick={() => router.push("/admin")}>
+                    Dashboard Admin
+                  </Text>
+                )}
+              </Dropdown.Item>
+              <Dropdown.Item key="profil" withDivider>
+                <Text onClick={() => router.push("/profile")}>Mon Profile</Text>
+              </Dropdown.Item>
+
+              <Dropdown.Item key="wallet">
+                <Text onClick={() => router.push("/wallet")}>
+                  Mon Portefeuille
+                </Text>
+              </Dropdown.Item>
+
+              <Dropdown.Item key="logout" color="error" withDivider>
+                <Text onClick={handleLogout}>Déconnexion</Text>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Navbar.Content>
       </Navbar>
     );
