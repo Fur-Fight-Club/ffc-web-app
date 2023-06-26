@@ -21,6 +21,7 @@ const MatchPage = (props: MatchPageProps) => {
         }}
         animate={{ x: 0 }}
         whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
         <div className={styles.textContent}>
           <Text h2 size={"$6xl"} weight={"black"} color={colors.white}>
@@ -40,6 +41,7 @@ const MatchPage = (props: MatchPageProps) => {
         }}
         animate={{ x: 0 }}
         whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
         <div className={styles.textContent}>
           <Text h2 size={"$6xl"} weight={"black"} color={colors.primary}>
