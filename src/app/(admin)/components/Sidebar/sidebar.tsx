@@ -38,9 +38,13 @@ export const SidebarAdmin = () => {
     return () => window.removeEventListener("resize", updateWindowWidth);
   }, [collapseSidebar, collapsed]);
 
+  const redirectTo = (path: string) => {
+    router.push(path);
+  };
+
   const handleLogout = () => {
+    redirectTo("/");
     dispatch(logout());
-    router.push("/");
   };
 
   const handleToggleSidebar = () => {
