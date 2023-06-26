@@ -234,6 +234,33 @@ export const applicationApi = createApi({
     }),
 
     /**
+     * CALLBACK FOR PAYMENTS
+     */
+    paymentCallback: builder.mutation<
+      any,
+      {
+        callback: "success" | "error";
+        session_id: string;
+      }
+    >({
+      query: ({ callback, session_id }) => ({
+        url: `/payments/${callback}/${session_id}`,
+        method: "GET",
+      }),
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setLoading(false));
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          toast.error("🚨 Une erreur est survenue, veuillez réessayer");
+        }
+      },
+    }),
+
+    /**
      * ANALYTICS MUTATIONS AND QUERIES
      */
     // Mutations
@@ -378,7 +405,7 @@ export const applicationSlice = createSlice({
         (monster) => monster.id !== action.payload
       );
       state.user.Monster = temp;
-    }
+    },
   },
 });
 
@@ -415,4 +442,6 @@ export const {
   useGetMouseClickEventsQuery,
   useGetPathnameChangeEventsQuery,
   useGetLeaveAppEventsQuery,
+  // Callback
+  usePaymentCallbackMutation,
 } = applicationApi;
