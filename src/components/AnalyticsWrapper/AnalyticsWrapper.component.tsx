@@ -70,6 +70,7 @@ export const AnalyticsWrapper: React.FunctionComponent<
       uuid: analytics.uuid,
       timestamp: Date.now(),
       visitedPages: analytics.session.pageVisited,
+      // @ts-ignore
       userAgent,
     };
 
@@ -130,6 +131,7 @@ export const AnalyticsWrapper: React.FunctionComponent<
       user: user.id,
       startTime: analytics.session.startTime,
       endTime: Date.now(),
+      // @ts-ignore
       userAgent,
     };
 
@@ -163,6 +165,7 @@ export const AnalyticsWrapper: React.FunctionComponent<
         width: window.innerWidth,
         height: window.innerHeight,
       },
+      // @ts-ignore
       userAgent,
       user: user.id,
       uuid: analytics.uuid,
