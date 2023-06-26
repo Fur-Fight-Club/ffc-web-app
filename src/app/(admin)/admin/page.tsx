@@ -45,6 +45,8 @@ import { numbers } from "src/utils/number.utils";
 import { generateRandomColors } from "src/utils/utils";
 import { toast } from "react-hot-toast";
 import { analytics } from "src/utils/analytics.utils";
+import { ClickHeatmap } from "../components/ClickHeatmap/ClickHeatmap.component";
+import { Select } from "antd";
 
 export default function AnalyticsPage1() {
   const { data: buttonEvents, refetch: refetchButtonsEvents } =
@@ -56,11 +58,14 @@ export default function AnalyticsPage1() {
   const { data: leaveEvents, refetch: refetchLeaveAppEvents } =
     useGetLeaveAppEventsQuery();
 
+  const [refetchTrigger, setRefetchTrigger] = useState<number>(Date.now());
+
   const handleRefetch = () => {
     refetchButtonsEvents();
     refetchClickEvents();
     refetchPathnameEvents();
     refetchLeaveAppEvents();
+    setRefetchTrigger(Date.now());
     toast.loading("Données mises à jour");
   };
 
@@ -125,6 +130,18 @@ export default function AnalyticsPage1() {
       )
     );
   }, [buttonEvents, clickEvents, pathnameEvents, leaveEvents]);
+
+  const [count, setCount] = useState<number | undefined>(300);
+  const [route, setRoute] = useState("/");
+  const heatMapImage = (route: string) => {
+    switch (route) {
+      case "/":
+        return "https://i.imgur.com/xd0cGER.png";
+
+      default:
+        return "https://i.imgur.com/xd0cGER.png";
+    }
+  };
   return (
     <div>
       <div
@@ -635,6 +652,79 @@ export default function AnalyticsPage1() {
                 }}
               />
             </Card.Body>
+          </Card>
+        </Grid>
+
+        {/**
+         * HEATMAP CLICS
+         */}
+        <Grid
+          xs={12}
+          md={6}
+          css={{
+            height: "50vh",
+          }}
+        >
+          <Card className={styles.cardFlex}>
+            <Card.Body
+              css={{
+                overflow: "hidden",
+              }}
+            >
+              <Grid.Container gap={2}>
+                <Grid xs={12}>
+                  <Text h4>Heatmap des clics</Text>
+                </Grid>
+                <Grid xs={12} md={6}>
+                  <Select
+                    defaultValue="/"
+                    style={{ width: "100%" }}
+                    onChange={(value) => setRoute(value)}
+                    options={[{ value: "/", label: "Page d'accueil" }]}
+                  />
+                </Grid>
+                <Grid xs={12} md={6}>
+                  <Select
+                    defaultValue="300"
+                    style={{ width: "100%" }}
+                    onChange={(value) =>
+                      value === "all" ? setCount(undefined) : setCount(+value)
+                    }
+                    options={[
+                      { value: "50", label: "50 entrées" },
+                      { value: "100", label: "100 entrées" },
+                      { value: "300", label: "300 entrées" },
+                      { value: "500", label: "500 entrées" },
+                      { value: "all", label: "Tout afficher" },
+                    ]}
+                  />
+                </Grid>
+              </Grid.Container>
+              <ClickHeatmap
+                route={route}
+                count={count}
+                refresh={refetchTrigger}
+                heatmapImage={heatMapImage(route)}
+              />
+            </Card.Body>
+          </Card>
+        </Grid>
+        {/**
+         * HEATMAP PAYS
+         */}
+        <Grid
+          xs={12}
+          md={6}
+          css={{
+            height: "42vh",
+          }}
+        >
+          <Card className={styles.cardFlex}>
+            <Card.Body
+              css={{
+                overflow: "hidden",
+              }}
+            ></Card.Body>
           </Card>
         </Grid>
       </Grid.Container>

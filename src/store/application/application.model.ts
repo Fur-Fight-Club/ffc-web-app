@@ -104,3 +104,19 @@ export interface UpdateTokenActiveStateRequest {
   token: string;
   active: boolean;
 }
+
+export interface GetHeatmapDataDto {
+  count?: number;
+  route: string;
+}
+
+export interface HeatmapData {
+  window: {
+    width: number;
+    height: number;
+  };
+  click: {
+    x: number;
+    y: number;
+  };
+}
