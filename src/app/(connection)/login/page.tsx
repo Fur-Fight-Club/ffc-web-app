@@ -40,7 +40,7 @@ export default function Home() {
 
   useEffect(() => {
     if (isUserLoggedIn(user)) {
-      isUserAdmin(user) ? router.push("/admin") : router.push("/");
+      isUserAdmin(user) ? router.push("/admin") : router.push("/dashboard");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);

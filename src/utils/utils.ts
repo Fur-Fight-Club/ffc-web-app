@@ -25,7 +25,7 @@ export const generateRandomColors = (x: number) => {
 
 export const isUserLoggedIn = (user: User) => {
   if (user?.role) {
-    return user?.role.includes("USER") || user?.role.includes("ADMIN");
+    return user?.role.includes("USER") || user?.role.includes("ADMIN") || user?.role.includes("MONSTER_OWNER");
   }
   return false;
 };
