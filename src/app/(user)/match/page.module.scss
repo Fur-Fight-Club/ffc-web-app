@@ -1,0 +1,46 @@
+@import '/src/styles';
+
+.wrapper {
+  display: flex;
+  height: 100%;
+  padding: 1rem;
+}
+
+.leftPanel {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  background: $primary;
+  background: linear-gradient(-10deg, $primary 0%, $primaryT400 100%);
+  border-radius: 1rem;
+}
+
+.rightPanel {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  width: 100%;
+
+  background: $primary;
+  background: $white;
+  border: $primary 0.35rem solid;
+  border-radius: 1rem;
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+}
