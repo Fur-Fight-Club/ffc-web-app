@@ -136,7 +136,7 @@ export default function AnalyticsPage1() {
       >
         <Text h2>Analytics</Text>
         <Button auto onPress={handleRefetch}>
-          Refraîchir les données
+          Rafraîchir les données
         </Button>
       </div>
       <Grid.Container gap={2}>
