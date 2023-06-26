@@ -8,17 +8,20 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "src/store/application/slice";
 import { Button } from "./UI/Button/Button.component";
-
 const NavbarTest = () => {
   const [variant, setVariant] = useState("default");
   const [activeColor, setActiveColor] = useState("primary");
-
-  const dispatch = useDispatch();
 
   const { isDark } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
   const { setTheme } = useNextTheme();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push("/");
+  };
 
   return (
     <Navbar isBordered={isDark} variant="floating" maxWidth="fluid">
@@ -82,17 +85,9 @@ const NavbarTest = () => {
             Sign Up
           </Button>
         </Navbar.Item>
-        <Navbar.Item>
-          <Button
-            auto
-            flat
-            as={Link}
-            color="secondary"
-            onClick={() => dispatch(logout())}
-          >
-            Disconnected
-          </Button>
-        </Navbar.Item>
+        <Navbar.Link href="#" color="inherit" onClick={handleLogout}>
+          Déconnexion
+        </Navbar.Link>
       </Navbar.Content>
     </Navbar>
   );
