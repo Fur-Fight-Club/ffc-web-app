@@ -44,8 +44,8 @@ export const SidebarAdmin = () => {
   }, [collapseSidebar, collapsed]);
 
   const redirectTo = (path: string) => {
-    router.push(path);
     setIsRedirecting(true);
+    router.push(path);
   };
 
   const handleLogout = () => {
@@ -53,10 +53,10 @@ export const SidebarAdmin = () => {
   };
 
   useEffect(() => {
-    if (isRedirecting && pathname === "/") {
+    if (isRedirecting) {
       dispatch(logout());
     }
-  }, [pathname, isRedirecting, dispatch]);
+  }, [isRedirecting]);
 
   const handleToggleSidebar = () => {
     collapseSidebar(!collapsed);
