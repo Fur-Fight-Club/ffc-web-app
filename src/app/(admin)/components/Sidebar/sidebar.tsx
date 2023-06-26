@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@components/UI/Button/Button.component";
 import {
   CaretCircleLeft,

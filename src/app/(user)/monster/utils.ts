@@ -1,4 +1,4 @@
-import { Monster, WeightCategoryType } from "src/model/monster.schema";
+import { Monster } from "src/model/monster.schema";
 
 export const convertApiTypeToType = (
   apiType: Monster["monster_type"] | string
