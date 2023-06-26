@@ -54,7 +54,9 @@ export const SidebarAdmin = () => {
 
   useEffect(() => {
     if (isRedirecting) {
-      dispatch(logout());
+      setTimeout(() => {
+        dispatch(logout());
+      }, 500);
     }
   }, [isRedirecting]);
 

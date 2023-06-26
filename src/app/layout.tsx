@@ -116,10 +116,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </PersistGate>
         </Provider>
       </body>
-      <script
-        type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD84mLF6zcUrXTMJMHMaRjImrX7npura30&libraries=places"
-      ></script>
     </html>
   );
 }
