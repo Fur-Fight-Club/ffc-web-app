@@ -1,0 +1,14 @@
+@import 'abstracts/variables';
+
+.item {
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+
+  &:hover {
+    background: $gray-light-2;
+  }
+}
+
+.itemSelected {
+  background: $gray-light-2;
+}

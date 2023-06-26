@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import fireAnimation from '@assets/animations/swords.json';
-import { CaretLeft } from '@phosphor-icons/react';
-import { motion } from 'framer-motion';
-import Lottie from 'lottie-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import styles from './layout.module.scss';
+import fireAnimation from "@assets/animations/swords.json";
+import { CaretLeft } from "@phosphor-icons/react";
+import { motion } from "framer-motion";
+import Lottie from "lottie-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import styles from "./layout.module.scss";
 
 type LoginLayoutProps = {
   children: React.ReactNode;
@@ -21,9 +21,9 @@ export default function LoginLayout({ children }: LoginLayoutProps) {
       <div className={styles.contentPanel}>
         <nav className={styles.navbar}>
           <motion.a
-            onClick={() => router.push('/')}
+            onClick={() => router.push("/")}
             className={styles.goBack}
-            whileHover={{ scale: 1.3, color: '#b91919' }}
+            whileHover={{ scale: 1.3, color: "#b91919" }}
           >
             <CaretLeft size={32} weight="bold" />
           </motion.a>

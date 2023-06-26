@@ -37,6 +37,10 @@ const NavbarTest = () => {
     router.push("/");
   };
 
+  const isInUrl = (path: string) => {
+    return pathname.includes(path);
+  };
+
   if (isUserLogged) {
     return (
       <Navbar isBordered={isDark} variant="floating" maxWidth="fluid">
@@ -57,27 +61,37 @@ const NavbarTest = () => {
           variant="highlight-rounded"
         >
           <Navbar.Link
-            href="#"
-            {...(pathname === "/dashboard" && { isActive: true })}
+            {...(isInUrl("dashboard") && { isActive: true })}
             onPress={() => router.push("/dashboard")}
           >
             Dashboard
           </Navbar.Link>
           <Navbar.Link
-            href="#"
-            {...(pathname === "/wallet" && { isActive: true })}
+            {...(isInUrl("wallet") && { isActive: true })}
             onPress={() => router.push("/wallet")}
           >
             Portefeuille
           </Navbar.Link>
           <Navbar.Link
-            href="#"
-            {...(pathname === "/profile" && { isActive: true })}
+            {...(isInUrl("profile") && { isActive: true })}
             onPress={() => router.push("/profile")}
           >
             Profile
           </Navbar.Link>
+          <Navbar.Link
+            {...(isInUrl("match") && { isActive: true })}
+            onPress={() => router.push("/match")}
+          >
+            Match
+          </Navbar.Link>
+          <Navbar.Link
+            {...(isInUrl("monster") && { isActive: true })}
+            onPress={() => router.push("/monster")}
+          >
+            Monster
+          </Navbar.Link>
         </Navbar.Content>
+        <Navbar.Content></Navbar.Content>
         <Navbar.Content>
           <Switch
             checked={isDark}
@@ -92,7 +106,7 @@ const NavbarTest = () => {
           )}
 
           <Navbar.Link href="#">
-            <Button auto onPress={handleLogout}>
+            <Button bordered auto onPress={handleLogout}>
               Déconnexion
             </Button>
           </Navbar.Link>
@@ -131,7 +145,7 @@ const NavbarTest = () => {
               color="primary"
               onClick={() => router.push("/register")}
             >
-              S'inscrire
+              {"S'inscrire"}
             </Button>
           </Navbar.Item>
         </Navbar.Content>
