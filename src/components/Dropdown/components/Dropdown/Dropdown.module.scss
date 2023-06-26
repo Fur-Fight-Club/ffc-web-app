@@ -1,0 +1,44 @@
+@import 'abstracts/variables';
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.toggleContainer {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid $brown;
+  color: $brown;
+  background: $light;
+  transition: all 0.2s ease-in-out;
+
+  &:focus {
+    box-shadow: $red-2 0 0 0 0.2rem;
+  }
+}
+
+.iconReversed {
+  transform: rotate(180deg);
+}
+
+.label {
+  margin-right: 1rem;
+}
+
+.labelContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menuContainer {
+  position: absolute;
+  z-index: 9999;
+  width: 100%;
+  border: 1px solid $brown;
+  border-top: 0;
+  color: $gray-dark-7;
+  font-size: 1.15rem;
+  background: $light;
+}
