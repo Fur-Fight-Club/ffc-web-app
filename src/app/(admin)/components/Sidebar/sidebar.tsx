@@ -1,5 +1,12 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "src/store/application/slice";
+
 import { Button } from "@components/UI/Button/Button.component";
 import {
   CaretCircleLeft,
@@ -9,13 +16,7 @@ import {
   SignOut,
   UserRectangle,
 } from "@phosphor-icons/react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { Menu, MenuItem, Sidebar, useProSidebar } from "react-pro-sidebar";
-import { useDispatch } from "react-redux";
-import { logout } from "src/store/application/slice";
 import { Flex } from "src/styles/flex";
 
 export const SidebarAdmin = () => {
