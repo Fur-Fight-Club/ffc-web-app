@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { GenericApiError } from "../store.model";
 import { baseQuery } from "./../api";
 
+import { Monster } from "../monsters/monsters.model";
 import {
   DeleteNotificationTokenRequest,
   LoginRequest,
@@ -27,10 +28,8 @@ import {
   initialState,
   reducerPath,
 } from "./constants";
-import { askResetPasswordErrorsHandler } from "./errors/ask-reset.error";
 import { loginErrorsHandler } from "./errors/login.error";
 import { registerErrorsHandler } from "./errors/register.error";
-import { Monster } from "../monsters/monsters.model";
 
 export const applicationApi = createApi({
   reducerPath,
@@ -76,6 +75,7 @@ export const applicationApi = createApi({
           toast.success("Bienvenue sur Fury Fight Club !");
         } catch (err) {
           const error = err as GenericApiError;
+          toast.error(error.error.data.message);
           dispatch(setLoading(false));
           registerErrorsHandler(error);
         }

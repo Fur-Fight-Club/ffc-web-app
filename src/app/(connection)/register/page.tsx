@@ -12,7 +12,7 @@ import { RegisterType, registerSchema } from "src/model/user.schema";
 import { useRegisterMutation } from "src/store/application/slice";
 import styles from "./page.module.scss";
 
-export default function Home() {
+export default function Register() {
   const {
     register,
     handleSubmit,

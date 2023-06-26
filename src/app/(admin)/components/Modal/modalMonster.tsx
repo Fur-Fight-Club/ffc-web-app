@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Modal, Text } from '@nextui-org/react';
-import { useEffect } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
-import { getHisMonster } from 'src/app/api/Users/getHisMonster';
-import { MonsterCard } from '../Card/MonsterCard/monsterCard';
+import { Modal, Text } from "@nextui-org/react";
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "react-query";
+import { getHisMonster } from "src/app/api/Users/getHisMonster";
+import { MonsterCard } from "../Card/MonsterCard/monsterCard";
 
 export const ModalsMonster = (props: {
   visible: boolean;
@@ -18,13 +18,13 @@ export const ModalsMonster = (props: {
     isLoading,
     isError,
     data: monstersData,
-  } = useQuery(['monsters', userId], () => getHisMonster(userId), {
+  } = useQuery(["monsters", userId], () => getHisMonster(userId), {
     enabled: false,
   });
 
   useEffect(() => {
     if (visible) {
-      queryClient.prefetchQuery(['monsters', userId], () =>
+      queryClient.prefetchQuery(["monsters", userId], () =>
         getHisMonster(userId)
       );
     }

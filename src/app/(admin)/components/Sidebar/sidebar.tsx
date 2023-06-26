@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@components/UI/Button/Button.component";
 import {
   CaretCircleLeft,
@@ -42,8 +44,8 @@ export const SidebarAdmin = () => {
   }, [collapseSidebar, collapsed]);
 
   const redirectTo = (path: string) => {
-    router.push(path);
     setIsRedirecting(true);
+    router.push(path);
   };
 
   const handleLogout = () => {
@@ -51,10 +53,12 @@ export const SidebarAdmin = () => {
   };
 
   useEffect(() => {
-    if (isRedirecting && pathname === "/") {
-      dispatch(logout());
+    if (isRedirecting) {
+      setTimeout(() => {
+        dispatch(logout());
+      }, 500);
     }
-  }, [pathname, isRedirecting, dispatch]);
+  }, [isRedirecting]);
 
   const handleToggleSidebar = () => {
     collapseSidebar(!collapsed);
