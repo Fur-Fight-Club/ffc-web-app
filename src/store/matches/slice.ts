@@ -220,4 +220,10 @@ export const {
   useGetMatchesQuery,
   useSendMessageMutation,
   usePlaceBetMutation,
+  useCreateMatchMutation,
+  useJoinMatchMutation,
+  useValidateJoinRequestMutation,
+  useRejectJoinRequestMutation,
+  useCloseMatchMutation,
+  useDeleteMatchMutation,
 } = matchesApi;
