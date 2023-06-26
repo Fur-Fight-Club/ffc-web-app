@@ -42,8 +42,10 @@ const NavbarTest = () => {
   }, [user]);
 
   const handleLogout = () => {
-    dispatch(logout());
     router.push("/");
+    setTimeout(() => {
+      dispatch(logout());
+    }, 500);
   };
 
   const isInUrl = (path: string) => {
