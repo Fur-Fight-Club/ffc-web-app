@@ -75,7 +75,8 @@ export const applicationApi = createApi({
           toast.success("Bienvenue sur Fury Fight Club !");
         } catch (err) {
           const error = err as GenericApiError;
-          toast.error(error.error.data.message);
+          console.log(error);
+          toast.error(error?.error?.data?.message);
           dispatch(setLoading(false));
           registerErrorsHandler(error);
         }
