@@ -9,7 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, MenuItem, Sidebar, useProSidebar } from "react-pro-sidebar";
 import { useDispatch } from "react-redux";
@@ -18,6 +18,9 @@ import { Flex } from "src/styles/flex";
 
 export const SidebarAdmin = () => {
   const router = useRouter();
+  const pathname = usePathname();
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
   const dispatch = useDispatch();
   const { collapseSidebar } = useProSidebar();
   const [collapsed, setCollapsed] = useState(false);
@@ -38,10 +41,20 @@ export const SidebarAdmin = () => {
     return () => window.removeEventListener("resize", updateWindowWidth);
   }, [collapseSidebar, collapsed]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    router.push("/");
+  const redirectTo = (path: string) => {
+    router.push(path);
+    setIsRedirecting(true);
   };
+
+  const handleLogout = () => {
+    redirectTo("/");
+  };
+
+  useEffect(() => {
+    if (isRedirecting && pathname === "/") {
+      dispatch(logout());
+    }
+  }, [pathname, isRedirecting, dispatch]);
 
   const handleToggleSidebar = () => {
     collapseSidebar(!collapsed);
@@ -61,25 +74,42 @@ export const SidebarAdmin = () => {
             />
           </Flex>
 
-          {/* <SubMenu label="Utilisateur" icon={<User />}>
-          <MenuItem> Documentation</MenuItem>
-          <MenuItem> Calendar</MenuItem>
-        </SubMenu> */}
           <MenuItem
-            icon={<House size={25} color="#e0dfdb" weight="fill" />}
             component={<Link href="/admin" />}
+            icon={
+              pathname === "/admin" ? (
+                <House size={25} color="black" weight="fill" />
+              ) : (
+                <House size={25} color="#e0dfdb" weight="light" />
+              )
+            }
+            style={pathname === "/admin" ? { fontWeight: "bold" } : {}}
           >
             Dashboard
           </MenuItem>
           <MenuItem
-            icon={<UserRectangle size={25} color="#e0dfdb" weight="fill" />}
             component={<Link href="/admin/accounts" />}
+            icon={
+              pathname === "/admin/accounts" ? (
+                <UserRectangle size={25} color="black" weight="fill" />
+              ) : (
+                <UserRectangle size={25} color="#e0dfdb" weight="light" />
+              )
+            }
+            style={pathname === "/admin/accounts" ? { fontWeight: "bold" } : {}}
           >
             Utilisateurs
           </MenuItem>
           <MenuItem
-            icon={<MapPin size={25} color="#e0dfdb" weight="fill" />}
             component={<Link href="/admin/arena" />}
+            icon={
+              pathname === "/admin/arena" ? (
+                <MapPin size={25} color="black" weight="fill" />
+              ) : (
+                <MapPin size={25} color="#e0dfdb" weight="light" />
+              )
+            }
+            style={pathname === "/admin/arena" ? { fontWeight: "bold" } : {}}
           >
             Arènes
           </MenuItem>
