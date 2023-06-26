@@ -5,11 +5,15 @@ import { useTheme as useNextTheme } from "next-themes";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "src/store/application/slice";
 import { Button } from "./UI/Button/Button.component";
 
 const NavbarTest = () => {
   const [variant, setVariant] = useState("default");
   const [activeColor, setActiveColor] = useState("primary");
+
+  const dispatch = useDispatch();
 
   const { isDark } = useTheme();
   const router = useRouter();
@@ -76,6 +80,17 @@ const NavbarTest = () => {
             onClick={() => router.push("/register")}
           >
             Sign Up
+          </Button>
+        </Navbar.Item>
+        <Navbar.Item>
+          <Button
+            auto
+            flat
+            as={Link}
+            color="secondary"
+            onClick={() => dispatch(logout())}
+          >
+            Disconnected
           </Button>
         </Navbar.Item>
       </Navbar.Content>
