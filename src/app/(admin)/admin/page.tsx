@@ -127,7 +127,18 @@ export default function AnalyticsPage1() {
   }, [buttonEvents, clickEvents, pathnameEvents, leaveEvents]);
   return (
     <div>
-      <Text h2>Analytics</Text>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Text h2>Analytics</Text>
+        <Button auto onPress={handleRefetch}>
+          Refraîchir les données
+        </Button>
+      </div>
       <Grid.Container gap={2}>
         <Grid xs={12} md={3}>
           <Card>
@@ -267,7 +278,7 @@ export default function AnalyticsPage1() {
                 noMargin
                 align="center"
                 rowsPerPage={5}
-                onPageChange={(page) => console.log({ page })}
+                onPageChange={(page) => null}
               />
             </Table>
           </Card>
@@ -419,7 +430,7 @@ export default function AnalyticsPage1() {
                 noMargin
                 align="center"
                 rowsPerPage={5}
-                onPageChange={(page) => console.log({ page })}
+                onPageChange={(page) => null}
               />
             </Table>
           </Card>

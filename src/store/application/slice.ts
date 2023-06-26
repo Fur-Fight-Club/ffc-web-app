@@ -341,6 +341,7 @@ export const applicationSlice = createSlice({
         ...action.payload.user,
         Invoice: action.payload.invoices,
         MatchMessage: [],
+        // @ts-ignore
         Monster: action.payload.user.Monster,
         StripeAccount: action.payload.stripeAccount,
         Wallet: action.payload.wallet[0],
