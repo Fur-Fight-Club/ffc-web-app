@@ -1,11 +1,12 @@
 import { createContext } from "react";
+import { Monster } from "src/store/monsters/monsters.model";
 
 export type CardListContextType = {
-  activeItem: string | React.ReactNode;
-  setActiveItem: (item: string | React.ReactNode) => void;
+  activeMonster: Monster;
+  setActiveMonster: (monster: Monster) => void;
 };
 
-export const DropdownContext = createContext<CardListContextType>({
-  activeItem: "",
-  setActiveItem: () => {},
+export const CardListContext = createContext<CardListContextType>({
+  activeMonster: {} as Monster,
+  setActiveMonster: () => {},
 });

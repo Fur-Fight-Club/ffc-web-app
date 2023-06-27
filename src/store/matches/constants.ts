@@ -2,6 +2,17 @@ import { Matches } from "./matches.model";
 
 export const initialState: Matches = {
   matches: [],
+  create: {
+    step: 0,
+    monster: null,
+    arena: null,
+    bet: 0,
+  },
+  rejoin: {
+    step: 0,
+    monster: null,
+    arena: null,
+  },
 };
 
 export const reducerPath = "matchesApi";
