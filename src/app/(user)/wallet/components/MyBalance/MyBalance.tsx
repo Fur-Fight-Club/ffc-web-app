@@ -6,6 +6,10 @@ import Image from "next/image";
 import { getImageByAmount } from "./utils";
 import { Button } from "@components/UI/Button/Button.component";
 import { Plus } from "@phosphor-icons/react";
+import styles from "./MyBalance.module.scss";
+import { Sedgwick_Ave_Display } from "next/font/google";
+import BuyTokenModal from "../BuyTokenModal/BuyTokenModal";
+import { use, useEffect, useState } from "react";
 
 type MyBalanceProps = {
   color: string;
@@ -24,6 +28,12 @@ const MyBalance = ({
   amount,
   unityLabel,
 }: MyBalanceProps) => {
+  const [visible, setVisible] = useState(false);
+
+  const handleModal = () => {
+    setVisible(!visible);
+  };
+
   return (
     <Card
       style={{
@@ -36,7 +46,7 @@ const MyBalance = ({
     >
       <Row justify="flex-end">
         <Button
-          analyticsId="createMonster-button"
+          onPress={() => handleModal()}
           style={{ padding: "none", minWidth: "0" }}
         >
           <Plus weight="bold" size={24} color="#fff5f5" />
@@ -48,15 +58,20 @@ const MyBalance = ({
         </Text>
       </Row>
       <Row justify="center" align="center">
-        <Text h5 size={"$5xl"} color={contratsColor}>
+        <Text
+          h5
+          size={"$6xl"}
+          color={contratsColor}
+          style={{ letterSpacing: "0.5rem" }}
+        >
           {amount}{" "}
         </Text>
         <Spacer x={0.2} />
         <Image
           src={`/images/coins/${getImageByAmount(amount)}`}
           alt={`Image for amount ${amount}`}
-          width={75}
-          height={75}
+          width={50}
+          height={50}
         />
       </Row>
       <Row justify="center" align="center">
@@ -69,6 +84,7 @@ const MyBalance = ({
       <Row justify="center" align="center" style={{ marginTop: "1rem" }}>
         <Button analyticsId="createMonster-button">Récupérer mes fonds</Button>
       </Row>
+      <BuyTokenModal visibleProp={visible} closeModal={handleModal} />
     </Card>
   );
 };

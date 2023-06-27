@@ -8,11 +8,11 @@ export const getImageByAmount = (amount: number): string => {
       imageName = '2.png';
     } else if (amount > 1000 && amount <= 2050) {
       imageName = '3.png';
-    } else if (amount > 2050 && amount <= 3500) {
+    } else if (amount > 2050 && amount <= 3650) {
       imageName = '4.png';
-    } else if (amount > 3500 && amount <= 4000) {
+    } else if (amount > 3650 && amount <= 5350) {
       imageName = '5.png';
-    } else if (amount > 4000 && amount <= 5000) {
+    } else if (amount > 5350 && amount <= 11000) {
         imageName = '6.png';
     } else {
       imageName = '1.png';

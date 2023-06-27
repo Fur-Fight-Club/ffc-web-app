@@ -1,5 +1,12 @@
 @import "/src/styles/";
  
-.kpiCard {
-  height: 30rem;
-}
+@font-face {
+  font-family: 'SplatterKings';
+  src: local('../../../assets/fonts/SplatterKings-Bgex.ttf'), url('../../../assets/fonts/SplatterKings-Bgex.ttf');
+  font-weight: 400;
+  font-style: normal;
+  }
+
+  .balance {
+    font-family: SplatterKings;
+  }

@@ -56,7 +56,7 @@ const WalletPage = (props: WalletPageProps) => {
       </Text>
       <Row>
         <MyBalance
-          amount={4000}
+          amount={"3432"}
           label="Total"
           color={colors.secondaryT500}
           contratsColor={colors.black}
