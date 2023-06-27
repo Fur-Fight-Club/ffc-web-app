@@ -112,14 +112,7 @@ const NavbarTest = () => {
               />
             </Dropdown.Trigger>
             <Dropdown.Menu color="secondary" aria-label="Avatar Actions">
-              <Dropdown.Item key="admin">
-                {isUserisAdmin && (
-                  <Text onClick={() => router.push("/admin")}>
-                    Dashboard Admin
-                  </Text>
-                )}
-              </Dropdown.Item>
-              <Dropdown.Item key="profil" withDivider>
+              <Dropdown.Item key="profil">
                 <Text onClick={() => router.push("/profile")}>Mon Profile</Text>
               </Dropdown.Item>
 
