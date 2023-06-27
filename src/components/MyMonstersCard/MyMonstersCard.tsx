@@ -1,4 +1,6 @@
 "use client";
+import { IconButton } from "@components/IconButton";
+import { Button } from "@components/UI/Button/Button.component";
 import {
   Card,
   Col,
@@ -9,16 +11,16 @@ import {
   Tooltip,
   User,
 } from "@nextui-org/react";
-import styles from "./MyMonstersCard.module.scss";
-import { IconButton } from "@components/IconButton";
-import { convertApiTypeToLogo } from "src/utils/utils";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { useDeleteMonsterMutation } from "src/store/monsters/slice";
-import { Button } from "@components/UI/Button/Button.component";
+import { convertApiTypeToLogo } from "src/utils/utils";
+import styles from "./MyMonstersCard.module.scss";
 
 export default function MyMonstersCard() {
   const { user } = useSelector(applicationState);
+  const router = useRouter();
 
   const [deleteMonster] = useDeleteMonsterMutation();
 
@@ -166,8 +168,8 @@ export default function MyMonstersCard() {
       <Card.Footer>
         <Row>
           <Col>
-            <Link href={"/monster/create"}>
-              <Button>
+            <Link>
+              <Button onPress={() => router.push("monster/create")}>
                 <span className={styles.ctaLabel}>Créer un monstre</span>
               </Button>
             </Link>

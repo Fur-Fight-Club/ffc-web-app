@@ -1,6 +1,7 @@
 "use client";
 
-import styles from "./page.module.scss";
+import pictureAnimation from "@assets/animations/monster/monster_default_3.json";
+import { IconButton } from "@components/IconButton";
 import {
   Button,
   Card,
@@ -13,16 +14,15 @@ import {
   Tooltip,
   User,
 } from "@nextui-org/react";
+import { Pen, Trash } from "@phosphor-icons/react";
+import colors from "@styles/_colors.module.scss";
+import Lottie from "lottie-react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { useDeleteMonsterMutation } from "src/store/monsters/slice";
 import { convertApiTypeToLogo, weightCategoryColors } from "src/utils/utils";
-import { IconButton } from "@components/IconButton";
-import Lottie from "lottie-react";
-import pictureAnimation from "@assets/animations/monster/monster_default_3.json";
-import { Pen, Trash } from "@phosphor-icons/react";
-import colors from "@styles/_colors.module.scss";
+import styles from "./page.module.scss";
 
 type MonsterPageProps = {};
 
@@ -193,8 +193,8 @@ const MonsterPage = (props: MonsterPageProps) => {
         <Card.Footer>
           <Row>
             <Col>
-              <Link href={"/monster/create"}>
-                <Button>
+              <Link>
+                <Button onPress={() => router.push("/monster/create")}>
                   <span className={styles.ctaLabel}>Créer un monstre</span>
                 </Button>
               </Link>
