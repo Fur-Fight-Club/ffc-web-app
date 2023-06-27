@@ -38,7 +38,7 @@ const MonsterPage = (props: MonsterPageProps) => {
   };
 
   const columns = [
-    { name: "Nom de(s) montre(s)", uid: "name" },
+    { name: "Nom de(s) monstre(s)", uid: "name" },
     { name: "MMR", uid: "mmr" },
     { name: "TYPE", uid: "monster_type" },
     { name: "CATERORIE", uid: "weight_category" },
@@ -160,7 +160,7 @@ const MonsterPage = (props: MonsterPageProps) => {
         <Lottie className={styles.lottie} animationData={pictureAnimation} />
         <Spacer />
         <Text h2 size={"$4xl"} weight={"bold"} css={{ mb: "$4" }}>
-          Vos montres
+          Vos monstres
         </Text>
       </Row>
       <Card css={{ minHeight: "50%" }}>
