@@ -1,6 +1,13 @@
 "use client";
 
-import styles from "./page.module.scss";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { applicationState } from "src/store/application/selector";
+import { useDeleteMonsterMutation } from "src/store/monsters/slice";
+import { convertApiTypeToLogo, weightCategoryColors } from "src/utils/utils";
+
+import pictureAnimation from "@assets/animations/monster/monster_default_3.json";
+import { IconButton } from "@components/IconButton";
 import {
   Button,
   Card,
@@ -13,16 +20,10 @@ import {
   Tooltip,
   User,
 } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { applicationState } from "src/store/application/selector";
-import { useDeleteMonsterMutation } from "src/store/monsters/slice";
-import { convertApiTypeToLogo, weightCategoryColors } from "src/utils/utils";
-import { IconButton } from "@components/IconButton";
-import Lottie from "lottie-react";
-import pictureAnimation from "@assets/animations/monster/monster_default_3.json";
 import { Pen, Trash } from "@phosphor-icons/react";
 import colors from "@styles/_colors.module.scss";
+import Lottie from "lottie-react";
+import styles from "./page.module.scss";
 
 type MonsterPageProps = {};
 
@@ -32,6 +33,10 @@ const MonsterPage = (props: MonsterPageProps) => {
 
   const [deleteMonster] = useDeleteMonsterMutation();
 
+  const handleDeleteMonster = (id: number) => {
+    deleteMonster(id);
+  };
+
   const columns = [
     { name: "Nom de(s) montre(s)", uid: "name" },
     { name: "MMR", uid: "mmr" },
@@ -40,11 +45,7 @@ const MonsterPage = (props: MonsterPageProps) => {
     { name: "ACTIONS", uid: "actions" },
   ];
 
-  const handleDeleteMonster = (id: number) => {
-    deleteMonster(id);
-  };
-
-  const renderCell = (monster, columnKey: React.Key) => {
+  const renderCell = (monster: any, columnKey: React.Key) => {
     const cellValue = monster[columnKey];
     switch (columnKey) {
       case "name":
@@ -152,49 +153,67 @@ const MonsterPage = (props: MonsterPageProps) => {
 
   return (
     <div>
-      <Row justify="center" css={{ m: "$7" }}>
+      <Row
+        justify="center"
+        style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
+      >
         <Lottie className={styles.lottie} animationData={pictureAnimation} />
         <Spacer />
-        <Text h2 size={"$7xl"} weight={"bold"} css={{ mb: "$4" }}>
+        <Text h2 size={"$4xl"} weight={"bold"} css={{ mb: "$4" }}>
           Vos montres
         </Text>
       </Row>
       <Card css={{ minHeight: "50%" }}>
         <Card.Body css={{ py: "$10" }}>
-          <Table
-            bordered
-            shadow={false}
-            aria-label="Example table with dynamic content & infinity pagination"
-          >
-            <Table.Header columns={columns}>
-              {(column) => (
-                <Table.Column
-                  key={column.uid}
-                  hideHeader={column.uid === "actions"}
-                  align={column.uid === "actions" ? "center" : "start"}
-                >
-                  {column.name}
-                </Table.Column>
-              )}
-            </Table.Header>
-            <Table.Body items={user.Monster}>
-              {(item) => (
-                <Table.Row>
-                  {(columnKey) => (
-                    <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-                  )}
-                </Table.Row>
-              )}
-            </Table.Body>
-            <Table.Pagination shadow noMargin align="center" rowsPerPage={3} />
-          </Table>
+          {user.Monster.length > 0 ? (
+            <Table
+              bordered
+              shadow={false}
+              aria-label="Example table with dynamic content & infinity pagination"
+            >
+              <Table.Header columns={columns}>
+                {(column) => (
+                  <Table.Column
+                    key={column.uid}
+                    hideHeader={column.uid === "actions"}
+                    align={column.uid === "actions" ? "center" : "start"}
+                  >
+                    {column.name}
+                  </Table.Column>
+                )}
+              </Table.Header>
+
+              <Table.Body items={user.Monster}>
+                {(item) => (
+                  <Table.Row>
+                    {(columnKey) => (
+                      <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                    )}
+                  </Table.Row>
+                )}
+              </Table.Body>
+
+              <Table.Pagination
+                shadow
+                noMargin
+                align="center"
+                rowsPerPage={3}
+              />
+            </Table>
+          ) : (
+            <Row justify="center">
+              <Text h3 weight={"bold"} css={{ mb: "$4" }}>
+                Vous n'avez pas encore de monstre , créez en un !
+              </Text>
+            </Row>
+          )}
         </Card.Body>
         <Card.Divider />
         <Card.Footer>
-          <Row>
+          <Row style={{ marginLeft: "1rem" }}>
             <Col>
-              <Link href={"/monster/create"}>
-                <Button>
+              <Link>
+                <Button onPress={() => router.push("/monster/create")}>
                   <span className={styles.ctaLabel}>Créer un monstre</span>
                 </Button>
               </Link>
