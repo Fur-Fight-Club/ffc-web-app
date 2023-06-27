@@ -14,11 +14,7 @@ import { IconButton } from "@components/IconButton";
 import { convertApiTypeToLogo } from "src/utils/utils";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
-import { useEffect } from "react";
-import {
-  useDeleteMonsterMutation,
-  useGetMonstersQuery,
-} from "src/store/monsters/slice";
+import { useDeleteMonsterMutation } from "src/store/monsters/slice";
 import { Button } from "@components/UI/Button/Button.component";
 
 export default function MyMonstersCard() {
