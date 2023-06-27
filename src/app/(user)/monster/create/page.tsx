@@ -96,7 +96,7 @@ export default function CreateMonster() {
       fk_user: user.id ?? -1,
     });
     if (createMonster.data) {
-      router.push("dashboard");
+      router.push("monster");
     }
   };
 
@@ -121,7 +121,7 @@ export default function CreateMonster() {
         <Input
           value={weight}
           onChange={(e) => setWeight(Number(e.target.value))}
-          type="number"
+          labelRight="KG"
           placeholder="500"
         />
         <Spacer y={1.3} />

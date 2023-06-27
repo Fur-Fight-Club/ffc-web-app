@@ -9,7 +9,7 @@ import { deleteMonstersHandler } from "./errors/delete";
 import { baseQuery } from "../api";
 import { GenericApiError } from "../store.model";
 import { toast } from "react-hot-toast";
-import { setMonsters as setMyMonsters, removeMonster, setLoading} from "../application/slice";
+import { setMonsters as setMyMonsters, removeMonster, setLoading, updateMonster} from "../application/slice";
 
 export const monstersApi = createApi({
   reducerPath,
@@ -110,6 +110,7 @@ export const monstersApi = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
+          dispatch(updateMonster(data));
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));

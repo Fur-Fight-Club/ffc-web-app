@@ -403,6 +403,18 @@ export const applicationSlice = createSlice({
       const temp = [...state.user.Monster, action.payload];
       state.user.Monster = temp;
     },
+    updateMonster: (
+      state,
+      action: PayloadAction<Monster>
+    ) => {
+      const temp = state.user.Monster.map((monster) => {
+        if (monster.id === action.payload.id) {
+          return action.payload;
+        }
+        return monster;
+      });
+      state.user.Monster = temp;
+    },
     removeMonster: (state, action: PayloadAction<number>) => {
       const temp = state.user.Monster.filter(
         (monster) => monster.id !== action.payload
@@ -423,6 +435,7 @@ export const {
   setSessionTime,
   setSessionPagesVisited,
   setMonsters,
+  updateMonster,
   removeMonster,
   logout,
 } = applicationSlice.actions;

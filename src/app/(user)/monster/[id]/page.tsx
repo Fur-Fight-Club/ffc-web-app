@@ -5,32 +5,60 @@ import { Button } from "@components/UI/Button/Button.component";
 import Divider from "@components/UI/Divider";
 import { Row, Spacer, Text, Col, Input } from "@nextui-org/react";
 import styles from "./page.module.scss";
-import React, { useState } from "react";
-import { monsterType, weightCategories, convertApiTypeToType } from "../utils";
+import React, { useEffect, useState } from "react";
+import {
+  monsterType,
+  weightCategories,
+  convertApiTypeToType,
+} from "src/utils/utils";
 import { Select } from "antd";
 import { applicationState } from "src/store/application/selector";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { useCreateMonsterMutation } from "src/store/monsters/slice";
+import {
+  useUpdateMonsterMutation,
+  useGetMonsterByIdQuery,
+} from "src/store/monsters/slice";
+import { useRouter } from "next/navigation";
 
-export default function CreateMonster() {
+export default function CreateMonster({ params }: { params: { id: number } }) {
+  const router = useRouter();
+  const id = Number(params.id);
+
   const { user } = useSelector(applicationState);
 
+  const { data, refetch } = useGetMonsterByIdQuery(id);
+
+  useEffect(() => {
+    console.log(data);
+
+    if (data) {
+      setIdMonster(data.id);
+      setName(data.name);
+      setMMR(data.MMR);
+      setWeight(data.weight);
+      setMonster_type(data.monster_type);
+      setWeight_category(data.weight_category);
+      setPicture(data.picture);
+    }
+  }, []);
   /**
    * STATE
    */
+  const [idMonster, setIdMonster] = useState(-1);
   const [name, setName] = useState("");
+  const [MMR, setMMR] = useState(0);
   const [weight, setWeight] = useState(0);
   const [monster_type, setMonster_type] = useState("");
   const [weight_category, setWeight_category] = useState("");
   const [picture, setPicture] = useState<string | undefined>(undefined);
 
   const monster = {
-    name: "Godzilla",
-    weight: "90000000",
-    monster_type: "PREHISTORIC",
-    weight_category: "OH_LAWD_HE_COMIN",
-    picture: "https://i.imgur.com/ZC77E1t.jpg",
+    name: name,
+    weight: weight,
+    monster_type: monster_type,
+    weight_category: weight_category,
+    picture: picture,
   };
 
   const pictureRef = React.useRef<HTMLInputElement>(null);
@@ -59,20 +87,24 @@ export default function CreateMonster() {
     });
 
   // Send monter to backend
-  const [addMonster] = useCreateMonsterMutation();
+  const [updateMonster] = useUpdateMonsterMutation();
 
   const handleAddMonster = async () => {
-    addMonster({
+    updateMonster({
+      id: idMonster,
       name,
+      // mmr: MMR,
       weight,
       // @ts-ignore
       monster_type,
       // @ts-ignore
       weight_category,
       // @ts-ignore
-      picture,
+      // picture,
       fk_user: user.id ?? -1,
     });
+    router.push("monster");
+    refetch();
   };
 
   return (
@@ -96,7 +128,7 @@ export default function CreateMonster() {
         <Input
           value={monster.weight}
           onChange={(e) => setWeight(Number(e.target.value))}
-          type="number"
+          labelRight="KG"
           placeholder="500"
         />
         <Spacer y={1.3} />
@@ -128,7 +160,7 @@ export default function CreateMonster() {
           </Col>
         </Row>
         <Spacer y={1.5} />
-        <Text>Ajouter une image à votre monstre :</Text>
+        {/* <Text>Ajouter une image à votre monstre :</Text>
         <Spacer y={0.5} />
         <Button onPress={() => pictureRef.current?.click()}>
           {monster.picture ? "Changer l'image" : "Ajouter une image"}
@@ -145,7 +177,7 @@ export default function CreateMonster() {
             }
           }}
         />
-        <Spacer y={1.5} />
+        <Spacer y={1.5} /> */}
         <Button analyticsId="createMonster-button" onPress={handleAddMonster}>
           Modifier votre monstre
         </Button>

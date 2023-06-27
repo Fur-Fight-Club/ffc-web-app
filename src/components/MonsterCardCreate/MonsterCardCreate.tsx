@@ -6,7 +6,7 @@ import {
   convertApiTypeToType,
   weightCategories,
   convertApiTypeToLogo,
-} from "./utils";
+} from "src/utils/utils";
 import Lottie from "lottie-react";
 import monsterAnimation1 from "@assets/animations/monster/monster_default_1.json";
 import monsterAnimation2 from "@assets/animations/monster/monster_default_2.json";

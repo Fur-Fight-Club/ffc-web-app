@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import styles from "./MyMonstersCard.module.scss";
 import { IconButton } from "@components/IconButton";
-import { convertApiTypeToLogo } from "./utils";
+import { convertApiTypeToLogo } from "src/utils/utils";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { useEffect } from "react";
@@ -30,7 +30,7 @@ export default function MyMonstersCard() {
     { name: "Nom de(s) montre(s)", uid: "name" },
     { name: "MMR", uid: "mmr" },
     // { name: "CATERORIE", uid: "weight_category" },
-    { name: "ACTIONS", uid: "actions" },
+    // { name: "ACTIONS", uid: "actions" },
   ];
 
   const handleDeleteMonster = (id: number) => {

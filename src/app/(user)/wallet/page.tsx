@@ -3,6 +3,7 @@
 import { Row, Spacer, Table, Text } from "@nextui-org/react";
 import colors from "@styles/_colors.module.scss";
 import KpiCard from "./components/KpiCard/KpiCard";
+import MyBalance from "./components/MyBalance/MyBalance";
 
 type WalletPageProps = {};
 
@@ -54,8 +55,8 @@ const WalletPage = (props: WalletPageProps) => {
         Données financières
       </Text>
       <Row>
-        <KpiCard
-          amount={30.9}
+        <MyBalance
+          amount={4000}
           label="Total"
           color={colors.secondaryT500}
           contratsColor={colors.black}
