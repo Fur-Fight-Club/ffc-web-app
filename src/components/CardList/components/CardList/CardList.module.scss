@@ -1,4 +1,16 @@
+@import "/src/styles/";
+
 .cardList {
+  overflow-y: scroll;
   display: grid;
+  grid-auto-flow: row;
+  grid-gap: 1rem;
   grid-template-columns: 1fr;
-  ;background: #eeddf5;}
+  align-content: start;
+
+  height: 90%;
+  padding: 1rem;
+
+  background: $whiteS100;
+  border-radius: 0.75rem;
+}

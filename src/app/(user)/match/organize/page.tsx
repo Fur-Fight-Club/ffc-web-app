@@ -10,7 +10,8 @@ type OrganizeMatchPageProps = {};
 const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
   const { user } = useSelector(applicationState);
 
-  console.log(user);
+  const monsters = user?.Monster;
+  console.log("monsters", monsters);
 
   return (
     <Grid.Container css={{ height: "100%" }}>
@@ -18,9 +19,9 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
         <div style={{ width: "100%" }}>
           <div>Vos monstres</div>
           <CardList>
-            <CardList.MonsterItem />
-            <CardList.MonsterItem />
-            <CardList.MonsterItem />
+            {monsters?.map((monster) => (
+              <CardList.MonsterItem key={monster.id} monster={monster} />
+            ))}
           </CardList>
         </div>
       </Grid>
