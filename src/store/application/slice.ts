@@ -4,8 +4,11 @@ import toast from "react-hot-toast";
 import { GenericApiError } from "../store.model";
 import { baseQuery } from "./../api";
 
+import { Monster } from "../monsters/monsters.model";
 import {
   DeleteNotificationTokenRequest,
+  GetHeatmapDataDto,
+  HeatmapData,
   LoginRequest,
   LoginResponse,
   MeResponse,
@@ -27,10 +30,8 @@ import {
   initialState,
   reducerPath,
 } from "./constants";
-import { askResetPasswordErrorsHandler } from "./errors/ask-reset.error";
 import { loginErrorsHandler } from "./errors/login.error";
 import { registerErrorsHandler } from "./errors/register.error";
-import { Monster } from "../monsters/monsters.model";
 
 export const applicationApi = createApi({
   reducerPath,
@@ -76,6 +77,8 @@ export const applicationApi = createApi({
           toast.success("Bienvenue sur Fury Fight Club !");
         } catch (err) {
           const error = err as GenericApiError;
+          console.log(error);
+          toast.error(error?.error?.data?.message);
           dispatch(setLoading(false));
           registerErrorsHandler(error);
         }
@@ -312,6 +315,26 @@ export const applicationApi = createApi({
         method: "GET",
       }),
     }),
+
+    getHeatmapData: builder.mutation<HeatmapData[], GetHeatmapDataDto>({
+      query: (body) => ({
+        url: `${endpoint.analytics}/heatmap-data`,
+        method: "POST",
+        body,
+      }),
+
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setLoading(false));
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          toast.error("🚨 Une erreur est survenue, veuillez réessayer");
+        }
+      },
+    }),
   }),
 });
 
@@ -421,6 +444,7 @@ export const {
   useGetMouseClickEventsQuery,
   useGetPathnameChangeEventsQuery,
   useGetLeaveAppEventsQuery,
+  useGetHeatmapDataMutation,
   // Callback
   usePaymentCallbackMutation,
 } = applicationApi;

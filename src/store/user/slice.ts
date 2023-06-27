@@ -1,14 +1,13 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-import { reducerPath, CACHE_KEY, initialState } from "./constants";
-import { baseQuery } from "../api";
 import { createSlice } from "@reduxjs/toolkit";
-import { User } from "src/model/user.schema";
-import { endpoints } from "./constants";
-import { GenericApiError } from "../store.model";
-import { setLoading } from "../application/slice";
-import { endpoint } from "../application/constants";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import toast from "react-hot-toast";
+import { User } from "src/model/user.schema";
+import { baseQuery } from "../api";
+import { endpoint } from "../application/constants";
 import { askResetPasswordErrorsHandler } from "../application/errors/ask-reset.error";
+import { setLoading } from "../application/slice";
+import { GenericApiError } from "../store.model";
+import { CACHE_KEY, endpoints, initialState, reducerPath } from "./constants";
 
 export const userApi = createApi({
   reducerPath,
@@ -153,9 +152,11 @@ export const userApi = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
+          toast.success("🎉 Compte confirmé !");
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
+          toast.error("❌ Erreur lors de la confirmation du compte");
           console.log(error.error.data);
         }
       },

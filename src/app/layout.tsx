@@ -5,7 +5,7 @@ import styles from "@styles/_colors.module.scss";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { Poppins } from "next/font/google";
 import * as React from "react";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
@@ -15,7 +15,7 @@ import { store } from "src/store/store";
 import { AnalyticsWrapper } from "@components/AnalyticsWrapper/AnalyticsWrapper.component";
 import { AnalyticsCookieBar } from "@components/UI/AnalyticsCookieBar/AnalyticsCookieBar.component";
 import "./globals.scss";
-
+import { NotificationComponent } from "src/services/firebase.service";
 const poppins = Poppins({
   weight: "400",
   subsets: ["latin"],
@@ -29,7 +29,7 @@ const lightTheme = createTheme({
       primaryLight: styles.primaryT200,
       primaryLightHover: styles.primaryT200,
       primaryLightActive: styles.primaryT200,
-      primaryLightContrast: styles.primaryS500,
+      primaryLightContrast: styles.white,
       primary: styles.primary,
       primaryBorder: styles.primaryS100,
       primaryBorderHover: styles.primaryS200,
@@ -88,6 +88,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <PersistGate loading={null} persistor={persistor}>
             <AnalyticsWrapper>
               <AnalyticsCookieBar />
+              <NotificationComponent />
               <QueryClientProvider client={queryClient}>
                 <NextThemesProvider
                   defaultTheme="light"

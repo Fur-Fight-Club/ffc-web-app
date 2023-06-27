@@ -25,7 +25,11 @@ export const generateRandomColors = (x: number) => {
 
 export const isUserLoggedIn = (user: User) => {
   if (user?.role) {
-    return user?.role.includes("USER") || user?.role.includes("ADMIN") || user?.role.includes("MONSTER_OWNER");
+    return (
+      user?.role.includes("USER") ||
+      user?.role.includes("ADMIN") ||
+      user?.role.includes("MONSTER_OWNER")
+    );
   }
   return false;
 };
@@ -35,4 +39,8 @@ export const isUserAdmin = (user: User) => {
     return user?.role.includes("ADMIN");
   }
   return false;
+};
+
+export const getInitials = (firstName: string, lastName: string) => {
+  return firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
 };

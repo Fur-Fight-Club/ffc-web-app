@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import warriorsAnimation from '@assets/animations/warriors.json';
-import NavbarTest from '@components/Navbar';
-import { Text } from '@nextui-org/react';
-import Lottie from 'lottie-react';
-import BetList, { BetListItem } from './components/BetList';
-import styles from './page.module.scss';
+import warriorsAnimation from "@assets/animations/warriors.json";
+import NavbarTest from "@components/Navbar";
+import { Text } from "@nextui-org/react";
+import Lottie from "lottie-react";
+import BetList, { BetListItem } from "./components/BetList";
+import styles from "./page.module.scss";
 
 export default function Home() {
   return (
@@ -20,10 +20,10 @@ export default function Home() {
               ))}
             </BetList>
             <div className={styles.catchPhrase}>
-              <Text h1 weight={'bold'} size={'$6xl'}>
+              <Text h1 weight={"bold"} size={"$6xl"}>
                 Faites combattre vos monstres
               </Text>
-              <Text h1 weight={'bold'} size={'$4xl'}>
+              <Text h1 weight={"bold"} size={"$4xl"}>
                 {"Et gagnez de l'argent !"}
               </Text>
             </div>
@@ -38,10 +38,10 @@ export default function Home() {
           <h2 className={styles.title}>{"Qu'est-ce que le FFC ?"} </h2>
         </section>
         <section className={styles.section}>
-          <h2 className={styles.title}>{'Comment ça fonctionne ?'} </h2>
+          <h2 className={styles.title}>{"Comment ça fonctionne ?"} </h2>
         </section>
         <section className={styles.section}>
-          <h2 className={styles.title}>{'Entrez dans la légende'} </h2>
+          <h2 className={styles.title}>{"Entrez dans la légende"} </h2>
         </section>
         <footer className={styles.footer}>
           <ul>

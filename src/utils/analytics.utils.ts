@@ -97,6 +97,16 @@ function getProportionOfLanguage(userAgents: UserAgent[]) {
   return languageCount;
 }
 
+function filterPathnameEventsFromRegexp(pathnameEvents: PathnameChangeEvent[]) {
+  // remove everything that contains "/admin" or "/monster/" in the pathname
+  const filteredPathnameEvents = pathnameEvents.filter(
+    (event) =>
+      !/\/admin/.test(event.event_id) && !/\/monster\//.test(event.event_id)
+  );
+
+  return filteredPathnameEvents;
+}
+
 function getProportionOfPlatform(userAgents: UserAgent[]) {
   const platforms = userAgents.map((userAgent) => userAgent.platform);
   const uniquePlatforms = new Set(platforms);
@@ -296,6 +306,9 @@ export const analytics = {
   averageSessionTime: getAverageSessionTime,
   aggregateUserAgents: aggregateAllUserAgents,
   getLastVisitors: getLast7DayVisitCount,
+  filter: {
+    pathname: filterPathnameEventsFromRegexp,
+  },
   proportion: {
     language: getProportionOfLanguage,
     platform: getProportionOfPlatform,

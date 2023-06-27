@@ -1,3 +1,5 @@
+"use client";
+
 type ProfilePageProps = {};
 
 const ProfilePage = (props: ProfilePageProps) => {
