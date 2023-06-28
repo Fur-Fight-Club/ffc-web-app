@@ -1,5 +1,6 @@
-import { User } from "@store/application/application.model";
+import { User } from "../application/application.model";
 
+export interface Pyaments {}
 export interface Wallet {
   id: number;
   amount: number;
@@ -62,3 +63,7 @@ export interface StripePayments {
   session_id: string;
   session: object;
 }
+
+export type RequestFrom = "ios" | "android" | "web" | null;
+
+export type Callback = "success" | "error";
