@@ -78,7 +78,7 @@ export default function AccountsAdmin() {
             squared
             // src={user?.avatar}
             color="primary"
-            name={user.firstname + " " + user.lastname}
+            name={user?.firstname + " " + user?.lastname}
             css={{ p: 0 }}
           >
             {user?.email}
@@ -143,36 +143,40 @@ export default function AccountsAdmin() {
 
   return (
     <>
-      <Table
-        aria-label="Users table"
-        css={{
-          height: "auto",
-          minWidth: "100%",
-        }}
-        selectionMode="none"
-      >
-        <Table.Header columns={columns}>
-          {(column) => (
-            <Table.Column
-              key={column.uid}
-              hideHeader={column.uid === "actions"}
-              align={column.uid === "actions" ? "center" : "start"}
-            >
-              {column.name}
-            </Table.Column>
-          )}
-        </Table.Header>
+      {users.length > 0 ? (
+        <Table
+          aria-label="Users table"
+          css={{
+            height: "auto",
+            minWidth: "100%",
+          }}
+          selectionMode="none"
+        >
+          <Table.Header columns={columns}>
+            {(column) => (
+              <Table.Column
+                key={column.uid}
+                hideHeader={column.uid === "actions"}
+                align={column.uid === "actions" ? "center" : "start"}
+              >
+                {column.name}
+              </Table.Column>
+            )}
+          </Table.Header>
 
-        <Table.Body items={users}>
-          {(item: EditUserType) => (
-            <Table.Row>
-              {(columnKey) => (
-                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-              )}
-            </Table.Row>
-          )}
-        </Table.Body>
-      </Table>
+          <Table.Body items={users}>
+            {(item: EditUserType) => (
+              <Table.Row>
+                {(columnKey) => (
+                  <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                )}
+              </Table.Row>
+            )}
+          </Table.Body>
+        </Table>
+      ) : (
+        <Text size={16}>Aucun utilisateur à afficher</Text>
+      )}
 
       <Modals
         visible={visibleModalAccount}
