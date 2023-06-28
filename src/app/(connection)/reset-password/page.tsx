@@ -10,8 +10,10 @@ import { toast } from "react-hot-toast";
 import { ResetPasswordType, resetPasswordSchema } from "src/model/user.schema";
 import styles from "./page.module.scss";
 import { Button } from "@components/UI/Button/Button.component";
+import { useAskResetPasswordMutation } from "src/store/user/slice";
 
-export default function Home() {
+export default function ResetPassword() {
+  const [askResetPassword] = useAskResetPasswordMutation();
   const {
     register,
     handleSubmit,
@@ -23,10 +25,8 @@ export default function Home() {
 
   const onSubmit = (data: ResetPasswordType) => {
     console.log("submit", data);
-    // TODO : call api and check error return
-    toast.success(
-      "Demande de réinitialisation de mot de passe envoyée ! Vérifiez vos emails"
-    );
+
+    askResetPassword(data.email);
   };
 
   console.log(watch("email"));
@@ -49,8 +49,8 @@ export default function Home() {
           errorMessage={errors.email?.message}
         />
         <Spacer y={1.5} />
-        <Button type="submit" analyticsId="login-button-reset-password">
-          Connexion
+        <Button type="submit" analyticsId="ask-reset-password">
+          Reinitialiser mon mot de passe
         </Button>
         <Spacer y={1.5} />
       </form>
