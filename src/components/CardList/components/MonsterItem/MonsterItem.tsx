@@ -13,9 +13,14 @@ import styles from "./MonsterItem.module.scss";
 export type MonsterItemProps = {
   monster: Monster;
   onClick?: () => void;
+  isSelected?: boolean;
 };
 
-const MonsterItem = ({ monster, onClick }: MonsterItemProps) => {
+const MonsterItem = ({
+  monster,
+  onClick,
+  isSelected = false,
+}: MonsterItemProps) => {
   const { activeMonster, setActiveMonster } = useContext(CardListContext);
 
   const handleOnClick = () => {
@@ -25,7 +30,7 @@ const MonsterItem = ({ monster, onClick }: MonsterItemProps) => {
       : setActiveMonster(monster);
   };
 
-  const isMonsterSelected = monster.id === activeMonster.id;
+  const isMonsterSelected = monster.id === activeMonster.id || isSelected;
 
   return (
     <motion.div

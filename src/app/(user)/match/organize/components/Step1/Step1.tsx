@@ -45,11 +45,12 @@ const Step1 = (props: Step1Props) => {
           <div style={{ width: "100%" }}>
             <div>Vos monstres</div>
             <CardList>
-              {monsters?.map((monster) => (
+              {monsters?.map((monsterItem) => (
                 <CardList.MonsterItem
-                  key={monster.id}
-                  monster={monster}
-                  onClick={() => handleOnClick(monster)}
+                  key={monsterItem.id}
+                  monster={monsterItem}
+                  onClick={() => handleOnClick(monsterItem)}
+                  isSelected={monster?.id === monsterItem.id}
                 />
               ))}
             </CardList>
