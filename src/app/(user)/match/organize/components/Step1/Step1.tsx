@@ -8,7 +8,10 @@ import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { createMatchFormState } from "src/store/matches/selector";
-import { setMonsterCreateForm } from "src/store/matches/slice";
+import {
+  setMonsterCreateForm,
+  setStepCreateForm,
+} from "src/store/matches/slice";
 import { Monster } from "src/store/monsters/monsters.model";
 import MonsterCardDetails from "../MonsterCardDetails";
 import MonsterCardPreview from "../MonsterCardPreview";
@@ -28,6 +31,11 @@ const Step1 = (props: Step1Props) => {
     monster?.id === selectedMonster.id
       ? dispatch(setMonsterCreateForm(null))
       : dispatch(setMonsterCreateForm(selectedMonster));
+  };
+
+  const handleNextStep = () => {
+    dispatch(setStepCreateForm(1));
+    toast.success("Monstre sélectionné");
   };
 
   return (
@@ -80,10 +88,7 @@ const Step1 = (props: Step1Props) => {
           Retour
         </Button>
         <Spacer x={0.5} />
-        <Button
-          {...(!monster && { disabled: true })}
-          onClick={() => toast.success("Monstre sélectionné !")}
-        >
+        <Button {...(!monster && { disabled: true })} onClick={handleNextStep}>
           Suivant
         </Button>
       </Row>
