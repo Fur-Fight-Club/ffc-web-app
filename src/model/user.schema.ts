@@ -1,33 +1,33 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-export const roleEnum = z.enum(['USER', 'ADMIN']);
+export const roleEnum = z.enum(["USER", "ADMIN"]);
 export type RoleType = z.infer<typeof roleEnum>;
 
 const userBaseSchema = z.object({
   id: z.number().optional(),
   firstname: z
     .string()
-    .min(2, { message: 'Firstname must be at least 2 characters long' })
+    .min(2, { message: "Firstname must be at least 2 characters long" })
     .max(255),
   lastname: z
     .string()
-    .min(2, { message: 'Lastname must be at least 2 characters long' })
+    .min(2, { message: "Lastname must be at least 2 characters long" })
     .max(255),
-  email: z.string().email({ message: 'Invalid email address' }),
+  email: z.string().email({ message: "Invalid email address" }),
   password: z
     .string()
-    .min(8, { message: 'Password must be at least 8 characters long' })
+    .min(8, { message: "Password must be at least 8 characters long" })
     .refine((password) => /[A-Z]/.test(password), {
-      message: 'Password must contain at least one uppercase character',
+      message: "Password must contain at least one uppercase character",
     })
     .refine((password) => /[a-z]/.test(password), {
-      message: 'Password must contain at least one lowercase character',
+      message: "Password must contain at least one lowercase character",
     })
     .refine((password) => /[0-9]/.test(password), {
-      message: 'Password must contain at least one digit',
+      message: "Password must contain at least one digit",
     })
     .refine((password) => /[^a-zA-Z0-9]/.test(password), {
-      message: 'Password must contain at least one special character',
+      message: "Password must contain at least one special character",
     }),
   confirmPassword: z.string().optional(),
   role: roleEnum.optional(),
@@ -51,7 +51,7 @@ export const registerSchema = userBaseSchema
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
-    path: ['confirmPassword'],
+    path: ["confirmPassword"],
   });
 export type RegisterType = z.infer<typeof registerSchema>;
 
@@ -62,3 +62,37 @@ const getMonstersOfUserSchema = userBaseSchema.pick({
   id: true,
 });
 export type GetMonstersOfUserType = z.infer<typeof getMonstersOfUserSchema>;
+
+export const setNewPasswordSchema = z.object({
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long" })
+    .refine((password) => /[A-Z]/.test(password), {
+      message: "Password must contain at least one uppercase character",
+    })
+    .refine((password) => /[a-z]/.test(password), {
+      message: "Password must contain at least one lowercase character",
+    })
+    .refine((password) => /[0-9]/.test(password), {
+      message: "Password must contain at least one digit",
+    })
+    .refine((password) => /[^a-zA-Z0-9]/.test(password), {
+      message: "Password must contain at least one special character",
+    }),
+  confirmPassword: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long" })
+    .refine((password) => /[A-Z]/.test(password), {
+      message: "Password must contain at least one uppercase character",
+    })
+    .refine((password) => /[a-z]/.test(password), {
+      message: "Password must contain at least one lowercase character",
+    })
+    .refine((password) => /[0-9]/.test(password), {
+      message: "Password must contain at least one digit",
+    })
+    .refine((password) => /[^a-zA-Z0-9]/.test(password), {
+      message: "Password must contain at least one special character",
+    }),
+});
+export type SetNewPasswordType = z.infer<typeof setNewPasswordSchema>;
