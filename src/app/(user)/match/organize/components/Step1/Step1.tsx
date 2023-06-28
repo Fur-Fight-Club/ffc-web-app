@@ -85,7 +85,7 @@ const Step1 = (props: Step1Props) => {
         </Grid>
       </Grid.Container>
       <Row justify="flex-end">
-        <Button bordered onClick={() => router.back()}>
+        <Button bordered onClick={() => router.push("/match")}>
           Retour
         </Button>
         <Spacer x={0.5} />
