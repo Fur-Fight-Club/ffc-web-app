@@ -1,3 +1,4 @@
+import { StripeBankAccount } from './../payments/payments.model';
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import toast from "react-hot-toast";
@@ -367,6 +368,8 @@ export const applicationSlice = createSlice({
         // @ts-ignore
         Monster: action.payload.user.Monster,
         StripeAccount: action.payload.stripeAccount,
+        // @ts-ignore
+        StripeBankAccount: action.payload.stripeBankAccount,
         Wallet: action.payload.wallet[0],
         transaction: action.payload.transaction,
       };
@@ -421,6 +424,13 @@ export const applicationSlice = createSlice({
       );
       state.user.Monster = temp;
     },
+    setStripeAccount: (state, action: PayloadAction<StripeAccount>) => {
+      state.user.StripeAccount = action.payload;
+    },
+    setStripeBankAccount: (state, action: PayloadAction<StripeBankAccount>) => {
+      // @ts-ignore
+      state.user.StripeBankAccount = action.payload;
+    }
   },
 });
 
@@ -437,6 +447,8 @@ export const {
   setMonsters,
   updateMonster,
   removeMonster,
+  setStripeAccount,
+  setStripeBankAccount,
   logout,
 } = applicationSlice.actions;
 

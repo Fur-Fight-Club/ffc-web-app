@@ -7,13 +7,26 @@ import MyBalance from "./components/MyBalance/MyBalance";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { Button } from "@components/UI/Button/Button.component";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import AddIbanModal from "./components/AddIbanModal/AddIbanModal";
+import DeleteAccountModal from "./components/DeleteAccountModal/DeleteAccountModal";
 
 type WalletPageProps = {};
 
 const WalletPage = (props: WalletPageProps) => {
   const { user } = useSelector(applicationState);
-  const router = useRouter();
+
+  const [visibleModalAddIban, setVisibleModalAddIban] = useState(false);
+  const [visibleModalDeleteAccount, setVisibleModalDeleteAccount] =
+    useState(false);
+
+  const handleModalAddIban = () => {
+    setVisibleModalAddIban(!visibleModalAddIban);
+  };
+
+  const handleModalDeleteAccount = () => {
+    setVisibleModalDeleteAccount(!visibleModalDeleteAccount);
+  };
 
   const columns = [
     {
@@ -61,13 +74,13 @@ const WalletPage = (props: WalletPageProps) => {
       <Text h2 size={"$lg"}>
         Données financières
       </Text>
-      {user?.StripeAccount ? (
+      {!user?.StripeAccount || !user?.StripeBankAccount ? (
         <Row>
           <Card variant="flat" css={{ h: "15rem", mb: "2rem" }}>
             <Card.Body>
               <Col>
                 <Row justify="center">
-                  <Text h3>🏦 Ajouter votre Iban</Text>
+                  <Text h3>🏦 Ajouter votre compte bancaire</Text>
                 </Row>
                 <Row justify="center">
                   <Text h3>
@@ -76,7 +89,11 @@ const WalletPage = (props: WalletPageProps) => {
                   </Text>
                 </Row>
                 <Row justify="center">
-                  <Button auto onPress={() => router.push("profile")}>
+                  <AddIbanModal
+                    visibleProp={visibleModalAddIban}
+                    closeModal={handleModalAddIban}
+                  />
+                  <Button auto onPress={() => handleModalAddIban()}>
                     Ajouter mon IBAN
                   </Button>
                 </Row>
@@ -110,7 +127,13 @@ const WalletPage = (props: WalletPageProps) => {
           />
         </Row>
       )}
-
+      <DeleteAccountModal
+        visibleProp={visibleModalDeleteAccount}
+        closeModal={handleModalDeleteAccount}
+      />
+      <Button auto onPress={() => handleModalDeleteAccount()}>
+        🗑️ Compte bancaire
+      </Button>
       <Text h2 size={"$lg"}>
         Historique des transactions
       </Text>

@@ -13,6 +13,7 @@ import { CACHE_KEY, endpoint, initialState, reducerPath } from './constants';
 import { createBankAccountErrorsHandler } from './errors/create';
 import { deleteBankAccountErrorsHandler } from './errors/delete';
 import { getBankAccountErrorsHandler } from './errors/get';
+import { setStripeBankAccount, setStripeAccount } from '../application/slice';
 
 export const bankAccountApi = createApi({
   reducerPath,
@@ -35,6 +36,8 @@ export const bankAccountApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setBankAccount(data));
+          dispatch(setStripeAccount(data));
+          dispatch(setStripeBankAccount(data));
           toast.success('🏦 Votre compte bancaire à été ajouté avec succès !');
         } catch (err) {
           const error = err as GenericApiError;
@@ -57,6 +60,8 @@ export const bankAccountApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setBankAccount(data));
+          // @ts-ignore
+          dispatch(setStripeBankAccount(null));
           toast.success(
             '🏦 Votre compte bancaire à été supprimé avec succès !'
           );
