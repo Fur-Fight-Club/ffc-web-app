@@ -1,0 +1,14 @@
+@import "/src/styles/";
+
+.monterCardPreviewEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 20rem;
+  height: 20rem;
+
+  border: $primaryT300 0.25rem dashed;
+  border-radius: 0.75rem;
+}

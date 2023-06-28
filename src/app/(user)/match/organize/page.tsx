@@ -8,6 +8,7 @@ import { createMatchFormState } from "src/store/matches/selector";
 import { setMonsterCreateForm } from "src/store/matches/slice";
 import { Monster } from "src/store/monsters/monsters.model";
 import MonsterCardDetails from "./components/MonsterCardDetails/MonsterCardDetails";
+import MonsterCardPreview from "./components/MonsterCardPreview/MonsterCardPreview";
 
 type OrganizeMatchPageProps = {};
 
@@ -52,7 +53,17 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
           </div>
         </Grid>
         <Grid xs={4}>
-          <div>Match</div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <MonsterCardPreview monster={monster} />
+          </div>
         </Grid>
       </Grid.Container>
       <Row justify="flex-end">
