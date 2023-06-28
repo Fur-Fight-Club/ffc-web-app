@@ -3,8 +3,6 @@ import { WeightCategoryType } from "../monsters/monsters.model";
 
 export interface Matches {
   matches: Match[];
-  create: MatchStepState & { bet: number };
-  rejoin: MatchStepState;
 }
 
 export type MatchWaitingListStatus = "ACCEPTED" | "REJECTED" | "PENDING";
@@ -51,8 +49,12 @@ export interface PlaceBet {
   amount: number;
 }
 
-export interface MatchStepState {
+export interface MatchFormState {
   step: number;
   monster: Monster | null;
   arena: Arena | null;
+}
+
+export interface CreateMatchForm extends MatchFormState {
+  bet: number;
 }

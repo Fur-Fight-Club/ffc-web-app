@@ -1,7 +1,11 @@
 import { applicationApi, applicationSlice } from "./application/slice";
 import { ArenaApi, arenaSlice } from "./arenas/slice";
 import { bankAccountApi, bankAccountSlice } from "./bank-account/slice";
-import { matchesApi, matchesSlice } from "./matches/slice";
+import {
+  createMatchFormSlice,
+  matchesApi,
+  matchesSlice,
+} from "./matches/slice";
 import { monstersApi, monstersSlice } from "./monsters/slice";
 import { paymentsApi, paymentsSlice } from "./payments/slice";
 import { userApi, userSlice } from "./user/slice";
@@ -12,6 +16,7 @@ export const reducers = {
   [applicationSlice.name]: applicationSlice.reducer,
   [matchesApi.reducerPath]: matchesApi.reducer,
   [matchesSlice.name]: matchesSlice.reducer,
+  [createMatchFormSlice.name]: createMatchFormSlice.reducer,
   [walletSlice.name]: walletSlice.reducer,
   [walletApi.reducerPath]: walletApi.reducer,
   [bankAccountSlice.name]: bankAccountSlice.reducer,
