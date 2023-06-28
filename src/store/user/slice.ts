@@ -174,7 +174,9 @@ export const userApi = createApi({
         try {
           await queryFulfilled;
           dispatch(setLoading(false));
-          toast.success("📨 Mail envoyé !");
+          toast.success(
+            "📨 Demande de réinitialisation de mot de passe envoyée ! Vérifiez vos emails"
+          );
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -190,7 +192,7 @@ export const userApi = createApi({
     >({
       query: (body) => ({
         url: `${endpoints.resetPassword}`,
-        method: "POST",
+        method: "PATCH",
         body,
       }),
 
