@@ -113,7 +113,7 @@ const NavbarTest = () => {
             </Dropdown.Trigger>
             <Dropdown.Menu color="secondary" aria-label="Avatar Actions">
               <Dropdown.Item key="profil">
-                <Text onClick={() => router.push("/profile")}>Mon Profile</Text>
+                <Text onClick={() => router.push("/profile")}>Mon profil</Text>
               </Dropdown.Item>
 
               <Dropdown.Item key="wallet">
