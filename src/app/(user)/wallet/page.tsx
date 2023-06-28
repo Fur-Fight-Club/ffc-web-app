@@ -1,13 +1,20 @@
 "use client";
 
-import { Row, Spacer, Table, Text } from "@nextui-org/react";
+import { Card, Col, Row, Spacer, Table, Text } from "@nextui-org/react";
 import colors from "@styles/_colors.module.scss";
 import KpiCard from "./components/KpiCard/KpiCard";
 import MyBalance from "./components/MyBalance/MyBalance";
+import { useSelector } from "react-redux";
+import { applicationState } from "src/store/application/selector";
+import { Button } from "@components/UI/Button/Button.component";
+import { useRouter } from "next/navigation";
 
 type WalletPageProps = {};
 
 const WalletPage = (props: WalletPageProps) => {
+  const { user } = useSelector(applicationState);
+  const router = useRouter();
+
   const columns = [
     {
       key: "date",
@@ -54,30 +61,56 @@ const WalletPage = (props: WalletPageProps) => {
       <Text h2 size={"$lg"}>
         Données financières
       </Text>
-      <Row>
-        <MyBalance
-          amount={"3432"}
-          label="Total"
-          color={colors.secondaryT500}
-          contratsColor={colors.black}
-          unityLabel="€"
-        />
-        <Spacer x={1} />
-        <KpiCard
-          amount={30.9}
-          label="Jetons gagnés"
-          color={colors.successLight}
-          contratsColor={colors.success}
-          unityLabel="Jetons"
-        />
-        <Spacer x={1} />
-        <KpiCard
-          amount={30.9}
-          label="Jetons perdus"
-          color={colors.dangerLight}
-          unityLabel="Jetons"
-        />
-      </Row>
+      {user?.StripeAccount ? (
+        <Row>
+          <Card variant="flat" css={{ h: "15rem", mb: "2rem" }}>
+            <Card.Body>
+              <Col>
+                <Row justify="center">
+                  <Text h3>🏦 Ajouter votre Iban</Text>
+                </Row>
+                <Row justify="center">
+                  <Text h3>
+                    Veuillez entrer votre IBAN afin d'acheter des credits et que
+                    nous puissions vous versez vos gains
+                  </Text>
+                </Row>
+                <Row justify="center">
+                  <Button auto onPress={() => router.push("profile")}>
+                    Ajouter mon IBAN
+                  </Button>
+                </Row>
+              </Col>
+            </Card.Body>
+          </Card>
+        </Row>
+      ) : (
+        <Row>
+          <MyBalance
+            amount={"3432"}
+            label="Total"
+            color={colors.secondaryT500}
+            contratsColor={colors.black}
+            unityLabel="€"
+          />
+          <Spacer x={1} />
+          <KpiCard
+            amount={30.9}
+            label="Jetons gagnés"
+            color={colors.successLight}
+            contratsColor={colors.success}
+            unityLabel="Jetons"
+          />
+          <Spacer x={1} />
+          <KpiCard
+            amount={30.9}
+            label="Jetons perdus"
+            color={colors.dangerLight}
+            unityLabel="Jetons"
+          />
+        </Row>
+      )}
+
       <Text h2 size={"$lg"}>
         Historique des transactions
       </Text>

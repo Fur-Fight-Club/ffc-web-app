@@ -3,6 +3,9 @@
 import { Modal, Text, Image, Row } from "@nextui-org/react";
 import { Button } from "@components/UI/Button/Button.component";
 import { useEffect, useState } from "react";
+import { BuyCreditsRequest } from "./utils";
+import styles from "./BuyTokenModal.module.scss";
+import { useBuyCreditsMutation } from "src/store/wallet/slice";
 
 type BuyTokenModalProps = {
   visibleProp: boolean;
@@ -11,6 +14,10 @@ type BuyTokenModalProps = {
 
 const BuyTokenModal = ({ visibleProp, closeModal }: BuyTokenModalProps) => {
   const [visible, setVisible] = useState(visibleProp);
+  const [displayValidation, setDisplayValidation] = useState("block");
+  const [amount, setAmount] = useState("");
+  const [price, setPrice] = useState(0);
+  const [disabledValidation, setDisabledValidation] = useState(true);
 
   useEffect(() => {
     setVisible(visibleProp);
@@ -29,9 +36,32 @@ const BuyTokenModal = ({ visibleProp, closeModal }: BuyTokenModalProps) => {
     },
   ];
 
+  const handleBuyCredit = (
+    amount: BuyCreditsRequest["credits"],
+    price: any
+  ) => {
+    setAmount(amount);
+    setPrice(price);
+    setDisplayValidation("none");
+    setDisabledValidation(false);
+  };
+
+  const handleback = () => {
+    setDisplayValidation("block");
+    if (displayValidation == "block") closeModal();
+  };
+
+  const [buyCredit] = useBuyCreditsMutation();
+
+  const handleBuy = () => {
+    buyCredit({ credits: amount });
+    closeModal();
+  };
+
   return (
     <Modal
-      scroll
+      closeButton
+      blur
       width="600px"
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
@@ -39,35 +69,47 @@ const BuyTokenModal = ({ visibleProp, closeModal }: BuyTokenModalProps) => {
       css={{ p: "$20", pt: "$10", pb: "$15" }}
     >
       <Modal.Header>
-        <Text size={"$5xl"}>Acheter des crédits</Text>
+        <Text size={"$4xl"}>🛒 Acheter des crédits</Text>
       </Modal.Header>
       <Modal.Body>
-        {coins.map((coin, index) => (
-          <Row key={index} justify="space-between" align="center">
-            <Image
-              src={coin.image.default.src}
-              alt="coins"
-              width={60}
-              height={60}
-            />
-            <Button
-              style={{ width: "50%" }}
-              color="warning"
-              onPress={() =>
-                console.log("buying " + coin.amount + " for " + coin.price)
-              }
-            >
-              {`${coin.amount} 🪙 — ${coin.price}€`}
-            </Button>
-          </Row>
-        ))}
+        <Row css={{ display: displayValidation == "block" ? "none" : "block" }}>
+          <Text size={"$2xl"} css={{ textAlign: "center" }}>
+            Voulez-vous vraiment acheter{" "}
+            <span className={styles.price}>{amount}</span> crédits pour{" "}
+            <span className={styles.price}>{price} </span>€ ?
+          </Text>
+        </Row>
+        <Row css={{ display: displayValidation }}>
+          {coins.map((coin, index) => (
+            <Row key={index} justify="space-between" align="center">
+              <Image
+                src={coin.image.default.src}
+                alt="coins"
+                width={60}
+                height={60}
+              />
+              <Button
+                style={{ width: "50%" }}
+                color="warning"
+                onPress={() =>
+                  handleBuyCredit(
+                    coin.amount as BuyCreditsRequest["credits"],
+                    coin.price
+                  )
+                }
+              >
+                {`${coin.amount} 🪙 — ${coin.price}€`}
+              </Button>
+            </Row>
+          ))}
+        </Row>
       </Modal.Body>
       <Modal.Footer>
-        <Button auto flat color="error" onPress={() => closeModal()}>
-          Close
+        <Button auto flat color="error" onPress={() => handleback()}>
+          Annuler
         </Button>
-        <Button auto onPress={() => closeModal()}>
-          Agree
+        <Button disabled={disabledValidation} auto onPress={() => handleBuy()}>
+          Oui, je suis sûr !
         </Button>
       </Modal.Footer>
     </Modal>
