@@ -1,0 +1,39 @@
+@import '/src/styles';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+
+  min-width: 28rem;
+  height: 100%;
+
+  background: $white;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ctaLabel {
+  font-weight: bold;
+  color: $secondary;
+  text-decoration: underline;
+  transition: color 0.2s ease-in-out;
+
+  font-size &:hover {
+    /* stylelint-disable-next-line scss/no-global-function-names */
+    color: darken($secondary, 10%);
+  }
+}
+
+.linkLabel {
+  font-size: 0.85rem;
+}
+
+.paragraph {
+  max-width: 45ch;
+}
