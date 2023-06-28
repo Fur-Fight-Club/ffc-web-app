@@ -1,13 +1,12 @@
 "use client";
-import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { deleteUser } from "src/app/api/Users/deletUser";
-import { getUsers } from "src/app/api/Users/getUsers";
+import { useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
 
 import { IconButton } from "@components/IconButton";
 import { Badge, Col, Row, Table, Text, Tooltip, User } from "@nextui-org/react";
 import { PawPrint, Pencil, Trash } from "@phosphor-icons/react";
 import { EditUserType } from "src/model/user.schema";
+import { useDeleteMutation, useGetAllQuery } from "src/store/user/slice";
 import { Modals } from "../../components/Modal/modalAccounts";
 import { ModalsMonster } from "../../components/Modal/modalMonster";
 
@@ -46,20 +45,27 @@ export default function AccountsAdmin() {
     setVisibleModalMonster(false);
   };
 
-  const { data } = useQuery(["user"], getUsers, {
-    onSuccess: (data) => {
-      setUsers(data);
-    },
-  });
+  const { data: usersData, refetch } = useGetAllQuery();
 
-  const deleteUserMutation = useMutation(deleteUser, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries("user");
-    },
-  });
+  useEffect(() => {
+    if (usersData) {
+      console.log("usersData", usersData);
+
+      setUsers(usersData);
+    }
+  }, [usersData]);
+
+  useEffect(() => {
+    if (users) console.log("user", users);
+  }, [users]);
+
+  const [deleteUserMutation, { data }] = useDeleteMutation();
 
   const handleDeleteUser = (id: number) => {
-    deleteUserMutation.mutate(id);
+    console.log("delete user", id);
+
+    deleteUserMutation(id);
+    refetch();
   };
 
   const columns = [

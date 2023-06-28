@@ -57,7 +57,7 @@ export const SidebarAdmin = () => {
     if (isRedirecting) {
       setTimeout(() => {
         dispatch(logout());
-      }, 500);
+      }, 700);
     }
   }, [isRedirecting]);
 
