@@ -1,13 +1,24 @@
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { CACHE_KEY, endpoint, initialState, reducerPath } from "./constants";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Match, PlaceBet } from "./matches.model";
+import {
+  Arena,
+  MatchMessage,
+  Monster,
+  Transaction,
+} from "ffc-prisma-package/dist/client";
+import { toast } from "react-hot-toast";
+import { baseQuery } from "../api";
+import { GenericApiError } from "../store.model";
+import {
+  CACHE_KEY,
+  createMatchFormInitialState,
+  endpoint,
+  initialState,
+  reducerPath,
+} from "./constants";
 import { getMatchesErrorHandler } from "./errors/get";
 import { placeBetErrorHandler } from "./errors/placeBet";
-import { MatchMessage, Transaction } from "ffc-prisma-package/dist/client";
-import { baseQuery } from "../api";
-import { Toast, toast } from "react-hot-toast";
-import { GenericApiError } from "../store.model";
+import { Match, PlaceBet } from "./matches.model";
 
 export const matchesApi = createApi({
   reducerPath,
@@ -213,7 +224,40 @@ export const matchesSlice = createSlice({
   },
 });
 
+export const createMatchFormSlice = createSlice({
+  name: "createMatchForm",
+  initialState: createMatchFormInitialState,
+  reducers: {
+    setStepCreateForm: (state, action: PayloadAction<number>) => {
+      state.step = action.payload;
+    },
+    setMonsterCreateForm: (state, action: PayloadAction<Monster | null>) => {
+      state.monster = action.payload;
+    },
+    setArenaCreateForm: (state, action: PayloadAction<Arena | null>) => {
+      state.arena = action.payload;
+    },
+    setBetCreateForm: (state, action: PayloadAction<number>) => {
+      state.bet = action.payload;
+    },
+    resetCreateForm: (state) => {
+      state.step = 0;
+      state.monster = null;
+      state.arena = null;
+      state.bet = 0;
+    },
+  },
+});
+
 export const { setMatches } = matchesSlice.actions;
+
+export const {
+  setStepCreateForm,
+  setMonsterCreateForm,
+  setArenaCreateForm,
+  setBetCreateForm,
+  resetCreateForm,
+} = createMatchFormSlice.actions;
 
 export const {
   useGetMatchQuery,

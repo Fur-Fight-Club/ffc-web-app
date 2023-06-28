@@ -1,27 +1,23 @@
 "use client";
 
-import CardList from "@components/CardList/CardList";
-import { Grid } from "@nextui-org/react";
+import { useSelector } from "react-redux";
+import { createMatchFormState } from "src/store/matches/selector";
+import Step1 from "./components/Step1";
+import Step2 from "./components/Step2";
 
 type OrganizeMatchPageProps = {};
 
 const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
-  return (
-    <Grid.Container css={{ height: "100%" }}>
-      <Grid xs={4}>
-        <div style={{ width: "100%" }}>
-          <div>Vos monstres</div>
-          <CardList />
-        </div>
-      </Grid>
-      <Grid xs={4}>
-        <div>Match</div>
-      </Grid>
-      <Grid xs={4}>
-        <div>Match</div>
-      </Grid>
-    </Grid.Container>
-  );
+  const { monster, step, arena, bet } = useSelector(createMatchFormState);
+
+  switch (step) {
+    case 0:
+      return <Step1 />;
+    case 1:
+      return <Step2 />;
+    default:
+      return <div>default steps forms</div>;
+  }
 };
 
 export default OrganizeMatchPage;

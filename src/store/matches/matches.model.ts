@@ -48,3 +48,13 @@ export interface PlaceBet {
   monster: number;
   amount: number;
 }
+
+export interface MatchFormState {
+  step: number;
+  monster: Monster | null;
+  arena: Arena | null;
+}
+
+export interface CreateMatchForm extends MatchFormState {
+  bet: number;
+}

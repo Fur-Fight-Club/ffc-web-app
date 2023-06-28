@@ -1,0 +1,49 @@
+@import "/src/styles";
+
+.monsterItem {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+
+  height: 6rem;
+  padding: 0.5rem;
+
+  background: $whiteT100;
+  border-radius: 0.75rem;
+
+  transition: all 0.15s ease-in-out;
+
+
+}
+
+.monsterItemActive {
+  background: $secondary;
+}
+
+.imageContainer {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.typeContainer {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+  padding-right: 1rem;
+}
+
+.type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+}

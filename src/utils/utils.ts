@@ -1,4 +1,5 @@
 import { User } from "src/store/application/application.model";
+import { Monster, WeightCategoryType } from "src/store/monsters/monsters.model";
 
 export const parseWheightCategory = (weight: string) => {
   //'A_HECKING_CHONKER' => 'A HECKING CHONKER'
@@ -45,7 +46,7 @@ export const getInitials = (firstName: string, lastName: string) => {
   return firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
 };
 
-import colors from '@styles/_colors.module.scss';
+import colors from "@styles/_colors.module.scss";
 
 export const convertApiTypeToLogo = (
   apiType: Monster["monster_type"] | string
@@ -105,6 +106,35 @@ export const convertApiTypeToType = (
   }
 };
 
+export const convertApiTypeToLogoOnly = (
+  apiType: Monster["monster_type"] | string
+) => {
+  switch (apiType) {
+    case "ELEMENTARY":
+      return "🌋";
+    case "FANTASTIC":
+      return "🦄";
+    case "MYTHOLOGICAL":
+      return "🏛️";
+    case "SCARY":
+      return "👻";
+    case "AQUATIC":
+      return "🌊";
+    case "WINGED":
+      return "🪽";
+    case "PREHISTORIC":
+      return "🦖";
+    case "MECHANICAL":
+      return "⚙️";
+    case "EXTRATERRESTRIAL":
+      return "🛸";
+    case "MAGICAL":
+      return "🪄";
+    default:
+      return "❓";
+  }
+};
+
 export const weightCategories = [
   "A_FINE_BOI",
   "HE_CHOMNK",
@@ -113,7 +143,6 @@ export const weightCategories = [
   "MEGA_CHONKER",
   "OH_LAWD_HE_COMIN",
 ];
-
 
 export const monsterType = [
   "ELEMENTARY",

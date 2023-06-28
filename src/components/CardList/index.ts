@@ -1,1 +1,3 @@
-export { default } from "./CardList";
+import CardList from "./components/CardList";
+
+export default CardList;
