@@ -20,7 +20,9 @@ const MonsterItem = ({ monster, onClick }: MonsterItemProps) => {
 
   const handleOnClick = () => {
     onClick && onClick();
-    setActiveMonster(monster);
+    isMonsterSelected
+      ? setActiveMonster({} as Monster)
+      : setActiveMonster(monster);
   };
 
   const isMonsterSelected = monster.id === activeMonster.id;

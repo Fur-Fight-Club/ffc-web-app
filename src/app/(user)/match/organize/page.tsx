@@ -17,21 +17,18 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
   const dispatch = useDispatch();
 
   const { user } = useSelector(applicationState);
+  const monsters = user?.Monster;
+
   const { monster, step, arena, bet } = useSelector(createMatchFormState);
 
-  // useEffect(() => {
-  //   console.log("monster dans store", monster);
-  // }, [monster]);
-
-  const monsters = user?.Monster;
-  console.log("monsters", monsters);
-
-  const handleOnClick = (monster: Monster) => {
-    dispatch(setMonsterCreateForm(monster));
+  const handleOnClick = (selectedMonster: Monster) => {
+    monster?.id === selectedMonster.id
+      ? dispatch(setMonsterCreateForm(null))
+      : dispatch(setMonsterCreateForm(selectedMonster));
   };
 
   return (
-    <div>
+    <div style={{ height: "95%" }}>
       <Grid.Container css={{ height: "100%", position: "relative" }} gap={2}>
         <Grid xs={4}>
           <div style={{ width: "100%" }}>

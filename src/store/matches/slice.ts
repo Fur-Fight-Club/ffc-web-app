@@ -231,10 +231,10 @@ export const createMatchFormSlice = createSlice({
     setStepCreateForm: (state, action: PayloadAction<number>) => {
       state.step = action.payload;
     },
-    setMonsterCreateForm: (state, action: PayloadAction<Monster>) => {
+    setMonsterCreateForm: (state, action: PayloadAction<Monster | null>) => {
       state.monster = action.payload;
     },
-    setArenaCreateForm: (state, action: PayloadAction<Arena>) => {
+    setArenaCreateForm: (state, action: PayloadAction<Arena | null>) => {
       state.arena = action.payload;
     },
     setBetCreateForm: (state, action: PayloadAction<number>) => {
