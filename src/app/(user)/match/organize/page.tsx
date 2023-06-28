@@ -1,7 +1,8 @@
 "use client";
 
 import CardList from "@components/CardList/components/CardList";
-import { Button, Grid, Row, Spacer } from "@nextui-org/react";
+import { Button, Grid, Row, Spacer, Text } from "@nextui-org/react";
+import colors from "@styles/_colors.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { createMatchFormState } from "src/store/matches/selector";
@@ -62,6 +63,14 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
               alignItems: "center",
             }}
           >
+            <Text
+              h3
+              size={"$lg"}
+              css={{ textAlign: "center" }}
+              color={colors.primaryT300}
+            >
+              Votre combattant :
+            </Text>
             <MonsterCardPreview monster={monster} />
           </div>
         </Grid>
