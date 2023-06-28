@@ -2,7 +2,6 @@
 
 import CardList from "@components/CardList/components/CardList";
 import { Button, Grid, Row, Spacer } from "@nextui-org/react";
-import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { createMatchFormState } from "src/store/matches/selector";
@@ -18,13 +17,15 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
   const { user } = useSelector(applicationState);
   const { monster, step, arena, bet } = useSelector(createMatchFormState);
 
+  // useEffect(() => {
+  //   console.log("monster dans store", monster);
+  // }, [monster]);
+
   const monsters = user?.Monster;
   console.log("monsters", monsters);
 
   const handleOnClick = (monster: Monster) => {
-    console.log("set Monster");
     dispatch(setMonsterCreateForm(monster));
-    toast.success("Monster ajouté dans le store");
   };
 
   return (
@@ -47,7 +48,7 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
         <Grid xs={4}>
           <div style={{ width: "100%" }}>
             <div>Fiche</div>
-            <MonsterCardDetails />
+            <MonsterCardDetails monster={monster} />
           </div>
         </Grid>
         <Grid xs={4}>

@@ -1,4 +1,5 @@
 import { User } from "src/store/application/application.model";
+import { Monster, WeightCategoryType } from "src/store/monsters/monsters.model";
 
 export const parseWheightCategory = (weight: string) => {
   //'A_HECKING_CHONKER' => 'A HECKING CHONKER'
@@ -45,7 +46,7 @@ export const getInitials = (firstName: string, lastName: string) => {
   return firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
 };
 
-import colors from '@styles/_colors.module.scss';
+import colors from "@styles/_colors.module.scss";
 
 export const convertApiTypeToLogo = (
   apiType: Monster["monster_type"] | string
@@ -113,7 +114,6 @@ export const weightCategories = [
   "MEGA_CHONKER",
   "OH_LAWD_HE_COMIN",
 ];
-
 
 export const monsterType = [
   "ELEMENTARY",
