@@ -1,9 +1,11 @@
 "use client";
 
-import { CardListContext } from "@components/CardList/cardlist-context";
+import {
+  CardListContext,
+  ItemPayload,
+} from "@components/CardList/cardlist-context";
 import { mergeClassNames } from "@utils/main";
 import { useState } from "react";
-import { Monster } from "src/store/monsters/monsters.model";
 import MonsterItem, { MonsterItemProps } from "../MonsterItem";
 import styles from "./CardList.module.scss";
 
@@ -17,10 +19,10 @@ type CardListType = React.FC<CardListProps> & {
 };
 
 const CardList: CardListType = ({ children, className }: CardListProps) => {
-  const [activeMonster, setActiveMonster] = useState<Monster>({} as Monster);
+  const [activeItem, setActiveItem] = useState<ItemPayload>({} as ItemPayload);
 
   return (
-    <CardListContext.Provider value={{ activeMonster, setActiveMonster }}>
+    <CardListContext.Provider value={{ activeItem, setActiveItem }}>
       <div className={mergeClassNames([styles.cardList, className])}>
         {children}
       </div>

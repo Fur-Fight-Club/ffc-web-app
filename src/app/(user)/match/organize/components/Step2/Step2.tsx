@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Arena } from "src/store/arenas/arenas.model";
+import { useGetArenasQuery } from "src/store/arenas/slice";
 import { createMatchFormState } from "src/store/matches/selector";
 import {
   setArenaCreateForm,
@@ -19,6 +20,9 @@ const Step2 = (props: Step2Props) => {
   const router = useRouter();
 
   const { monster, step, arena, bet } = useSelector(createMatchFormState);
+  const { data: arenas, refetch } = useGetArenasQuery();
+
+  console.log("arenas", arenas);
 
   const handleOnClick = (selectedArena: Arena) => {
     arena?.id === selectedArena.id
