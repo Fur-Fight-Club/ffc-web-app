@@ -14,7 +14,7 @@ type AdminLayoutProps = {
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const { user } = useSelector(applicationState);
 
-  if (isUserAdmin(user) === true) {
+  if (isUserAdmin(user)) {
     return (
       <main style={{ height: "100%" }}>
         <div style={{ display: "flex", flexDirection: "row", height: "100%" }}>
