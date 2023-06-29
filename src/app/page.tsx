@@ -3,28 +3,16 @@
 import warriorsDark from "@assets/animations/warriors-dark.json";
 import warriorsLight from "@assets/animations/warriors-light.json";
 import NavbarTest from "@components/Navbar";
-import {
-  Card,
-  Text,
-  Grid,
-  Spacer,
-  useTheme,
-  Avatar,
-  Badge,
-} from "@nextui-org/react";
-import Lottie from "lottie-react";
-import BetList, { BetListItem } from "./components/BetList";
-import styles from "./page.module.scss";
-import CardList from "@components/CardList";
-import { useGetMatchesQuery } from "src/store/matches/slice";
-import { useEffect, useState } from "react";
 import { Button } from "@components/UI/Button/Button.component";
+import { Card, Grid, Text, useTheme } from "@nextui-org/react";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
-import { Match } from "src/store/matches/matches.model";
-import { textColor, weightCategoryColors } from "@utils/utils";
-import { motion } from "framer-motion";
+import Lottie from "lottie-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Match } from "src/store/matches/matches.model";
+import { useGetMatchesQuery } from "src/store/matches/slice";
 import { MatchList } from "./components/MatchList/MatchList.component";
+import styles from "./page.module.scss";
 
 export default function Home() {
   const { data: matches, refetch } = useGetMatchesQuery();
@@ -97,7 +85,7 @@ export default function Home() {
               <Card.Body>
                 <Grid.Container gap={2} justify="center">
                   {selectedMatches.map((match) => (
-                    <MatchList match={match} />
+                    <MatchList match={match} key={match.id} />
                   ))}
                   {selectedMatches.length === 0 && (
                     <Text h4>Aucun match de prevu pour cette date 😔</Text>

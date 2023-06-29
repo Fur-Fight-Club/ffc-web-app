@@ -1,9 +1,8 @@
 "use client";
 
 import { Modal, Text } from "@nextui-org/react";
-import { useEffect } from "react";
-import { useQuery, useQueryClient } from "react-query";
-import { getHisMonster } from "src/app/api/Users/getHisMonster";
+import { useEffect, useState } from "react";
+import { useGetAllMonsterFromOneUserQuery } from "src/store/monsters/slice";
 import { MonsterCard } from "../Card/MonsterCard/monsterCard";
 
 export const ModalsMonster = (props: {
@@ -11,26 +10,17 @@ export const ModalsMonster = (props: {
   closeHandler: any;
   userId: number;
 }) => {
-  const queryClient = useQueryClient();
   const { visible, closeHandler, userId } = props;
 
-  const {
-    isLoading,
-    isError,
-    data: monstersData,
-  } = useQuery(["monsters", userId], () => getHisMonster(userId), {
-    enabled: false,
-  });
+  const [monsters, setMonsters] = useState([]);
+
+  const { data: monsterData } = useGetAllMonsterFromOneUserQuery(userId);
 
   useEffect(() => {
-    if (visible) {
-      queryClient.prefetchQuery(["monsters", userId], () =>
-        getHisMonster(userId)
-      );
-    }
-  }, [visible, userId, queryClient]);
+    setMonsters(monsterData);
+  }, [monsterData]);
 
-  if (monstersData?.length === 0 && !isLoading) {
+  if (monsters?.length === 0) {
     return (
       <Modal
         closeButton
@@ -61,8 +51,8 @@ export const ModalsMonster = (props: {
       </Modal.Header>
 
       <Modal.Body>
-        {monstersData?.length > 1 &&
-          monstersData.map((monster: any) => (
+        {monsters?.length > 0 &&
+          monsters.map((monster: any) => (
             <MonsterCard monster={monster} key={monster.id} />
           ))}
       </Modal.Body>

@@ -1,15 +1,20 @@
-import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import { endpoint, initialState, reducerPath } from "./constants";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Monster } from "./monsters.model";
-import { getMonstersHandler } from "./errors/get";
-import { createMonsterErrorsHandler } from "./errors/create";
-import { updateMonstersHandler } from "./errors/update";
-import { deleteMonstersHandler } from "./errors/delete";
-import { baseQuery } from "../api";
-import { GenericApiError } from "../store.model";
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import { toast } from "react-hot-toast";
-import { setMonsters as setMyMonsters, removeMonster, setLoading, updateMonster} from "../application/slice";
+import { baseQuery } from "../api";
+import {
+  removeMonster,
+  setLoading,
+  setMonsters as setMyMonsters,
+  updateMonster,
+} from "../application/slice";
+import { GenericApiError } from "../store.model";
+import { endpoint, initialState, reducerPath } from "./constants";
+import { createMonsterErrorsHandler } from "./errors/create";
+import { deleteMonstersHandler } from "./errors/delete";
+import { getMonstersHandler } from "./errors/get";
+import { updateMonstersHandler } from "./errors/update";
+import { Monster } from "./monsters.model";
 
 export const monstersApi = createApi({
   reducerPath,
@@ -28,6 +33,26 @@ export const monstersApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setMonsters(data));
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          getMonstersHandler(error);
+        }
+      },
+    }),
+
+    // Get all monsters for one user
+    getAllMonsterFromOneUser: builder.query<Monster, number>({
+      query: (id) => ({
+        url: endpoint.getAllFromOneUser(id),
+        method: "GET",
+      }),
+
+      async onQueryStarted(resource, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setLoading(false));
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -158,6 +183,7 @@ export const {
   useCreateMonsterMutation,
   useUpdateMonsterMutation,
   useDeleteMonsterMutation,
+  useGetAllMonsterFromOneUserQuery,
 } = monstersApi;
 
 export const { setMonsters } = monstersSlice.actions;

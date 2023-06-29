@@ -5,8 +5,7 @@ import styles from "@styles/_colors.module.scss";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { Poppins } from "next/font/google";
 import * as React from "react";
-import { Toaster, toast } from "react-hot-toast";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
@@ -14,8 +13,8 @@ import { store } from "src/store/store";
 
 import { AnalyticsWrapper } from "@components/AnalyticsWrapper/AnalyticsWrapper.component";
 import { AnalyticsCookieBar } from "@components/UI/AnalyticsCookieBar/AnalyticsCookieBar.component";
-import "./globals.scss";
 import { NotificationComponent } from "src/services/firebase.service";
+import "./globals.scss";
 const poppins = Poppins({
   weight: "400",
   subsets: ["latin"],
@@ -76,8 +75,6 @@ type RootLayoutProps = {
   children: React.ReactNode;
 };
 
-const queryClient = new QueryClient();
-
 let persistor = persistStore(store);
 
 export default function RootLayout({ children }: RootLayoutProps) {
@@ -89,30 +86,29 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <AnalyticsWrapper>
               <AnalyticsCookieBar />
               <NotificationComponent />
-              <QueryClientProvider client={queryClient}>
-                <NextThemesProvider
-                  defaultTheme="light"
-                  attribute="class"
-                  value={{
-                    light: lightTheme.className,
-                    dark: darkTheme.className,
+
+              <NextThemesProvider
+                defaultTheme="light"
+                attribute="class"
+                value={{
+                  light: lightTheme.className,
+                  dark: darkTheme.className,
+                }}
+              >
+                <Toaster
+                  position="bottom-left"
+                  reverseOrder={false}
+                  gutter={8}
+                  containerClassName=""
+                  containerStyle={{}}
+                  toastOptions={{
+                    className: "",
+                    duration: 5000,
                   }}
-                >
-                  <Toaster
-                    position="bottom-left"
-                    reverseOrder={false}
-                    gutter={8}
-                    containerClassName=""
-                    containerStyle={{}}
-                    toastOptions={{
-                      className: "",
-                      duration: 5000,
-                    }}
-                  />
-                  <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
-                </NextThemesProvider>
-                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-              </QueryClientProvider>
+                />
+                <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
+              </NextThemesProvider>
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
             </AnalyticsWrapper>
           </PersistGate>
         </Provider>

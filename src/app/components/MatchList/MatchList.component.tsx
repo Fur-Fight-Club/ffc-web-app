@@ -2,12 +2,12 @@
 
 import * as React from "react";
 // @ts-ignore
-import styles from "./MatchList.module.scss";
-import { Match } from "src/store/matches/matches.model";
-import { motion } from "framer-motion";
-import { Grid, Badge, Text, Avatar, Spacer } from "@nextui-org/react";
+import { Avatar, Badge, Grid, Spacer, Text } from "@nextui-org/react";
 import { textColor, weightCategoryColors } from "@utils/utils";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { Match } from "src/store/matches/matches.model";
+import styles from "./MatchList.module.scss";
 
 interface MatchListProps {
   match: Match;

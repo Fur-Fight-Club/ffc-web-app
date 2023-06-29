@@ -25,12 +25,10 @@ export const userApi = createApi({
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-
           dispatch(setLoading(false));
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
-
           console.log(error.error.data);
         }
       },

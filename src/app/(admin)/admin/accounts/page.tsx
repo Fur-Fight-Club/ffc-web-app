@@ -1,22 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useQueryClient } from "react-query";
-
-import { IconButton } from "@components/IconButton";
-import { Badge, Col, Row, Table, Text, Tooltip, User } from "@nextui-org/react";
-import { PawPrint, Pencil, Trash } from "@phosphor-icons/react";
 import { EditUserType } from "src/model/user.schema";
 import {
   useDeleteMutation,
   useGetAllQuery,
   useUpdateMutation,
 } from "src/store/user/slice";
+
+import { IconButton } from "@components/IconButton";
+import { Badge, Col, Row, Table, Text, Tooltip, User } from "@nextui-org/react";
+import { PawPrint, Pencil, Trash } from "@phosphor-icons/react";
+
 import { Modals } from "../../components/Modal/modalAccounts";
 import { ModalsMonster } from "../../components/Modal/modalMonster";
 
 export default function AccountsAdmin() {
-  const queryClient = useQueryClient();
-
   const [users, setUsers] = useState([]);
   const [userData, setUserData] = useState<EditUserType>({} as EditUserType);
   const [userIdMonster, setUserIdMonster] = useState<number>(0);
