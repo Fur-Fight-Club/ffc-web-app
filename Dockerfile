@@ -1,29 +1,23 @@
-# Utilisez une image de base Node.js pour la phase de build
-FROM node:14-alpine as builder
+# Utiliser une image Node.js officielle en tant qu'image de base
+FROM node:18-alpine
 
-# Répertoire de travail dans le conteneur
+# Définir le répertoire de travail dans le conteneur
 WORKDIR /app
 
-# Copiez le package.json et le package-lock.json dans le répertoire de travail
+# Copier les fichiers package.json et package-lock.json
 COPY package*.json ./
 
-# Installez les dépendances du projet
-RUN npm install
+# Installer les dépendances de l'application
+RUN npm ci --force
 
-# Copiez tous les fichiers du répertoire de travail actuel vers le répertoire de travail du conteneur
+# Copier le reste des fichiers de l'application
 COPY . .
 
-# Build de l'application Next.js
+# Construire l'application Next.js
 RUN npm run build
 
-# Utilisez une image légère Nginx pour la phase de production
-FROM nginx:alpine
+# Exposer le port sur lequel l'application écoute
+EXPOSE 3000
 
-# Copiez les fichiers buildés de l'étape précédente vers le répertoire de travail du conteneur Nginx
-COPY --from=builder /app/out /usr/share/nginx/html
-
-# Exposez le port sur lequel Nginx s'exécute (par défaut : 80)
-EXPOSE 80
-
-# Commande pour démarrer Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Définir la commande de démarrage de l'application
+CMD [ "npm", "start" ]
