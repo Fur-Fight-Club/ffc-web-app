@@ -1,33 +1,20 @@
 "use client";
 
-import { Card, Col, Row, Spacer, Text } from "@nextui-org/react";
+import { Card, Row, Spacer, Text } from "@nextui-org/react";
 import colors from "@styles/_colors.module.scss";
 import Image from "next/image";
 import { getImageByAmount } from "./utils";
 import { Button } from "@components/UI/Button/Button.component";
 import { Plus } from "@phosphor-icons/react";
-import styles from "./MyBalance.module.scss";
-import { Sedgwick_Ave_Display } from "next/font/google";
 import BuyTokenModal from "../BuyTokenModal/BuyTokenModal";
 import { use, useEffect, useState } from "react";
 
 type MyBalanceProps = {
-  color: string;
-  label: string;
   amount: number;
-  icon?: React.ReactNode;
-  contratsColor?: string;
-  unityLabel?: string;
+  fiat: number;
 };
 
-const MyBalance = ({
-  color = colors.white,
-  icon,
-  label,
-  contratsColor = colors.primary,
-  amount,
-  unityLabel,
-}: MyBalanceProps) => {
+const MyBalance = ({ fiat, amount }: MyBalanceProps) => {
   const [visible, setVisible] = useState(false);
 
   const handleModal = () => {
@@ -39,8 +26,8 @@ const MyBalance = ({
       style={{
         height: "100%",
         width: "100%",
-        background: color,
         padding: "1.5rem",
+        background: colors.secondaryT500,
       }}
       variant="flat"
     >
@@ -58,12 +45,7 @@ const MyBalance = ({
         </Text>
       </Row>
       <Row justify="center" align="center">
-        <Text
-          h5
-          size={"$6xl"}
-          color={contratsColor}
-          style={{ letterSpacing: "0.5rem" }}
-        >
+        <Text h5 size={"$6xl"} style={{ letterSpacing: "0.5rem" }}>
           {amount}{" "}
         </Text>
         <Spacer x={0.2} />
@@ -77,7 +59,7 @@ const MyBalance = ({
       <Row justify="center" align="center">
         équivaut à<Spacer x={0.2} />
         <Text weight={"bold"} color={colors.primaryT100}>
-          37.12
+          {fiat}
         </Text>
         <Spacer x={0.2} />€
       </Row>

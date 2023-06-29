@@ -7,9 +7,10 @@ import MyBalance from "./components/MyBalance/MyBalance";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { Button } from "@components/UI/Button/Button.component";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddIbanModal from "./components/AddIbanModal/AddIbanModal";
 import DeleteAccountModal from "./components/DeleteAccountModal/DeleteAccountModal";
+import { useGetWalletBalanceQuery } from "src/store/wallet/slice";
 
 type WalletPageProps = {};
 
@@ -27,6 +28,16 @@ const WalletPage = (props: WalletPageProps) => {
   const handleModalDeleteAccount = () => {
     setVisibleModalDeleteAccount(!visibleModalDeleteAccount);
   };
+
+  const {
+    data: walletBalance,
+    isFetching: walletFetching,
+    refetch: refetchWallet,
+  } = useGetWalletBalanceQuery();
+
+  useEffect(() => {
+    refetchWallet();
+  });
 
   const columns = [
     {
@@ -71,9 +82,15 @@ const WalletPage = (props: WalletPageProps) => {
 
   return (
     <div>
-      <Text h2 size={"$lg"}>
-        Données financières
-      </Text>
+      <Row justify="space-between" css={{ m: "$5" }}>
+        <Text h2 size={"$lg"}>
+          Données financières
+        </Text>
+        <Button auto onPress={() => handleModalDeleteAccount()}>
+          🗑️ Compte bancaire
+        </Button>
+      </Row>
+      {/* @ts-ignore */}
       {!user?.StripeAccount || !user?.StripeBankAccount ? (
         <Row>
           <Card variant="flat" css={{ h: "15rem", mb: "2rem" }}>
@@ -84,8 +101,9 @@ const WalletPage = (props: WalletPageProps) => {
                 </Row>
                 <Row justify="center">
                   <Text h3>
-                    Veuillez entrer votre IBAN afin d'acheter des credits et que
-                    nous puissions vous versez vos gains
+                    {
+                      "Veuillez entrer votre IBAN afin d'acheter des credits et que nous puissions vous versez vos gains"
+                    }
                   </Text>
                 </Row>
                 <Row justify="center">
@@ -104,11 +122,8 @@ const WalletPage = (props: WalletPageProps) => {
       ) : (
         <Row>
           <MyBalance
-            amount={"3432"}
-            label="Total"
-            color={colors.secondaryT500}
-            contratsColor={colors.black}
-            unityLabel="€"
+            amount={walletBalance?.credits || 0}
+            fiat={walletBalance?.euro || 0}
           />
           <Spacer x={1} />
           <KpiCard
@@ -131,9 +146,6 @@ const WalletPage = (props: WalletPageProps) => {
         visibleProp={visibleModalDeleteAccount}
         closeModal={handleModalDeleteAccount}
       />
-      <Button auto onPress={() => handleModalDeleteAccount()}>
-        🗑️ Compte bancaire
-      </Button>
       <Text h2 size={"$lg"}>
         Historique des transactions
       </Text>
