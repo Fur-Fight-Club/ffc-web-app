@@ -13,6 +13,7 @@ import {
   setMonsterCreateForm,
   setStepCreateForm,
 } from "src/store/matches/slice";
+import ArenaCardDetails from "../ArenaCardDetails";
 
 type Step2Props = {};
 
@@ -53,14 +54,10 @@ const Step2 = (props: Step2Props) => {
             </CardList>
           </div>
         </Grid>
-        <Grid xs={4}>
+        <Grid xs={8}>
           <div style={{ width: "100%" }}>
-            <div>Fiche </div>
-          </div>
-        </Grid>
-        <Grid xs={4}>
-          <div style={{ width: "100%" }}>
-            <div>Pouet arène </div>
+            <div>Fiche</div>
+            <ArenaCardDetails arena={arena} />
           </div>
         </Grid>
       </Grid.Container>
