@@ -85,7 +85,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <PersistGate loading={null} persistor={persistor}>
             <AnalyticsWrapper>
               <AnalyticsCookieBar />
-              <NotificationComponent />
+              {/* <NotificationComponent /> */}
 
               <NextThemesProvider
                 defaultTheme="light"
