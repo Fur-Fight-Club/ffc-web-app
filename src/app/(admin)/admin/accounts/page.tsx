@@ -30,7 +30,6 @@ export default function AccountsAdmin() {
       setUserData(userD);
       setVisibleModalAccount(true);
     } else {
-      console.log("user not found");
       setVisibleModalAccount(false);
     }
   };
@@ -175,6 +174,7 @@ export default function AccountsAdmin() {
               </Table.Row>
             )}
           </Table.Body>
+          <Table.Pagination shadow noMargin align="center" rowsPerPage={10} />
         </Table>
       ) : (
         <Text size={16}>Aucun utilisateur à afficher</Text>

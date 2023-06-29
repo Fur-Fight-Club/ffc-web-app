@@ -30,7 +30,6 @@ export const Modals = (props: {
   const patchUserMutation = useMutation(patchUser, {
     onSuccess: (isLoading, data) => {
       queryClient.invalidateQueries("user");
-      console.log(data);
 
       closeHandler();
     },
