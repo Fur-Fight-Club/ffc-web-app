@@ -42,7 +42,12 @@ export const ModalCreateArena = (props: {
       open={visible}
       onClose={closeHandler}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={
+          // @ts-ignore
+          handleSubmit(onSubmit)
+        }
+      >
         <Modal.Header>
           <Text id="modal-title" size={18}>
             Ajouter une arène

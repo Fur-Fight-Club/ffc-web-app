@@ -82,7 +82,9 @@ export const walletApi = createApi({
           toast.success(
             `Votre demande d'achat de ${resource.credits} crédits (${data.invoice.amount}€) a bien été prise en compte !`
           );
-          window.location.href = data.payment_url;
+          if (typeof window !== "undefined") {
+            window.location.href = data.payment_url;
+          }
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));

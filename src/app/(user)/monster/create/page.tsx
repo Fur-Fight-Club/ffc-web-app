@@ -100,6 +100,7 @@ export default function CreateMonster() {
       picture,
       fk_user: user.id ?? -1,
     });
+    // @ts-ignore
     if (createMonster.data) {
       router.push("monster");
     }

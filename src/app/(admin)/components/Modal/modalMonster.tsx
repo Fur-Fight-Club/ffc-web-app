@@ -17,6 +17,7 @@ export const ModalsMonster = (props: {
   const { data: monsterData } = useGetAllMonsterFromOneUserQuery(userId);
 
   useEffect(() => {
+    // @ts-ignore
     setMonsters(monsterData);
   }, [monsterData]);
 

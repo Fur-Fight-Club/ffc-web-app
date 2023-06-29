@@ -29,20 +29,23 @@ export const SidebarAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
-    const updateWindowWidth = () => {
-      const width = window.innerWidth;
-      if (width > 768 && collapsed) {
-        collapseSidebar(false);
-        setCollapsed(false);
-      }
-      if (width < 768) {
-        collapseSidebar(true);
-        setCollapsed(true);
-      }
-    };
-    window.addEventListener("resize", updateWindowWidth);
-    return () => window.removeEventListener("resize", updateWindowWidth);
-  }, [collapseSidebar, collapsed]);
+    if (typeof window !== "undefined") {
+      const updateWindowWidth = () => {
+        const width = window.innerWidth;
+        if (width > 768 && collapsed) {
+          collapseSidebar(false);
+          setCollapsed(false);
+        }
+        if (width < 768) {
+          collapseSidebar(true);
+          setCollapsed(true);
+        }
+      };
+      window.addEventListener("resize", updateWindowWidth);
+
+      return () => window.removeEventListener("resize", updateWindowWidth);
+    }
+  }, [collapseSidebar, collapsed, window]);
 
   const redirectTo = (path: string) => {
     setIsRedirecting(true);

@@ -56,6 +56,7 @@ export const Modals = (props: {
             errors[err.path[0]] = err.message;
           }
         });
+        // @ts-ignore
         setFormErrors(errors);
       }
       return false;
@@ -146,6 +147,7 @@ export const Modals = (props: {
           defaultValue={user.role}
           orientation="horizontal"
           value={formData?.role}
+          // @ts-ignore
           onChange={handleRadioChange}
         >
           {roleOptions.map((option) => (

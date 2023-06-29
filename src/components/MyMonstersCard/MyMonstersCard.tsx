@@ -17,6 +17,7 @@ import { applicationState } from "src/store/application/selector";
 import { useDeleteMonsterMutation } from "src/store/monsters/slice";
 import { convertApiTypeToLogo } from "src/utils/utils";
 import styles from "./MyMonstersCard.module.scss";
+import { Monster } from "src/store/monsters/monsters.model";
 
 export default function MyMonstersCard() {
   const { user } = useSelector(applicationState);
@@ -35,7 +36,7 @@ export default function MyMonstersCard() {
     deleteMonster(id);
   };
 
-  const renderCell = (monster, columnKey: React.Key) => {
+  const renderCell = (monster: any, columnKey: React.Key) => {
     const cellValue = monster[columnKey];
     switch (columnKey) {
       case "name":

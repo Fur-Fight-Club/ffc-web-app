@@ -35,7 +35,7 @@ export default function CreateMonster({ params }: { params: { id: number } }) {
     if (data) {
       setIdMonster(data.id);
       setName(data.name);
-      setMMR(data.MMR);
+      setMMR(data.mmr);
       setWeight(data.weight);
       setMonster_type(data.monster_type);
       setWeight_category(data.weight_category);
