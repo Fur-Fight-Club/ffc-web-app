@@ -95,7 +95,7 @@ export const monstersApi = createApi({
       >
     >({
       query: (monster) => ({
-        url: endpoint.create,
+        url: `${endpoint.create}`,
         method: "POST",
         body: monster,
       }),

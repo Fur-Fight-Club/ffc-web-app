@@ -27,7 +27,9 @@ export default function MyMonstersCard() {
   const router = useRouter();
 
   const { user } = useSelector(applicationState);
-  const { data: monsters } = useGetAllMonsterFromOneUserQuery(user?.id);
+  const { data: monsters, refetch } = useGetAllMonsterFromOneUserQuery(
+    user?.id
+  );
   const [deleteMonster] = useDeleteMonsterMutation();
 
   const [userMonsters, setUserMonsters] = useState<Monster[] | undefined>([]);
@@ -35,9 +37,8 @@ export default function MyMonstersCard() {
   useEffect(() => setUserMonsters(monsters), [monsters]);
 
   useEffect(() => {
-    console.log(userMonsters);
-    console.log(userMonsters?.length);
-  }, [userMonsters]);
+    refetch();
+  }, []);
 
   const columns = [
     { name: "Nom de(s) montre(s)", uid: "name" },
@@ -149,8 +150,8 @@ export default function MyMonstersCard() {
 
   return (
     <Card css={{ mw: "450px", m: "$5" }}>
-      {!user && (
-        <Card.Body css={{ py: "$10" }}>
+      <Card.Body css={{ py: "$10" }}>
+        {userMonsters && userMonsters.length > 0 ? (
           <Table
             bordered
             shadow={false}
@@ -168,6 +169,7 @@ export default function MyMonstersCard() {
                 </Table.Column>
               )}
             </Table.Header>
+
             <Table.Body items={userMonsters}>
               {(item) => (
                 <Table.Row>
@@ -177,11 +179,18 @@ export default function MyMonstersCard() {
                 </Table.Row>
               )}
             </Table.Body>
-            )
+
             <Table.Pagination shadow noMargin align="center" rowsPerPage={3} />
           </Table>
-        </Card.Body>
-      )}
+        ) : (
+          <div className={styles.empty}>
+            <span className={styles.emptyText}>
+              Vous n'avez pas encore de monstre , créez en un !
+            </span>
+          </div>
+        )}
+      </Card.Body>
+
       <Card.Divider />
       <Card.Footer>
         <Row>
