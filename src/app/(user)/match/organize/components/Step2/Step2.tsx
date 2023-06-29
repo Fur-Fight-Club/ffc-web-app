@@ -1,5 +1,6 @@
 "use client";
 
+import CardList from "@components/CardList";
 import { Button, Grid, Row, Spacer } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -40,6 +41,16 @@ const Step2 = (props: Step2Props) => {
         <Grid xs={4}>
           <div style={{ width: "100%" }}>
             <div>Arènes disponibles</div>
+            <CardList>
+              {arenas?.map((arenaItem) => (
+                <CardList.ArenaItem
+                  key={arenaItem.id}
+                  arena={arenaItem}
+                  onClick={() => handleOnClick(arenaItem)}
+                  isSelected={arenaItem.id === arena?.id}
+                />
+              ))}
+            </CardList>
           </div>
         </Grid>
         <Grid xs={4}>
