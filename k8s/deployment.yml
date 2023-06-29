@@ -16,4 +16,4 @@ spec:
         - name: ffc-webapp
           image: mcamus9/ffc-webapp-docker
           ports:
-            - containerPort: 3000
+            - containerPort: 80
