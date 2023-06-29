@@ -33,8 +33,6 @@ export const walletApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setWallet(data));
-          console.log("Balance: ");
-          console.log({ data });
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));

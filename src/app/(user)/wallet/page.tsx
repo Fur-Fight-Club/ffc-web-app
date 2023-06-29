@@ -11,11 +11,13 @@ import { useEffect, useState } from "react";
 import AddIbanModal from "./components/AddIbanModal/AddIbanModal";
 import DeleteAccountModal from "./components/DeleteAccountModal/DeleteAccountModal";
 import { useGetWalletBalanceQuery } from "src/store/wallet/slice";
+import { walletState } from "src/store/wallet/selector";
 
 type WalletPageProps = {};
 
 const WalletPage = (props: WalletPageProps) => {
   const { user } = useSelector(applicationState);
+  const wallet = useSelector(walletState);
 
   const [visibleModalAddIban, setVisibleModalAddIban] = useState(false);
   const [visibleModalDeleteAccount, setVisibleModalDeleteAccount] =
@@ -37,7 +39,8 @@ const WalletPage = (props: WalletPageProps) => {
 
   useEffect(() => {
     refetchWallet();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wallet]);
 
   const columns = [
     {
