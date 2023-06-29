@@ -37,7 +37,9 @@ export const Button: React.FunctionComponent<ButtonProps> = ({
       pathname,
       buttonContent: props.children as string,
     };
-    analytics.enabled && createButtonClickEvent(analyticsPayload);
+    analytics.enabled &&
+      analyticsId &&
+      createButtonClickEvent(analyticsPayload);
   };
   return <NUIButton {...props} onPress={handleClick} />;
 };

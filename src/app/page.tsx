@@ -1,24 +1,110 @@
 "use client";
 
-import warriorsAnimation from "@assets/animations/warriors.json";
+import warriorsDark from "@assets/animations/warriors-dark.json";
+import warriorsLight from "@assets/animations/warriors-light.json";
 import NavbarTest from "@components/Navbar";
-import { Text } from "@nextui-org/react";
+import {
+  Card,
+  Text,
+  Grid,
+  Spacer,
+  useTheme,
+  Avatar,
+  Badge,
+} from "@nextui-org/react";
 import Lottie from "lottie-react";
 import BetList, { BetListItem } from "./components/BetList";
 import styles from "./page.module.scss";
+import CardList from "@components/CardList";
+import { useGetMatchesQuery } from "src/store/matches/slice";
+import { useEffect, useState } from "react";
+import { Button } from "@components/UI/Button/Button.component";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { Match } from "src/store/matches/matches.model";
+import { textColor, weightCategoryColors } from "@utils/utils";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { MatchList } from "./components/MatchList/MatchList.component";
 
 export default function Home() {
+  const { data: matches, refetch } = useGetMatchesQuery();
+
+  const { isDark } = useTheme();
+
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedMatches, setSelectedMatches] = useState<Match[]>([]);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    setSelectedMatches(
+      matches?.filter(
+        (match) =>
+          new Date(match.matchStartDate).toLocaleDateString("fr-FR") ===
+          selectedDate.toLocaleDateString("fr-FR")
+      ) ?? []
+    );
+  }, [matches, selectedDate]);
+
+  useEffect(() => {
+    refetch();
+  }, [matches]);
   return (
     <>
       <NavbarTest />
       <main className={styles.main}>
         <header className={styles.header}>
           <div className={styles.headerContent}>
-            <BetList>
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((item, i) => (
-                <BetListItem key={i} />
-              ))}
-            </BetList>
+            <Card className={styles.matchCard}>
+              <Card.Header>
+                <Grid.Container
+                  gap={0}
+                  alignContent="center"
+                  justify="center"
+                  alignItems="center"
+                >
+                  <Grid xs={4} justify="flex-start">
+                    <Button
+                      auto
+                      icon={<CaretLeft size={32} />}
+                      onPress={() =>
+                        setSelectedDate(
+                          new Date(
+                            selectedDate.setDate(selectedDate.getDate() - 1)
+                          )
+                        )
+                      }
+                    />
+                  </Grid>
+                  <Grid xs={4} justify="center">
+                    <Text h5>{selectedDate.toLocaleDateString("fr-FR")}</Text>
+                  </Grid>
+                  <Grid xs={4} justify="flex-end">
+                    <Button
+                      auto
+                      icon={<CaretRight size={32} />}
+                      onPress={() =>
+                        setSelectedDate(
+                          new Date(
+                            selectedDate.setDate(selectedDate.getDate() + 1)
+                          )
+                        )
+                      }
+                    />
+                  </Grid>
+                </Grid.Container>
+              </Card.Header>
+              <Card.Body>
+                <Grid.Container gap={2} justify="center">
+                  {selectedMatches.map((match) => (
+                    <MatchList match={match} />
+                  ))}
+                  {selectedMatches.length === 0 && (
+                    <Text h4>Aucun match de prevu pour cette date 😔</Text>
+                  )}
+                </Grid.Container>
+              </Card.Body>
+            </Card>
             <div className={styles.catchPhrase}>
               <Text h1 weight={"bold"} size={"$6xl"}>
                 Faites combattre vos monstres
@@ -30,7 +116,7 @@ export default function Home() {
           </div>
 
           <Lottie
-            animationData={warriorsAnimation}
+            animationData={isDark ? warriorsDark : warriorsLight}
             className={styles.lottieWarriors}
           />
         </header>
