@@ -2,8 +2,6 @@
 
 import { Modal, Text } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
-import { getHisMonster } from "src/app/api/Users/getHisMonster";
 import { useGetAllMonsterFromOneUserQuery } from "src/store/monsters/slice";
 import { MonsterCard } from "../Card/MonsterCard/monsterCard";
 
@@ -12,17 +10,9 @@ export const ModalsMonster = (props: {
   closeHandler: any;
   userId: number;
 }) => {
-  const queryClient = useQueryClient();
   const { visible, closeHandler, userId } = props;
-  const [monsters, setMonsters] = useState([]);
 
-  const {
-    isLoading,
-    isError,
-    data: monstersData,
-  } = useQuery(["monsters", userId], () => getHisMonster(userId), {
-    enabled: false,
-  });
+  const [monsters, setMonsters] = useState([]);
 
   const { data: monsterData } = useGetAllMonsterFromOneUserQuery(userId);
 

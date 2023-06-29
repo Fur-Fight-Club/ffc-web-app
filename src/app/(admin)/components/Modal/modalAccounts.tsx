@@ -5,8 +5,7 @@ import { EditUserType, RoleType, editUserSchema } from "src/model/user.schema";
 import { Button } from "@components/UI/Button/Button.component";
 import { Input, Modal, Radio, Spacer, Text } from "@nextui-org/react";
 import { Envelope, IdentificationCard } from "@phosphor-icons/react";
-import { useMutation, useQueryClient } from "react-query";
-import { patchUser } from "src/app/api/Users/patchUser";
+
 import { useUpdateMutation } from "src/store/user/slice";
 import { ZodError } from "zod";
 
@@ -16,7 +15,6 @@ export const Modals = (props: {
   user: EditUserType;
   refetch: any;
 }) => {
-  const queryClient = useQueryClient();
   const { visible, closeHandler, user, refetch } = props;
 
   const [formData, setFormData] = useState<EditUserType>(user);
@@ -26,14 +24,6 @@ export const Modals = (props: {
   );
 
   const [updateUserMuation, { data: dataUpdate }] = useUpdateMutation();
-
-  const patchUserMutation = useMutation(patchUser, {
-    onSuccess: (isLoading, data) => {
-      queryClient.invalidateQueries("user");
-
-      closeHandler();
-    },
-  });
 
   const roleOptions: { label: string; value: RoleType }[] = [
     { label: "Utilisateur", value: "USER" },
