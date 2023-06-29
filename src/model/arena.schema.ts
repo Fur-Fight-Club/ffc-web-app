@@ -14,6 +14,7 @@ export const arenaSchema = z.object({
   country: z.string(),
   latitude: z.number(),
   longitude: z.number(),
+  picture: z.string(),
   match: z.array(z.object({})),
 });
 export type ArenaType = z.infer<typeof arenaSchema>;
@@ -24,5 +25,6 @@ export const createArenaSchema = arenaSchema.pick({
   city: true,
   zipcode: true,
   country: true,
+  picture: true,
 });
 export type CreateArenaType = z.infer<typeof createArenaSchema>;

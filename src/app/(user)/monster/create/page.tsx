@@ -42,8 +42,6 @@ export default function CreateMonster() {
 
   const pictureRef = React.useRef<HTMLInputElement>(null);
   const handleAddPicture = async (file: File) => {
-    // Check if file is an image
-
     if (
       !file.type.includes("image") &&
       !["image/png", "image/jpeg", "image/jpg"].includes(file.type)
