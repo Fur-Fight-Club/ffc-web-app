@@ -12,18 +12,32 @@ import {
   User,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
-import { useDeleteMonsterMutation } from "src/store/monsters/slice";
+import { Monster } from "src/store/monsters/monsters.model";
+import {
+  useDeleteMonsterMutation,
+  useGetAllMonsterFromOneUserQuery,
+} from "src/store/monsters/slice";
 import { convertApiTypeToLogo } from "src/utils/utils";
 import styles from "./MyMonstersCard.module.scss";
-import { Monster } from "src/store/monsters/monsters.model";
 
 export default function MyMonstersCard() {
-  const { user } = useSelector(applicationState);
   const router = useRouter();
 
+  const { user } = useSelector(applicationState);
+  const { data: monsters } = useGetAllMonsterFromOneUserQuery(user?.id);
   const [deleteMonster] = useDeleteMonsterMutation();
+
+  const [userMonsters, setUserMonsters] = useState<Monster[] | undefined>([]);
+
+  useEffect(() => setUserMonsters(monsters), [monsters]);
+
+  useEffect(() => {
+    console.log(userMonsters);
+    console.log(userMonsters?.length);
+  }, [userMonsters]);
 
   const columns = [
     { name: "Nom de(s) montre(s)", uid: "name" },
@@ -135,36 +149,39 @@ export default function MyMonstersCard() {
 
   return (
     <Card css={{ mw: "450px", m: "$5" }}>
-      <Card.Body css={{ py: "$10" }}>
-        <Table
-          bordered
-          shadow={false}
-          aria-label="Example table with dynamic content & infinity pagination"
-          css={{ minWidth: "50%", height: "50%" }}
-        >
-          <Table.Header columns={columns}>
-            {(column) => (
-              <Table.Column
-                key={column.uid}
-                hideHeader={column.uid === "actions"}
-                align={column.uid === "actions" ? "center" : "start"}
-              >
-                {column.name}
-              </Table.Column>
-            )}
-          </Table.Header>
-          <Table.Body items={user.Monster}>
-            {(item) => (
-              <Table.Row>
-                {(columnKey) => (
-                  <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-                )}
-              </Table.Row>
-            )}
-          </Table.Body>
-          <Table.Pagination shadow noMargin align="center" rowsPerPage={3} />
-        </Table>
-      </Card.Body>
+      {!user && (
+        <Card.Body css={{ py: "$10" }}>
+          <Table
+            bordered
+            shadow={false}
+            aria-label="Example table with dynamic content & infinity pagination"
+            css={{ minWidth: "50%", height: "50%" }}
+          >
+            <Table.Header columns={columns}>
+              {(column) => (
+                <Table.Column
+                  key={column.uid}
+                  hideHeader={column.uid === "actions"}
+                  align={column.uid === "actions" ? "center" : "start"}
+                >
+                  {column.name}
+                </Table.Column>
+              )}
+            </Table.Header>
+            <Table.Body items={userMonsters}>
+              {(item) => (
+                <Table.Row>
+                  {(columnKey) => (
+                    <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                  )}
+                </Table.Row>
+              )}
+            </Table.Body>
+            )
+            <Table.Pagination shadow noMargin align="center" rowsPerPage={3} />
+          </Table>
+        </Card.Body>
+      )}
       <Card.Divider />
       <Card.Footer>
         <Row>

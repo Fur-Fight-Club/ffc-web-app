@@ -87,7 +87,7 @@ export default function CreateMonster() {
       return;
     }
 
-    const createMonster = await addMonster({
+    addMonster({
       name,
       weight,
       // @ts-ignore
@@ -97,11 +97,9 @@ export default function CreateMonster() {
       // @ts-ignore
       picture,
       fk_user: user.id ?? -1,
-    });
-    // @ts-ignore
-    if (createMonster.data) {
+    }).then((res) => {
       router.push("monster");
-    }
+    });
   };
 
   return (

@@ -1,9 +1,9 @@
-import { StripeAccount, StripeBankAccount } from "./../payments/payments.model";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import toast from "react-hot-toast";
 import { GenericApiError } from "../store.model";
 import { baseQuery } from "./../api";
+import { StripeAccount, StripeBankAccount } from "./../payments/payments.model";
 
 import { Monster } from "../monsters/monsters.model";
 import {
@@ -75,7 +75,9 @@ export const applicationApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
           dispatch(setUser(data));
-          toast.success("Bienvenue sur Fury Fight Club !");
+          toast.success(
+            " 📪 Un e-mail vous a été envoyé pour vérifier votre compte !"
+          );
         } catch (err) {
           const error = err as GenericApiError;
           console.log(error);
