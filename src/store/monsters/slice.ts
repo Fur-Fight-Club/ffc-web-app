@@ -42,7 +42,7 @@ export const monstersApi = createApi({
     }),
 
     // Get all monsters for one user
-    getAllMonsterFromOneUser: builder.query<Monster, number>({
+    getAllMonsterFromOneUser: builder.query<Monster[], number>({
       query: (id) => ({
         url: endpoint.getAllFromOneUser(id),
         method: "GET",
@@ -95,7 +95,7 @@ export const monstersApi = createApi({
       >
     >({
       query: (monster) => ({
-        url: endpoint.create,
+        url: `${endpoint.create}`,
         method: "POST",
         body: monster,
       }),

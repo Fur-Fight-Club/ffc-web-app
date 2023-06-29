@@ -165,7 +165,7 @@ const MonsterPage = (props: MonsterPageProps) => {
       </Row>
       <Card css={{ minHeight: "50%" }}>
         <Card.Body css={{ py: "$10" }}>
-          {user.Monster.length > 0 ? (
+          {user?.Monster?.length > 0 ? (
             <Table
               bordered
               shadow={false}
