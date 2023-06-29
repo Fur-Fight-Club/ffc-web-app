@@ -79,7 +79,7 @@ export const NotificationComponent: React.FunctionComponent<
       handlePermissionRequest();
     }
 
-    if ("serviceWorker" in navigator) {
+    if ("serviceWorker" in navigator && typeof window !== "undefined") {
       window.addEventListener("load", function () {
         navigator.serviceWorker
           .register("/firebase-messaging-sw.js")

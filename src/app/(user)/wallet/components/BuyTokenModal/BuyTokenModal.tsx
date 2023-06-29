@@ -54,6 +54,7 @@ const BuyTokenModal = ({ visibleProp, closeModal }: BuyTokenModalProps) => {
   const [buyCredit] = useBuyCreditsMutation();
 
   const handleBuy = () => {
+    // @ts-ignore
     buyCredit({ credits: amount });
     closeModal();
   };

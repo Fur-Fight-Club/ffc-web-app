@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ffc-webapp-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ffc-webapp
+  template:
+    metadata:
+      labels:
+        app: ffc-webapp
+    spec:
+      containers:
+        - name: ffc-webapp
+          image: mcamus9/ffc-webapp-docker
+          ports:
+            - containerPort: 80

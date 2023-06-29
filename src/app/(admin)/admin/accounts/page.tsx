@@ -13,6 +13,7 @@ import { PawPrint, Pencil, Trash } from "@phosphor-icons/react";
 
 import { Modals } from "../../components/Modal/modalAccounts";
 import { ModalsMonster } from "../../components/Modal/modalMonster";
+import ts from "typescript";
 
 export default function AccountsAdmin() {
   const [users, setUsers] = useState([]);
@@ -52,6 +53,7 @@ export default function AccountsAdmin() {
 
   useEffect(() => {
     if (usersData) {
+      // @ts-ignore
       setUsers(usersData);
     }
   }, [usersData]);

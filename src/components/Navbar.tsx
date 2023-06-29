@@ -55,7 +55,10 @@ const NavbarTest = () => {
   if (isUserLogged) {
     return (
       <Navbar isBordered={isDark} variant="floating" maxWidth="fluid">
-        <Navbar.Brand onClick={() => router.push("/")}>
+        <Navbar.Brand
+          onClick={() => router.push("/")}
+          css={{ cursor: "pointer" }}
+        >
           <Image
             src="/images/ffc-logo.svg"
             alt="Acme Logo"

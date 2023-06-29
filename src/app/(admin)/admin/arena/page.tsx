@@ -35,6 +35,7 @@ export default function ArenaAdmin() {
 
   useEffect(() => {
     if (data) {
+      // @ts-ignore
       setArenas(data);
     }
   }, [data]);

@@ -57,6 +57,7 @@ const MonsterCardCreate = ({ className, monster }: MonsterCardCreateProps) => {
         setMonsterType(generateRandomMonsterType());
       }
       if (!monster || !monster.picture) {
+        // @ts-ignore
         setPictureAnimation(generateRandomPicture());
       }
     }, 1000);

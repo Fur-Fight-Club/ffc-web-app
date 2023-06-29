@@ -88,17 +88,18 @@ export const AnalyticsWrapper: React.FunctionComponent<
       })
     );
   };
+
   useEffect(() => {
     const handleUnload = (event: any) => {
       event.preventDefault();
     };
 
-    window.addEventListener("beforeunload", handleUnload);
-    handleLeave();
+    // window.addEventListener("beforeunload", handleUnload);
+    // handleLeave();
 
-    return () => {
-      window.removeEventListener("beforeunload", handleUnload);
-    };
+    // return () => {
+    //   window.removeEventListener("beforeunload", handleUnload);
+    // };
   }, []);
 
   /**
@@ -162,8 +163,8 @@ export const AnalyticsWrapper: React.FunctionComponent<
         y: event.clientY,
       },
       window: {
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: window !== undefined ? window.innerWidth : 0,
+        height: window !== undefined ? window.innerHeight : 0,
       },
       // @ts-ignore
       userAgent,

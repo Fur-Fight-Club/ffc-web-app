@@ -84,8 +84,8 @@ export default function Home() {
               </Card.Header>
               <Card.Body>
                 <Grid.Container gap={2} justify="center">
-                  {selectedMatches.map((match) => (
-                    <MatchList match={match} key={match.id} />
+                  {selectedMatches.map((match, index) => (
+                    <MatchList match={match} key={index} />
                   ))}
                   {selectedMatches.length === 0 && (
                     <Text h4>Aucun match de prevu pour cette date 😔</Text>
