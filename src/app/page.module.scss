@@ -16,9 +16,18 @@
   padding: 1.6rem;
 }
 
+.matchCard {
+  position: absolute !important;
+  top: 20vh !important;
+  left: 5rem !important;
+  width: 30% !important;
+  height: 60vh !important;
+  padding: 1rem !important;
+  cursor: pointer !important;
+}
+
 .lottieWarriors {
   position: absolute;
-  transform: translateY(10%);
   height: 100vh;
 }
 
