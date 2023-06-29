@@ -276,8 +276,8 @@ export default function AnalyticsPage1() {
               <Table.Body>
                 {analytics
                   .uniqueButtonClicked(buttonEvents ?? [])
-                  .map((ubc) => (
-                    <Table.Row>
+                  .map((ubc, index) => (
+                    <Table.Row key={index}>
                       <Table.Cell>
                         <Badge color="primary">{ubc.event}</Badge>
                       </Table.Cell>
@@ -437,8 +437,8 @@ export default function AnalyticsPage1() {
                   .averageTimeSpentOnEachPage(
                     analytics.filter.pathname(pathnameEvents ?? [])
                   )
-                  .map((timeSpent) => (
-                    <Table.Row>
+                  .map((timeSpent, index) => (
+                    <Table.Row key={index}>
                       <Table.Cell>
                         <Badge color="primary">{timeSpent.page}</Badge>
                       </Table.Cell>
