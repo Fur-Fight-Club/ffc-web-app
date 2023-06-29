@@ -101,7 +101,9 @@ function filterPathnameEventsFromRegexp(pathnameEvents: PathnameChangeEvent[]) {
   // remove everything that contains "/admin" or "/monster/" in the pathname
   const filteredPathnameEvents = pathnameEvents.filter(
     (event) =>
-      !/\/admin/.test(event.event_id) && !/\/monster\//.test(event.event_id)
+      !/\/admin/.test(event.event_id) &&
+      !/\/monster\//.test(event.event_id) &&
+      !/\/payments\//.test(event.event_id)
   );
 
   return filteredPathnameEvents;
