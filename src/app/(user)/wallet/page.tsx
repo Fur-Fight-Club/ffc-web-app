@@ -12,6 +12,7 @@ import AddIbanModal from "./components/AddIbanModal/AddIbanModal";
 import DeleteAccountModal from "./components/DeleteAccountModal/DeleteAccountModal";
 import { useGetWalletBalanceQuery } from "src/store/wallet/slice";
 import { walletState } from "src/store/wallet/selector";
+import TransactionHistoryTable from "./components/TransactionHistoryTable/TransactionHistoryTable";
 
 type WalletPageProps = {};
 
@@ -41,47 +42,6 @@ const WalletPage = (props: WalletPageProps) => {
     refetchWallet();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wallet]);
-
-  const columns = [
-    {
-      key: "date",
-      label: "DATE",
-    },
-    {
-      key: "amount",
-      label: "MONTANT",
-    },
-    {
-      key: "status",
-      label: "STATUS",
-    },
-  ];
-  const rows = [
-    {
-      key: "1",
-      name: "Tony Reichert",
-      role: "CEO",
-      status: "Active",
-    },
-    {
-      key: "2",
-      name: "Zoey Lang",
-      role: "Technical Lead",
-      status: "Paused",
-    },
-    {
-      key: "3",
-      name: "Jane Fisher",
-      role: "Senior Developer",
-      status: "Active",
-    },
-    {
-      key: "4",
-      name: "William Howard",
-      role: "Community Manager",
-      status: "Vacation",
-    },
-  ];
 
   return (
     <div>
@@ -152,26 +112,7 @@ const WalletPage = (props: WalletPageProps) => {
       <Text h2 size={"$lg"}>
         Historique des transactions
       </Text>
-      <Table
-        aria-label="Example table with dynamic content"
-        css={{
-          height: "auto",
-          minWidth: "100%",
-        }}
-      >
-        <Table.Header columns={columns}>
-          {(column) => (
-            <Table.Column key={column.key}>{column.label}</Table.Column>
-          )}
-        </Table.Header>
-        <Table.Body items={rows}>
-          {(item) => (
-            <Table.Row key={item.key}>
-              {(columnKey) => <Table.Cell>pouet</Table.Cell>}
-            </Table.Row>
-          )}
-        </Table.Body>
-      </Table>
+      <TransactionHistoryTable />
     </div>
   );
 };
