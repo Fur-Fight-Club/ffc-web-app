@@ -1,13 +1,16 @@
 "use client";
-import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { deleteUser } from "src/app/api/Users/deletUser";
-import { getUsers } from "src/app/api/Users/getUsers";
+import { useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
 
 import { IconButton } from "@components/IconButton";
 import { Badge, Col, Row, Table, Text, Tooltip, User } from "@nextui-org/react";
 import { PawPrint, Pencil, Trash } from "@phosphor-icons/react";
 import { EditUserType } from "src/model/user.schema";
+import {
+  useDeleteMutation,
+  useGetAllQuery,
+  useUpdateMutation,
+} from "src/store/user/slice";
 import { Modals } from "../../components/Modal/modalAccounts";
 import { ModalsMonster } from "../../components/Modal/modalMonster";
 
@@ -27,7 +30,6 @@ export default function AccountsAdmin() {
       setUserData(userD);
       setVisibleModalAccount(true);
     } else {
-      console.log("user not found");
       setVisibleModalAccount(false);
     }
   };
@@ -46,20 +48,19 @@ export default function AccountsAdmin() {
     setVisibleModalMonster(false);
   };
 
-  const { data } = useQuery(["user"], getUsers, {
-    onSuccess: (data) => {
-      setUsers(data);
-    },
-  });
+  const { data: usersData, refetch } = useGetAllQuery();
+  const [updateUserMuation, { data: dataUpdate }] = useUpdateMutation();
+  const [deleteUserMutation, { data }] = useDeleteMutation();
 
-  const deleteUserMutation = useMutation(deleteUser, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries("user");
-    },
-  });
+  useEffect(() => {
+    if (usersData) {
+      setUsers(usersData);
+    }
+  }, [usersData]);
 
   const handleDeleteUser = (id: number) => {
-    deleteUserMutation.mutate(id);
+    deleteUserMutation(id);
+    refetch();
   };
 
   const columns = [
@@ -78,7 +79,7 @@ export default function AccountsAdmin() {
             squared
             // src={user?.avatar}
             color="primary"
-            name={user.firstname + " " + user.lastname}
+            name={user?.firstname + " " + user?.lastname}
             css={{ p: 0 }}
           >
             {user?.email}
@@ -143,41 +144,47 @@ export default function AccountsAdmin() {
 
   return (
     <>
-      <Table
-        aria-label="Users table"
-        css={{
-          height: "auto",
-          minWidth: "100%",
-        }}
-        selectionMode="none"
-      >
-        <Table.Header columns={columns}>
-          {(column) => (
-            <Table.Column
-              key={column.uid}
-              hideHeader={column.uid === "actions"}
-              align={column.uid === "actions" ? "center" : "start"}
-            >
-              {column.name}
-            </Table.Column>
-          )}
-        </Table.Header>
+      {users.length > 0 ? (
+        <Table
+          aria-label="Users table"
+          css={{
+            height: "auto",
+            minWidth: "100%",
+          }}
+          selectionMode="none"
+        >
+          <Table.Header columns={columns}>
+            {(column) => (
+              <Table.Column
+                key={column.uid}
+                hideHeader={column.uid === "actions"}
+                align={column.uid === "actions" ? "center" : "start"}
+              >
+                {column.name}
+              </Table.Column>
+            )}
+          </Table.Header>
 
-        <Table.Body items={users}>
-          {(item: EditUserType) => (
-            <Table.Row>
-              {(columnKey) => (
-                <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-              )}
-            </Table.Row>
-          )}
-        </Table.Body>
-      </Table>
+          <Table.Body items={users}>
+            {(item: EditUserType) => (
+              <Table.Row>
+                {(columnKey) => (
+                  <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                )}
+              </Table.Row>
+            )}
+          </Table.Body>
+          <Table.Pagination shadow noMargin align="center" rowsPerPage={10} />
+        </Table>
+      ) : (
+        <Text size={16}>Aucun utilisateur à afficher</Text>
+      )}
 
       <Modals
         visible={visibleModalAccount}
         closeHandler={closeModalAccount}
         user={userData}
+        refetch={refetch}
       />
       <ModalsMonster
         visible={visibleModalMonster}
