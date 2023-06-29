@@ -26,6 +26,7 @@ export default function Error({
     >
       <Lottie animationData={catLoader} />
       <h4>{error.message}</h4>
+
       <Button onClick={() => router.push("/")}>
         Revenir au menu principal
       </Button>
