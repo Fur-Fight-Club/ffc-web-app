@@ -7,21 +7,25 @@ import { Input, Modal, Radio, Spacer, Text } from "@nextui-org/react";
 import { Envelope, IdentificationCard } from "@phosphor-icons/react";
 import { useMutation, useQueryClient } from "react-query";
 import { patchUser } from "src/app/api/Users/patchUser";
+import { useUpdateMutation } from "src/store/user/slice";
 import { ZodError } from "zod";
 
 export const Modals = (props: {
   visible: boolean;
   closeHandler: any;
   user: EditUserType;
+  refetch: any;
 }) => {
   const queryClient = useQueryClient();
-  const { visible, closeHandler, user } = props;
+  const { visible, closeHandler, user, refetch } = props;
 
   const [formData, setFormData] = useState<EditUserType>(user);
   const [isValidate, setIsValidate] = useState<boolean>(false);
   const [formErrors, setFormErrors] = useState<EditUserType>(
     {} as EditUserType
   );
+
+  const [updateUserMuation, { data: dataUpdate }] = useUpdateMutation();
 
   const patchUserMutation = useMutation(patchUser, {
     onSuccess: (isLoading, data) => {
@@ -43,8 +47,10 @@ export const Modals = (props: {
 
   const handleSave = () => {
     if (validateForm()) {
-      patchUserMutation.mutate(formData);
-      closeHandler();
+      updateUserMuation(formData).then(() => {
+        refetch();
+        closeHandler();
+      });
     }
   };
 

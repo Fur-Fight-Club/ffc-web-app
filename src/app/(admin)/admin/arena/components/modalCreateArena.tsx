@@ -30,7 +30,7 @@ export const ModalCreateArena = (props: {
 
   const onSubmit = (data: Arena) => {
     arenaMutation(data).then(() => {
-      refetch(); // Appeler refetch après la mutation
+      refetch();
       closeHandler();
     });
   };

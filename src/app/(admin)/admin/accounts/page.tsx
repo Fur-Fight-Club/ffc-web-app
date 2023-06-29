@@ -6,7 +6,11 @@ import { IconButton } from "@components/IconButton";
 import { Badge, Col, Row, Table, Text, Tooltip, User } from "@nextui-org/react";
 import { PawPrint, Pencil, Trash } from "@phosphor-icons/react";
 import { EditUserType } from "src/model/user.schema";
-import { useDeleteMutation, useGetAllQuery } from "src/store/user/slice";
+import {
+  useDeleteMutation,
+  useGetAllQuery,
+  useUpdateMutation,
+} from "src/store/user/slice";
 import { Modals } from "../../components/Modal/modalAccounts";
 import { ModalsMonster } from "../../components/Modal/modalMonster";
 
@@ -46,24 +50,16 @@ export default function AccountsAdmin() {
   };
 
   const { data: usersData, refetch } = useGetAllQuery();
+  const [updateUserMuation, { data: dataUpdate }] = useUpdateMutation();
+  const [deleteUserMutation, { data }] = useDeleteMutation();
 
   useEffect(() => {
     if (usersData) {
-      console.log("usersData", usersData);
-
       setUsers(usersData);
     }
   }, [usersData]);
 
-  useEffect(() => {
-    if (users) console.log("user", users);
-  }, [users]);
-
-  const [deleteUserMutation, { data }] = useDeleteMutation();
-
   const handleDeleteUser = (id: number) => {
-    console.log("delete user", id);
-
     deleteUserMutation(id);
     refetch();
   };
@@ -188,6 +184,7 @@ export default function AccountsAdmin() {
         visible={visibleModalAccount}
         closeHandler={closeModalAccount}
         user={userData}
+        refetch={refetch}
       />
       <ModalsMonster
         visible={visibleModalMonster}
