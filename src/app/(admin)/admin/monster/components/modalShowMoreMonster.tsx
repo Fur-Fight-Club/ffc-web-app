@@ -1,13 +1,19 @@
 "use client";
 
 import { Button } from "@components/UI/Button/Button.component";
-import { Modal, Text } from "@nextui-org/react";
+import { Input, Modal, Text } from "@nextui-org/react";
+import { MonsterCard } from "src/app/(admin)/components/Card/MonsterCard/monsterCard";
+import { useGetUserQuery } from "src/store/application/slice";
 
 export const ModalShowMoreMonster = (props: {
   visible: boolean;
   closeHandler: any;
+  monster: any;
 }) => {
-  const { visible, closeHandler } = props;
+  const { visible, closeHandler, monster } = props;
+
+  const { data: userData } = useGetUserQuery(monster?.fk_user);
+  const userName = userData?.user.firstname + " " + userData?.user.lastname;
 
   return (
     <Modal
@@ -17,12 +23,14 @@ export const ModalShowMoreMonster = (props: {
       onClose={closeHandler}
     >
       <Modal.Header>
-        <Text id="modal-title" size={18}>
+        <Text id="modal-title" b size={18}>
           Information sur le monstre
         </Text>
       </Modal.Header>
       <Modal.Body>
-        <p>test</p>
+        <Input label="Propriétaire :" value={userName} />
+
+        <MonsterCard monster={monster} />
       </Modal.Body>
       <Modal.Footer>
         <Button

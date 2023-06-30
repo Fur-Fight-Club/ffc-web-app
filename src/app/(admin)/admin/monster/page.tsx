@@ -10,17 +10,21 @@ import {
 import { IconButton } from "@components/IconButton";
 import { Col, Row, Spacer, Table, Text, Tooltip } from "@nextui-org/react";
 import { MagnifyingGlass, Trash } from "@phosphor-icons/react";
+import { MonsterDto } from "src/model/monster.schema";
 import { ModalShowMoreMonster } from "./components/modalShowMoreMonster";
 
 export default function ArenaAdmin() {
   const [monsters, setMonsters] = useState([]);
+  const [monsterSelected, setMonsterSelected] = useState<MonsterDto>();
 
   const { data, refetch } = useGetAllMonstersQuery();
   const [monsterDeleteMutation] = useDeleteMonsterMutation();
 
   const [visibleModal, setVisibleModal] = useState(false);
 
-  const handleModal = () => {
+  const handleModal = (monsterId: number) => {
+    const monster = monsters.find((m: Monster) => m.id === monsterId);
+    setMonsterSelected(monster);
     setVisibleModal(true);
   };
 
@@ -74,7 +78,7 @@ export default function ArenaAdmin() {
           <Row justify="center" align="center">
             <Col css={{ d: "flex" }}>
               <Tooltip content="Voir plus">
-                <IconButton onClick={() => handleModal()}>
+                <IconButton onClick={() => handleModal(monster.id)}>
                   <MagnifyingGlass size={20} color="#889096" weight="light" />
                 </IconButton>
               </Tooltip>
@@ -87,8 +91,6 @@ export default function ArenaAdmin() {
             </Col>
           </Row>
         );
-      default:
-        return cellValue;
     }
   };
 
@@ -130,7 +132,11 @@ export default function ArenaAdmin() {
         <Table.Pagination shadow noMargin align="center" rowsPerPage={10} />
       </Table>
 
-      <ModalShowMoreMonster visible={visibleModal} closeHandler={closeModal} />
+      <ModalShowMoreMonster
+        visible={visibleModal}
+        closeHandler={closeModal}
+        monster={monsterSelected}
+      />
     </>
   );
 }
