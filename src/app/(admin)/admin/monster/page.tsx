@@ -74,7 +74,7 @@ export default function ArenaAdmin() {
           <Row justify="center" align="center">
             <Col css={{ d: "flex" }}>
               <Tooltip content="Voir plus">
-                <IconButton>
+                <IconButton onClick={() => handleModal()}>
                   <MagnifyingGlass size={20} color="#889096" weight="light" />
                 </IconButton>
               </Tooltip>
