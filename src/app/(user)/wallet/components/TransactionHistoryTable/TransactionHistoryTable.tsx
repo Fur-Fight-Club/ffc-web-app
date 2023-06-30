@@ -1,10 +1,8 @@
 "use client";
 
-import { Card, Col, Row, Spacer, Text, Table } from "@nextui-org/react";
+import { Card, Col, Row, Text, Table } from "@nextui-org/react";
 import colors from "@styles/_colors.module.scss";
 import Image from "next/image";
-import { Button } from "@components/UI/Button/Button.component";
-import { useState } from "react";
 import {
   getImageByAmount,
   tradTagTransaction,
@@ -17,12 +15,6 @@ import { Flame } from "@phosphor-icons/react";
 type TransactionHistoryTableProps = {};
 
 const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
-  const [visible, setVisible] = useState(false);
-
-  const handleModal = () => {
-    setVisible(!visible);
-  };
-
   const { user } = useSelector(applicationState);
 
   const columns = [
@@ -33,8 +25,8 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
     { name: "Monstre", uid: "monsterId" },
   ];
 
-  const renderCell = (monster: any, columnKey: React.Key) => {
-    const cellValue = monster[columnKey];
+  const renderCell = (transaction: any, columnKey: React.Key) => {
+    const cellValue = transaction[columnKey];
     switch (columnKey) {
       case "type":
         return (
@@ -101,6 +93,11 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
   return (
     <div>
       <Card css={{ minHeight: "50%" }}>
+        <Card.Header>
+          <Row justify="center" align="center" css={{ mt: "$10" }}>
+            <Text h3>Historique des transactions</Text>
+          </Row>
+        </Card.Header>
         <Card.Body css={{ py: "$10" }}>
           {user.transaction.length > 0 ? (
             <Table

@@ -83,36 +83,24 @@ const WalletPage = (props: WalletPageProps) => {
           </Card>
         </Row>
       ) : (
-        <Row>
-          <MyBalance
-            amount={walletBalance?.credits || 0}
-            fiat={walletBalance?.euro || 0}
-          />
-          <Spacer x={1} />
-          <KpiCard
-            amount={30.9}
-            label="Jetons gagnés"
-            color={colors.successLight}
-            contratsColor={colors.success}
-            unityLabel="Jetons"
-          />
-          <Spacer x={1} />
-          <KpiCard
-            amount={30.9}
-            label="Jetons perdus"
-            color={colors.dangerLight}
-            unityLabel="Jetons"
-          />
-        </Row>
+        <>
+          <Row>
+            <Col span={4} css={{ m: "$5" }}>
+              <MyBalance
+                amount={walletBalance?.credits || 0}
+                fiat={walletBalance?.euro || 0}
+              />
+            </Col>
+            <Col span={8} css={{ m: "$5" }}>
+              <TransactionHistoryTable />
+            </Col>
+          </Row>
+        </>
       )}
       <DeleteAccountModal
         visibleProp={visibleModalDeleteAccount}
         closeModal={handleModalDeleteAccount}
       />
-      <Text h2 size={"$lg"}>
-        Historique des transactions
-      </Text>
-      <TransactionHistoryTable />
     </div>
   );
 };
