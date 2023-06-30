@@ -21,16 +21,16 @@ const MonsterItem = ({
   onClick,
   isSelected = false,
 }: MonsterItemProps) => {
-  const { activeMonster, setActiveMonster } = useContext(CardListContext);
+  const { activeItem, setActiveItem } = useContext(CardListContext);
 
   const handleOnClick = () => {
     onClick && onClick();
     isMonsterSelected
-      ? setActiveMonster({} as Monster)
-      : setActiveMonster(monster);
+      ? setActiveItem({} as Monster)
+      : setActiveItem(monster);
   };
 
-  const isMonsterSelected = monster.id === activeMonster.id || isSelected;
+  const isMonsterSelected = monster.id === activeItem.id || isSelected;
 
   return (
     <motion.div

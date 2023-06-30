@@ -13,4 +13,5 @@ export interface Arena {
   latitude: number;
   longitude: number;
   match: object[];
+  picture?: string;
 }

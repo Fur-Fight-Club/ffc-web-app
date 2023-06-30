@@ -1,0 +1,33 @@
+@import "/src/styles";
+
+.arenaItem {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+
+  height: 6rem;
+  padding: 0.5rem;
+
+  background: $whiteT100;
+  border-radius: 0.75rem;
+
+  transition: all 0.15s ease-in-out;
+}
+
+.arenaItemActive {
+  background: $secondary;
+}
+
+.imageContainer {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5rem;
+}

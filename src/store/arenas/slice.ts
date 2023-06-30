@@ -6,7 +6,7 @@ import { GenericApiError } from "../store.model";
 import { CACHE_KEY, endpoint, initialState, reducerPath } from "./constants";
 
 import { toast } from "react-hot-toast";
-import { Arenas } from "./arenas.model";
+import { Arena } from "./arenas.model";
 
 export const ArenaApi = createApi({
   reducerPath,
@@ -14,7 +14,7 @@ export const ArenaApi = createApi({
   tagTypes: [CACHE_KEY],
   endpoints: (builder) => ({
     // Get Arenas
-    getArenas: builder.query<Arenas[], void>({
+    getArenas: builder.query<Arena[], void>({
       query: () => ({
         url: `${endpoint.get}`,
         method: "GET",

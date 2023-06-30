@@ -1,16 +1,16 @@
 "use client";
 
+import CardList from "@components/CardList";
 import { Button, Grid, Row, Spacer } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Arena } from "src/store/arenas/arenas.model";
+import { useGetArenasQuery } from "src/store/arenas/slice";
 import { createMatchFormState } from "src/store/matches/selector";
-import {
-  setArenaCreateForm,
-  setMonsterCreateForm,
-  setStepCreateForm,
-} from "src/store/matches/slice";
+import { setArenaCreateForm, setStepCreateForm } from "src/store/matches/slice";
+import ArenaCardDetails from "../ArenaCardDetails";
 
 type Step2Props = {};
 
@@ -19,10 +19,13 @@ const Step2 = (props: Step2Props) => {
   const router = useRouter();
 
   const { monster, step, arena, bet } = useSelector(createMatchFormState);
+  const { data: arenas, refetch } = useGetArenasQuery();
+
+  console.log("arenas", arenas);
 
   const handleOnClick = (selectedArena: Arena) => {
     arena?.id === selectedArena.id
-      ? dispatch(setMonsterCreateForm(null))
+      ? dispatch(setArenaCreateForm(null))
       : dispatch(setArenaCreateForm(selectedArena));
   };
 
@@ -30,22 +33,38 @@ const Step2 = (props: Step2Props) => {
     dispatch(setStepCreateForm(0));
   };
 
+  const handleNextStep = () => {
+    dispatch(setStepCreateForm(2));
+    toast.success("Arène sélectionnée");
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
   return (
     <div style={{ height: "95%" }}>
       <Grid.Container css={{ height: "100%", position: "relative" }} gap={2}>
         <Grid xs={4}>
           <div style={{ width: "100%" }}>
             <div>Arènes disponibles</div>
+            <CardList>
+              {arenas?.map((arenaItem) => (
+                <CardList.ArenaItem
+                  key={arenaItem.id}
+                  arena={arenaItem}
+                  onClick={() => handleOnClick(arenaItem)}
+                  isSelected={arena?.id === arenaItem.id}
+                />
+              ))}
+            </CardList>
           </div>
         </Grid>
-        <Grid xs={4}>
+        <Grid xs={8}>
           <div style={{ width: "100%" }}>
-            <div>Fiche </div>
-          </div>
-        </Grid>
-        <Grid xs={4}>
-          <div style={{ width: "100%" }}>
-            <div>Pouet arène </div>
+            <div>Fiche</div>
+            {/* @ts-ignore */}
+            <ArenaCardDetails arena={arena} />
           </div>
         </Grid>
       </Grid.Container>
@@ -54,10 +73,7 @@ const Step2 = (props: Step2Props) => {
           Retour
         </Button>
         <Spacer x={0.5} />
-        <Button
-          {...(!arena && { disabled: true })}
-          onClick={() => toast.success("Arène sélectioné sélectionné !")}
-        >
+        <Button {...(!arena && { disabled: true })} onClick={handleNextStep}>
           Suivant
         </Button>
       </Row>

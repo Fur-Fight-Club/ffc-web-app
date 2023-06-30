@@ -13,6 +13,12 @@ const nextConfig = {
       {
         hostname: "i.imgur.com",
       },
+      {
+        hostname: "cocoparks.io",
+      },
+      {
+        hostname: "i.ibb.co",
+      },
     ],
   },
 };

@@ -1,12 +1,15 @@
 import { createContext } from "react";
+import { Arena } from "src/store/arenas/arenas.model";
 import { Monster } from "src/store/monsters/monsters.model";
 
+export type ItemPayload = Monster | Arena;
+
 export type CardListContextType = {
-  activeMonster: Monster;
-  setActiveMonster: (monster: Monster) => void;
+  activeItem: ItemPayload;
+  setActiveItem: (item: ItemPayload) => void;
 };
 
 export const CardListContext = createContext<CardListContextType>({
-  activeMonster: {} as Monster,
-  setActiveMonster: () => {},
+  activeItem: {} as ItemPayload,
+  setActiveItem: () => {},
 });
