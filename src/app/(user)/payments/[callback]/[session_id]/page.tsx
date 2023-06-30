@@ -7,6 +7,7 @@ import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { usePaymentCallbackMutation } from "src/store/application/slice";
 import { Callback, RequestFrom } from "src/store/payments/payments.model";
+import { useGetUserQuery } from "src/store/application/slice";
 
 export default function PaymentsHook({
   params,
@@ -26,6 +27,14 @@ export default function PaymentsHook({
       callback: params.callback,
     });
   }, []);
+
+  const { refetch } = useGetUserQuery("");
+  useEffect(() => {
+    if (params.callback === "success") {
+      refetch();
+    }
+  }, [params.callback]);
+
   return (
     <div>
       <Grid.Container

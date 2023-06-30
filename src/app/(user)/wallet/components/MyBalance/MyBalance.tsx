@@ -1,13 +1,14 @@
 "use client";
 
-import { Card, Row, Spacer, Text } from "@nextui-org/react";
+import { Card, Row, Spacer, Text, Tooltip } from "@nextui-org/react";
 import colors from "@styles/_colors.module.scss";
 import Image from "next/image";
 import { getImageByAmount } from "./utils";
 import { Button } from "@components/UI/Button/Button.component";
-import { Plus } from "@phosphor-icons/react";
+import { Plus, Warning } from "@phosphor-icons/react";
 import BuyTokenModal from "../BuyTokenModal/BuyTokenModal";
 import { use, useEffect, useState } from "react";
+import WithdrawModal from "../WithdrawModal/WithdrawModal";
 
 type MyBalanceProps = {
   amount: number;
@@ -15,10 +16,15 @@ type MyBalanceProps = {
 };
 
 const MyBalance = ({ fiat, amount }: MyBalanceProps) => {
-  const [visible, setVisible] = useState(false);
+  const [visibleBuyTokenModal, setVisibleBuyTokenModal] = useState(false);
+  const [visibleWithdrawModal, setVisibleWithdrawModal] = useState(false);
 
-  const handleModal = () => {
-    setVisible(!visible);
+  const handleBuyTokenModal = () => {
+    setVisibleBuyTokenModal(!visibleBuyTokenModal);
+  };
+
+  const handleWithdrawModal = () => {
+    setVisibleWithdrawModal(!visibleWithdrawModal);
   };
 
   return (
@@ -33,7 +39,7 @@ const MyBalance = ({ fiat, amount }: MyBalanceProps) => {
     >
       <Row justify="flex-end">
         <Button
-          onPress={() => handleModal()}
+          onPress={() => handleBuyTokenModal()}
           style={{ padding: "none", minWidth: "0" }}
         >
           <Plus weight="bold" size={24} color="#fff5f5" />
@@ -64,9 +70,38 @@ const MyBalance = ({ fiat, amount }: MyBalanceProps) => {
         <Spacer x={0.2} />€
       </Row>
       <Row justify="center" align="center" style={{ marginTop: "1rem" }}>
-        <Button analyticsId="createMonster-button">Récupérer mes fonds</Button>
+        {amount < 10000 ? (
+          <>
+            <Tooltip
+              content="Vous devez avoir un minimum de 10.000 crédits pour pouvoir récupérer vos fonds."
+              contentColor="error"
+              color="default"
+              css={{ maxWidth: "20rem" }}
+            >
+              <Warning size={32} weight="fill" color={colors.primaryT100} />
+            </Tooltip>
+            <Spacer x={1} />
+            <Button disabled>Récupérer mes fonds</Button>
+          </>
+        ) : (
+          <>
+            <Button
+              analyticsId="Withdraw-button"
+              onPress={() => handleWithdrawModal()}
+            >
+              Récupérer mes fonds
+            </Button>
+            <WithdrawModal
+              visibleProp={visibleWithdrawModal}
+              closeModal={handleWithdrawModal}
+            />
+          </>
+        )}
       </Row>
-      <BuyTokenModal visibleProp={visible} closeModal={handleModal} />
+      <BuyTokenModal
+        visibleProp={visibleBuyTokenModal}
+        closeModal={handleBuyTokenModal}
+      />
     </Card>
   );
 };
