@@ -37,15 +37,24 @@ const ProfilePage = (props: ProfilePageProps) => {
     <div>
       <Row justify="space-between" align="center" css={{ m: "$5" }}>
         <Text h1>Mon Compte</Text>
-        <Button auto>Se déconnecter</Button>
       </Row>
       <Row>
         <Col span={4} css={{ m: "$5" }}>
           <Card>
-            <Card.Header></Card.Header>
             <Card.Body>
-              <Card.Footer></Card.Footer>
+              <Row align="center" css={{ m: "$5" }}>
+                <Text>Informations personnelles</Text>
+              </Row>
+              <Row align="center" css={{ m: "$5" }}>
+                <Text>Mon portefeuille</Text>
+              </Row>
             </Card.Body>
+            <Card.Divider />
+            <Card.Footer>
+              <Row align="flex-end" justify="flex-end" css={{ m: "$5" }}>
+                <Button auto>Se déconnecter</Button>
+              </Row>
+            </Card.Footer>
           </Card>
         </Col>
         <Col span={8} css={{ m: "$5" }}>
@@ -190,7 +199,7 @@ const ProfilePage = (props: ProfilePageProps) => {
               </Row>
             </Card.Header>
             <Card.Divider />
-            <Card.Body>
+            <Card.Body css={{ p: "inherit" }}>
               <Row
                 align="center"
                 css={{
