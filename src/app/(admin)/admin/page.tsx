@@ -1,27 +1,17 @@
 "use client";
-import {
-  Avatar,
-  Badge,
-  Button,
-  Card,
-  Grid,
-  Spacer,
-  Table,
-  Text,
-} from "@nextui-org/react";
+import { Badge, Button, Card, Grid, Table, Text } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import styles from "./page.module.scss";
 
 import {
-  Chart as ChartJS,
   ArcElement,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LineElement,
   LinearScale,
   PointElement,
-  LineElement,
   Title,
   Tooltip,
-  Legend,
 } from "chart.js";
 import { Doughnut, Line } from "react-chartjs-2";
 ChartJS.register(
@@ -35,18 +25,19 @@ ChartJS.register(
   Legend
 );
 
+import { Select } from "antd";
+import dynamic from "next/dynamic";
+import { toast } from "react-hot-toast";
 import {
   useGetButtonClickEventsQuery,
+  useGetDemographicDataQuery,
   useGetLeaveAppEventsQuery,
   useGetMouseClickEventsQuery,
   useGetPathnameChangeEventsQuery,
 } from "src/store/application/slice";
+import { analytics } from "src/utils/analytics.utils";
 import { numbers } from "src/utils/number.utils";
 import { generateRandomColors } from "src/utils/utils";
-import { toast } from "react-hot-toast";
-import { analytics } from "src/utils/analytics.utils";
-import { Select } from "antd";
-import dynamic from "next/dynamic";
 
 export default function AdminPage() {
   const { data: buttonEvents, refetch: refetchButtonsEvents } =
@@ -59,15 +50,6 @@ export default function AdminPage() {
     useGetLeaveAppEventsQuery();
 
   const [refetchTrigger, setRefetchTrigger] = useState<number>(Date.now());
-
-  const handleRefetch = () => {
-    refetchButtonsEvents();
-    refetchClickEvents();
-    refetchPathnameEvents();
-    refetchLeaveAppEvents();
-    setRefetchTrigger(Date.now());
-    toast.loading("Données mises à jour");
-  };
 
   const [userAgents, setUserAgents] = useState<any[]>(
     analytics.aggregateUserAgents(
@@ -152,6 +134,46 @@ export default function AdminPage() {
       ssr: false,
     }
   );
+
+  const { data: demographicDatas, refetch: refetchDemographicDatas } =
+    useGetDemographicDataQuery();
+
+  useEffect(() => {
+    setCountryProportionColor(
+      generateRandomColors(
+        analytics.proportion.countries(demographicDatas ?? []).length
+      )
+    );
+    setIspsProportionColor(
+      generateRandomColors(
+        analytics.proportion.isps(demographicDatas ?? []).length
+      )
+    );
+  }, [demographicDatas]);
+
+  const [countryProportionColor, setCountryProportionColor] = useState<
+    string[][]
+  >(
+    generateRandomColors(
+      analytics.proportion.countries(demographicDatas ?? []).length
+    )
+  );
+
+  const [ispsProportionColor, setIspsProportionColor] = useState<string[][]>(
+    generateRandomColors(
+      analytics.proportion.isps(demographicDatas ?? []).length
+    )
+  );
+
+  const handleRefetch = () => {
+    refetchButtonsEvents();
+    refetchClickEvents();
+    refetchPathnameEvents();
+    refetchLeaveAppEvents();
+    setRefetchTrigger(Date.now());
+    //refetchDemographicDatas();
+    toast.loading("Données mises à jour");
+  };
   return (
     typeof window !== "undefined" && (
       <div>
@@ -170,89 +192,257 @@ export default function AdminPage() {
         <Grid.Container gap={2}>
           <Grid xs={12} md={3}>
             <Card>
-              <Card.Body className={styles.cardFlex}>
-                <Text h3 className={styles.mainTextNumber}>
+              <Card.Body
+                css={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  h3
+                  css={{
+                    color: "#ff4b4b",
+                    fontSize: "3rem",
+                    fontWeight: 900,
+                  }}
+                >
                   {numbers.suffix(buttonEvents?.length ?? 0)}
                 </Text>
-                <Text className={styles.subtitleNumber}>Clics boutons</Text>
+                <Text
+                  css={{
+                    color: "#464646",
+                    fontSize: ".75rem",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Clics boutons
+                </Text>
               </Card.Body>
             </Card>
           </Grid>
           <Grid xs={12} md={3}>
             <Card>
-              <Card.Body className={styles.cardFlex}>
-                <Text h3 className={styles.mainTextNumber}>
+              <Card.Body
+                css={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  h3
+                  css={{
+                    color: "#ff4b4b",
+                    fontSize: "3rem",
+                    fontWeight: 900,
+                  }}
+                >
                   {numbers.suffix(clickEvents?.length ?? 0)}
                 </Text>
-                <Text className={styles.subtitleNumber}>Clics souris</Text>
+                <Text
+                  css={{
+                    color: "#464646",
+                    fontSize: ".75rem",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Clics souris
+                </Text>
               </Card.Body>
             </Card>
           </Grid>
           <Grid xs={12} md={3}>
             <Card>
-              <Card.Body className={styles.cardFlex}>
-                <Text h3 className={styles.mainTextNumber}>
+              <Card.Body
+                css={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  h3
+                  css={{
+                    color: "#ff4b4b",
+                    fontSize: "3rem",
+                    fontWeight: 900,
+                  }}
+                >
                   {numbers.suffix(pathnameEvents?.length ?? 0)}
                 </Text>
-                <Text className={styles.subtitleNumber}>
+                <Text
+                  css={{
+                    color: "#464646",
+                    fontSize: ".75rem",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                  }}
+                >
                   Changements de routes
                 </Text>
               </Card.Body>
             </Card>
           </Grid>
           <Grid xs={12} md={3}>
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body>
-                <Text h3 className={styles.mainTextNumber}>
+                <Text
+                  h3
+                  css={{
+                    color: "#ff4b4b",
+                    fontSize: "3rem",
+                    fontWeight: 900,
+                  }}
+                >
                   {numbers.suffix(leaveEvents?.length ?? 0)}
                 </Text>
-                <Text className={styles.subtitleNumber}>
+                <Text
+                  css={{
+                    color: "#464646",
+                    fontSize: ".75rem",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                  }}
+                >
                   Events d'app fermée
                 </Text>
               </Card.Body>
             </Card>
           </Grid>
           <Grid xs={12} md={3}>
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body>
-                <Text h3 className={styles.mainTextNumber}>
+                <Text
+                  h3
+                  css={{
+                    color: "#ff4b4b",
+                    fontSize: "3rem",
+                    fontWeight: 900,
+                  }}
+                >
                   {numbers.suffix(analytics.uniqueVisitor(leaveEvents ?? []))}
                 </Text>
-                <Text className={styles.subtitleNumber}>Visiteurs uniques</Text>
+                <Text
+                  css={{
+                    color: "#464646",
+                    fontSize: ".75rem",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Visiteurs uniques
+                </Text>
               </Card.Body>
             </Card>
           </Grid>
           <Grid xs={12} md={3}>
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body>
-                <Text h3 className={styles.mainTextNumber}>
+                <Text
+                  h3
+                  css={{
+                    color: "#ff4b4b",
+                    fontSize: "3rem",
+                    fontWeight: 900,
+                  }}
+                >
                   {numbers.suffix(analytics.debounceRate(leaveEvents ?? []))}%
                 </Text>
-                <Text className={styles.subtitleNumber}>Debounce rate</Text>
+                <Text
+                  css={{
+                    color: "#464646",
+                    fontSize: ".75rem",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Debounce rate
+                </Text>
               </Card.Body>
             </Card>
           </Grid>
           <Grid xs={12} md={3}>
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body>
-                <Text h3 className={styles.mainTextNumber}>
+                <Text
+                  h3
+                  css={{
+                    color: "#ff4b4b",
+                    fontSize: "3rem",
+                    fontWeight: 900,
+                  }}
+                >
                   {numbers.suffix(
                     analytics.averagePageVisited(leaveEvents ?? [])
                   )}
                 </Text>
-                <Text className={styles.subtitleNumber}>
+                <Text
+                  css={{
+                    color: "#464646",
+                    fontSize: ".75rem",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                  }}
+                >
                   Moyenne pages visitées par session
                 </Text>
               </Card.Body>
             </Card>
           </Grid>
           <Grid xs={12} md={3}>
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body>
-                <Text h3 className={styles.mainTextNumber}>
+                <Text
+                  h3
+                  css={{
+                    color: "#ff4b4b",
+                    fontSize: "3rem",
+                    fontWeight: 900,
+                  }}
+                >
                   {analytics.averageSessionTime(leaveEvents ?? [])}
                 </Text>
-                <Text className={styles.subtitleNumber}>
+                <Text
+                  css={{
+                    color: "#464646",
+                    fontSize: ".75rem",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                  }}
+                >
                   Durée moyenne d'une session
                 </Text>
               </Card.Body>
@@ -320,7 +510,13 @@ export default function AdminPage() {
               height: "50vh",
             }}
           >
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body
                 css={{
                   overflow: "hidden",
@@ -365,7 +561,13 @@ export default function AdminPage() {
               height: "42vh",
             }}
           >
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body
                 css={{
                   overflow: "hidden",
@@ -478,7 +680,13 @@ export default function AdminPage() {
               height: "42vh",
             }}
           >
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body
                 css={{
                   overflow: "hidden",
@@ -544,7 +752,13 @@ export default function AdminPage() {
               height: "42vh",
             }}
           >
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body
                 css={{
                   overflow: "hidden",
@@ -612,7 +826,13 @@ export default function AdminPage() {
               height: "42vh",
             }}
           >
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body
                 css={{
                   overflow: "hidden",
@@ -670,7 +890,6 @@ export default function AdminPage() {
               </Card.Body>
             </Card>
           </Grid>
-
           {/**
            * HEATMAP CLICS
            */}
@@ -681,7 +900,13 @@ export default function AdminPage() {
               height: "50vh",
             }}
           >
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body
                 css={{
                   overflow: "hidden",
@@ -726,7 +951,7 @@ export default function AdminPage() {
             </Card>
           </Grid>
           {/**
-           * HEATMAP PAYS
+           * GRAPHIQUE PROPORTION DES PAYS
            */}
           <Grid
             xs={12}
@@ -735,12 +960,140 @@ export default function AdminPage() {
               height: "42vh",
             }}
           >
-            <Card className={styles.cardFlex}>
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Card.Body
                 css={{
                   overflow: "hidden",
                 }}
-              ></Card.Body>
+              >
+                <Doughnut
+                  style={{
+                    position: "relative",
+                    top: "-1rem",
+                  }}
+                  options={{
+                    plugins: {
+                      title: {
+                        display: true,
+                        text: "Proportion des pays",
+                      },
+                      legend: {
+                        display: true,
+                      },
+                      tooltip: {
+                        enabled: true,
+                      },
+                      decimation: {
+                        enabled: false,
+                      },
+                    },
+                  }}
+                  data={{
+                    labels: analytics.proportion
+                      .countries(demographicDatas ?? [])
+                      .map(
+                        (dd) =>
+                          ` ${dd.country} (${(dd.proportion * 100).toFixed(
+                            0
+                          )}%)`
+                      ),
+                    datasets: [
+                      {
+                        label: "Nombre de pays",
+                        data: analytics.proportion
+                          .countries(demographicDatas ?? [])
+                          .map((browser) => browser.count),
+                        backgroundColor: countryProportionColor.map(
+                          (colors) => colors[1]
+                        ),
+
+                        borderColor: countryProportionColor.map(
+                          (colors) => colors[0]
+                        ),
+                        borderWidth: 1,
+                      },
+                    ],
+                  }}
+                />
+              </Card.Body>
+            </Card>
+          </Grid>
+          {/**
+           * GRAPHIQUE PROPORTION DES PROVIDERS
+           */}
+          <Grid
+            xs={12}
+            md={6}
+            css={{
+              height: "42vh",
+            }}
+          >
+            <Card
+              css={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Card.Body
+                css={{
+                  overflow: "hidden",
+                }}
+              >
+                <Doughnut
+                  style={{
+                    position: "relative",
+                    top: "-1rem",
+                  }}
+                  options={{
+                    plugins: {
+                      title: {
+                        display: true,
+                        text: "Proportion des fournisseurs d'accès",
+                      },
+                      legend: {
+                        display: true,
+                      },
+                      tooltip: {
+                        enabled: true,
+                      },
+                      decimation: {
+                        enabled: false,
+                      },
+                    },
+                  }}
+                  data={{
+                    labels: analytics.proportion
+                      .isps(demographicDatas ?? [])
+                      .map(
+                        (dd) =>
+                          ` ${dd.isp} (${(dd.proportion * 100).toFixed(0)}%)`
+                      ),
+                    datasets: [
+                      {
+                        label: "Nombre de pays",
+                        data: analytics.proportion
+                          .isps(demographicDatas ?? [])
+                          .map((browser) => browser.count),
+                        backgroundColor: ispsProportionColor.map(
+                          (colors) => colors[1]
+                        ),
+
+                        borderColor: ispsProportionColor.map(
+                          (colors) => colors[0]
+                        ),
+                        borderWidth: 1,
+                      },
+                    ],
+                  }}
+                />
+              </Card.Body>
             </Card>
           </Grid>
         </Grid.Container>

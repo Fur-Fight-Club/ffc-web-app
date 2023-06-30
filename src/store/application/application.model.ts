@@ -120,3 +120,19 @@ export interface HeatmapData {
     y: number;
   };
 }
+
+export interface DemographicDataEventDto {
+  ip: string;
+}
+
+export interface DemographicData {
+  id: string;
+  event: "demographic";
+  timestamp: number;
+  ip: string;
+  isp: string;
+  country: string;
+  timezone: string;
+  latitude: number;
+  longitude: number;
+}
