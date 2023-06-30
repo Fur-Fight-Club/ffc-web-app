@@ -1,2 +1,2 @@
 prisma:
-	npm install ffc-prisma-package@latest
+	npm install ffc-prisma-package@latest -f

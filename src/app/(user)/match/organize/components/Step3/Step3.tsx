@@ -46,7 +46,6 @@ const Step3 = (props: Step3Props) => {
           Suivant
         </Button>
       </Row>
-      ;
     </div>
   );
 };

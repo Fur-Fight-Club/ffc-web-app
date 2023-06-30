@@ -45,7 +45,7 @@ const ArenaCardDetails = ({ arena }: ArenaCardDetailsProps) => {
           </Text>
         </Col>
       </Card.Header>
-      <Card.Body css={{ p: 0 }}>
+      <Card.Body css={{ p: 0, height: "0" }}>
         <Card.Image
           // @ts-ignore
           src={arena?.picture}
