@@ -9,7 +9,8 @@ import {
 
 import { IconButton } from "@components/IconButton";
 import { Col, Row, Spacer, Table, Text, Tooltip } from "@nextui-org/react";
-import { Trash } from "@phosphor-icons/react";
+import { MagnifyingGlass, Trash } from "@phosphor-icons/react";
+import { ModalShowMoreMonster } from "./components/modalShowMoreMonster";
 
 export default function ArenaAdmin() {
   const [monsters, setMonsters] = useState([]);
@@ -72,6 +73,12 @@ export default function ArenaAdmin() {
         return (
           <Row justify="center" align="center">
             <Col css={{ d: "flex" }}>
+              <Tooltip content="Voir plus">
+                <IconButton>
+                  <MagnifyingGlass size={20} color="#889096" weight="light" />
+                </IconButton>
+              </Tooltip>
+              <Spacer x={0.5} />
               <Tooltip content="Supprimer">
                 <IconButton onClick={() => handleDelete(monster.id)}>
                   <Trash size={20} color="#889096" weight="fill" />
@@ -122,6 +129,8 @@ export default function ArenaAdmin() {
         </Table.Body>
         <Table.Pagination shadow noMargin align="center" rowsPerPage={10} />
       </Table>
+
+      <ModalShowMoreMonster visible={visibleModal} closeHandler={closeModal} />
     </>
   );
 }
