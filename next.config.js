@@ -16,6 +16,9 @@ const nextConfig = {
       {
         hostname: "cocoparks.io",
       },
+      {
+        hostname: "i.ibb.co",
+      },
     ],
   },
 };

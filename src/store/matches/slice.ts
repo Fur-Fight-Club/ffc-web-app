@@ -1,13 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import {
-  Arena,
   MatchMessage,
   Monster,
   Transaction,
 } from "ffc-prisma-package/dist/client";
 import { toast } from "react-hot-toast";
 import { baseQuery } from "../api";
+import { Arena } from "../arenas/arenas.model";
 import { GenericApiError } from "../store.model";
 import {
   CACHE_KEY,
@@ -235,6 +235,7 @@ export const createMatchFormSlice = createSlice({
       state.monster = action.payload;
     },
     setArenaCreateForm: (state, action: PayloadAction<Arena | null>) => {
+      /* @ts-ignore */
       state.arena = action.payload;
     },
     setBetCreateForm: (state, action: PayloadAction<number>) => {

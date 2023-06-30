@@ -22,6 +22,7 @@ const ArenaCardDetails = ({ arena }: ArenaCardDetailsProps) => {
       </Card.Header>
       <Card.Body css={{ p: 0 }}>
         <Card.Image
+          // @ts-ignore
           src={arena?.picture}
           objectFit="cover"
           width="100%"

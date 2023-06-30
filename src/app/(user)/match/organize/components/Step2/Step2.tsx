@@ -3,16 +3,13 @@
 import CardList from "@components/CardList";
 import { Button, Grid, Row, Spacer } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Arena } from "src/store/arenas/arenas.model";
 import { useGetArenasQuery } from "src/store/arenas/slice";
 import { createMatchFormState } from "src/store/matches/selector";
-import {
-  setArenaCreateForm,
-  setMonsterCreateForm,
-  setStepCreateForm,
-} from "src/store/matches/slice";
+import { setArenaCreateForm, setStepCreateForm } from "src/store/matches/slice";
 import ArenaCardDetails from "../ArenaCardDetails";
 
 type Step2Props = {};
@@ -28,13 +25,22 @@ const Step2 = (props: Step2Props) => {
 
   const handleOnClick = (selectedArena: Arena) => {
     arena?.id === selectedArena.id
-      ? dispatch(setMonsterCreateForm(null))
+      ? dispatch(setArenaCreateForm(null))
       : dispatch(setArenaCreateForm(selectedArena));
   };
 
   const handleStepBack = () => {
     dispatch(setStepCreateForm(0));
   };
+
+  const handleNextStep = () => {
+    dispatch(setStepCreateForm(2));
+    toast.success("Arène sélectionnée");
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <div style={{ height: "95%" }}>
@@ -48,7 +54,7 @@ const Step2 = (props: Step2Props) => {
                   key={arenaItem.id}
                   arena={arenaItem}
                   onClick={() => handleOnClick(arenaItem)}
-                  isSelected={arenaItem.id === arena?.id}
+                  isSelected={arena?.id === arenaItem.id}
                 />
               ))}
             </CardList>
@@ -57,6 +63,7 @@ const Step2 = (props: Step2Props) => {
         <Grid xs={8}>
           <div style={{ width: "100%" }}>
             <div>Fiche</div>
+            {/* @ts-ignore */}
             <ArenaCardDetails arena={arena} />
           </div>
         </Grid>
@@ -66,10 +73,7 @@ const Step2 = (props: Step2Props) => {
           Retour
         </Button>
         <Spacer x={0.5} />
-        <Button
-          {...(!arena && { disabled: true })}
-          onClick={() => toast.success("Arène sélectioné sélectionné !")}
-        >
+        <Button {...(!arena && { disabled: true })} onClick={handleNextStep}>
           Suivant
         </Button>
       </Row>

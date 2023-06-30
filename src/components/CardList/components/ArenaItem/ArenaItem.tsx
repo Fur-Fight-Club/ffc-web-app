@@ -25,6 +25,10 @@ const ArenaItem = ({ arena, onClick, isSelected = false }: ArenaItemProps) => {
   };
 
   const isArenaSelected = arena.id === activeItem.id || isSelected;
+  console.log(
+    "🚀 ~ file: ArenaItem.tsx:28 ~ ArenaItem ~ isArenaSelected:",
+    isArenaSelected
+  );
 
   return (
     <motion.div
