@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import {
   setSessionPagesVisited,
   setSessionTime,
+  useCreateDemographicDataMutation,
   useCreateLeaveAppEventMutation,
   useCreateMouseClickEventMutation,
   useCreatePathnameChangeEventMutation,
@@ -20,6 +21,7 @@ import {
   PathnameChangeEvent,
 } from "src/store/application/constants";
 import { date } from "zod";
+import fetch from "node-fetch";
 
 interface AnalyticsWrapperProps {
   children: any;
@@ -139,6 +141,9 @@ export const AnalyticsWrapper: React.FunctionComponent<
     // Send the payload to the server
     analytics.enabled && createPathnameChangeEvent(pageAnalyticsPayload);
 
+    // Send demographic data
+    analytics.enabled && handleSendDemographicData();
+
     // Reset the startTime of the visited page
     dispatch(
       setSessionTime({
@@ -173,6 +178,18 @@ export const AnalyticsWrapper: React.FunctionComponent<
     };
 
     analytics.enabled && createClickEvent(analyticsWrapperPayload);
+  };
+
+  /**
+   * Demographic data
+   */
+  const [createDemographicDataMutation] = useCreateDemographicDataMutation();
+  const handleSendDemographicData = async () => {
+    const result = await fetch("https://api.ipify.org?format=json");
+    const json: { ip: string } = await result.json();
+    createDemographicDataMutation({
+      ip: json.ip,
+    });
   };
 
   return (
