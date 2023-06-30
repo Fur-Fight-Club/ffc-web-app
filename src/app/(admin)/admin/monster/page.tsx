@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { Monster } from "src/store/monsters/monsters.model";
-import { useGetAllMonstersQuery } from "src/store/monsters/slice";
+import {
+  useDeleteMonsterMutation,
+  useGetAllMonstersQuery,
+} from "src/store/monsters/slice";
 
 import { IconButton } from "@components/IconButton";
 import { Col, Row, Spacer, Table, Text, Tooltip } from "@nextui-org/react";
@@ -12,6 +15,7 @@ export default function ArenaAdmin() {
   const [monsters, setMonsters] = useState([]);
 
   const { data, refetch } = useGetAllMonstersQuery();
+  const [monsterDeleteMutation] = useDeleteMonsterMutation();
 
   const [visibleModal, setVisibleModal] = useState(false);
 
@@ -23,13 +27,22 @@ export default function ArenaAdmin() {
     setVisibleModal(false);
   };
 
+  const handleDelete = (id: number) => {
+    monsterDeleteMutation(id).then(() => {
+      refetch();
+    });
+  };
+
   useEffect(() => {
     if (data) {
-      console.log(data);
       // @ts-ignore
       setMonsters(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const columns = [
     { name: "NOM", uid: "name" },
@@ -39,7 +52,6 @@ export default function ArenaAdmin() {
   ];
 
   const renderCell = (monster: Monster, columnKey: React.Key) => {
-    const cellValue = monster[columnKey];
     switch (columnKey) {
       case "name":
         return <Text>{monster?.name}</Text>;
@@ -61,7 +73,7 @@ export default function ArenaAdmin() {
           <Row justify="center" align="center">
             <Col css={{ d: "flex" }}>
               <Tooltip content="Supprimer">
-                <IconButton onClick={() => onDelete(monster.id)}>
+                <IconButton onClick={() => handleDelete(monster.id)}>
                   <Trash size={20} color="#889096" weight="fill" />
                 </IconButton>
               </Tooltip>
