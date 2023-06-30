@@ -8,6 +8,8 @@ import { StripeAccount, StripeBankAccount } from "./../payments/payments.model";
 import { Monster } from "../monsters/monsters.model";
 import {
   DeleteNotificationTokenRequest,
+  DemographicData,
+  DemographicDataEventDto,
   GetHeatmapDataDto,
   HeatmapData,
   LoginRequest,
@@ -338,6 +340,26 @@ export const applicationApi = createApi({
         }
       },
     }),
+
+    // Create demographic data
+    createDemographicData: builder.mutation<
+      { success: boolean },
+      DemographicDataEventDto
+    >({
+      query: (body) => ({
+        url: `${endpoint.analytics}/demographic-data`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    // Get demographic data
+    getDemographicData: builder.query<DemographicData[], void>({
+      query: () => ({
+        url: `${endpoint.analytics}/demographic-data`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -470,6 +492,8 @@ export const {
   useGetPathnameChangeEventsQuery,
   useGetLeaveAppEventsQuery,
   useGetHeatmapDataMutation,
+  useGetDemographicDataQuery,
+  useCreateDemographicDataMutation,
   // Callback
   usePaymentCallbackMutation,
 } = applicationApi;
