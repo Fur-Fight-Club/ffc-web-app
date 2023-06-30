@@ -8,6 +8,7 @@ export const CACHE_KEY = "Monsters";
 
 export const endpoint = {
   get: "monster",
+  getAll: "monster/all",
   create: "monster",
   getOne: (id: number) => `monster/byId/${id}`,
   getAllFromOneUser: (id: number) => `monster/userMonster/${id}`,

@@ -11,6 +11,7 @@ import { Button } from "@components/UI/Button/Button.component";
 import {
   CaretCircleLeft,
   CreditCard,
+  Ghost,
   House,
   MapPin,
   SignOut,
@@ -120,6 +121,20 @@ export const SidebarAdmin = () => {
             style={pathname === "/admin/arena" ? { fontWeight: "bold" } : {}}
           >
             Arènes
+          </MenuItem>
+
+          <MenuItem
+            component={<Link href="/admin/monster" />}
+            icon={
+              pathname === "/admin/monster" ? (
+                <Ghost size={25} color="black" weight="fill" />
+              ) : (
+                <Ghost size={25} color="#e0dfdb" weight="light" />
+              )
+            }
+            style={pathname === "/admin/monster" ? { fontWeight: "bold" } : {}}
+          >
+            Monstres
           </MenuItem>
           <MenuItem
             icon={<CreditCard size={25} color="#e0dfdb" weight="fill" />}
