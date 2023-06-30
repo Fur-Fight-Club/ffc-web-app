@@ -1,25 +1,30 @@
 "use client";
 
-import { IconButton } from "@components/IconButton";
-import { Button } from "@components/UI/Button/Button.component";
-import { Col, Row, Spacer, Table, Text, Tooltip } from "@nextui-org/react";
-import { Trash } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
+import { Monster } from "src/store/monsters/monsters.model";
 import {
-  useDeleteArenaMutation,
-  useGetArenasQuery,
-} from "src/store/arenas/slice";
-import { ModalCreateArena } from "./components/modalCreateArena";
+  useDeleteMonsterMutation,
+  useGetAllMonstersQuery,
+} from "src/store/monsters/slice";
+
+import { IconButton } from "@components/IconButton";
+import { Col, Row, Spacer, Table, Text, Tooltip } from "@nextui-org/react";
+import { MagnifyingGlass, Trash } from "@phosphor-icons/react";
+import { MonsterDto } from "src/model/monster.schema";
+import { ModalShowMoreMonster } from "./components/modalShowMoreMonster";
 
 export default function ArenaAdmin() {
-  const [arenas, setArenas] = useState([]);
+  const [monsters, setMonsters] = useState([]);
+  const [monsterSelected, setMonsterSelected] = useState<MonsterDto>();
 
-  const [arenaDeleteMutation, { isSuccess }] = useDeleteArenaMutation();
-  const { data, refetch } = useGetArenasQuery();
+  const { data, refetch } = useGetAllMonstersQuery();
+  const [monsterDeleteMutation] = useDeleteMonsterMutation();
 
   const [visibleModal, setVisibleModal] = useState(false);
 
-  const handleModal = () => {
+  const handleModal = (monsterId: number) => {
+    const monster = monsters.find((m: Monster) => m.id === monsterId);
+    setMonsterSelected(monster);
     setVisibleModal(true);
   };
 
@@ -27,8 +32,8 @@ export default function ArenaAdmin() {
     setVisibleModal(false);
   };
 
-  const onDelete = (id: string) => {
-    arenaDeleteMutation(id).then(() => {
+  const handleDelete = (id: number) => {
+    monsterDeleteMutation(id).then(() => {
       refetch();
     });
   };
@@ -36,78 +41,67 @@ export default function ArenaAdmin() {
   useEffect(() => {
     if (data) {
       // @ts-ignore
-      setArenas(data);
+      setMonsters(data);
     }
   }, [data]);
 
+  useEffect(() => {
+    refetch();
+  }, []);
+
   const columns = [
     { name: "NOM", uid: "name" },
-    { name: "ADRESSE", uid: "address" },
-    { name: "VILLE", uid: "city" },
+    { name: "TYPE", uid: "type" },
+    { name: "MMR", uid: "mmr" },
     { name: "ACTIONS", uid: "actions" },
   ];
 
-  const renderCell = (arena: any, columnKey: React.Key) => {
-    const cellValue = arena[columnKey];
+  const renderCell = (monster: Monster, columnKey: React.Key) => {
     switch (columnKey) {
       case "name":
-        return <Text>{arena?.name}</Text>;
-      case "address":
+        return <Text>{monster?.name}</Text>;
+      case "type":
         return (
           <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
-            {arena?.address}
+            {monster?.monster_type}
           </Text>
         );
-      case "city":
+      case "mmr":
         return (
           <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
-            {arena?.city}
+            {monster?.mmr}
           </Text>
         );
 
       case "actions":
         return (
           <Row justify="center" align="center">
-            {/* <Col css={{ d: "flex" }}>
-              <Tooltip content="Voir les monstres">
-                <IconButton onClick={() => console.log("hello")}>
-                  <PawPrint size={20} color="#889096" weight="fill" />
-                </IconButton>
-              </Tooltip>
-            </Col> */}
-            {/* <Col css={{ d: "flex" }}>
-              <Tooltip content="Editer">
-                <IconButton onClick={() => console.log("hello")}>
-                  <Pencil size={20} color="#889096" weight="fill" />
-                </IconButton>
-              </Tooltip>
-            </Col> */}
             <Col css={{ d: "flex" }}>
+              <Tooltip content="Voir plus">
+                <IconButton onClick={() => handleModal(monster.id)}>
+                  <MagnifyingGlass size={20} color="#889096" weight="light" />
+                </IconButton>
+              </Tooltip>
+              <Spacer x={0.5} />
               <Tooltip content="Supprimer">
-                <IconButton onClick={() => onDelete(arena.id)}>
+                <IconButton onClick={() => handleDelete(monster.id)}>
                   <Trash size={20} color="#889096" weight="fill" />
                 </IconButton>
               </Tooltip>
             </Col>
           </Row>
         );
-      default:
-        return cellValue;
     }
   };
 
   return (
     <>
-      <Text h2>Gestion des Arènes</Text>
-
-      <Spacer y={1.5} />
-
-      <Button onPress={handleModal}>Ajouter une arène</Button>
+      <Text h2>Gestion des Monstres</Text>
 
       <Spacer y={0.5} />
 
       <Table
-        aria-label="Users table"
+        aria-label="Monster table"
         css={{
           height: "auto",
           minWidth: "100%",
@@ -126,7 +120,7 @@ export default function ArenaAdmin() {
           )}
         </Table.Header>
 
-        <Table.Body items={arenas}>
+        <Table.Body items={monsters}>
           {(item: any) => (
             <Table.Row>
               {(columnKey) => (
@@ -138,10 +132,10 @@ export default function ArenaAdmin() {
         <Table.Pagination shadow noMargin align="center" rowsPerPage={10} />
       </Table>
 
-      <ModalCreateArena
+      <ModalShowMoreMonster
         visible={visibleModal}
         closeHandler={closeModal}
-        refetch={refetch}
+        monster={monsterSelected}
       />
     </>
   );

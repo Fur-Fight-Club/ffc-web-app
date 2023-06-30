@@ -13,7 +13,6 @@ import { PawPrint, Pencil, Trash } from "@phosphor-icons/react";
 
 import { Modals } from "../../components/Modal/modalAccounts";
 import { ModalsMonster } from "../../components/Modal/modalMonster";
-import ts from "typescript";
 
 export default function AccountsAdmin() {
   const [users, setUsers] = useState([]);
@@ -144,6 +143,8 @@ export default function AccountsAdmin() {
 
   return (
     <>
+      <Text h2>Gestion des Utilisateurs</Text>
+
       {users.length > 0 ? (
         <Table
           aria-label="Users table"

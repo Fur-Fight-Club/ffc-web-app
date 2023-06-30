@@ -31,8 +31,30 @@ export const monstersApi = createApi({
         dispatch(setLoading(true));
         try {
           const { data } = await queryFulfilled;
+          console.log(data);
+
           dispatch(setLoading(false));
           dispatch(setMonsters(data));
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+          getMonstersHandler(error);
+        }
+      },
+    }),
+
+    // Get all monsters
+    getAllMonsters: builder.query<Monster[], void>({
+      query: () => ({
+        url: endpoint.getAll,
+        method: "GET",
+      }),
+
+      async onQueryStarted(resource, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setLoading(false));
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -183,6 +205,7 @@ export const {
   useCreateMonsterMutation,
   useUpdateMonsterMutation,
   useDeleteMonsterMutation,
+  useGetAllMonstersQuery,
   useGetAllMonsterFromOneUserQuery,
 } = monstersApi;
 
