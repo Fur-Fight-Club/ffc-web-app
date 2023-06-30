@@ -11,7 +11,7 @@ export const getImageByAmount = (amount: number): string => {
     imageName = '4.png';
   } else if (amount > 3650 && amount <= 5350) {
     imageName = '5.png';
-  } else if (amount > 5350 && amount <= 11000) {
+  } else if (amount > 5350 && amount > 11000) {
       imageName = '6.png';
   } else {
     imageName = '1.png';
@@ -46,8 +46,6 @@ export const tradTagTransaction = (tag: string) => {
 
 export const IconTypeTransaction = (type: string) => {
   let icon = '';
-
-  console.log(type);
 
   switch (type) {
     case 'IN':

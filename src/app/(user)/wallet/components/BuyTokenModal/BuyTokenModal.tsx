@@ -51,12 +51,15 @@ const BuyTokenModal = ({ visibleProp, closeModal }: BuyTokenModalProps) => {
     if (displayValidation == "block") closeModal();
   };
 
-  const [buyCredit] = useBuyCreditsMutation();
+  const [buyCredit, { isSuccess: isSuccessBuyCredit }] =
+    useBuyCreditsMutation();
 
   const handleBuy = () => {
     // @ts-ignore
     buyCredit({ credits: amount });
-    closeModal();
+    if (isSuccessBuyCredit) {
+      closeModal();
+    }
   };
 
   return (

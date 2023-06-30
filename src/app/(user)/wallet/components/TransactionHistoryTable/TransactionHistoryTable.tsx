@@ -141,7 +141,7 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
           ) : (
             <Row justify="center">
               <Text h3 weight={"bold"} css={{ mb: "$4" }}>
-                Vous n'avez pas encore de monstre , créez en un !
+                Vous n'avez pas encore de transaction faite.
               </Text>
             </Row>
           )}
