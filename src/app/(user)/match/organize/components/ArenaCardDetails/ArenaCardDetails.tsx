@@ -1,13 +1,38 @@
 "use client";
 
 import { Card, Col, Row, Text } from "@nextui-org/react";
+import colors from "@styles/_colors.module.scss";
+import { useSelector } from "react-redux";
 import { Arena } from "src/store/arenas/arenas.model";
+import { createMatchFormState } from "src/store/matches/selector";
+import styles from "./ArenaCardDetails.module.scss";
 
 type ArenaCardDetailsProps = {
   arena: Arena | null;
 };
 
 const ArenaCardDetails = ({ arena }: ArenaCardDetailsProps) => {
+  const {
+    monster,
+    step,
+    arena: arenaStore,
+    bet,
+  } = useSelector(createMatchFormState);
+
+  if (!arena)
+    return (
+      <div className={styles.arenaCardDetailsEmpty}>
+        <Text
+          h3
+          size={"$lg"}
+          css={{ textAlign: "center" }}
+          color={colors.primaryT300}
+        >
+          Sélectionnez une arène
+        </Text>
+      </div>
+    );
+
   return (
     <Card css={{ w: "100%", h: "100%" }}>
       <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
