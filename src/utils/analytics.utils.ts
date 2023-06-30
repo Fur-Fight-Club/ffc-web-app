@@ -1,3 +1,4 @@
+import { DemographicData } from "src/store/application/application.model";
 import {
   ButtonClickEvent,
   LeaveAppEvent,
@@ -299,6 +300,34 @@ function getLast7DayVisitCount(appLeaveEvents: LeaveAppEvent[]) {
   ];
 }
 
+function getProportionOfCountries(demographicData: DemographicData[]) {
+  const countries = demographicData.map((data) => data.country);
+  const uniqueCountries = new Set(countries);
+  const countryCount = Array.from(uniqueCountries).map((country) => {
+    const count = countries.filter((c) => c === country).length;
+    return {
+      country,
+      count,
+      proportion: +(count / countries.length).toFixed(2),
+    };
+  });
+  return countryCount;
+}
+
+function getProportionOfISPs(demographicData: DemographicData[]) {
+  const isps = demographicData.map((data) => data.isp);
+  const uniqueIsps = new Set(isps);
+  const ispCount = Array.from(uniqueIsps).map((isp) => {
+    const count = isps.filter((c) => c === isp).length;
+    return {
+      isp,
+      count,
+      proportion: +(count / isps.length).toFixed(2),
+    };
+  });
+  return ispCount;
+}
+
 export const analytics = {
   uniqueVisitor: countUniqueUuids,
   uniqueButtonClicked: getButtonClickEventsCount,
@@ -315,6 +344,8 @@ export const analytics = {
     language: getProportionOfLanguage,
     platform: getProportionOfPlatform,
     browser: getProportionOfBrowser,
+    countries: getProportionOfCountries,
+    isps: getProportionOfISPs,
     //os: getProportionOfOS,
   },
 };
