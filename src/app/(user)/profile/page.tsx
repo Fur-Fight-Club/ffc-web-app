@@ -19,18 +19,46 @@ const ProfilePage = (props: ProfilePageProps) => {
 
   const handleVisibleFormFirstname = () => {
     setVisibleFormFirstname(visibleFormFirstname === "none" ? "flex" : "none");
+    setVisibleFormLastname("none");
+    setVisibleFormEmail("none");
+    setVisibleFormPassword("none");
   };
 
   const handleVisibleFormLastname = () => {
     setVisibleFormLastname(visibleFormLastname === "none" ? "flex" : "none");
+    setVisibleFormFirstname("none");
+    setVisibleFormEmail("none");
+    setVisibleFormPassword("none");
   };
 
   const handleVisibleFormEmail = () => {
     setVisibleFormEmail(visibleFormEmail === "none" ? "flex" : "none");
+    setVisibleFormFirstname("none");
+    setVisibleFormLastname("none");
+    setVisibleFormPassword("none");
   };
 
   const handleVisibleFormPassword = () => {
     setVisibleFormPassword(visibleFormPassword === "none" ? "flex" : "none");
+    setVisibleFormFirstname("none");
+    setVisibleFormLastname("none");
+    setVisibleFormEmail("none");
+  };
+
+  const handleUpdateFirstname = () => {
+    setVisibleFormFirstname("none");
+  };
+
+  const handleUpdateLastname = () => {
+    setVisibleFormLastname("none");
+  };
+
+  const handleUpdateEmail = () => {
+    setVisibleFormEmail("none");
+  };
+
+  const handleUpdatePassword = () => {
+    setVisibleFormPassword("none");
   };
 
   return (
@@ -106,7 +134,9 @@ const ProfilePage = (props: ProfilePageProps) => {
                 <Input placeholder="Prénom" value={user.firstname} />{" "}
                 <Spacer x={10} />
                 <Row align="flex-end" justify="flex-end">
-                  <Button auto>Valider</Button>
+                  <Button auto onClick={() => handleUpdateFirstname()}>
+                    Valider
+                  </Button>
                 </Row>
               </Row>
               <Row
@@ -143,7 +173,9 @@ const ProfilePage = (props: ProfilePageProps) => {
                 <Input placeholder="Prénom" value={user.lastname} />{" "}
                 <Spacer x={10} />
                 <Row align="flex-end" justify="flex-end">
-                  <Button auto>Valider</Button>
+                  <Button auto onClick={() => handleUpdateLastname()}>
+                    Valider
+                  </Button>
                 </Row>
               </Row>
               <Row
@@ -180,7 +212,9 @@ const ProfilePage = (props: ProfilePageProps) => {
                 <Input placeholder="Prénom" value={user.email} />{" "}
                 <Spacer x={10} />
                 <Row align="flex-end" justify="flex-end">
-                  <Button auto>Valider</Button>
+                  <Button auto onClick={() => handleUpdateEmail()}>
+                    Valider
+                  </Button>
                 </Row>
               </Row>
             </Card.Body>
@@ -250,7 +284,9 @@ const ProfilePage = (props: ProfilePageProps) => {
                 </Col>
                 <Spacer x={5} />
                 <Row align="flex-end" justify="flex-end">
-                  <Button auto>Valider</Button>
+                  <Button auto onClick={() => handleUpdatePassword()}>
+                    Valider
+                  </Button>
                 </Row>
               </Row>
             </Card.Body>
