@@ -91,69 +91,55 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
   };
 
   return (
-    <div>
-      <Card css={{ minHeight: "50%" }}>
-        <Card.Header>
-          <Row align="center" css={{ m: "$5" }}>
-            <Text
-              size={"$2xl"}
-              weight={"bold"}
-              css={{ letterSpacing: "$wide" }}
+    <Card>
+      <Card.Header>
+        <Row align="center" css={{ m: "$5" }}>
+          <Text size={"$2xl"} weight={"bold"} css={{ letterSpacing: "$wide" }}>
+            Historique des transactions
+          </Text>
+        </Row>
+      </Card.Header>
+      <Card.Divider />
+      <Card.Body>
+        {user.transaction.length > 0 ? (
+          <Table shadow={false}>
+            <Table.Header columns={columns}>
+              {(column) => (
+                <Table.Column
+                  key={column.uid}
+                  hideHeader={column.uid === "actions"}
+                  align={column.uid === "actions" ? "center" : "start"}
+                >
+                  {column.name}
+                </Table.Column>
+              )}
+            </Table.Header>
+
+            <Table.Body
+              items={user.transaction.filter(
+                (item) => item?.StripePayments?.status !== "PENDING"
+              )}
             >
-              Historique des transactions
+              {(item) => (
+                <Table.Row>
+                  {(columnKey) => (
+                    <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
+                  )}
+                </Table.Row>
+              )}
+            </Table.Body>
+
+            <Table.Pagination shadow noMargin align="center" rowsPerPage={9} />
+          </Table>
+        ) : (
+          <Row justify="center">
+            <Text weight={"bold"} css={{ mb: "$4" }}>
+              Vous n'avez pas encore de transaction faite.
             </Text>
           </Row>
-        </Card.Header>
-        <Card.Divider />
-        <Card.Body>
-          {user.transaction.length > 0 ? (
-            <Table
-              shadow={false}
-              aria-label="Example table with dynamic content & infinity pagination"
-            >
-              <Table.Header columns={columns}>
-                {(column) => (
-                  <Table.Column
-                    key={column.uid}
-                    hideHeader={column.uid === "actions"}
-                    align={column.uid === "actions" ? "center" : "start"}
-                  >
-                    {column.name}
-                  </Table.Column>
-                )}
-              </Table.Header>
-
-              <Table.Body
-                items={user.transaction.filter(
-                  (item) => item?.StripePayments?.status !== "PENDING"
-                )}
-              >
-                {(item) => (
-                  <Table.Row>
-                    {(columnKey) => (
-                      <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-                    )}
-                  </Table.Row>
-                )}
-              </Table.Body>
-
-              <Table.Pagination
-                shadow
-                noMargin
-                align="center"
-                rowsPerPage={10}
-              />
-            </Table>
-          ) : (
-            <Row justify="center">
-              <Text h3 weight={"bold"} css={{ mb: "$4" }}>
-                Vous n'avez pas encore de transaction faite.
-              </Text>
-            </Row>
-          )}
-        </Card.Body>
-      </Card>
-    </div>
+        )}
+      </Card.Body>
+    </Card>
   );
 };
 

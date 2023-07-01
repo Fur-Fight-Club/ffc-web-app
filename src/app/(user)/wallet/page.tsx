@@ -13,6 +13,7 @@ import DeleteAccountModal from "./components/DeleteAccountModal/DeleteAccountMod
 import { useGetWalletBalanceQuery } from "src/store/wallet/slice";
 import { walletState } from "src/store/wallet/selector";
 import TransactionHistoryTable from "./components/TransactionHistoryTable/TransactionHistoryTable";
+import MenuProfile from "../../../components/MenuProfile";
 
 type WalletPageProps = {};
 
@@ -51,54 +52,59 @@ const WalletPage = (props: WalletPageProps) => {
           🗑️ Compte bancaire
         </Button>
       </Row>
-      {/* @ts-ignore */}
-      {!user?.StripeAccount || !user?.StripeBankAccount ? (
-        <Row>
-          <Card variant="flat" css={{ h: "15rem", mb: "2rem" }}>
-            <Card.Body>
-              <Col>
-                <Row justify="center">
-                  <Text h3>🏦 Ajouter votre compte bancaire</Text>
-                </Row>
-                <Row justify="center">
-                  <Text h3>
-                    {
-                      "Veuillez entrer votre IBAN afin d'acheter des credits et que nous puissions vous versez vos gains"
-                    }
-                  </Text>
-                </Row>
-                <Row justify="center">
-                  <AddIbanModal
-                    visibleProp={visibleModalAddIban}
-                    closeModal={handleModalAddIban}
-                  />
-                  <Button auto onPress={() => handleModalAddIban()}>
-                    Ajouter mon IBAN
-                  </Button>
-                </Row>
-              </Col>
-            </Card.Body>
-          </Card>
-        </Row>
-      ) : (
-        <>
-          <Row>
-            <Col span={4} css={{ m: "$5" }}>
-              <MyBalance
-                amount={walletBalance?.credits || 0}
-                fiat={walletBalance?.euro || 0}
-              />
-            </Col>
-            <Col span={8} css={{ m: "$5" }}>
-              <TransactionHistoryTable />
-            </Col>
-          </Row>
-        </>
-      )}
-      <DeleteAccountModal
-        visibleProp={visibleModalDeleteAccount}
-        closeModal={handleModalDeleteAccount}
-      />
+      <Row>
+        <Col span={4} css={{ m: "$5" }}>
+          <MenuProfile />
+        </Col>
+        <Col span={8} css={{ m: "$5" }}>
+          {/* @ts-ignore */}
+          {!user?.StripeAccount || !user?.StripeBankAccount ? (
+            <Row>
+              <Card variant="flat" css={{ h: "15rem", mb: "2rem" }}>
+                <Card.Body>
+                  <Col>
+                    <Row justify="center">
+                      <Text h3>🏦 Ajouter votre compte bancaire</Text>
+                    </Row>
+                    <Row justify="center">
+                      <Text h3>
+                        {
+                          "Veuillez entrer votre IBAN afin d'acheter des credits et que nous puissions vous versez vos gains"
+                        }
+                      </Text>
+                    </Row>
+                    <Row justify="center">
+                      <AddIbanModal
+                        visibleProp={visibleModalAddIban}
+                        closeModal={handleModalAddIban}
+                      />
+                      <Button auto onPress={() => handleModalAddIban()}>
+                        Ajouter mon IBAN
+                      </Button>
+                    </Row>
+                  </Col>
+                </Card.Body>
+              </Card>
+            </Row>
+          ) : (
+            <>
+              <Row>
+                <MyBalance
+                  amount={walletBalance?.credits || 0}
+                  fiat={walletBalance?.euro || 0}
+                />
+              </Row>
+              <Row css={{ mt: "$10" }}>
+                <TransactionHistoryTable />
+              </Row>
+            </>
+          )}
+          <DeleteAccountModal
+            visibleProp={visibleModalDeleteAccount}
+            closeModal={handleModalDeleteAccount}
+          />
+        </Col>
+      </Row>
     </div>
   );
 };
