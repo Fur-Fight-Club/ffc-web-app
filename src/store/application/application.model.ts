@@ -16,6 +16,7 @@ export interface App {
   token: string;
   analytics: {
     firstTimeVisiting: boolean;
+    enablePerformanceWidget: boolean;
     uuid: string;
     enabled: boolean;
     session: {

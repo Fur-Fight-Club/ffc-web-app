@@ -23,6 +23,7 @@ export const initialState: App = {
   token: "",
   analytics: {
     firstTimeVisiting: true,
+    enablePerformanceWidget: false,
     uuid: uuidv4(),
     enabled: true,
     session: {
