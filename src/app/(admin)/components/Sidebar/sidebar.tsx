@@ -136,11 +136,21 @@ export const SidebarAdmin = () => {
           >
             Monstres
           </MenuItem>
+
           <MenuItem
-            icon={<CreditCard size={25} color="#e0dfdb" weight="fill" />}
+            component={<Link href="/admin/payement" />}
+            icon={
+              pathname === "/admin/payement" ? (
+                <CreditCard size={25} color="black" weight="fill" />
+              ) : (
+                <CreditCard size={25} color="#e0dfdb" weight="light" />
+              )
+            }
+            style={pathname === "/admin/payement" ? { fontWeight: "bold" } : {}}
           >
             Payements
           </MenuItem>
+
           <MenuItem
             icon={<SignOut size={25} color="#e0dfdb" weight="light" />}
             onClick={handleLogout}
