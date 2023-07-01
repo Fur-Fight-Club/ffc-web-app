@@ -1,6 +1,5 @@
 "use client";
 
-import MyMonstersCard from "@components/MyMonstersCard/MyMonstersCard";
 import { Grid } from "@nextui-org/react";
 import KpiCardsGraph from "./components/KPI/KpiCardGraph.component";
 import UserOverview from "./components/UserOverview/UserOverview";
@@ -26,9 +25,7 @@ const Dashboard = (props: DashboardProps) => {
         </Grid>
         <Grid xs={4}>pouet</Grid>
         <Grid xs={4}>pouet</Grid>
-        <Grid xs={4}>
-          <MyMonstersCard />
-        </Grid>
+        <Grid xs={4}></Grid>
       </Grid.Container>
     </div>
   );

@@ -153,15 +153,10 @@ const MonsterPage = (props: MonsterPageProps) => {
 
   return (
     <div>
-      <Row
-        justify="center"
-        style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
-      >
+      <Row align="center" css={{ m: "$5" }}>
         <Lottie className={styles.lottie} animationData={pictureAnimation} />
         <Spacer />
-        <Text h2 size={"$4xl"} weight={"bold"} css={{ mb: "$4" }}>
-          Vos monstres
-        </Text>
+        <Text h1>Vos monstres</Text>
       </Row>
       <Card css={{ minHeight: "50%" }}>
         <Card.Body css={{ py: "$10" }}>
