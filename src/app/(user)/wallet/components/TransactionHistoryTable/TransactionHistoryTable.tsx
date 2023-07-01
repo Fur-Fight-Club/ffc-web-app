@@ -94,14 +94,20 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
     <div>
       <Card css={{ minHeight: "50%" }}>
         <Card.Header>
-          <Row justify="center" align="center" css={{ mt: "$10" }}>
-            <Text h3>Historique des transactions</Text>
+          <Row align="center" css={{ m: "$5" }}>
+            <Text
+              size={"$2xl"}
+              weight={"bold"}
+              css={{ letterSpacing: "$wide" }}
+            >
+              Historique des transactions
+            </Text>
           </Row>
         </Card.Header>
-        <Card.Body css={{ py: "$10" }}>
+        <Card.Divider />
+        <Card.Body>
           {user.transaction.length > 0 ? (
             <Table
-              bordered
               shadow={false}
               aria-label="Example table with dynamic content & infinity pagination"
             >

@@ -7,6 +7,16 @@ import colors from "@styles/_colors.module.scss";
 import { CaretRight } from "@phosphor-icons/react";
 import { useState } from "react";
 import { Input } from "antd";
+import { toast } from "react-hot-toast";
+import {
+  useGetUserQuery,
+  useUpdateUserMutation,
+} from "src/store/application/slice";
+import {
+  useUpdateEmailMutation,
+  useUpdatePasswordMutation,
+} from "src/store/user/slice";
+import MenuProfile from "./components/MenuProfile/MenuProfile";
 
 type ProfilePageProps = {};
 
@@ -16,6 +26,12 @@ const ProfilePage = (props: ProfilePageProps) => {
   const [visibleFormLastname, setVisibleFormLastname] = useState("none");
   const [visibleFormEmail, setVisibleFormEmail] = useState("none");
   const [visibleFormPassword, setVisibleFormPassword] = useState("none");
+  const [firstname, setFirstname] = useState(user?.firstname);
+  const [lastname, setLastname] = useState(user?.lastname);
+  const [password, setPassword] = useState("");
+  const [oldPassword, setOdlPassword] = useState("");
+  const [verifPassword, setVerifPassword] = useState("");
+  const [email, setEmail] = useState(user?.email);
 
   const handleVisibleFormFirstname = () => {
     setVisibleFormFirstname(visibleFormFirstname === "none" ? "flex" : "none");
@@ -45,20 +61,66 @@ const ProfilePage = (props: ProfilePageProps) => {
     setVisibleFormEmail("none");
   };
 
+  const [updateUser, { isSuccess: isSuccessUpate }] = useUpdateUserMutation();
+  const { refetch } = useGetUserQuery("");
+
   const handleUpdateFirstname = () => {
     setVisibleFormFirstname("none");
+
+    updateUser({
+      id: user?.id,
+      firstname: firstname,
+    });
   };
 
   const handleUpdateLastname = () => {
     setVisibleFormLastname("none");
+    updateUser({
+      id: user?.id,
+      lastname: lastname,
+    });
   };
+
+  const [updateEmail] = useUpdateEmailMutation();
 
   const handleUpdateEmail = () => {
     setVisibleFormEmail("none");
+
+    if (!email) {
+      toast.error("Veuillez entrer votre adresse email");
+      return;
+    }
+
+    updateEmail({ id: user?.id, email: email, oldEmail: user?.email });
   };
+
+  const [updatePassword] = useUpdatePasswordMutation();
 
   const handleUpdatePassword = () => {
     setVisibleFormPassword("none");
+
+    const strongPasswordRegex = new RegExp(
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+    );
+
+    if (!password || !oldPassword || !verifPassword) {
+      toast.error("Veuillez entrer tous les champs");
+      return;
+    } else if (!password || !verifPassword) {
+      toast.error("Veuillez entrer votre mot de passe");
+    } else if (password !== verifPassword) {
+      toast.error("Les mots de passe ne correspondent pas");
+      return;
+    } else if (!strongPasswordRegex.test(password)) {
+      toast.error("Veuillez saisir un mot de passe plus complèxe !");
+      return;
+    }
+
+    updatePassword({
+      id: user?.id,
+      oldPassword: oldPassword,
+      password: password,
+    });
   };
 
   return (
@@ -68,22 +130,7 @@ const ProfilePage = (props: ProfilePageProps) => {
       </Row>
       <Row>
         <Col span={4} css={{ m: "$5" }}>
-          <Card>
-            <Card.Body>
-              <Row align="center" css={{ m: "$5" }}>
-                <Text>Informations personnelles</Text>
-              </Row>
-              <Row align="center" css={{ m: "$5" }}>
-                <Text>Mon portefeuille</Text>
-              </Row>
-            </Card.Body>
-            <Card.Divider />
-            <Card.Footer>
-              <Row align="flex-end" justify="flex-end" css={{ m: "$5" }}>
-                <Button auto>Se déconnecter</Button>
-              </Row>
-            </Card.Footer>
-          </Card>
+          <MenuProfile />
         </Col>
         <Col span={8} css={{ m: "$5" }}>
           <Card>
@@ -131,7 +178,11 @@ const ProfilePage = (props: ProfilePageProps) => {
               >
                 <Text>Prénom</Text>
                 <Spacer x={10} />
-                <Input placeholder="Prénom" value={user.firstname} />{" "}
+                <Input
+                  placeholder="Prénom"
+                  value={firstname}
+                  onChange={(e) => setFirstname(e.target.value)}
+                />{" "}
                 <Spacer x={10} />
                 <Row align="flex-end" justify="flex-end">
                   <Button auto onClick={() => handleUpdateFirstname()}>
@@ -170,7 +221,11 @@ const ProfilePage = (props: ProfilePageProps) => {
               >
                 <Text>Nom</Text>
                 <Spacer x={10} />
-                <Input placeholder="Prénom" value={user.lastname} />{" "}
+                <Input
+                  placeholder="Prénom"
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
+                />{" "}
                 <Spacer x={10} />
                 <Row align="flex-end" justify="flex-end">
                   <Button auto onClick={() => handleUpdateLastname()}>
@@ -209,7 +264,11 @@ const ProfilePage = (props: ProfilePageProps) => {
               >
                 <Text>Email</Text>
                 <Spacer x={10} />
-                <Input placeholder="Prénom" value={user.email} />{" "}
+                <Input
+                  placeholder="Prénom"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />{" "}
                 <Spacer x={10} />
                 <Row align="flex-end" justify="flex-end">
                   <Button auto onClick={() => handleUpdateEmail()}>

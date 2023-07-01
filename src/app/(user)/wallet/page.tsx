@@ -45,10 +45,8 @@ const WalletPage = (props: WalletPageProps) => {
 
   return (
     <div>
-      <Row justify="space-between" css={{ m: "$5" }}>
-        <Text h2 size={"$lg"}>
-          Données financières
-        </Text>
+      <Row justify="space-between" align="center" css={{ m: "$5" }}>
+        <Text h1>Mon portefeuille</Text>
         <Button auto onPress={() => handleModalDeleteAccount()}>
           🗑️ Compte bancaire
         </Button>

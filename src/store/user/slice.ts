@@ -23,9 +23,11 @@ export const userApi = createApi({
       }),
 
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        dispatch(setLoading(true));
         try {
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
+          toast.success("Votre profil a bien été mis à jour");
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
