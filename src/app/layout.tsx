@@ -15,6 +15,7 @@ import { AnalyticsWrapper } from "@components/AnalyticsWrapper/AnalyticsWrapper.
 import { AnalyticsCookieBar } from "@components/UI/AnalyticsCookieBar/AnalyticsCookieBar.component";
 import { NotificationComponent } from "src/services/firebase.service";
 import "./globals.scss";
+import { PerformanceWidget } from "@components/PerformanceWidget/PerformanceWidget.component";
 const poppins = Poppins({
   weight: "400",
   subsets: ["latin"],
@@ -83,6 +84,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className={poppins.className} style={{ minHeight: "100vh" }}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
+            <PerformanceWidget />
             <AnalyticsWrapper>
               <AnalyticsCookieBar />
               {/* <NotificationComponent /> */}

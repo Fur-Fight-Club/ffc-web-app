@@ -1,5 +1,14 @@
 "use client";
-import { Badge, Button, Card, Grid, Table, Text } from "@nextui-org/react";
+import {
+  Badge,
+  Button,
+  Card,
+  Grid,
+  Spacer,
+  Switch,
+  Table,
+  Text,
+} from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
 import {
@@ -29,6 +38,7 @@ import { Select } from "antd";
 import dynamic from "next/dynamic";
 import { toast } from "react-hot-toast";
 import {
+  setEnablePerformance,
   useGetButtonClickEventsQuery,
   useGetDemographicDataQuery,
   useGetLeaveAppEventsQuery,
@@ -38,8 +48,16 @@ import {
 import { analytics } from "src/utils/analytics.utils";
 import { numbers } from "src/utils/number.utils";
 import { generateRandomColors } from "src/utils/utils";
+import { Gauge } from "@phosphor-icons/react";
+import { applicationState } from "src/store/application/selector";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function AdminPage() {
+  const {
+    analytics: { enablePerformanceWidget },
+  } = useSelector(applicationState);
+  const disptach = useDispatch();
+
   const { data: buttonEvents, refetch: refetchButtonsEvents } =
     useGetButtonClickEventsQuery();
   const { data: clickEvents, refetch: refetchClickEvents } =
@@ -185,9 +203,34 @@ export default function AdminPage() {
           }}
         >
           <Text h2>Analytics</Text>
-          <Button auto onPress={handleRefetch}>
-            Rafraîchir les données
-          </Button>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Switch
+              checked={enablePerformanceWidget}
+              onChange={() => {
+                disptach(setEnablePerformance(!enablePerformanceWidget));
+              }}
+              size="xl"
+              color="success"
+              shadow
+              bordered
+              icon={<Gauge size={36} />}
+            />
+            <Spacer x={0.5} />
+            <Text>
+              Widget performance {enablePerformanceWidget ? "ON" : "OFF"}
+            </Text>
+            <Spacer x={2} />
+            <Button auto onPress={handleRefetch}>
+              Rafraîchir les données
+            </Button>
+          </div>
         </div>
         <Grid.Container gap={2}>
           <Grid xs={12} md={3}>

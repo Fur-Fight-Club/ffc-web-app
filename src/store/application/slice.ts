@@ -453,6 +453,9 @@ export const applicationSlice = createSlice({
       // @ts-ignore
       state.user.StripeBankAccount = action.payload;
     },
+    setEnablePerformance: (state, action: PayloadAction<boolean>) => {
+      state.analytics.enablePerformanceWidget = action.payload;
+    },
   },
 });
 
@@ -472,6 +475,7 @@ export const {
   setStripeAccount,
   setStripeBankAccount,
   logout,
+  setEnablePerformance,
 } = applicationSlice.actions;
 
 export const {
