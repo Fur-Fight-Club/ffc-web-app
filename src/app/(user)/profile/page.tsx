@@ -16,7 +16,7 @@ import {
   useUpdateEmailMutation,
   useUpdatePasswordMutation,
 } from "src/store/user/slice";
-import MenuProfile from "./components/MenuProfile/MenuProfile";
+import MenuProfile from "./components/MenuProfile";
 
 type ProfilePageProps = {};
 
