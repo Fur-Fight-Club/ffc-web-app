@@ -3,9 +3,10 @@
 import catLoader from "@assets/animations/badCat.json";
 import clown from "@assets/animations/clown.json";
 import { Button } from "@nextui-org/react";
-import { isUserAdmin } from "@utils/utils";
 import Lottie from "lottie-react";
 import { useRouter } from "next/navigation";
+
+import { isUserAdmin } from "@utils/utils";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 

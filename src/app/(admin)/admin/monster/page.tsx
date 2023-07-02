@@ -112,7 +112,6 @@ export default function ArenaAdmin() {
     <>
       <Text h2>Gestion des Monstres</Text>
 
-
       <Grid.Container gap={2}>
         <Grid xs={12} md>
           <KpiAdminCard
@@ -176,6 +175,6 @@ export default function ArenaAdmin() {
         closeHandler={closeModal}
         monster={monsterSelected}
       />
-    </p>
+    </>
   );
 }
