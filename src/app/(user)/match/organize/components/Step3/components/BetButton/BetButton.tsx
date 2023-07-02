@@ -11,6 +11,7 @@ type BetButtonProps = {
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   bordered?: boolean;
+  disabled?: boolean;
 };
 
 const BetButton = ({
@@ -20,12 +21,14 @@ const BetButton = ({
   onMouseEnter,
   onMouseLeave,
   bordered,
+  disabled,
 }: BetButtonProps) => {
   return (
     <motion.button
       className={mergeClassNames([
         styles.betButton,
         bordered && styles.bordered,
+        disabled && styles.disabled,
         className,
       ])}
       onClick={onClick}
@@ -33,6 +36,7 @@ const BetButton = ({
       whileHover={{ scale: 1.1 }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      {...(disabled && { disabled: true })}
     >
       <div className={styles.label}>{children}</div>
     </motion.button>

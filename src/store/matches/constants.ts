@@ -8,7 +8,7 @@ export const createMatchFormInitialState: CreateMatchForm = {
   step: 0,
   monster: null,
   arena: null,
-  bet: 0,
+  bet: 100,
 };
 
 export const reducerPath = "matchesApi";

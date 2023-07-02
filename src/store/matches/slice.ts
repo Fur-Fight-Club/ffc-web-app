@@ -245,7 +245,7 @@ export const createMatchFormSlice = createSlice({
       state.step = 0;
       state.monster = null;
       state.arena = null;
-      state.bet = 0;
+      state.bet = 100;
     },
   },
 });
