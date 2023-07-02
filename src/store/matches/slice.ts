@@ -139,10 +139,11 @@ export const matchesApi = createApi({
     }),
 
     // Close a match
-    closeMatch: builder.mutation<Match, number>({
-      query: (id) => ({
-        url: `${endpoint.closeMatch(id)}`,
+    closeMatch: builder.mutation<Match, { matchId: number; winner: number }>({
+      query: ({ matchId, winner }) => ({
+        url: `${endpoint.closeMatch(matchId)}`,
         method: "PATCH",
+        body: { winner },
       }),
 
       onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
@@ -232,6 +233,7 @@ export const createMatchFormSlice = createSlice({
       state.step = action.payload;
     },
     setMonsterCreateForm: (state, action: PayloadAction<Monster | null>) => {
+      // @ts-ignore
       state.monster = action.payload;
     },
     setArenaCreateForm: (state, action: PayloadAction<Arena | null>) => {
