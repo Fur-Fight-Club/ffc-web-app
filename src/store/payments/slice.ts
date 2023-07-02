@@ -1,10 +1,11 @@
-import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import { CACHE_KEY, endpoints, initialState, reducerPath } from "./constants";
-import { baseQuery } from "../api";
-import { Callback } from "./payments.model";
-import { toast } from "react-hot-toast";
-import { GenericApiError } from "../store.model";
 import { createSlice } from "@reduxjs/toolkit";
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
+import { toast } from "react-hot-toast";
+import { baseQuery } from "../api";
+import { setLoading } from "../application/slice";
+import { GenericApiError } from "../store.model";
+import { CACHE_KEY, endpoints, initialState, reducerPath } from "./constants";
+import { Callback } from "./payments.model";
 
 export const paymentsApi = createApi({
   reducerPath,
@@ -33,6 +34,24 @@ export const paymentsApi = createApi({
         }
       },
     }),
+    // get All payements
+    getAllPayement: builder.query<any, void>({
+      query: () => ({
+        url: endpoints.getAll,
+        method: "GET",
+      }),
+
+      async onQueryStarted(resource, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
+        try {
+          dispatch(setLoading(false));
+          const { data } = await queryFulfilled;
+        } catch (err) {
+          const error = err as GenericApiError;
+          dispatch(setLoading(false));
+        }
+      },
+    }),
   }),
 });
 
@@ -44,4 +63,5 @@ export const paymentsSlice = createSlice({
 
 export const {} = paymentsSlice.actions;
 
-export const { usePaymentsCallbackMutation } = paymentsApi;
+export const { usePaymentsCallbackMutation, useGetAllPayementQuery } =
+  paymentsApi;

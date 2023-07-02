@@ -31,7 +31,6 @@ export const monstersApi = createApi({
         dispatch(setLoading(true));
         try {
           const { data } = await queryFulfilled;
-          console.log(data);
 
           dispatch(setLoading(false));
           dispatch(setMonsters(data));

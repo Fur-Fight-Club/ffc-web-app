@@ -8,5 +8,7 @@ export const CACHE_KEY = "Payments";
 
 export const endpoints = {
   paymentsCallback: (callback: Callback, session_id: string) =>
-    `/payments/${callback}/${session_id}`,
+    `payments/${callback}/${session_id}`,
+
+  getAll: "payments/all",
 };

@@ -1,9 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useGetAllPayementQuery } from "src/store/payments/slice";
 
 export default function ArenaAdmin() {
   const [visibleModal, setVisibleModal] = useState(false);
+
+  const { data, refetch } = useGetAllPayementQuery();
+
+  useEffect(() => {
+    refetch();
+    console.log("All payement : ", data);
+  }, []);
 
   const handleModal = () => {
     console.log("handle");
