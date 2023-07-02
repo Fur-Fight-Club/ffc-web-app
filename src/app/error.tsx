@@ -1,6 +1,6 @@
 "use client";
 
-import catLoader from "@assets/animations/badCat.json";
+import clown from "@assets/animations/clown.json";
 import { Button } from "@nextui-org/react";
 import Lottie from "lottie-react";
 import { useRouter } from "next/navigation";
@@ -24,7 +24,7 @@ export default function Error({
         width: "35rem",
       }}
     >
-      <Lottie animationData={catLoader} />
+      <Lottie animationData={clown} />
       <h4>{error.message}</h4>
 
       <Button onClick={() => router.push("/")}>
