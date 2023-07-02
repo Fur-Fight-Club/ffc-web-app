@@ -28,6 +28,7 @@ export interface Match {
   MatchWaitingList: MatchWaitingList[];
   Arena: Arena;
   fk_arena: number;
+  fk_winner?: number;
   MatchMessage: MatchMessage[];
   weight_category: WeightCategoryType;
   Transaction: {
