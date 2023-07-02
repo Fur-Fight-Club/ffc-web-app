@@ -10,7 +10,10 @@ import {
   DeleteNotificationTokenRequest,
   DemographicData,
   DemographicDataEventDto,
+  GetChartsDataResponse,
   GetHeatmapDataDto,
+  GetStatCardResponse,
+  GetTablesDataResponse,
   HeatmapData,
   LoginRequest,
   LoginResponse,
@@ -360,6 +363,31 @@ export const applicationApi = createApi({
         method: "GET",
       }),
     }),
+
+    // Get stat card data
+    getStatCardData: builder.query<GetStatCardResponse, void>({
+      query: () => ({
+        url: `${endpoint.analytics}/cards-data`,
+        method: "GET",
+      }),
+    }),
+
+    // Get tables data
+    getTablesData: builder.query<GetTablesDataResponse, void>({
+      query: () => ({
+        url: `${endpoint.analytics}/tables-data`,
+        method: "GET",
+      }),
+    }),
+
+    // Get Charts data
+
+    getChartsData: builder.query<GetChartsDataResponse, void>({
+      query: () => ({
+        url: `${endpoint.analytics}/charts-data`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -498,6 +526,9 @@ export const {
   useGetHeatmapDataMutation,
   useGetDemographicDataQuery,
   useCreateDemographicDataMutation,
+  useGetStatCardDataQuery,
+  useGetTablesDataQuery,
+  useGetChartsDataQuery,
   // Callback
   usePaymentCallbackMutation,
 } = applicationApi;
