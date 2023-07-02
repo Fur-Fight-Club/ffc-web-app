@@ -20,6 +20,8 @@ const Step3 = (props: Step3Props) => {
   const { monster, step, arena, bet } = useSelector(createMatchFormState);
   const [betState, setBetState] = useState<number>(bet);
 
+  const coinLabels = [-1000, -100, -10, 10, 100, 1000];
+
   const handleOnClick = (selectedBet: number) => {
     // TODO : set step to 3 and create recap page
   };
@@ -67,45 +69,17 @@ const Step3 = (props: Step3Props) => {
         </Row>
         <Spacer y={1} />
         <Row justify="space-evenly" css={{ width: "50%" }}>
-          <BetButton
-            onClick={() => handleSetBet(-1000)}
-            bordered
-            disabled={isButtonClickable(-1000) ? false : true}
-          >
-            -1000
-          </BetButton>
-          <BetButton
-            onClick={() => handleSetBet(-100)}
-            bordered
-            disabled={isButtonClickable(-100) ? false : true}
-          >
-            -100
-          </BetButton>
-          <BetButton
-            onClick={() => handleSetBet(-10)}
-            bordered
-            disabled={isButtonClickable(-10) ? false : true}
-          >
-            -10
-          </BetButton>
-          <BetButton
-            onClick={() => handleSetBet(10)}
-            disabled={isButtonClickable(10) ? false : true}
-          >
-            +10
-          </BetButton>
-          <BetButton
-            onClick={() => handleSetBet(100)}
-            disabled={isButtonClickable(100) ? false : true}
-          >
-            +100
-          </BetButton>
-          <BetButton
-            onClick={() => handleSetBet(1000)}
-            disabled={isButtonClickable(1000) ? false : true}
-          >
-            +1000
-          </BetButton>
+          {coinLabels.map((coinLabel, i) => (
+            <BetButton
+              key={i}
+              onClick={() => handleSetBet(coinLabel)}
+              disabled={isButtonClickable(coinLabel) ? false : true}
+              bordered={coinLabel < 0 ? true : false}
+            >
+              {coinLabel > 0 && "+"}
+              {coinLabel}
+            </BetButton>
+          ))}
         </Row>
       </div>
       <Row justify="flex-end">
