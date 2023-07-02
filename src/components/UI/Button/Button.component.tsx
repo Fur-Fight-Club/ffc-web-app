@@ -35,7 +35,8 @@ export const Button: React.FunctionComponent<ButtonProps> = ({
       uuid: analytics.uuid,
       timestamp: Date.now(),
       pathname,
-      buttonContent: props.children as string,
+      buttonContent:
+        typeof props.children === "string" ? (props.children as string) : "",
     };
     analytics.enabled &&
       analyticsId &&
