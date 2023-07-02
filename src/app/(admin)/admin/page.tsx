@@ -1,135 +1,55 @@
 "use client";
 import {
-  Badge,
   Button,
   Card,
   Grid,
   Spacer,
   Switch,
-  Table,
   Text,
+  Loading,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-
-import {
-  ArcElement,
-  CategoryScale,
-  Chart as ChartJS,
-  Legend,
-  LineElement,
-  LinearScale,
-  PointElement,
-  Title,
-  Tooltip,
-} from "chart.js";
-import { Doughnut, Line } from "react-chartjs-2";
-ChartJS.register(
-  ArcElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
 import { Select } from "antd";
 import dynamic from "next/dynamic";
 import { toast } from "react-hot-toast";
 import {
   setEnablePerformance,
-  useGetButtonClickEventsQuery,
-  useGetDemographicDataQuery,
-  useGetLeaveAppEventsQuery,
-  useGetMouseClickEventsQuery,
-  useGetPathnameChangeEventsQuery,
+  useGetStatCardDataQuery,
+  useGetTablesDataQuery,
+  useGetChartsDataQuery,
 } from "src/store/application/slice";
-import { analytics } from "src/utils/analytics.utils";
-import { numbers } from "src/utils/number.utils";
-import { generateRandomColors } from "src/utils/utils";
 import { Gauge } from "@phosphor-icons/react";
 import { applicationState } from "src/store/application/selector";
 import { useDispatch, useSelector } from "react-redux";
+import { KpiAdminCard } from "../components/Card/KpiAdminCard";
+import { ClickEventTable } from "../components/Table/ClickEventTable.component";
+import { LineChart } from "../components/Chart/LineChart.component";
+import { DoughnutChart } from "../components/Chart/DoughnutChart.component";
+import { AverageTimeSpentTable } from "../components/Table/AverageTimeSpentTable.component";
 
 export default function AdminPage() {
   const {
     analytics: { enablePerformanceWidget },
   } = useSelector(applicationState);
   const disptach = useDispatch();
-
-  const { data: buttonEvents, refetch: refetchButtonsEvents } =
-    useGetButtonClickEventsQuery();
-  const { data: clickEvents, refetch: refetchClickEvents } =
-    useGetMouseClickEventsQuery();
-  const { data: pathnameEvents, refetch: refetchPathnameEvents } =
-    useGetPathnameChangeEventsQuery();
-  const { data: leaveEvents, refetch: refetchLeaveAppEvents } =
-    useGetLeaveAppEventsQuery();
+  // New fetches
+  const {
+    data: statsCards,
+    refetch: refetchStatCards,
+    isFetching: isFetchingStatCards,
+  } = useGetStatCardDataQuery();
+  const {
+    data: tablesData,
+    refetch: refetchTablesData,
+    isFetching: isFetchingTablesData,
+  } = useGetTablesDataQuery();
+  const {
+    data: chartsData,
+    refetch: refetchChartsData,
+    isFetching: isFetchingChartsData,
+  } = useGetChartsDataQuery();
 
   const [refetchTrigger, setRefetchTrigger] = useState<number>(Date.now());
-
-  const [userAgents, setUserAgents] = useState<any[]>(
-    analytics.aggregateUserAgents(
-      leaveEvents ?? [],
-      pathnameEvents ?? [],
-      clickEvents ?? []
-    )
-  );
-
-  const [averageTimeSpentColor, setAverageTimeSpentColor] = useState<
-    string[][]
-  >(
-    generateRandomColors(
-      analytics.averageTimeSpentOnEachPage(pathnameEvents ?? []).length
-    )
-  );
-
-  const [browserProportionColor, setBrowserProportionColor] = useState<
-    string[][]
-  >(generateRandomColors(analytics.proportion.browser(userAgents).length));
-
-  const [platformProportionColor, setPlatformProportionColor] = useState<
-    string[][]
-  >(generateRandomColors(analytics.proportion.platform(userAgents).length));
-
-  const [languageProportionColor, setLanguageProportionColor] = useState<
-    string[][]
-  >(generateRandomColors(analytics.proportion.language(userAgents).length));
-
-  useEffect(() => {
-    handleRefetch();
-    // Refetch every 30 seconds
-    const interval = setInterval(() => {
-      handleRefetch();
-    }, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    setAverageTimeSpentColor(
-      generateRandomColors(
-        analytics.averageTimeSpentOnEachPage(pathnameEvents ?? []).length
-      )
-    );
-    setBrowserProportionColor(
-      generateRandomColors(analytics.proportion.browser(userAgents).length)
-    );
-    setPlatformProportionColor(
-      generateRandomColors(analytics.proportion.platform(userAgents).length)
-    );
-    setLanguageProportionColor(
-      generateRandomColors(analytics.proportion.language(userAgents).length)
-    );
-
-    setUserAgents(
-      analytics.aggregateUserAgents(
-        leaveEvents ?? [],
-        pathnameEvents ?? [],
-        clickEvents ?? []
-      )
-    );
-  }, [buttonEvents, clickEvents, pathnameEvents, leaveEvents]);
 
   const [count, setCount] = useState<number | undefined>(300);
   const [route, setRoute] = useState("/");
@@ -153,43 +73,11 @@ export default function AdminPage() {
     }
   );
 
-  const { data: demographicDatas, refetch: refetchDemographicDatas } =
-    useGetDemographicDataQuery();
-
-  useEffect(() => {
-    setCountryProportionColor(
-      generateRandomColors(
-        analytics.proportion.countries(demographicDatas ?? []).length
-      )
-    );
-    setIspsProportionColor(
-      generateRandomColors(
-        analytics.proportion.isps(demographicDatas ?? []).length
-      )
-    );
-  }, [demographicDatas]);
-
-  const [countryProportionColor, setCountryProportionColor] = useState<
-    string[][]
-  >(
-    generateRandomColors(
-      analytics.proportion.countries(demographicDatas ?? []).length
-    )
-  );
-
-  const [ispsProportionColor, setIspsProportionColor] = useState<string[][]>(
-    generateRandomColors(
-      analytics.proportion.isps(demographicDatas ?? []).length
-    )
-  );
-
   const handleRefetch = () => {
-    refetchButtonsEvents();
-    refetchClickEvents();
-    refetchPathnameEvents();
-    refetchLeaveAppEvents();
     setRefetchTrigger(Date.now());
-    //refetchDemographicDatas();
+    refetchStatCards();
+    refetchTablesData();
+    refetchChartsData();
     toast.loading("Données mises à jour");
   };
   return (
@@ -228,268 +116,74 @@ export default function AdminPage() {
             </Text>
             <Spacer x={2} />
             <Button auto onPress={handleRefetch}>
+              {(isFetchingChartsData ||
+                isFetchingStatCards ||
+                isFetchingTablesData) && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Loading color="currentColor" size="sm" />
+                  <Spacer y={0.5} />
+                </div>
+              )}
               Rafraîchir les données
             </Button>
           </div>
         </div>
         <Grid.Container gap={2}>
           <Grid xs={12} md={3}>
-            <Card>
-              <Card.Body
-                css={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  h3
-                  css={{
-                    color: "#ff4b4b",
-                    fontSize: "3rem",
-                    fontWeight: 900,
-                  }}
-                >
-                  {numbers.suffix(buttonEvents?.length ?? 0)}
-                </Text>
-                <Text
-                  css={{
-                    color: "#464646",
-                    fontSize: ".75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Clics boutons
-                </Text>
-              </Card.Body>
-            </Card>
+            <KpiAdminCard
+              label="Clics boutons"
+              amount={statsCards?.button ?? 0}
+            />
           </Grid>
           <Grid xs={12} md={3}>
-            <Card>
-              <Card.Body
-                css={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  h3
-                  css={{
-                    color: "#ff4b4b",
-                    fontSize: "3rem",
-                    fontWeight: 900,
-                  }}
-                >
-                  {numbers.suffix(clickEvents?.length ?? 0)}
-                </Text>
-                <Text
-                  css={{
-                    color: "#464646",
-                    fontSize: ".75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Clics souris
-                </Text>
-              </Card.Body>
-            </Card>
+            <KpiAdminCard
+              label="Clics souris"
+              amount={statsCards?.mouse ?? 0}
+            />
           </Grid>
           <Grid xs={12} md={3}>
-            <Card>
-              <Card.Body
-                css={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  h3
-                  css={{
-                    color: "#ff4b4b",
-                    fontSize: "3rem",
-                    fontWeight: 900,
-                  }}
-                >
-                  {numbers.suffix(pathnameEvents?.length ?? 0)}
-                </Text>
-                <Text
-                  css={{
-                    color: "#464646",
-                    fontSize: ".75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Changements de routes
-                </Text>
-              </Card.Body>
-            </Card>
+            <KpiAdminCard
+              label="Changements de routes"
+              amount={statsCards?.pathname ?? 0}
+            />
           </Grid>
           <Grid xs={12} md={3}>
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Card.Body>
-                <Text
-                  h3
-                  css={{
-                    color: "#ff4b4b",
-                    fontSize: "3rem",
-                    fontWeight: 900,
-                  }}
-                >
-                  {numbers.suffix(leaveEvents?.length ?? 0)}
-                </Text>
-                <Text
-                  css={{
-                    color: "#464646",
-                    fontSize: ".75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Events d'app fermée
-                </Text>
-              </Card.Body>
-            </Card>
+            <KpiAdminCard
+              label="Fermetures d'app"
+              amount={statsCards?.closeApp ?? 0}
+            />
           </Grid>
           <Grid xs={12} md={3}>
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Card.Body>
-                <Text
-                  h3
-                  css={{
-                    color: "#ff4b4b",
-                    fontSize: "3rem",
-                    fontWeight: 900,
-                  }}
-                >
-                  {numbers.suffix(analytics.uniqueVisitor(leaveEvents ?? []))}
-                </Text>
-                <Text
-                  css={{
-                    color: "#464646",
-                    fontSize: ".75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Visiteurs uniques
-                </Text>
-              </Card.Body>
-            </Card>
+            <KpiAdminCard
+              label="Visiteurs uniques"
+              amount={statsCards?.uniqueVisitor}
+            />
           </Grid>
           <Grid xs={12} md={3}>
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Card.Body>
-                <Text
-                  h3
-                  css={{
-                    color: "#ff4b4b",
-                    fontSize: "3rem",
-                    fontWeight: 900,
-                  }}
-                >
-                  {numbers.suffix(analytics.debounceRate(leaveEvents ?? []))}%
-                </Text>
-                <Text
-                  css={{
-                    color: "#464646",
-                    fontSize: ".75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Debounce rate
-                </Text>
-              </Card.Body>
-            </Card>
+            <KpiAdminCard
+              label="Debounce rate"
+              amount={statsCards?.debounce}
+              unityLabel="%"
+            />
           </Grid>
           <Grid xs={12} md={3}>
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Card.Body>
-                <Text
-                  h3
-                  css={{
-                    color: "#ff4b4b",
-                    fontSize: "3rem",
-                    fontWeight: 900,
-                  }}
-                >
-                  {numbers.suffix(
-                    analytics.averagePageVisited(leaveEvents ?? [])
-                  )}
-                </Text>
-                <Text
-                  css={{
-                    color: "#464646",
-                    fontSize: ".75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Moyenne pages visitées par session
-                </Text>
-              </Card.Body>
-            </Card>
+            <KpiAdminCard
+              label="Moyenne pages visitées par session"
+              amount={statsCards?.averagePageVisited ?? 0}
+            />
           </Grid>
           <Grid xs={12} md={3}>
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Card.Body>
-                <Text
-                  h3
-                  css={{
-                    color: "#ff4b4b",
-                    fontSize: "3rem",
-                    fontWeight: 900,
-                  }}
-                >
-                  {analytics.averageSessionTime(leaveEvents ?? [])}
-                </Text>
-                <Text
-                  css={{
-                    color: "#464646",
-                    fontSize: ".75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Durée moyenne d'une session
-                </Text>
-              </Card.Body>
-            </Card>
+            <KpiAdminCard
+              label="Durée moyenne d'une session"
+              amount={statsCards?.averageTimeSpent ?? 0}
+            />
           </Grid>
           {/**
            * TABLE EVENEMENT UNIQUES CLIC BOUTONS
@@ -502,50 +196,11 @@ export default function AdminPage() {
               width: "100%",
             }}
           >
-            <Card>
-              <Table
-                aria-label="Unique button events"
-                id="unique-button-events"
-                striped
-                css={{
-                  height: "50vh",
-                  minWidth: "100%",
-                }}
-              >
-                <Table.Header>
-                  <Table.Column allowsResizing>ID évènement</Table.Column>
-                  <Table.Column allowsResizing>Prévisualisation</Table.Column>
-                  <Table.Column allowsSorting allowsResizing>
-                    # de clics
-                  </Table.Column>
-                </Table.Header>
-                <Table.Body>
-                  {analytics
-                    .uniqueButtonClicked(buttonEvents ?? [])
-                    .map((ubc, index) => (
-                      <Table.Row key={index}>
-                        <Table.Cell>
-                          <Badge color="primary">{ubc.event}</Badge>
-                        </Table.Cell>
-                        <Table.Cell>
-                          <Button auto disabled>
-                            {ubc.content}
-                          </Button>
-                        </Table.Cell>
-                        <Table.Cell>{ubc.count}</Table.Cell>
-                      </Table.Row>
-                    ))}
-                </Table.Body>
-                <Table.Pagination
-                  shadow
-                  noMargin
-                  align="center"
-                  rowsPerPage={5}
-                  onPageChange={(page) => null}
-                />
-              </Table>
-            </Card>
+            <ClickEventTable data={tablesData?.click ?? []} />
           </Grid>
+          {/**
+           * GRAPHIQUE VISITEURS
+           * */}
           <Grid
             xs={12}
             md={6}
@@ -553,46 +208,18 @@ export default function AdminPage() {
               height: "50vh",
             }}
           >
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+            <LineChart
+              labels={["J-6", "J-5", "J-4", "J-3", "J-2", "J-1", "J-0"]}
+              dataset={{
+                label: "Nombre de visites",
+                data: (chartsData?.lastVisitors ?? []).map((v) => v.count),
+                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "rgba(255, 99, 132, 0.5)",
               }}
+              loading={isFetchingChartsData}
             >
-              <Card.Body
-                css={{
-                  overflow: "hidden",
-                }}
-              >
-                <Line
-                  options={{
-                    plugins: {
-                      legend: {
-                        position: "top" as const,
-                      },
-                      title: {
-                        display: true,
-                        text: "Nombre de visite des 7 derniers jours",
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: ["J-6", "J-5", "J-4", "J-3", "J-2", "J-1", "J-0"],
-                    datasets: [
-                      {
-                        label: "Nombre de visites",
-                        data: analytics
-                          .getLastVisitors(leaveEvents ?? [])
-                          .map((v) => v.count),
-                        borderColor: "rgb(255, 99, 132)",
-                        backgroundColor: "rgba(255, 99, 132, 0.5)",
-                      },
-                    ],
-                  }}
-                />
-              </Card.Body>
-            </Card>
+              Nombre de visite des 7 derniers jours
+            </LineChart>
           </Grid>
           {/**
            * GRAPHIQUE TEMPS MOYEN PAR PAGE
@@ -604,66 +231,16 @@ export default function AdminPage() {
               height: "42vh",
             }}
           >
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+            <DoughnutChart
+              labels={chartsData?.averages.timeSpent.labels ?? []}
+              dataset={{
+                label: "Temps passé en moyenne (en ms)",
+                data: chartsData?.averages.timeSpent.data ?? [],
               }}
+              loading={isFetchingChartsData}
             >
-              <Card.Body
-                css={{
-                  overflow: "hidden",
-                }}
-              >
-                <Doughnut
-                  style={{
-                    position: "relative",
-                    top: "-1rem",
-                  }}
-                  options={{
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: "Temps passé en moyenne sur une page",
-                      },
-                      legend: {
-                        display: true,
-                      },
-                      tooltip: {
-                        enabled: true,
-                      },
-                      decimation: {
-                        enabled: false,
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: analytics
-                      .averageTimeSpentOnEachPage(
-                        analytics.filter.pathname(pathnameEvents ?? [])
-                      )
-                      .map((timeSpent) => timeSpent.page),
-                    datasets: [
-                      {
-                        label: "Temps passé en moyenne (en ms)",
-                        data: analytics
-                          .averageTimeSpentOnEachPage(pathnameEvents ?? [])
-                          .map((timeSpent) => timeSpent.averageTimeSpent),
-                        backgroundColor: averageTimeSpentColor.map(
-                          (colors) => colors[1]
-                        ),
-
-                        borderColor: averageTimeSpentColor.map(
-                          (colors) => colors[0]
-                        ),
-                        borderWidth: 1,
-                      },
-                    ],
-                  }}
-                />
-              </Card.Body>
-            </Card>
+              Temps passé en moyenne sur une page
+            </DoughnutChart>
           </Grid>
           {/**
            * TABLE TEMPS MOYEN PAR PAGE
@@ -676,42 +253,7 @@ export default function AdminPage() {
               width: "100%",
             }}
           >
-            <Card>
-              <Table
-                aria-label="Example table with static content"
-                striped
-                css={{
-                  height: "auto",
-                  minWidth: "100%",
-                }}
-              >
-                <Table.Header>
-                  <Table.Column>Route</Table.Column>
-                  <Table.Column>Temp passé</Table.Column>
-                </Table.Header>
-                <Table.Body>
-                  {analytics
-                    .averageTimeSpentOnEachPage(
-                      analytics.filter.pathname(pathnameEvents ?? [])
-                    )
-                    .map((timeSpent, index) => (
-                      <Table.Row key={index}>
-                        <Table.Cell>
-                          <Badge color="primary">{timeSpent.page}</Badge>
-                        </Table.Cell>
-                        <Table.Cell>{timeSpent.readableTimeSpent}</Table.Cell>
-                      </Table.Row>
-                    ))}
-                </Table.Body>
-                <Table.Pagination
-                  shadow
-                  noMargin
-                  align="center"
-                  rowsPerPage={5}
-                  onPageChange={(page) => null}
-                />
-              </Table>
-            </Card>
+            <AverageTimeSpentTable data={tablesData?.averageTime ?? []} />
           </Grid>
           {/**
            * GRAPHIQUE PROPORTION DES PLATEFORMES
@@ -723,67 +265,16 @@ export default function AdminPage() {
               height: "42vh",
             }}
           >
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+            <DoughnutChart
+              labels={chartsData?.proportions.platform.labels ?? []}
+              dataset={{
+                label: "Nombre de plateformes",
+                data: chartsData?.proportions.platform.data ?? [],
               }}
+              loading={isFetchingChartsData}
             >
-              <Card.Body
-                css={{
-                  overflow: "hidden",
-                }}
-              >
-                <Doughnut
-                  style={{
-                    position: "relative",
-                    top: "-1rem",
-                  }}
-                  options={{
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: "Proportion des plateformes",
-                      },
-                      legend: {
-                        display: true,
-                      },
-                      tooltip: {
-                        enabled: true,
-                      },
-                      decimation: {
-                        enabled: false,
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: analytics.proportion
-                      .platform(userAgents ?? [])
-                      .map(
-                        (p) =>
-                          `${p.platform} (${(p.proportion * 100).toFixed(0)}%)`
-                      ),
-                    datasets: [
-                      {
-                        label: "Nombre de plateformes",
-                        data: analytics.proportion
-                          .platform(userAgents ?? [])
-                          .map((p) => p.count),
-                        backgroundColor: platformProportionColor.map(
-                          (colors) => colors[1]
-                        ),
-
-                        borderColor: platformProportionColor.map(
-                          (colors) => colors[0]
-                        ),
-                        borderWidth: 1,
-                      },
-                    ],
-                  }}
-                />
-              </Card.Body>
-            </Card>
+              Proportion des plateformes
+            </DoughnutChart>
           </Grid>
           {/**
            * GRAPHIQUE PROPORTION DES NAVIGATEURS
@@ -795,69 +286,16 @@ export default function AdminPage() {
               height: "42vh",
             }}
           >
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+            <DoughnutChart
+              labels={chartsData?.proportions.browser.labels ?? []}
+              dataset={{
+                label: "Nombre de navigateurs",
+                data: chartsData?.proportions.browser.data ?? [],
               }}
+              loading={isFetchingChartsData}
             >
-              <Card.Body
-                css={{
-                  overflow: "hidden",
-                }}
-              >
-                <Doughnut
-                  style={{
-                    position: "relative",
-                    top: "-1rem",
-                  }}
-                  options={{
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: "Proportion des navigateurs",
-                      },
-                      legend: {
-                        display: true,
-                      },
-                      tooltip: {
-                        enabled: true,
-                      },
-                      decimation: {
-                        enabled: false,
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: analytics.proportion
-                      .browser(userAgents ?? [])
-                      .map(
-                        (browser) =>
-                          ` ${browser.browser} (${(
-                            browser.proportion * 100
-                          ).toFixed(0)}%)`
-                      ),
-                    datasets: [
-                      {
-                        label: "Nombre de navigateurs",
-                        data: analytics.proportion
-                          .browser(userAgents ?? [])
-                          .map((browser) => browser.count),
-                        backgroundColor: browserProportionColor.map(
-                          (colors) => colors[1]
-                        ),
-
-                        borderColor: browserProportionColor.map(
-                          (colors) => colors[0]
-                        ),
-                        borderWidth: 1,
-                      },
-                    ],
-                  }}
-                />
-              </Card.Body>
-            </Card>
+              Proportion des navigateurs
+            </DoughnutChart>
           </Grid>
           {/**
            * GRAPHIQUE PROPORTION DES LANGUES
@@ -869,69 +307,16 @@ export default function AdminPage() {
               height: "42vh",
             }}
           >
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+            <DoughnutChart
+              labels={chartsData?.proportions.lang.labels ?? []}
+              dataset={{
+                label: "Nombre de langues",
+                data: chartsData?.proportions.lang.data ?? [],
               }}
+              loading={isFetchingChartsData}
             >
-              <Card.Body
-                css={{
-                  overflow: "hidden",
-                }}
-              >
-                <Doughnut
-                  style={{
-                    position: "relative",
-                    top: "-1rem",
-                  }}
-                  options={{
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: "Proportion des langues",
-                      },
-                      legend: {
-                        display: true,
-                      },
-                      tooltip: {
-                        enabled: true,
-                      },
-                      decimation: {
-                        enabled: false,
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: analytics.proportion
-                      .language(userAgents ?? [])
-                      .map(
-                        (lang) =>
-                          `${lang.language} (${(lang.proportion * 100).toFixed(
-                            0
-                          )}%)`
-                      ),
-                    datasets: [
-                      {
-                        label: "Nombre de langues",
-                        data: analytics.proportion
-                          .language(userAgents ?? [])
-                          .map((lang) => lang.count),
-                        backgroundColor: languageProportionColor.map(
-                          (colors) => colors[1]
-                        ),
-
-                        borderColor: languageProportionColor.map(
-                          (colors) => colors[0]
-                        ),
-                        borderWidth: 1,
-                      },
-                    ],
-                  }}
-                />
-              </Card.Body>
-            </Card>
+              Proportion des langues
+            </DoughnutChart>
           </Grid>
           {/**
            * HEATMAP CLICS
@@ -1003,69 +388,16 @@ export default function AdminPage() {
               height: "42vh",
             }}
           >
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+            <DoughnutChart
+              labels={chartsData?.proportions.country.labels ?? []}
+              dataset={{
+                label: "Nombre de pays",
+                data: chartsData?.proportions.country.data ?? [],
               }}
+              loading={isFetchingChartsData}
             >
-              <Card.Body
-                css={{
-                  overflow: "hidden",
-                }}
-              >
-                <Doughnut
-                  style={{
-                    position: "relative",
-                    top: "-1rem",
-                  }}
-                  options={{
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: "Proportion des pays",
-                      },
-                      legend: {
-                        display: true,
-                      },
-                      tooltip: {
-                        enabled: true,
-                      },
-                      decimation: {
-                        enabled: false,
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: analytics.proportion
-                      .countries(demographicDatas ?? [])
-                      .map(
-                        (dd) =>
-                          ` ${dd.country} (${(dd.proportion * 100).toFixed(
-                            0
-                          )}%)`
-                      ),
-                    datasets: [
-                      {
-                        label: "Nombre de pays",
-                        data: analytics.proportion
-                          .countries(demographicDatas ?? [])
-                          .map((browser) => browser.count),
-                        backgroundColor: countryProportionColor.map(
-                          (colors) => colors[1]
-                        ),
-
-                        borderColor: countryProportionColor.map(
-                          (colors) => colors[0]
-                        ),
-                        borderWidth: 1,
-                      },
-                    ],
-                  }}
-                />
-              </Card.Body>
-            </Card>
+              Proportion des pays
+            </DoughnutChart>
           </Grid>
           {/**
            * GRAPHIQUE PROPORTION DES PROVIDERS
@@ -1077,67 +409,16 @@ export default function AdminPage() {
               height: "42vh",
             }}
           >
-            <Card
-              css={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+            <DoughnutChart
+              labels={chartsData?.proportions.provider.labels ?? []}
+              dataset={{
+                label: "Nombre de pays",
+                data: chartsData?.proportions.provider.data ?? [],
               }}
+              loading={isFetchingChartsData}
             >
-              <Card.Body
-                css={{
-                  overflow: "hidden",
-                }}
-              >
-                <Doughnut
-                  style={{
-                    position: "relative",
-                    top: "-1rem",
-                  }}
-                  options={{
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: "Proportion des fournisseurs d'accès",
-                      },
-                      legend: {
-                        display: true,
-                      },
-                      tooltip: {
-                        enabled: true,
-                      },
-                      decimation: {
-                        enabled: false,
-                      },
-                    },
-                  }}
-                  data={{
-                    labels: analytics.proportion
-                      .isps(demographicDatas ?? [])
-                      .map(
-                        (dd) =>
-                          ` ${dd.isp} (${(dd.proportion * 100).toFixed(0)}%)`
-                      ),
-                    datasets: [
-                      {
-                        label: "Nombre de pays",
-                        data: analytics.proportion
-                          .isps(demographicDatas ?? [])
-                          .map((browser) => browser.count),
-                        backgroundColor: ispsProportionColor.map(
-                          (colors) => colors[1]
-                        ),
-
-                        borderColor: ispsProportionColor.map(
-                          (colors) => colors[0]
-                        ),
-                        borderWidth: 1,
-                      },
-                    ],
-                  }}
-                />
-              </Card.Body>
-            </Card>
+              Proportion des fournisseurs d'accès
+            </DoughnutChart>
           </Grid>
         </Grid.Container>
       </div>
