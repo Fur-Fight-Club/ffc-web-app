@@ -24,14 +24,8 @@ export const PerformanceWidget: React.FunctionComponent<
 
   // listen for subsequent client-side navigations and update our state
   useNavigationListener((navigation) => {
-    console.log(navigation);
-
     setLastNavigation(navigation);
   });
-
-  React.useEffect(() => {
-    console.log(lastNavigation);
-  }, []);
   return (
     <div>
       <Modal
