@@ -187,3 +187,24 @@ export const convertTokenToAmount = (token: number): number => {
 
   return Math.round(token * exchangeRate);
 };
+
+export const mmrAverage = (monsters: Monster[]): number => {
+  let mmr = 0;
+  const divider = monsters?.length;
+
+  monsters?.forEach((monster: Monster) => {
+    mmr += monster.mmr;
+  });
+
+  return divider > 0 ? mmr / divider : 0;
+};
+
+export const mmrMax = (monsters: Monster[]): number => {
+  let mmr = 0;
+  monsters?.forEach((monster: Monster) => {
+    if (monster.mmr > mmr) {
+      mmr = monster.mmr;
+    }
+  });
+  return mmr;
+};
