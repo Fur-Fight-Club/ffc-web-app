@@ -8,7 +8,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { createMatchFormState } from "src/store/matches/selector";
-import { setStepCreateForm } from "src/store/matches/slice";
+import { setBetCreateForm, setStepCreateForm } from "src/store/matches/slice";
 import styles from "./Step3.module.scss";
 import BetButton from "./components/BetButton";
 
@@ -22,8 +22,15 @@ const Step3 = (props: Step3Props) => {
 
   const coinLabels = [-1000, -100, -10, 10, 100, 1000];
 
-  const handleOnClick = (selectedBet: number) => {
-    // TODO : set step to 3 and create recap page
+  const handleNextStep = () => {
+    // TODO : Check with the API if everything is ok
+    dispatch(setBetCreateForm(betState));
+    dispatch(setStepCreateForm(3));
+    toast.success("Mise enregistrée");
+  };
+
+  const handleStepBack = () => {
+    dispatch(setStepCreateForm(1));
   };
 
   const handleBetIsAt100CoinsMinimum = (checkedBet: number) =>
@@ -35,10 +42,6 @@ const Step3 = (props: Step3Props) => {
   const isButtonClickable = (betToAdd: number) =>
     handleBetIsAt100CoinsMinimum(betState + betToAdd) &&
     handleUserHasEnoughCoins(betState + betToAdd);
-
-  const handleStepBack = () => {
-    dispatch(setStepCreateForm(1));
-  };
 
   const handleSetBet = (betToAdd: number) => {
     if (!handleBetIsAt100CoinsMinimum(betState + betToAdd)) {
@@ -87,7 +90,7 @@ const Step3 = (props: Step3Props) => {
           Retour
         </Button>
         <Spacer x={0.5} />
-        <Button disabled>Suivant</Button>
+        <Button onClick={handleNextStep}>Suivant</Button>
       </Row>
     </div>
   );
