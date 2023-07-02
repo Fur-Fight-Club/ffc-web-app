@@ -3,6 +3,7 @@
 import CardList from "@components/CardList";
 import Input from "@components/UI/Input/Input";
 import { Button, Grid, Row, Spacer } from "@nextui-org/react";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
@@ -10,7 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Arena } from "src/store/arenas/arenas.model";
 import { useGetArenasQuery } from "src/store/arenas/slice";
 import { createMatchFormState } from "src/store/matches/selector";
-import { setArenaCreateForm, setStepCreateForm } from "src/store/matches/slice";
+import {
+  SetDateCreateForm,
+  setArenaCreateForm,
+  setStepCreateForm,
+} from "src/store/matches/slice";
 import ArenaCardDetails from "../ArenaCardDetails";
 import styles from "./Step2.module.scss";
 
@@ -20,10 +25,11 @@ const Step2 = (props: Step2Props) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { monster, step, arena, bet } = useSelector(createMatchFormState);
+  const { monster, step, arena, bet, date } = useSelector(createMatchFormState);
   const { data: arenas, refetch } = useGetArenasQuery();
 
-  console.log("arenas", arenas);
+  const currentDate = new Date();
+  const formattedCurrentDate = format(currentDate, "yyyy-MM-dd");
 
   const handleOnClick = (selectedArena: Arena) => {
     arena?.id === selectedArena.id
@@ -39,6 +45,8 @@ const Step2 = (props: Step2Props) => {
     dispatch(setStepCreateForm(2));
     toast.success("Arène sélectionnée");
   };
+
+  const canGoToNextStep = !!(arena && date);
 
   useEffect(() => {
     refetch();
@@ -67,7 +75,14 @@ const Step2 = (props: Step2Props) => {
             <Spacer y={2} />
             <div>Plannification du combat</div>
             <div className={styles.dateContainer}>
-              <Input type="datetime-local" />
+              <Input
+                type="datetime-local"
+                min={formattedCurrentDate}
+                value={new Date().toISOString().slice(0, 16)}
+                onChange={(e) =>
+                  dispatch(SetDateCreateForm(new Date(e.target.value)))
+                }
+              />
             </div>
           </div>
         </Grid>
@@ -84,7 +99,10 @@ const Step2 = (props: Step2Props) => {
           Retour
         </Button>
         <Spacer x={0.5} />
-        <Button {...(!arena && { disabled: true })} onClick={handleNextStep}>
+        <Button
+          {...(!canGoToNextStep && { disabled: true })}
+          onClick={handleNextStep}
+        >
           Suivant
         </Button>
       </Row>
