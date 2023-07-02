@@ -8,6 +8,7 @@ export const createMatchFormInitialState: CreateMatchForm = {
   step: 0,
   monster: null,
   arena: null,
+  date: null,
   bet: 100,
 };
 

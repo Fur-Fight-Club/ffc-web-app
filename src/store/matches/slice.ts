@@ -240,6 +240,9 @@ export const createMatchFormSlice = createSlice({
       /* @ts-ignore */
       state.arena = action.payload;
     },
+    SetDateCreateForm: (state, action: PayloadAction<Date | null>) => {
+      state.date = action.payload;
+    },
     setBetCreateForm: (state, action: PayloadAction<number>) => {
       state.bet = action.payload;
     },
@@ -258,6 +261,7 @@ export const {
   setStepCreateForm,
   setMonsterCreateForm,
   setArenaCreateForm,
+  SetDateCreateForm,
   setBetCreateForm,
   resetCreateForm,
 } = createMatchFormSlice.actions;
