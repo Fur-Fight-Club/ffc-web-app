@@ -36,7 +36,7 @@ const MonsterCardDetails = ({ monster }: MonsterCardDetailsProps) => {
     <div className={styles.monsterCardDetails}>
       <div className={styles.imageContainer}>
         {/* @ts-ignore */}
-        {(monster?.picture === null || monster?.picture === "") && (
+        {(monster?.picture !== null || monster?.picture !== "") && (
           <Image
             // @ts-ignore
             src={monster?.picture}
