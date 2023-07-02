@@ -66,6 +66,24 @@ export const MatchList: React.FunctionComponent<MatchListProps> = ({
               <Badge>{match.Monster2.mmr} MMR</Badge>
             </div>
           </Grid>
+          {match.fk_winner && (
+            <Grid
+              xs={12}
+              justify="center"
+              alignItems="center"
+              direction="column"
+            >
+              <Text h4 color="green">
+                Match terminé !
+              </Text>
+              <Text h5>
+                {match.fk_winner === match.Monster1.id
+                  ? match.Monster1.name
+                  : match.Monster2.name}{" "}
+                a gagné !
+              </Text>
+            </Grid>
+          )}
         </Grid.Container>
       </Grid>
       <Spacer y={2} />
