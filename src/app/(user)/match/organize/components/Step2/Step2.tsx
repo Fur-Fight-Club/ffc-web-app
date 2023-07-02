@@ -67,7 +67,7 @@ const Step2 = (props: Step2Props) => {
             <Spacer y={2} />
             <div>Plannification du combat</div>
             <div className={styles.dateContainer}>
-              <Input type="date" />
+              <Input type="datetime-local" />
             </div>
           </div>
         </Grid>
