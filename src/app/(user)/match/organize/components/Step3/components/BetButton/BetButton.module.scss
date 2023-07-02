@@ -1,0 +1,40 @@
+@import "/src/styles";
+
+.betButton {
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 5.5rem;
+  height: 5.5rem;
+  padding: 0.5rem;
+
+  color: $white;
+
+  background: $primary;
+  border: 2px solid $primary;
+  border-radius: 12px;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.bordered {
+  color: $primary;
+  background: $white;
+  border-color: $primary;
+}
+
+.disabled {
+  cursor: not-allowed;
+  color: rgb(126 134 140);
+  background: rgb(236 238 240);
+  border-color: rgb(236 238 240);
+}
+
+.label {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
