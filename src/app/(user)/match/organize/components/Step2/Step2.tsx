@@ -1,6 +1,7 @@
 "use client";
 
 import CardList from "@components/CardList";
+import Input from "@components/UI/Input/Input";
 import { Button, Grid, Row, Spacer } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -11,6 +12,7 @@ import { useGetArenasQuery } from "src/store/arenas/slice";
 import { createMatchFormState } from "src/store/matches/selector";
 import { setArenaCreateForm, setStepCreateForm } from "src/store/matches/slice";
 import ArenaCardDetails from "../ArenaCardDetails";
+import styles from "./Step2.module.scss";
 
 type Step2Props = {};
 
@@ -46,18 +48,27 @@ const Step2 = (props: Step2Props) => {
     <div style={{ height: "95%" }}>
       <Grid.Container css={{ height: "100%", position: "relative" }} gap={2}>
         <Grid xs={4}>
-          <div style={{ width: "100%" }}>
-            <div>Arènes disponibles</div>
-            <CardList>
-              {arenas?.map((arenaItem) => (
-                <CardList.ArenaItem
-                  key={arenaItem.id}
-                  arena={arenaItem}
-                  onClick={() => handleOnClick(arenaItem)}
-                  isSelected={arena?.id === arenaItem.id}
-                />
-              ))}
-            </CardList>
+          <div
+            style={{ width: "100%", display: "flex", flexDirection: "column" }}
+          >
+            <div className={styles.listContainer}>
+              <div>Arènes disponibles</div>
+              <CardList>
+                {arenas?.map((arenaItem) => (
+                  <CardList.ArenaItem
+                    key={arenaItem.id}
+                    arena={arenaItem}
+                    onClick={() => handleOnClick(arenaItem)}
+                    isSelected={arena?.id === arenaItem.id}
+                  />
+                ))}
+              </CardList>
+            </div>
+            <Spacer y={2} />
+            <div>Plannification du combat</div>
+            <div className={styles.dateContainer}>
+              <Input type="date" />
+            </div>
           </div>
         </Grid>
         <Grid xs={8}>

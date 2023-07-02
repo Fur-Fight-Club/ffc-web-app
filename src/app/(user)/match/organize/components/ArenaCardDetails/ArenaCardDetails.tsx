@@ -34,7 +34,7 @@ const ArenaCardDetails = ({ arena }: ArenaCardDetailsProps) => {
     );
 
   return (
-    <Card css={{ w: "100%", h: "100%" }}>
+    <Card css={{ w: "100%", h: "70%" }}>
       <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
         <Col>
           <Text size={12} weight="bold" transform="uppercase" color="#9E9E9E">
@@ -45,15 +45,17 @@ const ArenaCardDetails = ({ arena }: ArenaCardDetailsProps) => {
           </Text>
         </Col>
       </Card.Header>
-      <Card.Body css={{ p: 0, height: "0" }}>
-        <Card.Image
-          // @ts-ignore
-          src={arena?.picture}
-          objectFit="cover"
-          width="100%"
-          height="100%"
-          alt="Relaxing app background"
-        />
+      <Card.Body css={{ p: 0 }}>
+        <div style={{ height: "100%", position: "relative" }}>
+          <Card.Image
+            // @ts-ignore
+            src={arena?.picture}
+            objectFit="cover"
+            width="100%"
+            height="100%"
+            alt="Relaxing app background"
+          />
+        </div>
       </Card.Body>
       <Card.Footer
         isBlurred
