@@ -29,6 +29,7 @@ interface MonsterDisplayProps {
   refetch: () => void;
   matchId: number;
   matchEnded: boolean;
+  winner?: number;
 }
 
 export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
@@ -37,6 +38,7 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
   refetch,
   matchId,
   matchEnded,
+  winner,
 }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [betAmount, setBetAmount] = React.useState(0);
@@ -57,6 +59,9 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
       refetch();
     }
   }, [isBettingSuccess]);
+
+  console.log({ winner, monster });
+
   return (
     <div
       style={{
@@ -72,6 +77,12 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
         borderRadius: "1rem",
         paddingTop: "2rem",
         paddingBottom: "2rem",
+        boxShadow:
+          winner === undefined
+            ? "none"
+            : winner === monster?.id
+            ? "0px 0px 15px 0px rgba(0,151,40,0.5)"
+            : "0px 0px 20px 0px rgba(255,0,0,0.5)",
       }}
     >
       <Avatar

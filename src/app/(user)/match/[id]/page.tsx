@@ -28,6 +28,7 @@ import { MessageItem } from "../components/CardLoader/MessageItem";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { toast } from "react-hot-toast";
+import { match } from "assert";
 
 export default function MatchPage({ params }: { params: { id: string } }) {
   const { user } = useSelector(applicationState);
@@ -89,6 +90,7 @@ export default function MatchPage({ params }: { params: { id: string } }) {
     handleScrollToBottom();
     setEndMatchModalVisible(false);
   }, [params.id, isMatchClosed]);
+
   return (
     <Grid.Container
       gap={5}
@@ -108,7 +110,11 @@ export default function MatchPage({ params }: { params: { id: string } }) {
             zIndex: 100,
           }}
         >
-          <NUIButton size={"lg"} onPress={() => setEndMatchModalVisible(true)}>
+          <NUIButton
+            size={"lg"}
+            onPress={() => setEndMatchModalVisible(true)}
+            disabled={data?.fk_winner ? true : false}
+          >
             Terminer le match
           </NUIButton>
           <Modal
@@ -201,6 +207,7 @@ export default function MatchPage({ params }: { params: { id: string } }) {
                         refetch={refetch}
                         matchId={+params.id ?? -1}
                         matchEnded={data?.matchEndDate ? true : false}
+                        winner={data?.fk_winner}
                       />
                     </Grid>
                     <Grid xs={12} md={6}>
@@ -210,6 +217,7 @@ export default function MatchPage({ params }: { params: { id: string } }) {
                         refetch={refetch}
                         matchId={+params.id ?? -1}
                         matchEnded={data?.matchEndDate ? true : false}
+                        winner={data?.fk_winner}
                       />
                     </Grid>
                   </Grid.Container>
