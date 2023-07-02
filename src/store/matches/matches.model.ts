@@ -1,5 +1,6 @@
-import { Arena, MatchMessage } from "ffc-prisma-package/dist/client";
+import { Arena } from "ffc-prisma-package/dist/client";
 import { Monster, WeightCategoryType } from "../monsters/monsters.model";
+import { MatchMessage } from "../notifications/notifications.model";
 
 export interface Matches {
   matches: Match[];
