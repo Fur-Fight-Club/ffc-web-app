@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { Card } from "@nextui-org/react";
+import { Card, Loading } from "@nextui-org/react";
 import { generateRandomColors } from "@utils/utils";
 ChartJS.register(
   ArcElement,
@@ -33,12 +33,14 @@ interface DoughnutChartProps {
     data: number[];
   };
   children: string;
+  loading?: boolean;
 }
 
 export const DoughnutChart: React.FunctionComponent<DoughnutChartProps> = ({
   labels,
   children,
   dataset,
+  loading,
 }) => {
   const [colors, setColors] = React.useState<string[][]>(
     generateRandomColors(dataset.data.length)
@@ -60,42 +62,46 @@ export const DoughnutChart: React.FunctionComponent<DoughnutChartProps> = ({
           overflow: "hidden",
         }}
       >
-        <Doughnut
-          style={{
-            position: "relative",
-            top: "-1rem",
-          }}
-          options={{
-            plugins: {
-              title: {
-                display: true,
-                text: children,
+        {loading ? (
+          <Loading color={"primary"} size="xl" />
+        ) : (
+          <Doughnut
+            style={{
+              position: "relative",
+              top: "-1rem",
+            }}
+            options={{
+              plugins: {
+                title: {
+                  display: true,
+                  text: children,
+                },
+                legend: {
+                  display: true,
+                },
+                tooltip: {
+                  enabled: true,
+                },
+                decimation: {
+                  enabled: false,
+                },
               },
-              legend: {
-                display: true,
-              },
-              tooltip: {
-                enabled: true,
-              },
-              decimation: {
-                enabled: false,
-              },
-            },
-          }}
-          data={{
-            labels,
-            datasets: [
-              {
-                label: dataset.label,
-                data: dataset.data,
-                backgroundColor: colors.map((colors) => colors[1]),
+            }}
+            data={{
+              labels,
+              datasets: [
+                {
+                  label: dataset.label,
+                  data: dataset.data,
+                  backgroundColor: colors.map((colors) => colors[1]),
 
-                borderColor: colors.map((colors) => colors[0]),
-                borderWidth: 1,
-              },
-            ],
-          }}
-        />
+                  borderColor: colors.map((colors) => colors[0]),
+                  borderWidth: 1,
+                },
+              ],
+            }}
+          />
+        )}
       </Card.Body>
     </Card>
   );

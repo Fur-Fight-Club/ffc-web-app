@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from "@nextui-org/react";
+import { Card, Loading } from "@nextui-org/react";
 import * as React from "react";
 import {
   ArcElement,
@@ -34,12 +34,14 @@ interface LineChartProps {
     backgroundColor: string;
   };
   children: string;
+  loading?: boolean;
 }
 
 export const LineChart: React.FunctionComponent<LineChartProps> = ({
   labels,
   children,
   dataset,
+  loading,
 }) => {
   return (
     <Card
@@ -54,30 +56,34 @@ export const LineChart: React.FunctionComponent<LineChartProps> = ({
           overflow: "hidden",
         }}
       >
-        <Line
-          options={{
-            plugins: {
-              legend: {
-                position: "top" as const,
+        {loading ? (
+          <Loading color={"primary"} size="xl" />
+        ) : (
+          <Line
+            options={{
+              plugins: {
+                legend: {
+                  position: "top" as const,
+                },
+                title: {
+                  display: true,
+                  text: children,
+                },
               },
-              title: {
-                display: true,
-                text: children,
-              },
-            },
-          }}
-          data={{
-            labels,
-            datasets: [
-              {
-                label: dataset.label,
-                data: dataset.data,
-                borderColor: dataset.borderColor,
-                backgroundColor: dataset.backgroundColor,
-              },
-            ],
-          }}
-        />
+            }}
+            data={{
+              labels,
+              datasets: [
+                {
+                  label: dataset.label,
+                  data: dataset.data,
+                  borderColor: dataset.borderColor,
+                  backgroundColor: dataset.backgroundColor,
+                },
+              ],
+            }}
+          />
+        )}
       </Card.Body>
     </Card>
   );
