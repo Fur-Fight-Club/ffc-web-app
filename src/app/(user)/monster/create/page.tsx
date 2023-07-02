@@ -113,7 +113,7 @@ export default function CreateMonster() {
           Faite combattre votre monstre, parier dessus, et gagner de l'argent
         </Text>
       </Row>
-      <Col span={8} css={{ p: "$15" }}>
+      <Col span={7} css={{ p: "$15" }}>
         <Input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -180,8 +180,8 @@ export default function CreateMonster() {
         </Button>
         <Spacer y={3} />
       </Col>
-      <Col span={4} css={{ p: "$15", height: "70vh" }}>
-        <MonsterCardDetails monster={monster} />
+      <Col span={5} css={{ p: "$15", height: "70vh" }}>
+        <MonsterCardCreate monster={monster.name == "" ? null : monster} />
       </Col>
     </div>
   );

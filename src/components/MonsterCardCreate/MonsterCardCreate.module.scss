@@ -1,51 +1,33 @@
-@import '/src/styles';
+@import "/src/styles/";
 
-.monsterCard {
- padding: 1rem;
-}
-
-.top {
+.monsterCardDetailsEmpty {
   display: flex;
-  margin: 1rem 0 1rem 0;
-  font-size: large;
-  font-weight: bold;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  height: 100%;
+
+  border: $primaryT300 0.25rem dashed;
+  border-radius: 0.75rem;
 }
 
-.name {
-  flex: 1;
-}
-
-.typeLogo {
-  flex: 1;
-  text-align: right;
-  font-size: 3rem;
-
-  .weight {
-    font-size: 1.5rem;
-  }
-}
-
-.picture {
-  height: 30vh;
+.monsterCardDetails {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem 0 1rem 0;
-  padding: 2rem;
-  background: $primary;
-  background: linear-gradient(0deg, $primary 0%, $secondary3 100%);
-  background: linear-gradient(0deg, $primary 0%, $secondary3 100%);
-  border-radius: 1rem;
-  .lottie {
-    width: 30%;
-  }
+  flex-direction: column;
+
+  height: 100%;
+
+  background: $whiteS100;
+  border-radius: 0.75rem;
 }
 
-.characteristic {
-  padding: 1rem;
-  font-size: medium;
-  font-weight: bolder;
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 20rem;
 }
 
+.informationContainer {
+  padding: 0.5rem 1rem
+}
