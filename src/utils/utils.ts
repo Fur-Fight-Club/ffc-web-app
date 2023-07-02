@@ -46,8 +46,6 @@ export const getInitials = (firstName: string, lastName: string) => {
   return firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
 };
 
-import colors from "@styles/_colors.module.scss";
-
 export const convertApiTypeToLogo = (
   apiType: Monster["monster_type"] | string
 ) => {
@@ -182,4 +180,10 @@ export const textColor = (bgColor: string) => {
   var g = parseInt(color.substring(2, 4), 16);
   var b = parseInt(color.substring(4, 6), 16);
   return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? "black" : "white";
+};
+
+export const convertTokenToAmount = (token: number): number => {
+  const exchangeRate = 100 / 11500;
+
+  return Math.round(token * exchangeRate);
 };
