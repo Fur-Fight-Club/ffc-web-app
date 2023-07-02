@@ -1,0 +1,19 @@
+.fullWidthHeight {
+  width: 100% !important;
+  height: 100% !important;
+}
+.leftCard {
+  height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+}
+.innerLeftContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
