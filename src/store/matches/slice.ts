@@ -232,6 +232,7 @@ export const createMatchFormSlice = createSlice({
       state.step = action.payload;
     },
     setMonsterCreateForm: (state, action: PayloadAction<Monster | null>) => {
+      // @ts-ignore
       state.monster = action.payload;
     },
     setArenaCreateForm: (state, action: PayloadAction<Arena | null>) => {
