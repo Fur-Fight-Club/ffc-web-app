@@ -1,6 +1,6 @@
 "use client";
 
-import MonsterCardCreate from "@components/MonsterCardCreate";
+import MonsterCardCreate from "@components/MonsterCardDetails";
 import { Button } from "@components/UI/Button/Button.component";
 import Divider from "@components/UI/Divider";
 import { Row, Spacer, Text, Col, Input } from "@nextui-org/react";
@@ -20,6 +20,7 @@ import {
   useGetMonsterByIdQuery,
 } from "src/store/monsters/slice";
 import { useRouter } from "next/navigation";
+import MonsterCardDetails from "@components/MonsterCardDetails/MonsterCardDetails";
 
 export default function CreateMonster({ params }: { params: { id: number } }) {
   const router = useRouter();
@@ -184,7 +185,8 @@ export default function CreateMonster({ params }: { params: { id: number } }) {
         <Spacer y={3} />
       </div>
       <div className={styles.imgPanel}>
-        <MonsterCardCreate monster={monster} />
+        {/* @ts-ignore */}
+        <MonsterCardDetails monster={monster} />
       </div>
     </div>
   );

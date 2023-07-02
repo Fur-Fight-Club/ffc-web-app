@@ -1,15 +1,14 @@
 import { Divider, Row, Spacer, Text } from "@nextui-org/react";
 import colors from "@styles/_colors.module.scss";
 import { convertApiTypeToType } from "@utils/utils";
-import { Monster } from "ffc-prisma-package/dist/client";
 import Image from "next/image";
-import styles from "./MonsterCardCreate.module.scss";
+import styles from "./MonsterCardDetails.module.scss";
 
-type MonsterCardCreateProps = {
+type MonsterCardDetailsProps = {
   monster?: null;
 };
 
-const MonsterCardCreate = ({ monster }: MonsterCardCreateProps) => {
+const MonsterCardDetails = ({ monster }: MonsterCardDetailsProps) => {
   if (!monster) {
     return (
       <div className={styles.monsterCardDetailsEmpty}>
@@ -36,15 +35,21 @@ const MonsterCardCreate = ({ monster }: MonsterCardCreateProps) => {
   return (
     <div className={styles.monsterCardDetails}>
       <div className={styles.imageContainer}>
-        <Image
-          src={monster?.picture}
-          fill
-          alt={`Monster picture of ${monster?.name}`}
-          style={{ objectFit: "cover", borderRadius: "0.75rem 0.75rem 0 0" }}
-        />
+        {/* @ts-ignore */}
+        {(monster?.picture === null || monster?.picture === "") && (
+          <Image
+            // @ts-ignore
+            src={monster?.picture}
+            fill
+            // @ts-ignore
+            alt={`Monster picture of ${monster?.name}`}
+            style={{ objectFit: "cover", borderRadius: "0.75rem 0.75rem 0 0" }}
+          />
+        )}
       </div>
       <div className={styles.informationContainer}>
         <Text h2 weight={"bold"} color={colors.secondary}>
+          {/* @ts-ignore */}
           {monster.name}
         </Text>
         <Divider y={1} />
@@ -55,6 +60,7 @@ const MonsterCardCreate = ({ monster }: MonsterCardCreateProps) => {
           </Text>
           <Spacer x={0.5} />
           <Text size={"$lg"} weight={"medium"}>
+            {/* @ts-ignore */}
             {convertApiTypeToType(monster.monster_type)}
           </Text>
         </Row>
@@ -64,6 +70,7 @@ const MonsterCardCreate = ({ monster }: MonsterCardCreateProps) => {
           </Text>
           <Spacer x={0.5} />
           <Text size={"$lg"} weight={"medium"}>
+            {/* @ts-ignore */}
             {monster.weight} kg
           </Text>
         </Row>
@@ -73,6 +80,7 @@ const MonsterCardCreate = ({ monster }: MonsterCardCreateProps) => {
           </Text>
           <Spacer x={0.5} />
           <Text size={"$lg"} weight={"medium"}>
+            {/* @ts-ignore */}
             {monster.weight_category}
           </Text>
         </Row>
@@ -81,4 +89,4 @@ const MonsterCardCreate = ({ monster }: MonsterCardCreateProps) => {
   );
 };
 
-export default MonsterCardCreate;
+export default MonsterCardDetails;

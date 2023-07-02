@@ -1,6 +1,6 @@
 "use client";
 
-import MonsterCardCreate from "@components/MonsterCardCreate";
+import MonsterCardCreate from "@components/MonsterCardDetails";
 import { Button } from "@components/UI/Button/Button.component";
 import Divider from "@components/UI/Divider";
 import { Col, Input, Row, Spacer, Text } from "@nextui-org/react";
@@ -181,6 +181,7 @@ export default function CreateMonster() {
         <Spacer y={3} />
       </Col>
       <Col span={5} css={{ p: "$15", height: "70vh" }}>
+        {/* @ts-ignore */}
         <MonsterCardCreate monster={monster.name == "" ? null : monster} />
       </Col>
     </div>
