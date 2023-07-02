@@ -27,6 +27,7 @@ interface MonsterDisplayProps {
   totalBets: number;
   refetch: () => void;
   matchId: number;
+  matchEnded: boolean;
 }
 
 export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
@@ -34,6 +35,7 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
   totalBets,
   refetch,
   matchId,
+  matchEnded,
 }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [betAmount, setBetAmount] = React.useState(0);
@@ -129,6 +131,7 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
         auto
         size={"lg"}
         onPress={() => setModalVisible(true)}
+        disabled={matchEnded}
       >
         Parier sur {monster?.name}
       </Button>
