@@ -46,12 +46,15 @@ export default function ArenaAdmin() {
       const payementOut = allPayementData.filter(
         (payement: TransactionSpecial) => payement.type === "OUT"
       );
-      console.log("payementIn : ", payementIn);
 
       setPayementInData(payementIn);
       setPayementOutData(payementOut);
     }
   }, [allPayementData]);
+
+  useEffect(() => {
+    refetch();
+  });
 
   const handleSelect = (number: number) => {
     setSelectedPart(number);
@@ -151,7 +154,7 @@ export default function ArenaAdmin() {
 
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, rotate: 360 }}
+        animate={{ opacity: 1 }}
         transition={{
           ease: "linear",
           duration: 1,
@@ -170,7 +173,7 @@ export default function ArenaAdmin() {
       {selectedPart === 1 && (
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1, x: [null, 100, 0] }}
+          animate={{ opacity: 1 }}
           transition={{
             ease: "linear",
             duration: 1,
@@ -214,7 +217,15 @@ export default function ArenaAdmin() {
       )}
 
       {selectedPart === 2 && (
-        <div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            ease: "linear",
+            duration: 1,
+            x: { duration: 0.4 },
+          }}
+        >
           <h3>Tableau payement sortant</h3>
 
           <Table
@@ -248,7 +259,7 @@ export default function ArenaAdmin() {
             </Table.Body>
             <Table.Pagination shadow noMargin align="center" rowsPerPage={10} />
           </Table>
-        </div>
+        </motion.div>
       )}
     </>
   );

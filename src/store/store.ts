@@ -8,12 +8,12 @@ import { reducers } from "./reducers";
 import { combineReducers } from "redux";
 import { applicationApi } from "./application/slice";
 import { ArenaApi } from "./arenas/slice";
-import { monstersApi } from "./monsters/slice";
-import { matchesApi } from "./matches/slice";
 import { bankAccountApi } from "./bank-account/slice";
-import { walletApi } from "./wallet/slice";
-import { userApi } from "./user/slice";
+import { matchesApi } from "./matches/slice";
+import { monstersApi } from "./monsters/slice";
 import { paymentsApi } from "./payments/slice";
+import { userApi } from "./user/slice";
+import { walletApi } from "./wallet/slice";
 
 const combinedReducers = combineReducers({
   ...reducers,
