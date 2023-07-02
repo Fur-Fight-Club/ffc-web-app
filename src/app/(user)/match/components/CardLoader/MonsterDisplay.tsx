@@ -8,6 +8,7 @@ import {
   Text,
   Modal,
   Input,
+  useTheme,
 } from "@nextui-org/react";
 import * as React from "react";
 import { Monster } from "src/store/monsters/monsters.model";
@@ -40,6 +41,7 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
   const [modalVisible, setModalVisible] = React.useState(false);
   const [betAmount, setBetAmount] = React.useState(0);
   const [placeBet, { isSuccess: isBettingSuccess }] = usePlaceBetMutation();
+  const { isDark } = useTheme();
 
   const handleBet = () => {
     setModalVisible(false);
@@ -65,8 +67,8 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
         height: "100%",
         flexDirection: "column",
         // dashed border
-        border: "2px solid #f3f3f3",
-        backgroundColor: "#fcfcfc",
+        border: isDark ? "2px solid #222" : "2px solid #f3f3f3",
+        backgroundColor: isDark ? "#111" : "#fcfcfc",
         borderRadius: "1rem",
         paddingTop: "2rem",
         paddingBottom: "2rem",
