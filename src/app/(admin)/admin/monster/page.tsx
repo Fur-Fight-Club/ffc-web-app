@@ -31,6 +31,10 @@ export default function ArenaAdmin() {
 
   const [visibleModal, setVisibleModal] = useState(false);
 
+  useEffect(() => {
+    refetch();
+  });
+
   const handleModal = (monsterId: number) => {
     const monster = monsters.find((m: Monster) => m.id === monsterId);
     setMonsterSelected(monster);

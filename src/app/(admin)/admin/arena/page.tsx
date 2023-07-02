@@ -40,6 +40,10 @@ export default function ArenaAdmin() {
     }
   }, [data]);
 
+  useEffect(() => {
+    refetch();
+  });
+
   const columns = [
     { name: "NOM", uid: "name" },
     { name: "ADRESSE", uid: "address" },
