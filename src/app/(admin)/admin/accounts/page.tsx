@@ -8,9 +8,20 @@ import {
 } from "src/store/user/slice";
 
 import { IconButton } from "@components/IconButton";
-import { Badge, Col, Row, Table, Text, Tooltip, User } from "@nextui-org/react";
+import {
+  Badge,
+  Col,
+  Grid,
+  Row,
+  Table,
+  Text,
+  Tooltip,
+  User,
+} from "@nextui-org/react";
 import { PawPrint, Pencil, Trash } from "@phosphor-icons/react";
 
+import { countAdminRole, countUserRole } from "@utils/utils";
+import { KpiAdminCard } from "../../components/Card/KpiAdminCard";
 import { Modals } from "../../components/Modal/modalAccounts";
 import { ModalsMonster } from "../../components/Modal/modalMonster";
 
@@ -56,6 +67,10 @@ export default function AccountsAdmin() {
       setUsers(usersData);
     }
   }, [usersData]);
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const handleDeleteUser = (id: number) => {
     deleteUserMutation(id);
@@ -144,6 +159,30 @@ export default function AccountsAdmin() {
   return (
     <>
       <Text h2>Gestion des Utilisateurs</Text>
+
+      <Grid.Container gap={2}>
+        <Grid xs={12} md>
+          <KpiAdminCard
+            label="Utilisateurs"
+            amount={users?.length}
+            animationCount
+          />
+        </Grid>
+        <Grid xs={12} md>
+          <KpiAdminCard
+            label="Nombre d'Administateurs"
+            amount={countAdminRole(users)}
+            animationCount
+          />
+        </Grid>
+        <Grid xs={12} md>
+          <KpiAdminCard
+            label="Nombre d'Utilisateurs"
+            amount={countUserRole(users)}
+            animationCount
+          />
+        </Grid>
+      </Grid.Container>
 
       {users.length > 0 ? (
         <Table

@@ -1,3 +1,4 @@
+import { User as UserModel } from "ffc-prisma-package/dist/client";
 import { User } from "src/store/application/application.model";
 import { Monster, WeightCategoryType } from "src/store/monsters/monsters.model";
 
@@ -207,4 +208,24 @@ export const mmrMax = (monsters: Monster[]): number => {
     }
   });
   return mmr;
+};
+
+export const countAdminRole = (users: UserModel[]): number => {
+  let count = 0;
+  users.forEach((user: UserModel) => {
+    if (user.role === "ADMIN") {
+      count++;
+    }
+  });
+  return count;
+};
+
+export const countUserRole = (users: UserModel[]): number => {
+  let count = 0;
+  users.forEach((user: UserModel) => {
+    if (user.role === "USER") {
+      count++;
+    }
+  });
+  return count;
 };
