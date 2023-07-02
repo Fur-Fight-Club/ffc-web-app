@@ -132,9 +132,7 @@ const MonsterPage = (props: MonsterPageProps) => {
           <Col css={{ d: "flex" }}>
             <Tooltip content="Edit monster">
               <Link href={"/monster/" + monster?.id}>
-                <IconButton
-                  onClick={() => console.log("Edit monster", monster?.id)}
-                >
+                <IconButton>
                   <Pen size={24} color={colors.black} />
                 </IconButton>
               </Link>
