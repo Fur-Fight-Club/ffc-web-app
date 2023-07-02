@@ -18,6 +18,7 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { MagnifyingGlass, Trash } from "@phosphor-icons/react";
+import { mmrAverage, mmrMax } from "@utils/utils";
 import { MonsterDto } from "src/model/monster.schema";
 import { KpiAdminCard } from "../../components/Card/KpiAdminCard";
 import { ModalShowMoreMonster } from "./components/modalShowMoreMonster";
@@ -107,37 +108,31 @@ export default function ArenaAdmin() {
     }
   };
 
-  const mmrAverage = () => {
-    let mmr = 0;
-    monsters?.forEach((monster: Monster) => {
-      mmr += monster.mmr;
-    });
-    return mmr / monsters?.length;
-  };
-
-  const mmrMax = () => {
-    let mmr = 0;
-    monsters?.forEach((monster: Monster) => {
-      if (monster.mmr > mmr) {
-        mmr = monster.mmr;
-      }
-    });
-    return mmr;
-  };
-
   return (
     <>
       <Text h2>Gestion des Monstres</Text>
 
       <Grid.Container gap={2}>
         <Grid xs={12} md>
-          <KpiAdminCard label="Monstres" amount={monsters?.length} />
+          <KpiAdminCard
+            label="Monstres"
+            amount={monsters?.length}
+            animationCount
+          />
         </Grid>
         <Grid xs={12} md>
-          <KpiAdminCard label="MMR moyen des monstres" amount={mmrAverage()} />
+          <KpiAdminCard
+            label="MMR moyen des monstres"
+            amount={mmrAverage(monsters)}
+            animationCount
+          />
         </Grid>
         <Grid xs={12} md>
-          <KpiAdminCard label="MMR le plus haut" amount={mmrMax()} />
+          <KpiAdminCard
+            label="MMR le plus haut"
+            amount={mmrMax(monsters)}
+            animationCount
+          />
         </Grid>
       </Grid.Container>
 

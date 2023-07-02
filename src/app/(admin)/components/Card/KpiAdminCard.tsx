@@ -2,18 +2,30 @@
 
 import { Card, Text } from "@nextui-org/react";
 import { numbers } from "@utils/number.utils";
+import { animate, motion, useMotionValue, useTransform } from "framer-motion";
+import { useEffect } from "react";
 
 type KpiAdminCardProps = {
   label: string;
   amount: any;
-  unityLabel?: string;
+
+  animationCount?: boolean;
 };
 
 export const KpiAdminCard = ({
   label,
   amount,
-  unityLabel,
+  animationCount,
 }: KpiAdminCardProps) => {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, Math.round);
+
+  useEffect(() => {
+    const animation = animate(count, amount, { duration: 1.3 });
+
+    return animation.stop;
+  }, [amount]);
+
   return (
     <Card>
       <Card.Body
@@ -31,7 +43,11 @@ export const KpiAdminCard = ({
             fontWeight: 900,
           }}
         >
-          {numbers.suffix(amount)} {unityLabel}
+          {!animationCount ? (
+            numbers.suffix(amount)
+          ) : (
+            <motion.div>{rounded}</motion.div>
+          )}
         </Text>
         <Text
           css={{
