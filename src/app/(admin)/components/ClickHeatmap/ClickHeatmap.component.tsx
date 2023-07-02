@@ -12,6 +12,8 @@ import { Map, ImageOverlay } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 // @ts-ignore
 import HeatmapLayer from "react-leaflet-heatmap-layer";
+import { useSelector } from "react-redux";
+import { applicationState } from "src/store/application/selector";
 
 interface ClickHeatmapProps {
   route: string;
@@ -26,6 +28,7 @@ export const ClickHeatmap: React.FunctionComponent<ClickHeatmapProps> = ({
   count,
   heatmapImage,
 }) => {
+  const { token } = useSelector(applicationState);
   var bounds = [
     [100, 0],
     [0, 100],
@@ -36,10 +39,26 @@ export const ClickHeatmap: React.FunctionComponent<ClickHeatmapProps> = ({
     containerRef.current?.offsetHeight
   );
 
-  const [fetchHeatmapData, { data, isSuccess }] = useGetHeatmapDataMutation();
+  const [data, setData] = React.useState<HeatmapData[]>([]);
+  const [success, setSuccess] = React.useState(false);
 
   useEffect(() => {
-    fetchHeatmapData({ route, count });
+    (async () => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_ENDPOINT}/analytics-events/heatmap-data`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}` ?? "",
+          },
+          body: JSON.stringify({ route, count }),
+        }
+      );
+      const json: HeatmapData[] = await response.json();
+      setData(json);
+      setSuccess(response.ok);
+    })();
   }, [route, count, refresh]);
 
   const [heatmapData, setHeatmapData] = React.useState<number[][]>([]);
@@ -60,14 +79,14 @@ export const ClickHeatmap: React.FunctionComponent<ClickHeatmapProps> = ({
 
   useEffect(() => {
     // For each entry, create a heatmap data point and calculate ratio
-    if (isSuccess) {
+    if (success) {
       const points =
         data?.map((entry) => {
           return calculateHeatmapPoint(entry, width ?? 0, height ?? 0);
         }) ?? [];
       setHeatmapData(points);
     }
-  }, [isSuccess]);
+  }, [success]);
 
   useEffect(() => {
     setWidth(containerRef.current?.offsetWidth);
