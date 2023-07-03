@@ -10,6 +10,7 @@ import { logout } from "src/store/application/slice";
 import { Button } from "@components/UI/Button/Button.component";
 import {
   CaretCircleLeft,
+  ChartDonut,
   CreditCard,
   Ghost,
   House,
@@ -87,9 +88,9 @@ export const SidebarAdmin = () => {
             component={<Link href="/admin" />}
             icon={
               pathname === "/admin" ? (
-                <House size={25} color="black" weight="fill" />
+                <ChartDonut size={25} color="black" weight="fill" />
               ) : (
-                <House size={25} color="#e0dfdb" weight="light" />
+                <ChartDonut size={25} color="#e0dfdb" weight="light" />
               )
             }
             style={pathname === "/admin" ? { fontWeight: "bold" } : {}}
@@ -149,6 +150,13 @@ export const SidebarAdmin = () => {
             style={pathname === "/admin/payement" ? { fontWeight: "bold" } : {}}
           >
             Payements
+          </MenuItem>
+
+          <MenuItem
+            icon={<House size={25} color="#e0dfdb" weight="light" />}
+            onClick={handleLogout}
+          >
+            Retour page d'accueil
           </MenuItem>
 
           <MenuItem

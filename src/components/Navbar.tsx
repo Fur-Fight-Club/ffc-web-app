@@ -96,6 +96,19 @@ const NavbarTest = () => {
         </Navbar.Content>
 
         <Navbar.Content>
+          {isUserisAdmin && (
+            <Navbar.Link>
+              <Button
+                auto
+                color="secondary"
+                rounded
+                flat
+                onPress={() => router.push("/admin")}
+              >
+                Page d'Administation
+              </Button>
+            </Navbar.Link>
+          )}
           <Switch
             checked={isDark}
             iconOn={<Moon />}
