@@ -16,6 +16,7 @@ import { AnalyticsCookieBar } from "@components/UI/AnalyticsCookieBar/AnalyticsC
 import { NotificationComponent } from "src/services/firebase.service";
 import "./globals.scss";
 import { PerformanceWidget } from "@components/PerformanceWidget/PerformanceWidget.component";
+import { SocketContext } from "src/contexts/socket.context";
 const poppins = Poppins({
   weight: "400",
   subsets: ["latin"],
@@ -79,39 +80,42 @@ type RootLayoutProps = {
 let persistor = persistStore(store);
 
 export default function RootLayout({ children }: RootLayoutProps) {
+  const socket = React.useContext(SocketContext);
   return (
     <html lang="fr">
       <body className={poppins.className} style={{ minHeight: "100vh" }}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <PerformanceWidget />
-            <AnalyticsWrapper>
-              <AnalyticsCookieBar />
-              {/* <NotificationComponent /> */}
+            <SocketContext.Provider value={socket}>
+              <PerformanceWidget />
+              <AnalyticsWrapper>
+                <AnalyticsCookieBar />
+                {/* <NotificationComponent /> */}
 
-              <NextThemesProvider
-                defaultTheme="light"
-                attribute="class"
-                value={{
-                  light: lightTheme.className,
-                  dark: darkTheme.className,
-                }}
-              >
-                <Toaster
-                  position="bottom-left"
-                  reverseOrder={false}
-                  gutter={8}
-                  containerClassName=""
-                  containerStyle={{}}
-                  toastOptions={{
-                    className: "",
-                    duration: 5000,
+                <NextThemesProvider
+                  defaultTheme="light"
+                  attribute="class"
+                  value={{
+                    light: lightTheme.className,
+                    dark: darkTheme.className,
                   }}
-                />
-                <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
-              </NextThemesProvider>
-              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-            </AnalyticsWrapper>
+                >
+                  <Toaster
+                    position="bottom-left"
+                    reverseOrder={false}
+                    gutter={8}
+                    containerClassName=""
+                    containerStyle={{}}
+                    toastOptions={{
+                      className: "",
+                      duration: 5000,
+                    }}
+                  />
+                  <NextUIProvider theme={lightTheme}>{children}</NextUIProvider>
+                </NextThemesProvider>
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+              </AnalyticsWrapper>
+            </SocketContext.Provider>
           </PersistGate>
         </Provider>
       </body>
