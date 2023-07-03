@@ -2,9 +2,10 @@
 
 import coinImage from "@assets/images/coins/4.png";
 import { Button, Row, Spacer, Text } from "@nextui-org/react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { createMatchFormState } from "src/store/matches/selector";
@@ -19,6 +20,9 @@ const Step3 = (props: Step3Props) => {
   const router = useRouter();
   const { monster, step, arena, bet } = useSelector(createMatchFormState);
   const [betState, setBetState] = useState<number>(bet);
+  const [isResetDisplayed, setIsResetDisplayed] = useState<boolean>(
+    betState === 100 ? false : true
+  );
 
   const coinLabels = [-1000, -100, -10, 10, 100, 1000];
 
@@ -57,6 +61,10 @@ const Step3 = (props: Step3Props) => {
     setBetState(betState + betToAdd);
   };
 
+  useEffect(() => {
+    setIsResetDisplayed(betState === 100 ? false : true);
+  }, [betState]);
+
   return (
     <div style={{ height: "86%" }}>
       <Row>
@@ -83,6 +91,26 @@ const Step3 = (props: Step3Props) => {
               {coinLabel}
             </BetButton>
           ))}
+        </Row>
+        <Spacer y={3} />
+        <Row justify="center">
+          <motion.div
+            animate={
+              isResetDisplayed
+                ? { opacity: 1, scale: 1, display: "block" }
+                : {
+                    opacity: 0,
+                    scale: 0,
+                    transitionEnd: {
+                      display: "none",
+                    },
+                  }
+            }
+          >
+            <Button bordered onClick={() => setBetState(100)}>
+              Reset
+            </Button>
+          </motion.div>
         </Row>
       </div>
       <Row justify="flex-end">
