@@ -131,7 +131,7 @@ export const PerformanceWidget: React.FunctionComponent<
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.2 }}
             style={{
-              position: "absolute",
+              position: "fixed",
               bottom: "2rem",
               right: "2rem",
               zIndex: 9999,
