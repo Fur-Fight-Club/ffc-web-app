@@ -3,9 +3,7 @@
 import CardList from "@components/CardList";
 import Input from "@components/UI/Input/Input";
 import { Button, Grid, Row, Spacer } from "@nextui-org/react";
-import { format } from "date-fns";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Arena } from "src/store/arenas/arenas.model";
@@ -23,13 +21,23 @@ type Step2Props = {};
 
 const Step2 = (props: Step2Props) => {
   const dispatch = useDispatch();
-  const router = useRouter();
 
-  const { monster, step, arena, bet, date } = useSelector(createMatchFormState);
+  const { arena, date } = useSelector(createMatchFormState);
   const { data: arenas, refetch } = useGetArenasQuery();
 
-  const currentDate = new Date();
-  const formattedCurrentDate = format(currentDate, "yyyy-MM-dd");
+  const currentDate = new Date().toISOString().slice(0, 16);
+  const [inputValue, setInputValue] = useState<any>(currentDate);
+  const minDate = new Date().toISOString().slice(0, 16);
+
+  const inputChangeHandler = (e: any) => {
+    setInputValue(e.target.value);
+    dispatch(SetDateCreateForm(e.target.value));
+  };
+
+  const clearInputHandler = () => {
+    setInputValue(null);
+    dispatch(SetDateCreateForm(null));
+  };
 
   const handleOnClick = (selectedArena: Arena) => {
     arena?.id === selectedArena.id
@@ -46,7 +54,17 @@ const Step2 = (props: Step2Props) => {
     toast.success("Arène sélectionnée");
   };
 
-  const canGoToNextStep = !!(arena && date);
+  const canGoToNextStep = () => {
+    if (!arena) {
+      return false;
+    }
+
+    if (!date) {
+      return false;
+    }
+
+    return true;
+  };
 
   useEffect(() => {
     refetch();
@@ -77,12 +95,13 @@ const Step2 = (props: Step2Props) => {
             <div className={styles.dateContainer}>
               <Input
                 type="datetime-local"
-                min={formattedCurrentDate}
-                value={new Date().toISOString().slice(0, 16)}
-                onChange={(e) =>
-                  dispatch(SetDateCreateForm(new Date(e.target.value)))
-                }
+                min={minDate}
+                value={inputValue}
+                onChange={inputChangeHandler}
+                clearable
+                onClearClick={clearInputHandler}
               />
+              <div>{inputValue}</div>
             </div>
           </div>
         </Grid>
@@ -100,7 +119,7 @@ const Step2 = (props: Step2Props) => {
         </Button>
         <Spacer x={0.5} />
         <Button
-          {...(!canGoToNextStep && { disabled: true })}
+          {...(!canGoToNextStep() && { disabled: true })}
           onClick={handleNextStep}
         >
           Suivant
