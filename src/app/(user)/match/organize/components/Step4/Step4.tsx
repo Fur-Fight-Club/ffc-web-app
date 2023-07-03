@@ -15,7 +15,7 @@ const Step4 = (props: Step4Props) => {
   const { monster, step, arena, bet, date } = useSelector(createMatchFormState);
 
   const handleNextStep = () => {
-    // TODO : Go to payment page
+    dispatch(setStepCreateForm(4));
   };
 
   const handleStepBack = () => {

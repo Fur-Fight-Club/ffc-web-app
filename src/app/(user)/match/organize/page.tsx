@@ -7,6 +7,7 @@ import Step1 from "./components/Step1";
 import Step2 from "./components/Step2";
 import Step3 from "./components/Step3/Step3";
 import Step4 from "./components/Step4/Step4";
+import Step5 from "./components/Step5/Step5";
 
 type OrganizeMatchPageProps = {};
 
@@ -50,6 +51,8 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
         return <Step3 />;
       case 3:
         return <Step4 />;
+      case 4:
+        return <Step5 />;
       default:
         return <div>default steps forms</div>;
     }
