@@ -308,7 +308,11 @@ export default function MatchPage({ params }: { params: { id: string } }) {
               height: "48%",
             }}
           >
-            <Card.Body>
+            <Card.Body
+              css={{
+                p: 0,
+              }}
+            >
               <Card.Image
                 src={data?.Arena.picture ?? ""}
                 width="100%"
