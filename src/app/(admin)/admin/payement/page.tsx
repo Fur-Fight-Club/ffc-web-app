@@ -1,6 +1,6 @@
 "use client";
 
-import { convertTokenToAmount } from "@utils/utils";
+import { convertMoneyToCredits } from "@utils/utils";
 import {
   TransactionTag,
   TransactionType,
@@ -43,10 +43,6 @@ export default function ArenaAdmin() {
   );
 
   useEffect(() => {
-    console.log(allPayementData);
-  }, []);
-
-  useEffect(() => {
     if (allPayementData) {
       const payementIn = allPayementData.filter(
         (payement: TransactionSpecial) => payement.type === "IN"
@@ -71,7 +67,6 @@ export default function ArenaAdmin() {
   const columnsOUT = [
     { name: "ID", uid: "id" },
     { name: "TAG", uid: "tag" },
-    { name: "JETONS", uid: "token" },
     { name: "MONTANT", uid: "euro" },
     { name: "Utilisateur", uid: "user" },
   ];
@@ -98,16 +93,11 @@ export default function ArenaAdmin() {
             {transaction?.tag}
           </Text>
         );
-      case "token":
-        return (
-          <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
-            {transaction?.amount.toFixed(0)}
-          </Text>
-        );
+
       case "euro":
         return (
           <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
-            {convertTokenToAmount(transaction?.amount)} €
+            {(transaction?.amount / 100).toFixed(0)} €
           </Text>
         );
       case "user":
@@ -136,13 +126,13 @@ export default function ArenaAdmin() {
       case "amount":
         return (
           <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
-            {transaction?.amount.toFixed(0)}
+            {convertMoneyToCredits(transaction?.amount / 100)}
           </Text>
         );
       case "euro":
         return (
           <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
-            {convertTokenToAmount(transaction?.amount)} €
+            {transaction?.amount / 100} €
           </Text>
         );
       case "user":

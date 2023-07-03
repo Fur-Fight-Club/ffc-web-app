@@ -229,3 +229,72 @@ export const countUserRole = (users: UserModel[]): number => {
   });
   return count;
 };
+
+export enum CreditsPacks {
+  PACK_1 = "475",
+  PACK_2 = "1000",
+  PACK_3 = "2050",
+  PACK_4 = "3650",
+  PACK_5 = "5350",
+  PACK_6 = "11000",
+}
+
+export const exchangeRate = 100 / 11500;
+
+export const exchangeFees = 0.15;
+
+export const MoneyToCredits = {
+  5: CreditsPacks.PACK_1,
+  10: CreditsPacks.PACK_2,
+  20: CreditsPacks.PACK_3,
+  35: CreditsPacks.PACK_4,
+  50: CreditsPacks.PACK_5,
+  100: CreditsPacks.PACK_6,
+};
+
+export const CreditsToMoney = {
+  [CreditsPacks.PACK_1]: 5,
+  [CreditsPacks.PACK_2]: 10,
+  [CreditsPacks.PACK_3]: 20,
+  [CreditsPacks.PACK_4]: 35,
+  [CreditsPacks.PACK_5]: 50,
+  [CreditsPacks.PACK_6]: 100,
+};
+
+export const convertCreditsToMoney = (credits: number): number => {
+  switch (credits) {
+    case 475:
+      return 5;
+    case 1000:
+      return 10;
+    case 2050:
+      return 20;
+    case 3650:
+      return 35;
+    case 5350:
+      return 50;
+    case 11000:
+      return 100;
+    default:
+      return 0;
+  }
+};
+
+export const convertMoneyToCredits = (money: number): number => {
+  switch (money) {
+    case 5:
+      return 475;
+    case 10:
+      return 1000;
+    case 20:
+      return 2050;
+    case 35:
+      return 3650;
+    case 50:
+      return 5350;
+    case 100:
+      return 11000;
+    default:
+      return 0;
+  }
+};
