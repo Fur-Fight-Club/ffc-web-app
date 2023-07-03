@@ -14,7 +14,7 @@ import {
   Modal,
 } from "@nextui-org/react";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   useCloseMatchMutation,
   useGetMatchQuery,
@@ -29,10 +29,13 @@ import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { toast } from "react-hot-toast";
 import { match } from "assert";
+import { useSocketEvents } from "src/hooks/socket.hook";
 
 export default function MatchPage({ params }: { params: { id: string } }) {
+  const { matchServerUpdate } = useSocketEvents();
   const { user } = useSelector(applicationState);
   const { data, refetch } = useGetMatchQuery(+params.id ?? -1);
+
   const [monster1Bets, setMonster1Bets] = useState(0);
   const [monster2Bets, setMonster2Bets] = useState(0);
 
@@ -89,7 +92,7 @@ export default function MatchPage({ params }: { params: { id: string } }) {
     refetch();
     handleScrollToBottom();
     setEndMatchModalVisible(false);
-  }, [params.id, isMatchClosed]);
+  }, [params.id, isMatchClosed, matchServerUpdate]);
 
   return (
     <Grid.Container
