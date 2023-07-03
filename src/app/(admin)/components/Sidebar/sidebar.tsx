@@ -154,7 +154,7 @@ export const SidebarAdmin = () => {
 
           <MenuItem
             icon={<House size={25} color="#e0dfdb" weight="light" />}
-            onClick={handleLogout}
+            onClick={() => router.push("/")}
           >
             Retour page d'accueil
           </MenuItem>
