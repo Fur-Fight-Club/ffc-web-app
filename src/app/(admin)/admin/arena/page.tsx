@@ -20,10 +20,6 @@ export default function ArenaAdmin() {
   const [arenaDeleteMutation, { isSuccess }] = useDeleteArenaMutation();
   const { data, refetch } = useGetArenasQuery();
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const [visibleModal, setVisibleModal] = useState(false);
   const [visibleModalPicture, setVisibleModalPicture] = useState(false);
 
