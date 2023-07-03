@@ -101,7 +101,6 @@ const Step2 = (props: Step2Props) => {
                 clearable
                 onClearClick={clearInputHandler}
               />
-              <div>{inputValue}</div>
             </div>
           </div>
         </Grid>
