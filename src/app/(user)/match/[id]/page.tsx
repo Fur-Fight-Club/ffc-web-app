@@ -1,34 +1,33 @@
 "use client";
 
+import { Button } from "@components/UI/Button/Button.component";
 import {
   Card,
   Col,
   Grid,
   Input,
   Loading,
+  Modal,
+  Button as NUIButton,
   Row,
   Spacer,
   Table,
   Text,
-  Button as NUIButton,
-  Modal,
 } from "@nextui-org/react";
+import { PaperPlaneTilt } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { applicationState } from "src/store/application/selector";
 import {
   useCloseMatchMutation,
   useGetMatchQuery,
   useSendMessageMutation,
 } from "src/store/matches/slice";
-import styles from "./page.module.scss";
-import { MonsterDisplay } from "../components/CardLoader/MonsterDisplay";
-import { Button } from "@components/UI/Button/Button.component";
-import { PaperPlaneTilt } from "@phosphor-icons/react";
 import { MessageItem } from "../components/CardLoader/MessageItem";
-import { useSelector } from "react-redux";
-import { applicationState } from "src/store/application/selector";
-import { toast } from "react-hot-toast";
-import { match } from "assert";
+import { MonsterDisplay } from "../components/CardLoader/MonsterDisplay";
+import styles from "./page.module.scss";
 
 export default function MatchPage({ params }: { params: { id: string } }) {
   const { user } = useSelector(applicationState);
@@ -248,7 +247,7 @@ export default function MatchPage({ params }: { params: { id: string } }) {
                     </Table.Header>
                     <Table.Body>
                       {data?.Transaction.map((transaction) => (
-                        <Table.Row>
+                        <Table.Row key={transaction.Monster.name}>
                           <Table.Cell>
                             {transaction.monsterId === data.Monster1.id
                               ? data.Monster1.name
