@@ -22,6 +22,7 @@ import NumberScroller from "number-scroller";
 import { Coins } from "@phosphor-icons/react";
 import { usePlaceBetMutation } from "src/store/matches/slice";
 import { useEffect } from "react";
+import { useMotionValue, useTransform, animate, motion } from "framer-motion";
 
 interface MonsterDisplayProps {
   monster?: Monster;
@@ -60,8 +61,14 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
     }
   }, [isBettingSuccess]);
 
-  console.log({ winner, monster });
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, Math.round);
 
+  useEffect(() => {
+    const animation = animate(count, totalBets, { duration: 3 });
+
+    return animation.stop;
+  }, [totalBets]);
   return (
     <div
       style={{
@@ -78,7 +85,7 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
         paddingTop: "2rem",
         paddingBottom: "2rem",
         boxShadow:
-          winner === undefined
+          winner === null
             ? "none"
             : winner === monster?.id
             ? "0px 0px 15px 0px rgba(0,151,40,0.5)"
@@ -124,18 +131,14 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
       <Spacer y={1} />
       <Badge size={"lg"} color={"warning"}>
         Mise totale :{" "}
-        <NumberScroller
-          to={totalBets}
-          step={
-            totalBets >= 100000000
-              ? 100000
-              : totalBets >= 100000
-              ? 1000
-              : totalBets >= 10000
-              ? 100
-              : 10
-          }
-        />{" "}
+        <motion.div
+          style={{
+            marginLeft: "0.25rem",
+            marginRight: "0.25rem",
+          }}
+        >
+          {rounded}
+        </motion.div>{" "}
         jetons
       </Badge>
       <Spacer y={1} />
