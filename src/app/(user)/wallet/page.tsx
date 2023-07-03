@@ -1,8 +1,6 @@
 "use client";
 
 import { Card, Col, Row, Spacer, Table, Text } from "@nextui-org/react";
-import colors from "@styles/_colors.module.scss";
-import KpiCard from "./components/KpiCard/KpiCard";
 import MyBalance from "./components/MyBalance/MyBalance";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
