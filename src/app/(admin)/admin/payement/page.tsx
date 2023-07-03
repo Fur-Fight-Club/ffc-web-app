@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useGetAllPayementQuery } from "src/store/payments/slice";
 
 import { Button, Row, Spacer, Table, Text } from "@nextui-org/react";
+import { FileArrowDown } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 
 export default function ArenaAdmin() {
@@ -27,6 +28,9 @@ export default function ArenaAdmin() {
         lastname: string;
       };
     };
+    Invoice: {
+      url: string;
+    };
   };
 
   const [selectedPart, setSelectedPart] = useState<number>(1);
@@ -37,6 +41,10 @@ export default function ArenaAdmin() {
   const [payementOutData, setPayementOutData] = useState<TransactionSpecial[]>(
     []
   );
+
+  useEffect(() => {
+    console.log(allPayementData);
+  }, []);
 
   useEffect(() => {
     if (allPayementData) {
@@ -71,9 +79,10 @@ export default function ArenaAdmin() {
   const columnsIN = [
     { name: "ID", uid: "id" },
     { name: "TAG", uid: "tag" },
-    { name: "MONTANT", uid: "amount" },
+    { name: "JETON", uid: "amount" },
     { name: "MONTANT", uid: "euro" },
     { name: "Utilisateur", uid: "user" },
+    { name: "Facture", uid: "invoice" },
   ];
 
   const renderCellOUT = (
@@ -124,7 +133,7 @@ export default function ArenaAdmin() {
             {transaction?.tag}
           </Text>
         );
-      case "token":
+      case "amount":
         return (
           <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
             {transaction?.amount.toFixed(0)}
@@ -141,6 +150,14 @@ export default function ArenaAdmin() {
           <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
             {transaction?.Wallet?.User?.firstname}{" "}
             {transaction?.Wallet?.User?.lastname}
+          </Text>
+        );
+      case "invoice":
+        return (
+          <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
+            <a href={transaction?.Invoice?.url} target="_blank">
+              <FileArrowDown size={32} color="#f14e09" weight="light" />
+            </a>
           </Text>
         );
     }
@@ -190,7 +207,7 @@ export default function ArenaAdmin() {
             }}
             selectionMode="none"
           >
-            <Table.Header columns={columnsOUT}>
+            <Table.Header columns={columnsIN}>
               {(column) => (
                 <Table.Column
                   key={column.uid}
