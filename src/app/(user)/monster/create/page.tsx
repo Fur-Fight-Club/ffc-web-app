@@ -2,7 +2,6 @@
 
 import MonsterCardCreate from "@components/MonsterCardDetails";
 import { Button } from "@components/UI/Button/Button.component";
-import Divider from "@components/UI/Divider";
 import { Col, Input, Row, Spacer, Text } from "@nextui-org/react";
 import {
   convertApiTypeToType,
@@ -18,7 +17,6 @@ import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { useCreateMonsterMutation } from "src/store/monsters/slice";
-import MonsterCardDetails from "../../match/organize/components/MonsterCardDetails/MonsterCardDetails";
 
 export default function CreateMonster() {
   const { user } = useSelector(applicationState);

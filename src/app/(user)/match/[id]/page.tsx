@@ -16,22 +16,24 @@ import {
 } from "@nextui-org/react";
 import { PaperPlaneTilt } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
-import { useSelector } from "react-redux";
-import { applicationState } from "src/store/application/selector";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   useCloseMatchMutation,
   useGetMatchQuery,
   useSendMessageMutation,
 } from "src/store/matches/slice";
 import { MessageItem } from "../components/CardLoader/MessageItem";
-import { MonsterDisplay } from "../components/CardLoader/MonsterDisplay";
-import styles from "./page.module.scss";
+import { useSelector } from "react-redux";
+import { applicationState } from "src/store/application/selector";
+import { toast } from "react-hot-toast";
+import { match } from "assert";
+import { useSocketEvents } from "src/hooks/socket.hook";
 
 export default function MatchPage({ params }: { params: { id: string } }) {
+  const { matchServerUpdate } = useSocketEvents();
   const { user } = useSelector(applicationState);
   const { data, refetch } = useGetMatchQuery(+params.id ?? -1);
+
   const [monster1Bets, setMonster1Bets] = useState(0);
   const [monster2Bets, setMonster2Bets] = useState(0);
 
@@ -88,7 +90,7 @@ export default function MatchPage({ params }: { params: { id: string } }) {
     refetch();
     handleScrollToBottom();
     setEndMatchModalVisible(false);
-  }, [params.id, isMatchClosed]);
+  }, [params.id, isMatchClosed, matchServerUpdate]);
 
   return (
     <Grid.Container

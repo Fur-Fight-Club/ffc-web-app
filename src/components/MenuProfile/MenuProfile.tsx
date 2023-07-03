@@ -1,20 +1,30 @@
 "use client";
 
-import { Card, Input, Modal, Row, Spacer, Text } from "@nextui-org/react";
+import { Card, Row, Text } from "@nextui-org/react";
 import colors from "@styles/_colors.module.scss";
 import { Button } from "@components/UI/Button/Button.component";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { CaretRight } from "@phosphor-icons/react";
+import { useDispatch } from "react-redux";
+import { logout } from "src/store/application/slice";
 
 type MenuProfileProps = {};
 
 const MenuProfile = ({}: MenuProfileProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const dispatch = useDispatch();
 
   const isInUrl = (path: string) => {
     return pathname.includes(path);
+  };
+
+  const handleLogout = () => {
+    router.push("/");
+    setTimeout(() => {
+      dispatch(logout());
+    }, 500);
   };
 
   const pasth = [
@@ -59,7 +69,9 @@ const MenuProfile = ({}: MenuProfileProps) => {
       <Card.Divider />
       <Card.Footer>
         <Row align="flex-end" justify="flex-end" css={{ m: "$5" }}>
-          <Button auto>Se déconnecter</Button>
+          <Button auto onClick={handleLogout}>
+            Se déconnecter
+          </Button>
         </Row>
       </Card.Footer>
     </Card>
