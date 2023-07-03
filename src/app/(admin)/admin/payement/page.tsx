@@ -64,17 +64,18 @@ export default function ArenaAdmin() {
     setSelectedPart(number);
   };
 
-  const columnsOUT = [
-    { name: "ID", uid: "id" },
-    { name: "TAG", uid: "tag" },
-    { name: "MONTANT", uid: "euro" },
-    { name: "Utilisateur", uid: "user" },
-  ];
-
   const columnsIN = [
     { name: "ID", uid: "id" },
     { name: "TAG", uid: "tag" },
     { name: "JETON", uid: "amount" },
+    { name: "MONTANT", uid: "euro" },
+    { name: "Utilisateur", uid: "user" },
+    { name: "Facture", uid: "invoice" },
+  ];
+
+  const columnsOUT = [
+    { name: "ID", uid: "id" },
+    { name: "TAG", uid: "tag" },
     { name: "MONTANT", uid: "euro" },
     { name: "Utilisateur", uid: "user" },
     { name: "Facture", uid: "invoice" },
@@ -105,6 +106,14 @@ export default function ArenaAdmin() {
           <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
             {transaction?.Wallet?.User?.firstname}{" "}
             {transaction?.Wallet?.User?.lastname}
+          </Text>
+        );
+      case "invoice":
+        return (
+          <Text b size={13} css={{ tt: "capitalize", color: "$accents7" }}>
+            <a href={transaction?.Invoice?.url} target="_blank">
+              <FileArrowDown size={32} color="#f14e09" weight="light" />
+            </a>
           </Text>
         );
     }
