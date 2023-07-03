@@ -21,7 +21,7 @@ export const KpiAdminCard = ({
   const rounded = useTransform(count, Math.round);
 
   useEffect(() => {
-    const animation = animate(count, amount, { duration: 1.3 });
+    const animation = animate(count, amount, { duration: 3.5 });
 
     return animation.stop;
   }, [amount]);

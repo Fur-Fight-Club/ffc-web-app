@@ -3,21 +3,29 @@
 import { IconButton } from "@components/IconButton";
 import { Button } from "@components/UI/Button/Button.component";
 import { Col, Row, Spacer, Table, Text, Tooltip } from "@nextui-org/react";
-import { Trash } from "@phosphor-icons/react";
+import { ImageSquare, Trash } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
+import { Arena } from "src/store/arenas/arenas.model";
 import {
   useDeleteArenaMutation,
   useGetArenasQuery,
 } from "src/store/arenas/slice";
 import { ModalCreateArena } from "./components/modalCreateArena";
+import { ModalShowImageArena } from "./components/modalShowPictureArena";
 
 export default function ArenaAdmin() {
   const [arenas, setArenas] = useState([]);
+  const [pictureSelected, setPictureSelected] = useState<Arena["picture"]>();
 
   const [arenaDeleteMutation, { isSuccess }] = useDeleteArenaMutation();
   const { data, refetch } = useGetArenasQuery();
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   const [visibleModal, setVisibleModal] = useState(false);
+  const [visibleModalPicture, setVisibleModalPicture] = useState(false);
 
   const handleModal = () => {
     setVisibleModal(true);
@@ -25,6 +33,19 @@ export default function ArenaAdmin() {
 
   const closeModal = () => {
     setVisibleModal(false);
+  };
+
+  const handlePictureSelected = (picture: Arena["picture"]) => {
+    setPictureSelected(picture);
+  };
+
+  const handleModalPicture = (picture: Arena["picture"]) => {
+    setPictureSelected(picture);
+    setVisibleModalPicture(true);
+  };
+
+  const closeModalPicture = () => {
+    setVisibleModalPicture(false);
   };
 
   const onDelete = (id: string) => {
@@ -72,21 +93,13 @@ export default function ArenaAdmin() {
       case "actions":
         return (
           <Row justify="center" align="center">
-            {/* <Col css={{ d: "flex" }}>
-              <Tooltip content="Voir les monstres">
-                <IconButton onClick={() => console.log("hello")}>
-                  <PawPrint size={20} color="#889096" weight="fill" />
-                </IconButton>
-              </Tooltip>
-            </Col> */}
-            {/* <Col css={{ d: "flex" }}>
-              <Tooltip content="Editer">
-                <IconButton onClick={() => console.log("hello")}>
-                  <Pencil size={20} color="#889096" weight="fill" />
-                </IconButton>
-              </Tooltip>
-            </Col> */}
             <Col css={{ d: "flex" }}>
+              <Tooltip content="Voir l'image">
+                <IconButton onClick={() => handleModalPicture(arena.picture)}>
+                  <ImageSquare size={20} color="#889096" weight="light" />
+                </IconButton>
+              </Tooltip>
+              <Spacer x={0.3} />
               <Tooltip content="Supprimer">
                 <IconButton onClick={() => onDelete(arena.id)}>
                   <Trash size={20} color="#889096" weight="fill" />
@@ -146,6 +159,11 @@ export default function ArenaAdmin() {
         visible={visibleModal}
         closeHandler={closeModal}
         refetch={refetch}
+      />
+      <ModalShowImageArena
+        visible={visibleModalPicture}
+        closeHandler={closeModalPicture}
+        picture={pictureSelected}
       />
     </>
   );
