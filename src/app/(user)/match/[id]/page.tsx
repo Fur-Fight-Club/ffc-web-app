@@ -377,7 +377,7 @@ export default function MatchPage({ params }: { params: { id: string } }) {
               ref={messagesRef}
             >
               {data?.MatchMessage.map((message) => (
-                <MessageItem message={message} />
+                <MessageItem message={message} key={message.id} />
               ))}
               <Spacer y={2.5} />
             </Card.Body>
