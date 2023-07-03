@@ -1,5 +1,7 @@
 "use client";
 
+import { format } from "date-fns";
+import fr from "date-fns/locale/fr";
 import { Card, Col, Row, Text, Table } from "@nextui-org/react";
 import colors from "@styles/_colors.module.scss";
 import Image from "next/image";
@@ -10,7 +12,7 @@ import {
 } from "./utils";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
-import { Flame } from "@phosphor-icons/react";
+import { DownloadSimple } from "@phosphor-icons/react";
 
 type TransactionHistoryTableProps = {};
 
@@ -21,74 +23,9 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
     { name: "", uid: "type" },
     { name: "Type de transaction", uid: "tag" },
     { name: "Montant", uid: "amount" },
-    { name: "Match", uid: "matchId" },
-    { name: "Monstre", uid: "monsterId" },
+    { name: "Date", uid: "created_at" },
+    { name: "Facture", uid: "Invoice.url" },
   ];
-
-  const renderCell = (transaction: any, columnKey: React.Key) => {
-    const cellValue = transaction[columnKey];
-    switch (columnKey) {
-      case "type":
-        return (
-          <Col>
-            <Image
-              src={`/images/${IconTypeTransaction(cellValue)}`}
-              alt={`Image for amount ${cellValue}`}
-              width={20}
-              height={20}
-            />
-          </Col>
-        );
-      case "tag":
-        return (
-          <Col>
-            <Row>
-              <Text b size={14} css={{ tt: "capitalize" }}>
-                {tradTagTransaction(cellValue)}
-              </Text>
-            </Row>
-          </Col>
-        );
-      case "amount":
-        return (
-          <Col>
-            <Row>
-              <Text b size={14} css={{ tt: "capitalize" }}>
-                {cellValue}{" "}
-                <Image
-                  src={`/images/coins/${getImageByAmount(cellValue)}`}
-                  alt={`Image for amount ${cellValue}`}
-                  width={20}
-                  height={20}
-                />
-              </Text>
-            </Row>
-          </Col>
-        );
-      case "matchId":
-        return (
-          (cellValue && (
-            <Col>
-              <Row>
-                <Flame size={20} weight="fill" color={colors.primary} />
-              </Row>
-            </Col>
-          )) || <Col></Col>
-        );
-      case "monsterId":
-        return (
-          <Col>
-            <Row>
-              <Text b size={14} css={{ tt: "capitalize" }}>
-                {cellValue}
-              </Text>
-            </Row>
-          </Col>
-        );
-      default:
-        return cellValue;
-    }
-  };
 
   return (
     <Card>
@@ -122,9 +59,70 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
             >
               {(item) => (
                 <Table.Row>
-                  {(columnKey) => (
-                    <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-                  )}
+                  <Table.Cell>
+                    <Col>
+                      <Image
+                        src={`/images/${IconTypeTransaction(item?.type)}`}
+                        alt={`Image for amount ${item?.type}`}
+                        width={20}
+                        height={20}
+                      />
+                    </Col>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Col>
+                      <Row>
+                        <Text b size={14} css={{ tt: "capitalize" }}>
+                          {tradTagTransaction(item?.tag)}
+                        </Text>
+                      </Row>
+                    </Col>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Col>
+                      <Row>
+                        <Text b size={14} css={{ tt: "capitalize" }}>
+                          {/* @ts-ignore */}
+                          {item?.amount}
+                          <Image
+                            width={20}
+                            height={20}
+                            src={`/images/coins/${getImageByAmount(
+                              // @ts-ignore
+                              item?.amount
+                            )}`}
+                            /* @ts-ignore */
+                            alt={`Image for amount ${item?.amount}`}
+                          />
+                        </Text>
+                      </Row>
+                    </Col>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Col>
+                      <Col>
+                        <Row>
+                          {/* @ts-ignore */}
+                          {format(new Date(item?.createdAt), "dd/MM/yyyy", {
+                            locale: fr,
+                          })}
+                        </Row>
+                      </Col>
+                    </Col>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Col>
+                      <Row>
+                        <Col>
+                          <Row>
+                            <a href={item?.Invoice?.url}>
+                              <DownloadSimple color={colors.primary} />
+                            </a>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Table.Cell>
                 </Table.Row>
               )}
             </Table.Body>

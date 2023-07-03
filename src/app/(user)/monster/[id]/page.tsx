@@ -32,7 +32,6 @@ export default function CreateMonster({ params }: { params: { id: number } }) {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setIdMonster(data.id);
       setName(data.name);
       setWeight(data.weight);
@@ -134,7 +133,7 @@ export default function CreateMonster({ params }: { params: { id: number } }) {
           <Col>
             <Text>Type de votre monstre :</Text>
             <Select
-              defaultValue={convertApiTypeToType(monster.monster_type)}
+              value={convertApiTypeToType(monster.monster_type)}
               style={{ width: 260 }}
               onChange={(e) => setMonster_type(e)}
               options={monsterType.map((type) => ({
@@ -147,7 +146,7 @@ export default function CreateMonster({ params }: { params: { id: number } }) {
           <Col>
             <Text>Categorie de votre monstre :</Text>
             <Select
-              defaultValue={{ weight_category }}
+              value={weight_category}
               style={{ width: 300 }}
               onChange={(e) => setWeight_category(e)}
               options={weightCategories.map((type) => ({
