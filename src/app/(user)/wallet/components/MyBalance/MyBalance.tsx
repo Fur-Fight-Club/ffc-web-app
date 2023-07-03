@@ -52,7 +52,7 @@ const MyBalance = ({ fiat, amount }: MyBalanceProps) => {
       </Row>
       <Row justify="center" align="center">
         <Text h5 size={"$6xl"} style={{ letterSpacing: "0.5rem" }}>
-          {amount}{" "}
+          {amount.toFixed(0)}{" "}
         </Text>
         <Spacer x={0.2} />
         <Image
