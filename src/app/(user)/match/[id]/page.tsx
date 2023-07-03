@@ -27,7 +27,6 @@ import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { toast } from "react-hot-toast";
 import { match } from "assert";
-import { useSocketEvents } from "src/hooks/socket.hook";
 import styles from "./page.module.scss";
 import { MonsterDisplay } from "../components/CardLoader/MonsterDisplay";
 import { SocketContext } from "src/contexts/socket.context";
