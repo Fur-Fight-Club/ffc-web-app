@@ -56,6 +56,7 @@ export interface MatchFormState {
   step: number;
   monster: Monster | null;
   arena: Arena | null;
+  date: Date | null;
 }
 
 export interface CreateMatchForm extends MatchFormState {

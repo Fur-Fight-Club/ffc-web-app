@@ -18,9 +18,7 @@ const MonsterCardPreview = ({ monster }: MonsterCardPreviewProps) => {
           size={"$lg"}
           css={{ textAlign: "center" }}
           color={colors.primaryT300}
-        >
-          Combattant sélectionné
-        </Text>
+        ></Text>
         <div className={styles.monterCardPreviewEmpty}></div>
       </>
     );
