@@ -23,6 +23,7 @@ import { Coins } from "@phosphor-icons/react";
 import { usePlaceBetMutation } from "src/store/matches/slice";
 import { useEffect } from "react";
 import { useMotionValue, useTransform, animate, motion } from "framer-motion";
+import { SocketContext } from "src/contexts/socket.context";
 
 interface MonsterDisplayProps {
   monster?: Monster;
@@ -46,6 +47,8 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
   const [placeBet, { isSuccess: isBettingSuccess }] = usePlaceBetMutation();
   const { isDark } = useTheme();
 
+  const socket = React.useContext(SocketContext);
+
   const handleBet = () => {
     setModalVisible(false);
     placeBet({
@@ -58,6 +61,7 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
   useEffect(() => {
     if (isBettingSuccess) {
       refetch();
+      socket.emit("match", { update: true });
     }
   }, [isBettingSuccess]);
 

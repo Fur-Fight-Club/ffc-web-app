@@ -28,9 +28,13 @@ import { applicationState } from "src/store/application/selector";
 import { toast } from "react-hot-toast";
 import { match } from "assert";
 import { useSocketEvents } from "src/hooks/socket.hook";
+import styles from "./page.module.scss";
+import { MonsterDisplay } from "../components/CardLoader/MonsterDisplay";
+import { SocketContext } from "src/contexts/socket.context";
 
 export default function MatchPage({ params }: { params: { id: string } }) {
-  const { matchServerUpdate } = useSocketEvents();
+  //const { matchServerUpdate, emit } = useSocketEvents();
+  const socket = useContext(SocketContext);
   const { user } = useSelector(applicationState);
   const { data, refetch } = useGetMatchQuery(+params.id ?? -1);
 
@@ -62,6 +66,7 @@ export default function MatchPage({ params }: { params: { id: string } }) {
     if (isMessageSent) {
       setMessage("");
       refetch();
+      socket.emit("match", { update: true });
     }
   }, [isMessageSent]);
 
@@ -88,9 +93,20 @@ export default function MatchPage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     refetch();
+    socket.emit("match", { update: true });
     handleScrollToBottom();
     setEndMatchModalVisible(false);
-  }, [params.id, isMatchClosed, matchServerUpdate]);
+  }, [params.id, isMatchClosed]);
+
+  useEffect(() => {
+    socket.on("match-server-response", (data: any) => {
+      refetch();
+    });
+
+    return () => {
+      socket.off("match-server-response");
+    };
+  }, []);
 
   return (
     <Grid.Container
@@ -248,8 +264,8 @@ export default function MatchPage({ params }: { params: { id: string } }) {
                       <Table.Column>Parieur</Table.Column>
                     </Table.Header>
                     <Table.Body>
-                      {data?.Transaction.map((transaction) => (
-                        <Table.Row key={transaction.Monster.name}>
+                      {data?.Transaction.map((transaction, index) => (
+                        <Table.Row key={index}>
                           <Table.Cell>
                             {transaction.monsterId === data.Monster1.id
                               ? data.Monster1.name
