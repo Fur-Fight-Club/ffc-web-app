@@ -1,6 +1,6 @@
 "use client";
 
-import MonsterCardCreate from "@components/MonsterCardCreate";
+import MonsterCardCreate from "@components/MonsterCardDetails";
 import { Button } from "@components/UI/Button/Button.component";
 import Divider from "@components/UI/Divider";
 import { Row, Spacer, Text, Col, Input } from "@nextui-org/react";
@@ -20,6 +20,7 @@ import {
   useGetMonsterByIdQuery,
 } from "src/store/monsters/slice";
 import { useRouter } from "next/navigation";
+import MonsterCardDetails from "@components/MonsterCardDetails/MonsterCardDetails";
 
 export default function CreateMonster({ params }: { params: { id: number } }) {
   const router = useRouter();
@@ -30,28 +31,26 @@ export default function CreateMonster({ params }: { params: { id: number } }) {
   const { data, refetch } = useGetMonsterByIdQuery(id);
 
   useEffect(() => {
-    console.log(data);
-
     if (data) {
+      console.log(data);
       setIdMonster(data.id);
       setName(data.name);
-      setMMR(data.mmr);
       setWeight(data.weight);
       setMonster_type(data.monster_type);
       setWeight_category(data.weight_category);
       setPicture(data.picture);
     }
-  }, []);
+  }, [data]);
   /**
    * STATE
    */
   const [idMonster, setIdMonster] = useState(-1);
   const [name, setName] = useState("");
-  const [MMR, setMMR] = useState(0);
   const [weight, setWeight] = useState(0);
   const [monster_type, setMonster_type] = useState("");
   const [weight_category, setWeight_category] = useState("");
   const [picture, setPicture] = useState<string | undefined>(undefined);
+  const [newPicture, setNewPicture] = useState<string | undefined>(undefined);
 
   const monster = {
     name: name,
@@ -64,14 +63,13 @@ export default function CreateMonster({ params }: { params: { id: number } }) {
   const pictureRef = React.useRef<HTMLInputElement>(null);
   const handleAddPicture = async (file: File) => {
     // Check if file is an image
-
     if (
       !file.type.includes("image") &&
       !["image/png", "image/jpeg", "image/jpg"].includes(file.type)
     ) {
       toast.error("Votre photo n'est pas une image !");
     } else {
-      setPicture(await toBase64(file));
+      setNewPicture(await toBase64(file));
       toast.success(`Votre photo  "${file.name}" est prêt a être envoyé`);
     }
   };
@@ -100,7 +98,7 @@ export default function CreateMonster({ params }: { params: { id: number } }) {
       // @ts-ignore
       weight_category,
       // @ts-ignore
-      // picture,
+      newPicture,
       fk_user: user.id ?? -1,
     });
     router.push("monster");
@@ -149,7 +147,7 @@ export default function CreateMonster({ params }: { params: { id: number } }) {
           <Col>
             <Text>Categorie de votre monstre :</Text>
             <Select
-              defaultValue={monster.weight_category}
+              defaultValue={{ weight_category }}
               style={{ width: 300 }}
               onChange={(e) => setWeight_category(e)}
               options={weightCategories.map((type) => ({
@@ -160,7 +158,7 @@ export default function CreateMonster({ params }: { params: { id: number } }) {
           </Col>
         </Row>
         <Spacer y={1.5} />
-        {/* <Text>Ajouter une image à votre monstre :</Text>
+        <Text>Ajouter une image à votre monstre :</Text>
         <Spacer y={0.5} />
         <Button onPress={() => pictureRef.current?.click()}>
           {monster.picture ? "Changer l'image" : "Ajouter une image"}
@@ -177,14 +175,15 @@ export default function CreateMonster({ params }: { params: { id: number } }) {
             }
           }}
         />
-        <Spacer y={1.5} /> */}
+        <Spacer y={1.5} />
         <Button analyticsId="createMonster-button" onPress={handleAddMonster}>
           Modifier votre monstre
         </Button>
         <Spacer y={3} />
       </div>
       <div className={styles.imgPanel}>
-        <MonsterCardCreate monster={monster} />
+        {/* @ts-ignore */}
+        <MonsterCardDetails monster={monster} />
       </div>
     </div>
   );

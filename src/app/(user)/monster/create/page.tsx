@@ -1,6 +1,6 @@
 "use client";
 
-import MonsterCardCreate from "@components/MonsterCardCreate";
+import MonsterCardCreate from "@components/MonsterCardDetails";
 import { Button } from "@components/UI/Button/Button.component";
 import Divider from "@components/UI/Divider";
 import { Col, Input, Row, Spacer, Text } from "@nextui-org/react";
@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { useCreateMonsterMutation } from "src/store/monsters/slice";
+import MonsterCardDetails from "../../match/organize/components/MonsterCardDetails/MonsterCardDetails";
 
 export default function CreateMonster() {
   const { user } = useSelector(applicationState);
@@ -103,21 +104,22 @@ export default function CreateMonster() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.formMonster}>
-        <h1>Créer votre monstre</h1>
-        <p>
-          {
-            "Faite combattre votre monstre, parier dessus, et gagner de l'argent"
-          }
-        </p>
-        <Divider />
+    <div>
+      <Row align="center" css={{ m: "$5" }}>
+        <Text h1>Créer votre monstre</Text>
+      </Row>
+      <Row align="center" css={{ m: "$7" }}>
+        <Text>
+          Faite combattre votre monstre, parier dessus, et gagner de l'argent
+        </Text>
+      </Row>
+      <Col span={7} css={{ p: "$15" }}>
         <Input
           value={name}
           onChange={(e) => setName(e.target.value)}
           label="Nom de votre monstre :"
           placeholder="Godzilla"
-          fullWidth
+          width="70%"
         />
         <Spacer y={1.3} />
         <Input
@@ -177,10 +179,11 @@ export default function CreateMonster() {
           Créer votre monstre
         </Button>
         <Spacer y={3} />
-      </div>
-      <div className={styles.imgPanel}>
-        <MonsterCardCreate monster={monster} />
-      </div>
+      </Col>
+      <Col span={5} css={{ p: "$15", height: "70vh" }}>
+        {/* @ts-ignore */}
+        <MonsterCardCreate monster={monster.name == "" ? null : monster} />
+      </Col>
     </div>
   );
 }

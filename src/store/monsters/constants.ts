@@ -10,7 +10,7 @@ export const endpoint = {
   get: "monster",
   getAll: "monster/all",
   create: "monster",
-  getOne: (id: number) => `monster/byId/${id}`,
+  getOne: (id: number) => `monster/${id}`,
   getAllFromOneUser: (id: number) => `monster/userMonster/${id}`,
   patch: (id: number) => `monster/${id}`,
   delete: (id: number) => `monster/${id}`,
