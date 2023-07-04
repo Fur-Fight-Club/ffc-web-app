@@ -11,7 +11,8 @@ import {
   Text,
 } from "@nextui-org/react";
 import { convertApiTypeToType } from "@utils/utils";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { createMatchFormState } from "src/store/matches/selector";
@@ -34,6 +35,16 @@ const Step4 = (props: Step4Props) => {
   const handleStepBack = () => {
     dispatch(setStepCreateForm(2));
   };
+
+  const hasStripeAccount =
+    // @ts-ignore
+    !user?.StripeAccount || !user?.StripeBankAccount || !user?.Wallet;
+
+  useEffect(() => {
+    if (hasStripeAccount) {
+      toast.error("Vous devez avoir un compte Stripe pour créer un match");
+    }
+  }, [hasStripeAccount]);
 
   return (
     <>
