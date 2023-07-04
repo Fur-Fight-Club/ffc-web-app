@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { createMatchFormState } from "src/store/matches/selector";
 import { setStepCreateForm } from "src/store/matches/slice";
+import { walletState } from "src/store/wallet/selector";
 
 type Step4Props = {};
 
@@ -25,11 +26,36 @@ const Step4 = (props: Step4Props) => {
 
   const { monster, step, arena, bet, date } = useSelector(createMatchFormState);
   const { user } = useSelector(applicationState);
+  const { credits } = useSelector(walletState);
 
-  console.log("user 🤷‍♀️", user);
+  const canCreateMatch = () => {
+    if (!monster || !arena || !bet || !date) {
+      toast.error("Une erreur est survenue. Veuillez recommencer.");
+      return false;
+    }
+
+    if (bet > credits) {
+      toast.error(
+        "Vous ne pouvez pas miser plus que ce que vous avez sur votre compte"
+      );
+      return false;
+    }
+
+    if (bet < 100) {
+      toast.error("Vous devez miser au moins 100 jetons");
+      return false;
+    }
+
+    return true;
+  };
 
   const [visible, setVisible] = useState(false);
-  const closeHandler = useCallback(() => setVisible(false), []);
+  const closeHandler = () => {
+    if (!canCreateMatch()) return;
+
+    setVisible(false);
+    dispatch(setStepCreateForm(4));
+  };
   const openHandler = useCallback(() => setVisible(true), []);
 
   const handleStepBack = () => {
