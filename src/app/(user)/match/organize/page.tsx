@@ -8,7 +8,6 @@ import Step2 from "./components/Step2";
 import Step3 from "./components/Step3/Step3";
 import Step4 from "./components/Step4/Step4";
 import Step5 from "./components/Step5/Step5";
-import Step6 from "./components/Step6/Step6";
 
 type OrganizeMatchPageProps = {};
 
@@ -33,9 +32,6 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
           title: "Récapitulatif",
         },
         {
-          title: "Paiement",
-        },
-        {
           title: "Terminé",
         },
       ]}
@@ -54,8 +50,6 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
         return <Step4 />;
       case 4:
         return <Step5 />;
-      case 5:
-        return <Step6 />;
       default:
         return <div>default steps forms</div>;
     }
