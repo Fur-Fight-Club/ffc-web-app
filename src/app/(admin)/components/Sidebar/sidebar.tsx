@@ -127,7 +127,7 @@ export const SidebarAdmin = () => {
           <MenuItem
             component={<Link href="/admin/tournaments" />}
             icon={
-              pathname === "/admin/arena" ? (
+              pathname === "/admin/tournaments" ? (
                 <UsersFour size={25} color="black" weight="fill" />
               ) : (
                 <UsersFour size={25} color="#e0dfdb" weight="light" />
