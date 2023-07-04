@@ -1,6 +1,10 @@
 import { Divider, Row, Spacer, Text } from "@nextui-org/react";
 import colors from "@styles/_colors.module.scss";
-import { convertApiTypeToType } from "@utils/utils";
+import {
+  convertApiTypeToType,
+  convertWeightCategoryToLisibleString,
+  weightCategoryColors,
+} from "@utils/utils";
 import Image from "next/image";
 import styles from "./MonsterCardDetails.module.scss";
 
@@ -31,6 +35,16 @@ const MonsterCardDetails = ({ monster }: MonsterCardDetailsProps) => {
       </div>
     );
   }
+
+  const weightCategories = convertWeightCategoryToLisibleString(
+    //@ts-ignore
+    monster.weight_category
+  );
+
+  const weightColor = weightCategoryColors(
+    //@ts-ignore
+    monster.weight_category
+  );
 
   return (
     <div className={styles.monsterCardDetails}>
@@ -79,9 +93,9 @@ const MonsterCardDetails = ({ monster }: MonsterCardDetailsProps) => {
             {"Catégorie :"}
           </Text>
           <Spacer x={0.5} />
-          <Text size={"$lg"} weight={"medium"}>
+          <Text size={"$lg"} b color={weightColor}>
             {/* @ts-ignore */}
-            {monster.weight_category}
+            {weightCategories}
           </Text>
         </Row>
       </div>

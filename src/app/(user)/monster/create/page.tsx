@@ -2,16 +2,18 @@
 
 import MonsterCardCreate from "@components/MonsterCardDetails";
 import { Button } from "@components/UI/Button/Button.component";
-import { Col, Input, Row, Spacer, Text } from "@nextui-org/react";
+import { Col, Input, Row, Spacer, Text, Tooltip } from "@nextui-org/react";
 import {
   convertApiTypeToType,
+  convertWeightCategoryToLisibleString,
   monsterType,
   weightCategories,
 } from "@utils/utils";
 import React, { useState } from "react";
-import styles from "./page.module.scss";
 
+import { Info } from "@phosphor-icons/react";
 import { Select } from "antd";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -29,7 +31,9 @@ export default function CreateMonster() {
   const [weight, setWeight] = useState(0);
   const [monster_type, setMonster_type] = useState("");
   const [weight_category, setWeight_category] = useState("");
-  const [picture, setPicture] = useState<string | undefined>(undefined);
+  const [picture, setPicture] = useState<string | undefined>(
+    "https://i.imgur.com/LGbVL6s.png"
+  );
 
   const monster = {
     name: name,
@@ -102,33 +106,41 @@ export default function CreateMonster() {
   };
 
   return (
-    <div>
-      <Row align="center" css={{ m: "$5" }}>
-        <Text h1>Créer votre monstre</Text>
-      </Row>
-      <Row align="center" css={{ m: "$7" }}>
-        <Text>
-          Faite combattre votre monstre, parier dessus, et gagner de l'argent
-        </Text>
-      </Row>
-      <Col span={7} css={{ p: "$15" }}>
-        <Input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          label="Nom de votre monstre :"
-          placeholder="Godzilla"
-          width="70%"
-        />
-        <Spacer y={1.3} />
-        <Input
-          value={weight}
-          onChange={(e) => setWeight(Number(e.target.value))}
-          labelRight="KG"
-          placeholder="500"
-        />
-        <Spacer y={1.3} />
+    <div style={{ padding: "25px" }}>
+      <Text h1>Créer votre monstre</Text>
+      <Text>
+        Faite combattre votre monstre, parier dessus, et gagner de l'argent
+      </Text>
+
+      <Spacer y={2.5} />
+
+      <Col span={7}>
         <Row>
-          <Col>
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            label="Nom de votre monstre :"
+            placeholder="Godzilla"
+            width="70%"
+          />
+          <Spacer y={1.3} />
+          <Input
+            value={weight}
+            label="Poids de votre monstre :"
+            onChange={(e) => setWeight(Number(e.target.value))}
+            labelRight="KG"
+            placeholder="1000"
+          />
+        </Row>
+        <Spacer y={1.3} />
+        <Row
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <div>
             <Text>Type de votre monstre :</Text>
             <Select
               defaultValue="Choisir le type de votre monstre"
@@ -139,20 +151,43 @@ export default function CreateMonster() {
                 value: type,
               }))}
             />
-          </Col>
-          <Spacer x={1} />
-          <Col>
-            <Text>Categorie de votre monstre :</Text>
+          </div>
+
+          <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text>Catégorie de votre monstre :</Text>
+
+              <Tooltip
+                content={
+                  <Image
+                    src="https://i.imgur.com/2sp4seC.jpeg"
+                    height={300}
+                    width={1000}
+                    alt="Chonck chart"
+                    style={{ objectFit: "contain" }}
+                  />
+                }
+              >
+                <Info size={25} color="#f14e09" weight="light" />
+              </Tooltip>
+            </div>
             <Select
               defaultValue="Choisir la categorie de votre monstre"
               style={{ width: 300 }}
               onChange={(e) => setWeight_category(e)}
+              value={convertWeightCategoryToLisibleString(weight_category)}
               options={weightCategories.map((type) => ({
-                label: type,
+                label: convertWeightCategoryToLisibleString(type),
                 value: type,
               }))}
             />
-          </Col>
+          </div>
         </Row>
         <Spacer y={1.5} />
         <Text>Ajouter une image à votre monstre :</Text>
@@ -172,15 +207,30 @@ export default function CreateMonster() {
             }
           }}
         />
-        <Spacer y={1.5} />
-        <Button analyticsId="createMonster-button" onPress={handleAddMonster}>
-          Créer votre monstre
-        </Button>
-        <Spacer y={3} />
       </Col>
-      <Col span={5} css={{ p: "$15", height: "70vh" }}>
-        {/* @ts-ignore */}
-        <MonsterCardCreate monster={monster.name == "" ? null : monster} />
+
+      <Col span={5} css={{ pl: "$15", height: "30rem" }}>
+        <Text h3>Prévisualisation de votre monstre</Text>
+
+        <MonsterCardCreate
+          //@ts-ignore
+          monster={
+            monster.name == "" &&
+            monster.weight == 0 &&
+            monster.monster_type == "" &&
+            monster.weight_category == ""
+              ? null
+              : monster
+          }
+        />
+        <Spacer y={1} />
+        <Button
+          analyticsId="createMonster-button"
+          onPress={handleAddMonster}
+          css={{ width: "100%" }}
+        >
+          Créer le monstre !
+        </Button>
       </Col>
     </div>
   );
