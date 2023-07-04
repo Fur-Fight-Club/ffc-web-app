@@ -11,7 +11,7 @@ import {
   SVGViewer,
 } from "@g-loot/react-tournament-brackets";
 import { matchsHelpers } from "../utils/matches.utils";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import {
   Grid,
   Spacer,
@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { useEndRoundMutation } from "src/store/tournament/slice";
+import { SocketContext } from "src/contexts/socket.context";
 
 interface TournamentCardProps {
   tournament: Tournament;
@@ -40,7 +41,15 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
   const { isDark } = useTheme();
   const router = useRouter();
   const { user } = useSelector(applicationState);
-  const [endRound] = useEndRoundMutation();
+  const [endRound, { isSuccess: isSuccessEndRound }] = useEndRoundMutation();
+
+  const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    if (isSuccessEndRound) {
+      socket.emit("match", { update: true });
+    }
+  }, []);
 
   useEffect(() => {
     if (containerRef.current) {
