@@ -143,6 +143,27 @@ export const weightCategories = [
   "OH_LAWD_HE_COMIN",
 ];
 
+export const convertWeightCategoryToLisibleString = (
+  weightCategories: string
+) => {
+  switch (weightCategories) {
+    case "A_FINE_BOI":
+      return "A fine boi";
+    case "HE_CHOMNK":
+      return "He chomnk";
+    case "A_HECKING_CHONKER":
+      return "A hecking chonker";
+    case "HEFTY_CHONK":
+      return "Hefty chonk";
+    case "MEGA_CHONKER":
+      return "Mega chonker";
+    case "OH_LAWD_HE_COMIN":
+      return "Oh lawd he comin";
+    default:
+      return "❓";
+  }
+};
+
 export const monsterType = [
   "ELEMENTARY",
   "FANTASTIC",

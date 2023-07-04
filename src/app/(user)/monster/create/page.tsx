@@ -5,6 +5,7 @@ import { Button } from "@components/UI/Button/Button.component";
 import { Col, Input, Row, Spacer, Text } from "@nextui-org/react";
 import {
   convertApiTypeToType,
+  convertWeightCategoryToLisibleString,
   monsterType,
   weightCategories,
 } from "@utils/utils";
@@ -151,13 +152,14 @@ export default function CreateMonster() {
           </div>
 
           <div>
-            <Text>Categorie de votre monstre :</Text>
+            <Text>Catégorie de votre monstre :</Text>
             <Select
               defaultValue="Choisir la categorie de votre monstre"
               style={{ width: 300 }}
               onChange={(e) => setWeight_category(e)}
+              value={convertWeightCategoryToLisibleString(weight_category)}
               options={weightCategories.map((type) => ({
-                label: type,
+                label: convertWeightCategoryToLisibleString(type),
                 value: type,
               }))}
             />
@@ -190,8 +192,12 @@ export default function CreateMonster() {
 
         <Spacer y={1} />
 
-        <Button analyticsId="createMonster-button" onPress={handleAddMonster}>
-          Créer votre monstre
+        <Button
+          analyticsId="createMonster-button"
+          onPress={handleAddMonster}
+          css={{ width: "100%" }}
+        >
+          Créer le monstre !
         </Button>
       </Col>
     </div>
