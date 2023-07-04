@@ -4,10 +4,10 @@ import coinImage from "@assets/images/coins/4.png";
 import { Button, Row, Spacer, Text } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { applicationState } from "src/store/application/selector";
 import { createMatchFormState } from "src/store/matches/selector";
 import { setBetCreateForm, setStepCreateForm } from "src/store/matches/slice";
 import styles from "./Step3.module.scss";
@@ -17,17 +17,30 @@ type Step3Props = {};
 
 const Step3 = (props: Step3Props) => {
   const dispatch = useDispatch();
-  const router = useRouter();
   const { monster, step, arena, bet } = useSelector(createMatchFormState);
+  const { user } = useSelector(applicationState);
+
   const [betState, setBetState] = useState<number>(bet);
   const [isResetDisplayed, setIsResetDisplayed] = useState<boolean>(
     betState === 100 ? false : true
   );
 
+  const hasStripeAccount =
+    // @ts-ignore
+    !user?.StripeAccount || !user?.StripeBankAccount;
+
   const coinLabels = [-1000, -100, -10, 10, 100, 1000];
 
   const handleNextStep = () => {
     // TODO : Check with the API if everything is ok
+
+    if (hasStripeAccount) {
+      toast.error(
+        "Vous devez avoir enregistré un compte bancaire pour pouvoir miser"
+      );
+      return;
+    }
+
     dispatch(setBetCreateForm(betState));
     dispatch(setStepCreateForm(3));
     toast.success("Mise enregistrée");
