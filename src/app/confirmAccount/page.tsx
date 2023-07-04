@@ -16,9 +16,7 @@ export default function Home() {
     if (emailToken) {
       confirmAccountMutation({ email_token: emailToken });
 
-      setTimeout(() => {
-        router.push("/login");
-      }, 500);
+      router.push("/login");
     }
   }, [emailToken]);
 }
