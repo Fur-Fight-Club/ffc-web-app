@@ -23,6 +23,7 @@ export const getTournamentsErrorsHandler = (error: GenericApiError) => {
       break;
     case Errors.ALREADY_JOINED:
       toast.error("Vous avez déjà rejoint ce tournoi.");
+      break;
     default:
       toast.error("Une erreur inconnue est survenue, veuillez réessayer.");
       break;
