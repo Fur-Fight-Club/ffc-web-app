@@ -29,6 +29,7 @@ export interface Match {
   Arena: Arena;
   fk_arena: number;
   winner?: Monster;
+  fk_tournament?: number;
   fk_winner?: number;
   MatchMessage: MatchMessage[];
   weight_category: WeightCategoryType;
