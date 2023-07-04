@@ -38,6 +38,9 @@ import {
 } from "./constants";
 import { loginErrorsHandler } from "./errors/login.error";
 import { registerErrorsHandler } from "./errors/register.error";
+import { setWallet } from "../wallet/slice";
+import { Wallet } from "ffc-prisma-package/dist/client";
+import { convertCreditsToMoney, exchangeRate } from "@utils/utils";
 
 export const applicationApi = createApi({
   reducerPath,
@@ -104,6 +107,14 @@ export const applicationApi = createApi({
 
         try {
           const { data } = await queryFulfilled;
+          const wallet = data.wallet as unknown as Wallet;
+          dispatch(
+            setWallet({
+              credits: wallet.amount,
+              euro: +(wallet.amount * exchangeRate).toFixed(2),
+            })
+          );
+
           dispatch(setLoading(false));
           dispatch(setUserInformation(data));
         } catch (err) {
@@ -434,10 +445,7 @@ export const applicationSlice = createSlice({
       firstname && (state.user.firstname = firstname);
       lastname && (state.user.lastname = lastname);
     },
-    setUpdateEmail: (
-      state,
-      action: PayloadAction<{ email: string; }>
-    ) => {
+    setUpdateEmail: (state, action: PayloadAction<{ email: string }>) => {
       const { email } = action.payload;
       email && (state.user.email = email);
     },

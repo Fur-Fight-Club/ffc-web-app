@@ -141,7 +141,8 @@ export const walletSlice = createSlice({
   initialState,
   reducers: {
     setWallet: (state, action: PayloadAction<Wallet>) => {
-      state = action.payload;
+      state.credits = action.payload.credits;
+      state.euro = action.payload.euro;
     },
   },
 });
