@@ -1,11 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { EditUserType } from "src/model/user.schema";
-import {
-  useDeleteMutation,
-  useGetAllQuery,
-  useUpdateMutation,
-} from "src/store/user/slice";
+import { useDeleteMutation, useGetAllQuery } from "src/store/user/slice";
 
 import { IconButton } from "@components/IconButton";
 import {
@@ -58,7 +54,6 @@ export default function AccountsAdmin() {
   };
 
   const { data: usersData, refetch } = useGetAllQuery();
-  const [updateUserMuation, { data: dataUpdate }] = useUpdateMutation();
   const [deleteUserMutation, { data }] = useDeleteMutation();
 
   useEffect(() => {

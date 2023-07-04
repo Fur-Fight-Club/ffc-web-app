@@ -1,19 +1,18 @@
 "use client";
 
-import { Card, Col, Row, Text, Button, Spacer } from "@nextui-org/react";
+import { Button, Card, Col, Row, Spacer, Text } from "@nextui-org/react";
+import { CaretRight } from "@phosphor-icons/react";
+import colors from "@styles/_colors.module.scss";
+import { Input } from "antd";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
-import colors from "@styles/_colors.module.scss";
-import { CaretRight } from "@phosphor-icons/react";
-import { useState } from "react";
-import { Input } from "antd";
-import { toast } from "react-hot-toast";
-import {
-  useGetUserQuery,
-  useUpdateUserMutation,
-} from "src/store/application/slice";
+import { useGetUserQuery } from "src/store/application/slice";
 import {
   useUpdateEmailMutation,
+  useUpdateMutation,
+  useUpdatePasswordMutation,
   usePasswordUpdateMutation,
 } from "src/store/user/slice";
 import MenuProfile from "../../../components/MenuProfile";
@@ -61,8 +60,12 @@ const ProfilePage = (props: ProfilePageProps) => {
     setVisibleFormEmail("none");
   };
 
-  const [updateUser, { isSuccess: isSuccessUpate }] = useUpdateUserMutation();
+  const [updateUser, { isSuccess: isSuccessUpate }] = useUpdateMutation();
   const { refetch } = useGetUserQuery("");
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const handleUpdateFirstname = () => {
     setVisibleFormFirstname("none");
@@ -70,6 +73,8 @@ const ProfilePage = (props: ProfilePageProps) => {
     updateUser({
       id: user?.id,
       firstname: firstname,
+    }).then(() => {
+      refetch();
     });
   };
 
@@ -78,6 +83,8 @@ const ProfilePage = (props: ProfilePageProps) => {
     updateUser({
       id: user?.id,
       lastname: lastname,
+    }).then(() => {
+      refetch();
     });
   };
 

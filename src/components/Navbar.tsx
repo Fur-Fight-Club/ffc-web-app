@@ -85,13 +85,13 @@ const NavbarTest = () => {
             {...(isInUrl("match") && { isActive: true })}
             onPress={() => router.push("/match")}
           >
-            Match
+            Matches
           </Navbar.Link>
           <Navbar.Link
             {...(isInUrl("monster") && { isActive: true })}
             onPress={() => router.push("/monster")}
           >
-            Monster
+            Monstres
           </Navbar.Link>
         </Navbar.Content>
 
