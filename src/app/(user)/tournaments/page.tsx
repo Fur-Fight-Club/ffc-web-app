@@ -66,6 +66,7 @@ export default function Tournaments() {
                   tournament={t}
                   selected={t.id === selectedTournament}
                   onPress={() => setSelectedTournament(t.id)}
+                  onRefresh={() => refetchTournaments()}
                 />
               ))}
             </Card.Body>
