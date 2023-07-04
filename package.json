@@ -11,6 +11,7 @@
     "prettify:scss": "stylelint --fix \"./**/*.scss\""
   },
   "dependencies": {
+    "@g-loot/react-tournament-brackets": "^1.0.30",
     "@hookform/resolvers": "^3.1.0",
     "@nextui-org/react": "^1.0.0-beta.12",
     "@phosphor-icons/react": "^2.0.9",
