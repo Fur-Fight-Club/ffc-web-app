@@ -62,6 +62,37 @@ export const TournamentItem: React.FunctionComponent<TournamentItemProps> = ({
         ))}
       </div>
       <Spacer y={1} />
+      {t.tournamentEndDate ? (
+        <div>
+          <Text h4>Le tournoi est termine !</Text>
+          <Spacer y={1} />
+          <Text>
+            Le gagnant est <Text b>{t.winner?.name}</Text> qui remporte la
+            coquette somme de <Text b>{t.entry_cost * 7}</Text> jetons !
+          </Text>
+          <Spacer y={1} />
+        </div>
+      ) : t.tournamentStartDate ? (
+        <div>
+          <Text h4>
+            Le tournoi a commence, il est trop tard pour y participer, mais vous
+            pouvez suivre son avancement !
+          </Text>
+          <Spacer y={1} />
+        </div>
+      ) : (
+        <div>
+          <Text h4>
+            Le tournoi n'a pas encore commence, il est encore temps d'y
+            participer !
+          </Text>
+          <Spacer y={1} />
+          <Text>
+            La mise a gagner est de <Text b>{t.entry_cost * 7}</Text> jetons !
+          </Text>
+          <Spacer y={1} />
+        </div>
+      )}
     </motion.div>
   );
 };
