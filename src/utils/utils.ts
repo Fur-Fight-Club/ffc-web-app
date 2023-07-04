@@ -160,7 +160,7 @@ export const convertWeightCategoryToLisibleString = (
     case "OH_LAWD_HE_COMIN":
       return "Oh lawd he comin";
     default:
-      return "❓";
+      return "Choisir une catégorie de poids";
   }
 };
 

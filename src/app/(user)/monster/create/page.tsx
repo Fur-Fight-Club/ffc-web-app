@@ -187,11 +187,19 @@ export default function CreateMonster() {
 
       <Col span={5} css={{ pl: "$15", height: "30rem" }}>
         <Text h3>Prévisualisation de votre monstre</Text>
-        {/* @ts-ignore */}
-        <MonsterCardCreate monster={monster.name == "" ? null : monster} />
 
+        <MonsterCardCreate
+          //@ts-ignore
+          monster={
+            monster.name == "" &&
+            monster.weight == 0 &&
+            monster.monster_type == "" &&
+            monster.weight_category == ""
+              ? null
+              : monster
+          }
+        />
         <Spacer y={1} />
-
         <Button
           analyticsId="createMonster-button"
           onPress={handleAddMonster}
