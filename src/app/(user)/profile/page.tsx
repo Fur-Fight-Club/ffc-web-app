@@ -36,25 +36,18 @@ const ProfilePage = (props: ProfilePageProps) => {
   const handleVisibleFormFirstname = () => {
     setVisibleFormFirstname(visibleFormFirstname === false ? true : false);
   };
-
   const handleVisibleFormLastname = () => {
     setVisibleFormLastname(visibleFormLastname === false ? true : false);
   };
-
   const handleVisibleFormEmail = () => {
     setVisibleFormEmail(visibleFormEmail === false ? true : false);
   };
-
   const handleVisibleFormPassword = () => {
     setVisibleFormPassword(visibleFormPassword === false ? true : false);
   };
 
   const [updateUser, { isSuccess: isSuccessUpate }] = useUpdateMutation();
   const { refetch } = useGetUserQuery("");
-
-  useEffect(() => {
-    refetch();
-  }, []);
 
   const handleUpdateFirstname = () => {
     setVisibleFormFirstname(false);
@@ -118,6 +111,10 @@ const ProfilePage = (props: ProfilePageProps) => {
       password: password,
     });
   };
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <>
@@ -317,62 +314,62 @@ const ProfilePage = (props: ProfilePageProps) => {
                 align="center"
                 css={{
                   p: "$7",
-                  display: visibleFormPassword === "flex" ? "none" : "flex",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
               >
-                <Text style={{ width: "20rem" }}>Mot de passe</Text>
-                <Spacer x={10} />
-                <Text weight={"bold"}>********</Text>
-                <Spacer x={10} />
-                <Row align="flex-end" justify="flex-end">
-                  <Button
-                    auto
-                    css={{ background: "none" }}
-                    onClick={() => handleVisibleFormPassword()}
-                  >
-                    <CaretRight size={20} color={colors.black} />
-                  </Button>
-                </Row>
-              </Row>
-              <Row
-                align="center"
-                css={{
-                  p: "$7",
-                  background: colors.secondaryT500,
-                  display: visibleFormPassword,
-                }}
-              >
-                <Text style={{ width: "30rem" }}>Mot de passe</Text>
-                <Spacer x={5} />
-                <Col>
-                  <Input
-                    style={{ margin: "0.5rem" }}
-                    width={"30rem"}
-                    placeholder="Ancien mot de passe"
-                    onChange={(e) => setOdlPassword(e.target.value)}
-                    // type="password"s
-                  />
-                  <Input
-                    style={{ margin: "0.5rem" }}
-                    width={"30rem"}
-                    placeholder="Nouveau mot de passe"
-                    onChange={(e) => setPassword(e.target.value)}
-                    // type="password"
-                  />
-                  <Input
-                    style={{ margin: "0.5rem" }}
-                    width={"30rem"}
-                    placeholder="Confirmer mot de passe"
-                    onChange={(e) => setVerifPassword(e.target.value)}
-                    // type="password"
-                  />
-                </Col>
-                <Spacer x={5} />
-                <Row align="flex-end" justify="flex-end">
-                  <Button auto onClick={() => handleUpdatePassword()}>
-                    Valider
-                  </Button>
-                </Row>
+                {!visibleFormPassword ? (
+                  <>
+                    <Text style={{ width: "20rem" }}>Mot de passe</Text>
+                    <Text weight={"bold"}>********</Text>
+                    <Button
+                      auto
+                      css={{ background: "none" }}
+                      onClick={() => handleVisibleFormPassword()}
+                    >
+                      <CaretRight size={20} color={colors.black} />
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Text style={{ width: "10rem" }}>Mot de passe</Text>
+
+                    <Col>
+                      <Input
+                        style={{ margin: "0.5rem", width: "400px" }}
+                        placeholder="Ancien mot de passe"
+                        onChange={(e) => setOdlPassword(e.target.value)}
+                      />
+                      <Input
+                        style={{ margin: "0.5rem", width: "400px" }}
+                        placeholder="Nouveau mot de passe"
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      <Input
+                        style={{ margin: "0.5rem", width: "400px" }}
+                        placeholder="Confirmer mot de passe"
+                        onChange={(e) => setVerifPassword(e.target.value)}
+                      />
+                    </Col>
+
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                      <Button
+                        auto
+                        color="success"
+                        icon={<Check size={15} color="white" weight="light" />}
+                        onClick={() => handleUpdatePassword()}
+                      />
+                      <Spacer x={0.3} />
+                      <Button
+                        auto
+                        color="error"
+                        icon={<X size={15} color="white" weight="light" />}
+                        onClick={() => handleVisibleFormPassword()}
+                      />
+                    </div>
+                  </>
+                )}
               </Row>
             </Card.Body>
           </Card>
