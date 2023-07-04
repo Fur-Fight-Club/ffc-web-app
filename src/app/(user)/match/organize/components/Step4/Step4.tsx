@@ -11,12 +11,17 @@ import {
   Text,
 } from "@nextui-org/react";
 import { convertApiTypeToType } from "@utils/utils";
+import { addMinutes, format, isAfter } from "date-fns";
+import fr from "date-fns/locale/fr";
 import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { createMatchFormState, matchesState } from "src/store/matches/selector";
-import { setStepCreateForm } from "src/store/matches/slice";
+import {
+  setStepCreateForm,
+  useCreateMatchMutation,
+} from "src/store/matches/slice";
 import { walletState } from "src/store/wallet/selector";
 
 type Step4Props = {};
@@ -28,13 +33,8 @@ const Step4 = (props: Step4Props) => {
   const { user } = useSelector(applicationState);
   const { credits } = useSelector(walletState);
   const { matches } = useSelector(matchesState);
-
-  const monsterInMatches = matches.filter(
-    (match) =>
-      match.fk_monster1 === monster?.id || match.fk_monster1 === monster?.id
-  );
-
-  console.log("matches", matches);
+  const [createMatchMutation, { data, isError, isLoading, error }] =
+    useCreateMatchMutation();
 
   const canCreateMatch = () => {
     if (!monster || !arena || !bet || !date) {
@@ -68,8 +68,24 @@ const Step4 = (props: Step4Props) => {
   };
 
   const [visible, setVisible] = useState(false);
-  const closeHandler = () => {
+
+  const ConfirmPaymentHandler = async () => {
     if (!canCreateMatch()) return;
+
+    if (!monster || !arena || !date) return;
+
+    await createMatchMutation({
+      monster1: monster.id,
+      weight_category: monster.weight_category,
+      fk_arena: arena.id,
+      matchStartDate: new Date(date),
+      entry_cost: bet,
+    });
+
+    console.log("data", data);
+    console.error("error", error);
+
+    if (isError) return; // TODO : remove later
 
     setVisible(false);
     dispatch(setStepCreateForm(4));
@@ -123,7 +139,10 @@ const Step4 = (props: Step4Props) => {
                 {arena?.country}
               </Text>
               {/* @ts-ignore */}
-              <Text>Date : {date}</Text>
+              <Text>
+                {/* @ts-ignore */}
+                Date : {format(new Date(date), "dd/MM/yyyy", { locale: fr })}
+              </Text>
             </Col>
           </Card>
           <Spacer y={1} />
@@ -133,7 +152,7 @@ const Step4 = (props: Step4Props) => {
           <Spacer y={0.5} />
           <Card css={{ padding: "1rem" }}>
             <Col>
-              <Text>Mise : {bet}</Text>
+              <Text>Mise : {bet} jetons</Text>
             </Col>
           </Card>
         </Col>
@@ -190,7 +209,7 @@ const Step4 = (props: Step4Props) => {
           <Button auto flat color="error" onPress={closeModaleHandler}>
             Fermer
           </Button>
-          <Button auto onPress={closeHandler}>
+          <Button auto onPress={ConfirmPaymentHandler}>
             Confirmer le paiement
           </Button>
         </Modal.Footer>

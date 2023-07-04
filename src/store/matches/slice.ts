@@ -4,6 +4,7 @@ import {
   MatchMessage,
   Monster,
   Transaction,
+  WeightCategoryName,
 } from "ffc-prisma-package/dist/client";
 import { toast } from "react-hot-toast";
 import { baseQuery } from "../api";
@@ -62,14 +63,25 @@ export const matchesApi = createApi({
     }),
 
     // Create a match
-    createMatch: builder.mutation<Match, Match>({
-      query: ({ id, ...body }) => ({
+    createMatch: builder.mutation<
+      Match,
+      {
+        fk_arena: number;
+        weight_category: WeightCategoryName;
+        matchStartDate: Date;
+        monster1: number;
+        entry_cost: number;
+      }
+    >({
+      query: (body) => ({
         url: `${endpoint.createMatch}`,
         method: "POST",
         body,
       }),
 
       onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
+        console.log({ resource });
+
         try {
           const response = await queryFulfilled;
         } catch (err) {

@@ -19,10 +19,10 @@ export interface MatchWaitingList {
 
 export interface Match {
   id: number;
-  Monster1?: Monster;
-  Monster2?: Monster;
-  fk_monster1?: number;
-  fk_monster2?: number;
+  Monster1: Monster;
+  Monster2: Monster;
+  fk_monster_1: number;
+  fk_monster_2: number;
   matchStartDate: Date;
   matchEndDate: Date;
   MatchWaitingList: MatchWaitingList[];
@@ -33,6 +33,7 @@ export interface Match {
   fk_winner?: number;
   MatchMessage: MatchMessage[];
   weight_category: WeightCategoryType;
+  entryCost: number;
   Transaction: {
     monsterId: number;
     Wallet: {
@@ -58,7 +59,7 @@ export interface MatchFormState {
   step: number;
   monster: Monster | null;
   arena: Arena | null;
-  date: Date | null;
+  date: string | null;
 }
 
 export interface CreateMatchForm extends MatchFormState {
