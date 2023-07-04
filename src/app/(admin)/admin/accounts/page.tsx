@@ -16,7 +16,7 @@ import {
 } from "@nextui-org/react";
 import { PawPrint, Pencil, Trash } from "@phosphor-icons/react";
 
-import { countAdminRole, countUserRole } from "@utils/utils";
+import { countAdminRole, countUserRole, getInitials } from "@utils/utils";
 import { KpiAdminCard } from "../../components/Card/KpiAdminCard";
 import { Modals } from "../../components/Modal/modalAccounts";
 import { ModalsMonster } from "../../components/Modal/modalMonster";
@@ -86,10 +86,10 @@ export default function AccountsAdmin() {
         return (
           <User
             squared
-            // src={user?.avatar}
             color="primary"
             name={user?.firstname + " " + user?.lastname}
             css={{ p: 0 }}
+            text={getInitials(user.firstname, user.lastname)}
           >
             {user?.email}
           </User>
