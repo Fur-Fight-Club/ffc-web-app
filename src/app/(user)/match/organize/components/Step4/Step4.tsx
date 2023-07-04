@@ -36,6 +36,23 @@ const Step4 = (props: Step4Props) => {
   const [createMatchMutation, { data, isError, isLoading, error }] =
     useCreateMatchMutation();
 
+  // A monster can't have 2 matches at the same time (5 minutes diff while battling)
+  const checkMonsterAlreadyHaveMatchAroundDate = () => {
+    if (!monster || !date) return false;
+
+    const result = matches.filter((match) => {
+      const matchStartDate = new Date(match.matchStartDate);
+      const minimumDate = addMinutes(matchStartDate, 5);
+      return (
+        (match.fk_monster_1 === monster?.id ||
+          match.fk_monster_2 === monster?.id) &&
+        isAfter(new Date(date), minimumDate)
+      );
+    });
+
+    return result.length > 0;
+  };
+
   const canCreateMatch = () => {
     if (!monster || !arena || !bet || !date) {
       toast.error("Une erreur est survenue. Veuillez recommencer.");
@@ -60,7 +77,12 @@ const Step4 = (props: Step4Props) => {
       return false;
     }
 
-    // TODO check monster is not already in a match at the same date
+    if (checkMonsterAlreadyHaveMatchAroundDate()) {
+      toast.error(
+        "Ce monstre a déjà un match de prévu à cette date. Un match dure environ 5 minutes (performance, arbitrage...). Veuillez choisir une autre date."
+      );
+      return false;
+    }
 
     // TODO check arena is not already in a match at the same date
 
