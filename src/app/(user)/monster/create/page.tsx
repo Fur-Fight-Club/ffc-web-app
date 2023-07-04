@@ -2,7 +2,7 @@
 
 import MonsterCardCreate from "@components/MonsterCardDetails";
 import { Button } from "@components/UI/Button/Button.component";
-import { Col, Input, Row, Spacer, Text } from "@nextui-org/react";
+import { Col, Input, Row, Spacer, Text, Tooltip } from "@nextui-org/react";
 import {
   convertApiTypeToType,
   convertWeightCategoryToLisibleString,
@@ -11,7 +11,9 @@ import {
 } from "@utils/utils";
 import React, { useState } from "react";
 
+import { Info } from "@phosphor-icons/react";
 import { Select } from "antd";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -152,7 +154,29 @@ export default function CreateMonster() {
           </div>
 
           <div>
-            <Text>Catégorie de votre monstre :</Text>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text>Catégorie de votre monstre :</Text>
+
+              <Tooltip
+                content={
+                  <Image
+                    src="https://i.imgur.com/2sp4seC.jpeg"
+                    height={300}
+                    width={1000}
+                    alt="Chonck chart"
+                    style={{ objectFit: "contain" }}
+                  />
+                }
+              >
+                <Info size={25} color="#f14e09" weight="light" />
+              </Tooltip>
+            </div>
             <Select
               defaultValue="Choisir la categorie de votre monstre"
               style={{ width: 300 }}
