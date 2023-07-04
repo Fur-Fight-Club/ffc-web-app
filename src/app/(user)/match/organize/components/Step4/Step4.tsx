@@ -56,7 +56,10 @@ const Step4 = (props: Step4Props) => {
     setVisible(false);
     dispatch(setStepCreateForm(4));
   };
-  const openHandler = useCallback(() => setVisible(true), []);
+
+  const closeModaleHandler = useCallback(() => setVisible(false), []);
+
+  const openModaleHandler = useCallback(() => setVisible(true), []);
 
   const handleStepBack = () => {
     dispatch(setStepCreateForm(2));
@@ -127,7 +130,7 @@ const Step4 = (props: Step4Props) => {
             Retour
           </Button>
           <Spacer x={0.5} />
-          <Button onClick={openHandler}>Suivant</Button>
+          <Button onClick={openModaleHandler}>Suivant</Button>
         </Row>
       </div>
       <Modal
@@ -135,7 +138,7 @@ const Step4 = (props: Step4Props) => {
         blur
         aria-labelledby="modal-title"
         open={visible}
-        onClose={closeHandler}
+        onClose={closeModaleHandler}
       >
         <Modal.Header>
           <Col>
@@ -172,7 +175,7 @@ const Step4 = (props: Step4Props) => {
         </Modal.Header>
         <Modal.Body></Modal.Body>
         <Modal.Footer>
-          <Button auto flat color="error" onPress={closeHandler}>
+          <Button auto flat color="error" onPress={closeModaleHandler}>
             Fermer
           </Button>
           <Button auto onPress={closeHandler}>
