@@ -11,11 +11,11 @@ import {
   Text,
 } from "@nextui-org/react";
 import { convertApiTypeToType } from "@utils/utils";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
-import { createMatchFormState } from "src/store/matches/selector";
+import { createMatchFormState, matchesState } from "src/store/matches/selector";
 import { setStepCreateForm } from "src/store/matches/slice";
 import { walletState } from "src/store/wallet/selector";
 
@@ -27,10 +27,24 @@ const Step4 = (props: Step4Props) => {
   const { monster, step, arena, bet, date } = useSelector(createMatchFormState);
   const { user } = useSelector(applicationState);
   const { credits } = useSelector(walletState);
+  const { matches } = useSelector(matchesState);
+
+  const monsterInMatches = matches.filter(
+    (match) =>
+      match.fk_monster1 === monster?.id || match.fk_monster1 === monster?.id
+  );
+
+  console.log("matches", matches);
 
   const canCreateMatch = () => {
     if (!monster || !arena || !bet || !date) {
       toast.error("Une erreur est survenue. Veuillez recommencer.");
+      return false;
+    }
+
+    // @ts-ignore
+    if (!user?.StripeAccount || !user?.StripeBankAccount) {
+      toast.error("Vous devez avoir enregistré un compte bancaire pour miser");
       return false;
     }
 
@@ -45,6 +59,10 @@ const Step4 = (props: Step4Props) => {
       toast.error("Vous devez miser au moins 100 jetons");
       return false;
     }
+
+    // TODO check monster is not already in a match at the same date
+
+    // TODO check arena is not already in a match at the same date
 
     return true;
   };
@@ -68,12 +86,6 @@ const Step4 = (props: Step4Props) => {
   const hasStripeAccount =
     // @ts-ignore
     !user?.StripeAccount || !user?.StripeBankAccount;
-
-  useEffect(() => {
-    if (hasStripeAccount) {
-      toast.error("Vous devez avoir un compte Stripe pour créer un match");
-    }
-  }, [hasStripeAccount]);
 
   return (
     <>
