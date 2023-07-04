@@ -14,6 +14,7 @@ import { monstersApi } from "./monsters/slice";
 import { paymentsApi } from "./payments/slice";
 import { userApi } from "./user/slice";
 import { walletApi } from "./wallet/slice";
+import { tournamentApi } from "./tournament/slice";
 
 const combinedReducers = combineReducers({
   ...reducers,
@@ -52,7 +53,8 @@ export const store = configureStore({
       monstersApi.middleware,
       matchesApi.middleware,
       userApi.middleware,
-      paymentsApi.middleware
+      paymentsApi.middleware,
+      tournamentApi.middleware
     ),
 });
 

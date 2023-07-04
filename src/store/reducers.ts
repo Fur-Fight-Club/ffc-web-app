@@ -8,6 +8,7 @@ import {
 } from "./matches/slice";
 import { monstersApi, monstersSlice } from "./monsters/slice";
 import { paymentsApi, paymentsSlice } from "./payments/slice";
+import { tournamentApi, tournamentSlice } from "./tournament/slice";
 import { userApi, userSlice } from "./user/slice";
 import { walletApi, walletSlice } from "./wallet/slice";
 
@@ -29,4 +30,6 @@ export const reducers = {
   [userSlice.name]: userSlice.reducer,
   [paymentsApi.reducerPath]: paymentsApi.reducer,
   [paymentsSlice.name]: paymentsSlice.reducer,
+  [tournamentApi.reducerPath]: tournamentApi.reducer,
+  [tournamentSlice.name]: tournamentSlice.reducer,
 } as const;
