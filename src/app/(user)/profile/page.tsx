@@ -20,10 +20,12 @@ type ProfilePageProps = {};
 
 const ProfilePage = (props: ProfilePageProps) => {
   const { user } = useSelector(applicationState);
+
   const [visibleFormFirstname, setVisibleFormFirstname] = useState(false);
   const [visibleFormLastname, setVisibleFormLastname] = useState(false);
-  const [visibleFormEmail, setVisibleFormEmail] = useState("none");
-  const [visibleFormPassword, setVisibleFormPassword] = useState("none");
+  const [visibleFormEmail, setVisibleFormEmail] = useState(false);
+  const [visibleFormPassword, setVisibleFormPassword] = useState(false);
+
   const [firstname, setFirstname] = useState(user?.firstname);
   const [lastname, setLastname] = useState(user?.lastname);
   const [password, setPassword] = useState("");
@@ -40,17 +42,11 @@ const ProfilePage = (props: ProfilePageProps) => {
   };
 
   const handleVisibleFormEmail = () => {
-    setVisibleFormEmail(visibleFormEmail === "none" ? "flex" : "none");
-    setVisibleFormFirstname("none");
-    setVisibleFormLastname("none");
-    setVisibleFormPassword("none");
+    setVisibleFormEmail(visibleFormEmail === false ? true : false);
   };
 
   const handleVisibleFormPassword = () => {
-    setVisibleFormPassword(visibleFormPassword === "none" ? "flex" : "none");
-    setVisibleFormFirstname("none");
-    setVisibleFormLastname("none");
-    setVisibleFormEmail("none");
+    setVisibleFormPassword(visibleFormPassword === false ? true : false);
   };
 
   const [updateUser, { isSuccess: isSuccessUpate }] = useUpdateMutation();
@@ -84,7 +80,7 @@ const ProfilePage = (props: ProfilePageProps) => {
   const [updateEmail] = useUpdateEmailMutation();
 
   const handleUpdateEmail = () => {
-    setVisibleFormEmail("none");
+    setVisibleFormEmail(false);
 
     if (!email) {
       toast.error("Veuillez entrer votre adresse email");
@@ -124,7 +120,7 @@ const ProfilePage = (props: ProfilePageProps) => {
   };
 
   return (
-    <div>
+    <>
       <Row justify="space-between" align="center" css={{ m: "$5" }}>
         <Text h1>Mon Compte</Text>
       </Row>
@@ -228,6 +224,7 @@ const ProfilePage = (props: ProfilePageProps) => {
                       placeholder="Prénom"
                       value={lastname}
                       onChange={(e) => setLastname(e.target.value)}
+                      style={{ width: "200px" }}
                     />{" "}
                     <Spacer x={10} />
                     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -237,9 +234,7 @@ const ProfilePage = (props: ProfilePageProps) => {
                         icon={<Check size={15} color="white" weight="light" />}
                         onClick={() => handleUpdateLastname()}
                       />
-
                       <Spacer x={0.3} />
-
                       <Button
                         auto
                         color="error"
@@ -250,48 +245,56 @@ const ProfilePage = (props: ProfilePageProps) => {
                   </>
                 )}
               </Row>
+
               <Row
                 align="center"
                 css={{
                   p: "$7",
-                  display: visibleFormEmail === "flex" ? "none" : "flex",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
               >
-                <Text>Email</Text>
-                <Spacer x={10} />
-                <Text weight={"bold"}>{user.email}</Text>
-                <Spacer x={10} />
-                <Row align="flex-end" justify="flex-end">
-                  <Button
-                    auto
-                    css={{ background: "none" }}
-                    onClick={() => handleVisibleFormEmail()}
-                  >
-                    <CaretRight size={20} color={colors.black} />
-                  </Button>
-                </Row>
-              </Row>
-              <Row
-                align="center"
-                css={{
-                  p: "$7",
-                  background: colors.secondaryT500,
-                  display: visibleFormEmail,
-                }}
-              >
-                <Text>Email</Text>
-                <Spacer x={10} />
-                <Input
-                  placeholder="Prénom"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />{" "}
-                <Spacer x={10} />
-                <Row align="flex-end" justify="flex-end">
-                  <Button auto onClick={() => handleUpdateEmail()}>
-                    Valider
-                  </Button>
-                </Row>
+                {!visibleFormEmail ? (
+                  <>
+                    <Text>Email</Text>
+                    <Text weight={"bold"}>{user.email}</Text>
+
+                    <Button
+                      auto
+                      css={{ background: "none" }}
+                      onClick={() => handleVisibleFormEmail()}
+                    >
+                      <CaretRight size={20} color={colors.black} />
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Text>Email</Text>
+                    <Input
+                      placeholder="Prénom"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      style={{ width: "250px" }}
+                    />
+
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                      <Button
+                        auto
+                        color="success"
+                        icon={<Check size={15} color="white" weight="light" />}
+                        onClick={() => handleUpdateEmail()}
+                      />
+                      <Spacer x={0.3} />
+                      <Button
+                        auto
+                        color="error"
+                        icon={<X size={15} color="white" weight="light" />}
+                        onClick={() => handleVisibleFormEmail()}
+                      />
+                    </div>
+                  </>
+                )}
               </Row>
             </Card.Body>
           </Card>
@@ -375,7 +378,7 @@ const ProfilePage = (props: ProfilePageProps) => {
           </Card>
         </Col>
       </Row>
-    </div>
+    </>
   );
 };
 
