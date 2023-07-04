@@ -1,14 +1,17 @@
 "use client";
 import { Card, Grid, Text } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useGetAllTournamentsQuery } from "src/store/tournament/slice";
 import { TournamentItem } from "./components/TournamentItem.component";
 import { TournamentCard } from "./components/TournamentCard.component";
 import { motion } from "framer-motion";
+import { SocketContext } from "src/contexts/socket.context";
 
 export default function Tournaments() {
   const { data: tournaments, refetch: refetchTournaments } =
     useGetAllTournamentsQuery();
+
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
     refetchTournaments();
@@ -21,6 +24,16 @@ export default function Tournaments() {
   const [selectedTournament, setSelectedTournament] = useState<
     number | undefined
   >(undefined);
+
+  useEffect(() => {
+    socket.on("match-server-response", (data: any) => {
+      refetchTournaments();
+    });
+
+    return () => {
+      socket.off("match-server-response");
+    };
+  }, []);
 
   return (
     <Grid.Container
