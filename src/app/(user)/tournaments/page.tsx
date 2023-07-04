@@ -48,7 +48,7 @@ export default function Tournaments() {
           }}
           style={{
             width: "100%",
-            height: "100%",
+            height: "80vh",
           }}
         >
           <Card
@@ -82,7 +82,7 @@ export default function Tournaments() {
           }}
           style={{
             width: "100%",
-            height: "100%",
+            height: "80vh",
           }}
         >
           <Card
