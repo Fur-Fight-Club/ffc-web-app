@@ -6,6 +6,7 @@ import { GenericApiError } from "../store.model";
 import { getTournamentsErrorsHandler } from "./errors/tournaments";
 import {
   CreateTournamentDto,
+  EndRoundDto,
   JoinTournamentDto,
   JoinTournamentResponse,
   Tournament,
@@ -164,10 +165,11 @@ export const tournamentApi = createApi({
     }),
 
     // End round
-    endRound: builder.mutation<Tournament[], number>({
-      query: (id) => ({
+    endRound: builder.mutation<Tournament[], EndRoundDto>({
+      query: ({ id, ...body }) => ({
         url: `${endpoints.endRound(id)}`,
         method: "POST",
+        body,
       }),
 
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
