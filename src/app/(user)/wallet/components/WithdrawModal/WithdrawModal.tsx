@@ -38,11 +38,9 @@ const WithdrawModal = ({ visibleProp, closeModal }: WithdrawModalProps) => {
 
     withdrawWallet({ amount: +amount });
 
-    if (isSuccessWithdraw) {
-      closeModal();
-      refetch();
-      router.push("/wallet");
-    }
+    refetch();
+    router.push("/wallet");
+    closeModal();
   };
 
   return (

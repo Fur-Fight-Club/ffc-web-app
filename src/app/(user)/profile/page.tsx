@@ -14,7 +14,7 @@ import {
 } from "src/store/application/slice";
 import {
   useUpdateEmailMutation,
-  useUpdatePasswordMutation,
+  usePasswordUpdateMutation,
 } from "src/store/user/slice";
 import MenuProfile from "../../../components/MenuProfile";
 
@@ -94,7 +94,7 @@ const ProfilePage = (props: ProfilePageProps) => {
     updateEmail({ id: user?.id, email: email, oldEmail: user?.email });
   };
 
-  const [updatePassword] = useUpdatePasswordMutation();
+  const [updatePassword] = usePasswordUpdateMutation();
 
   const handleUpdatePassword = () => {
     setVisibleFormPassword("none");
@@ -329,16 +329,22 @@ const ProfilePage = (props: ProfilePageProps) => {
                     style={{ margin: "0.5rem" }}
                     width={"30rem"}
                     placeholder="Ancien mot de passe"
+                    onChange={(e) => setOdlPassword(e.target.value)}
+                    // type="password"s
                   />
                   <Input
                     style={{ margin: "0.5rem" }}
                     width={"30rem"}
                     placeholder="Nouveau mot de passe"
+                    onChange={(e) => setPassword(e.target.value)}
+                    // type="password"
                   />
                   <Input
                     style={{ margin: "0.5rem" }}
                     width={"30rem"}
                     placeholder="Confirmer mot de passe"
+                    onChange={(e) => setVerifPassword(e.target.value)}
+                    // type="password"
                   />
                 </Col>
                 <Spacer x={5} />

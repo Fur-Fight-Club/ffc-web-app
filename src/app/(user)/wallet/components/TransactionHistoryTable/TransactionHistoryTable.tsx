@@ -6,23 +6,34 @@ import { Card, Col, Row, Text, Table } from "@nextui-org/react";
 import colors from "@styles/_colors.module.scss";
 import Image from "next/image";
 import {
-  getImageByAmount,
   tradTagTransaction,
   IconTypeTransaction,
+  getImageByAmount,
 } from "./utils";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { DownloadSimple } from "@phosphor-icons/react";
+import { convertMoneyToCredits } from "src/utils/utils";
+import { useEffect } from "react";
 
 type TransactionHistoryTableProps = {};
 
 const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
   const { user } = useSelector(applicationState);
+  const newTransactions = [...user.transaction];
+  newTransactions.sort((a, b) => {
+    // @ts-ignore
+    const dateA: any = new Date(a?.createdAt);
+    // @ts-ignore
+    const dateB: any = new Date(b?.createdAt);
+    return dateB - dateA;
+  });
 
   const columns = [
     { name: "", uid: "type" },
     { name: "Type de transaction", uid: "tag" },
     { name: "Montant", uid: "amount" },
+    { name: "Credits", uid: "credit" },
     { name: "Date", uid: "created_at" },
     { name: "Facture", uid: "Invoice.url" },
   ];
@@ -38,7 +49,7 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
       </Card.Header>
       <Card.Divider />
       <Card.Body>
-        {user.transaction.length > 0 ? (
+        {newTransactions.length > 0 ? (
           <Table shadow={false}>
             <Table.Header columns={columns}>
               {(column) => (
@@ -53,7 +64,7 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
             </Table.Header>
 
             <Table.Body
-              items={user.transaction.filter(
+              items={newTransactions.filter(
                 (item) => item?.StripePayments?.status !== "PENDING"
               )}
             >
@@ -81,9 +92,13 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
                   <Table.Cell>
                     <Col>
                       <Row>
-                        <Text b size={14} css={{ tt: "capitalize" }}>
+                        <Text
+                          b
+                          size={14}
+                          css={{ tt: "capitalize", color: "$accents7" }}
+                        >
                           {/* @ts-ignore */}
-                          {item?.amount}
+                          {convertMoneyToCredits(item?.amount / 100)}
                           <Image
                             width={20}
                             height={20}
@@ -94,6 +109,20 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
                             /* @ts-ignore */
                             alt={`Image for amount ${item?.amount}`}
                           />
+                        </Text>
+                      </Row>
+                    </Col>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Col>
+                      <Row>
+                        <Text
+                          b
+                          size={14}
+                          css={{ tt: "capitalize", color: "$accents7" }}
+                        >
+                          {/* @ts-ignore */}
+                          {item?.amount / 100} €
                         </Text>
                       </Row>
                     </Col>

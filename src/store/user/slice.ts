@@ -5,7 +5,7 @@ import { User } from "src/model/user.schema";
 import { baseQuery } from "../api";
 import { endpoint } from "../application/constants";
 import { askResetPasswordErrorsHandler } from "../application/errors/ask-reset.error";
-import { setLoading } from "../application/slice";
+import { setLoading, setUpdateEmail } from "../application/slice";
 import { GenericApiError } from "../store.model";
 import { CACHE_KEY, endpoints, initialState, reducerPath } from "./constants";
 
@@ -94,12 +94,12 @@ export const userApi = createApi({
     }),
 
     // Update user password
-    updatePassword: builder.mutation<
+    passwordUpdate: builder.mutation<
       User,
       { id: number; oldPassword: string; password: string }
     >({
       query: (body) => ({
-        url: endpoints.updatePassword(body.id),
+        url: endpoints.updatePassword,
         method: "PATCH",
         body,
       }),
@@ -122,7 +122,7 @@ export const userApi = createApi({
       { id: number; email: string; oldEmail: string }
     >({
       query: (body) => ({
-        url: endpoints.updateEmail(body.id),
+        url: endpoints.updateEmail,
         method: "PATCH",
         body,
       }),
@@ -131,6 +131,7 @@ export const userApi = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(setLoading(false));
+          dispatch(setUpdateEmail(data));
         } catch (err) {
           const error = err as GenericApiError;
           dispatch(setLoading(false));
@@ -225,7 +226,7 @@ export const {
   useGetQuery,
   useGetAllQuery,
   useDeleteMutation,
-  useUpdatePasswordMutation,
+  usePasswordUpdateMutation,
   useConfirmAccountMutation,
   useAskResetPasswordMutation,
   useResetPasswordMutation,

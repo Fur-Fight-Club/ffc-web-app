@@ -434,6 +434,13 @@ export const applicationSlice = createSlice({
       firstname && (state.user.firstname = firstname);
       lastname && (state.user.lastname = lastname);
     },
+    setUpdateEmail: (
+      state,
+      action: PayloadAction<{ email: string; }>
+    ) => {
+      const { email } = action.payload;
+      email && (state.user.email = email);
+    },
     setAnalyticsEnable: (state, action: PayloadAction<boolean>) => {
       state.analytics.enabled = action.payload;
       state.analytics.firstTimeVisiting = false;
@@ -494,6 +501,7 @@ export const {
   setToken,
   setUserInformation,
   setUpdateUser,
+  setUpdateEmail,
   setAnalyticsEnable,
   setSessionTime,
   setSessionPagesVisited,
