@@ -88,6 +88,12 @@ const NavbarTest = () => {
             Matches
           </Navbar.Link>
           <Navbar.Link
+            {...(isInUrl("tournaments") && { isActive: true })}
+            onPress={() => router.push("/tournaments")}
+          >
+            Tournois
+          </Navbar.Link>
+          <Navbar.Link
             {...(isInUrl("monster") && { isActive: true })}
             onPress={() => router.push("/monster")}
           >
