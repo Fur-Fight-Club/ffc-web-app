@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Card, Col, Row, Spacer, Text } from "@nextui-org/react";
-import { CaretRight } from "@phosphor-icons/react";
+import { CaretRight, Check, X } from "@phosphor-icons/react";
 import colors from "@styles/_colors.module.scss";
 import { Input } from "antd";
 import { useEffect, useState } from "react";
@@ -10,10 +10,9 @@ import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { useGetUserQuery } from "src/store/application/slice";
 import {
+  usePasswordUpdateMutation,
   useUpdateEmailMutation,
   useUpdateMutation,
-  useUpdatePasswordMutation,
-  usePasswordUpdateMutation,
 } from "src/store/user/slice";
 import MenuProfile from "../../../components/MenuProfile";
 
@@ -21,7 +20,7 @@ type ProfilePageProps = {};
 
 const ProfilePage = (props: ProfilePageProps) => {
   const { user } = useSelector(applicationState);
-  const [visibleFormFirstname, setVisibleFormFirstname] = useState("none");
+  const [visibleFormFirstname, setVisibleFormFirstname] = useState(false);
   const [visibleFormLastname, setVisibleFormLastname] = useState("none");
   const [visibleFormEmail, setVisibleFormEmail] = useState("none");
   const [visibleFormPassword, setVisibleFormPassword] = useState("none");
@@ -32,11 +31,12 @@ const ProfilePage = (props: ProfilePageProps) => {
   const [verifPassword, setVerifPassword] = useState("");
   const [email, setEmail] = useState(user?.email);
 
+  // const handleVisibleFormFirstname = () => {
+  //   setVisibleFormFirstname(true);
+  // };
+
   const handleVisibleFormFirstname = () => {
-    setVisibleFormFirstname(visibleFormFirstname === "none" ? "flex" : "none");
-    setVisibleFormLastname("none");
-    setVisibleFormEmail("none");
-    setVisibleFormPassword("none");
+    setVisibleFormFirstname(visibleFormFirstname === false ? true : false);
   };
 
   const handleVisibleFormLastname = () => {
@@ -68,7 +68,7 @@ const ProfilePage = (props: ProfilePageProps) => {
   }, []);
 
   const handleUpdateFirstname = () => {
-    setVisibleFormFirstname("none");
+    setVisibleFormFirstname(false);
 
     updateUser({
       id: user?.id,
@@ -158,44 +158,54 @@ const ProfilePage = (props: ProfilePageProps) => {
                 align="center"
                 css={{
                   p: "$7",
-                  display: visibleFormFirstname === "flex" ? "none" : "flex",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
               >
-                <Text>Prénom</Text>
-                <Spacer x={10} />
-                <Text weight={"bold"}>{user.firstname}</Text>
-                <Spacer x={10} />
-                <Row align="flex-end" justify="flex-end">
-                  <Button
-                    auto
-                    css={{ background: "none" }}
-                    onClick={() => handleVisibleFormFirstname()}
-                  >
-                    <CaretRight size={20} color={colors.black} />
-                  </Button>
-                </Row>
-              </Row>
-              <Row
-                align="center"
-                css={{
-                  p: "$7",
-                  background: colors.secondaryT500,
-                  display: visibleFormFirstname,
-                }}
-              >
-                <Text>Prénom</Text>
-                <Spacer x={10} />
-                <Input
-                  placeholder="Prénom"
-                  value={firstname}
-                  onChange={(e) => setFirstname(e.target.value)}
-                />{" "}
-                <Spacer x={10} />
-                <Row align="flex-end" justify="flex-end">
-                  <Button auto onClick={() => handleUpdateFirstname()}>
-                    Valider
-                  </Button>
-                </Row>
+                {!visibleFormFirstname ? (
+                  <>
+                    <Text>Prénom</Text>
+
+                    <Text weight={"bold"}>{user.firstname}</Text>
+
+                    <Button
+                      auto
+                      css={{ background: "none" }}
+                      onClick={() => handleVisibleFormFirstname()}
+                    >
+                      <CaretRight size={20} color={colors.black} />
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Text>Prénom</Text>
+                    <Input
+                      placeholder="Prénom"
+                      value={firstname}
+                      onChange={(e) => setFirstname(e.target.value)}
+                      style={{ width: "200px" }}
+                    />
+
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                      <Button
+                        auto
+                        color="success"
+                        icon={<Check size={15} color="white" weight="light" />}
+                        onClick={() => handleUpdateFirstname()}
+                      />
+
+                      <Spacer x={0.3} />
+
+                      <Button
+                        auto
+                        color="error"
+                        icon={<X size={15} color="white" weight="light" />}
+                        onClick={() => handleVisibleFormFirstname()}
+                      />
+                    </div>
+                  </>
+                )}
               </Row>
               <Row
                 align="center"
