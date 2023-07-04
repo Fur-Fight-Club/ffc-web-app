@@ -1,20 +1,20 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { Button } from "@components/UI/Button/Button.component";
 import Divider from "@components/UI/Divider";
 import Input from "@components/UI/Input";
 import { Spacer } from "@nextui-org/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import {
   SetNewPasswordType,
   setNewPasswordSchema,
 } from "src/model/user.schema";
-import styles from "./page.module.scss";
-import { Button } from "@components/UI/Button/Button.component";
 import { useResetPasswordMutation } from "src/store/user/slice";
-import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "react-hot-toast";
-import { useEffect } from "react";
+import styles from "./page.module.scss";
 
 export default function SetNewPassword() {
   const [setNewPassword, { isSuccess }] = useResetPasswordMutation();
@@ -31,7 +31,6 @@ export default function SetNewPassword() {
   });
 
   const onSubmit = (data: SetNewPasswordType) => {
-    console.log("submit", data);
     // Check if password and confirmPassword are the same
     if (data.password !== data.confirmPassword) {
       toast.error("Les mots de passe ne correspondent pas !");
