@@ -27,7 +27,7 @@ const Step3 = (props: Step3Props) => {
 
   const hasStripeAccount =
     // @ts-ignore
-    !user?.StripeAccount || !user?.StripeBankAccount || !user?.Wallet;
+    !user?.StripeAccount || !user?.StripeBankAccount;
 
   const coinLabels = [-1000, -100, -10, 10, 100, 1000];
 

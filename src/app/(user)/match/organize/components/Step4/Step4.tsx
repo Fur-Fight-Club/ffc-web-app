@@ -38,7 +38,7 @@ const Step4 = (props: Step4Props) => {
 
   const hasStripeAccount =
     // @ts-ignore
-    !user?.StripeAccount || !user?.StripeBankAccount || !user?.Wallet;
+    !user?.StripeAccount || !user?.StripeBankAccount;
 
   useEffect(() => {
     if (hasStripeAccount) {
