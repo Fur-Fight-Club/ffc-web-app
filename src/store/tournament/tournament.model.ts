@@ -47,3 +47,25 @@ export interface EndRoundResponse {
   winner: number;
   nextMatch?: Match;
 }
+
+export type BracketMatch = {
+  id: number | string;
+  href?: string;
+  name?: string;
+  nextMatchId: number | string | null;
+  nextLooserMatchId?: number | string;
+  tournamentRoundText?: string;
+  startTime: string;
+  state: "PLAYED" | "NO_SHOW" | "WALK_OVER" | "NO_PARTY" | string;
+  participants: BracketParticipant[];
+  [key: string]: any;
+};
+
+export type BracketParticipant = {
+  id: string | number;
+  isWinner?: boolean;
+  name?: string;
+  status?: "PLAYED" | "NO_SHOW" | "WALK_OVER" | "NO_PARTY" | string | null;
+  resultText?: string | null;
+  [key: string]: any;
+};
