@@ -1,29 +1,72 @@
 "use client";
 
+import { Steps } from "antd";
 import { useSelector } from "react-redux";
 import { createMatchFormState } from "src/store/matches/selector";
 import Step1 from "./components/Step1";
 import Step2 from "./components/Step2";
 import Step3 from "./components/Step3/Step3";
 import Step4 from "./components/Step4/Step4";
+import Step5 from "./components/Step5/Step5";
+import Step6 from "./components/Step6/Step6";
 
 type OrganizeMatchPageProps = {};
 
 const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
-  const { monster, step, arena, bet } = useSelector(createMatchFormState);
+  const { step } = useSelector(createMatchFormState);
 
-  switch (step) {
-    case 0:
-      return <Step1 />;
-    case 1:
-      return <Step2 />;
-    case 2:
-      return <Step3 />;
-    case 3:
-      return <Step4 />;
-    default:
-      return <div>default steps forms</div>;
-  }
+  const renderStepperItem = (step: number) => (
+    <Steps
+      size="small"
+      current={step}
+      items={[
+        {
+          title: "Monstre",
+        },
+        {
+          title: "Arène",
+        },
+        {
+          title: "Mise",
+        },
+        {
+          title: "Récapitulatif",
+        },
+        {
+          title: "Paiement",
+        },
+        {
+          title: "Terminé",
+        },
+      ]}
+    />
+  );
+
+  const renderStepPage = (step: number) => {
+    switch (step) {
+      case 0:
+        return <Step1 />;
+      case 1:
+        return <Step2 />;
+      case 2:
+        return <Step3 />;
+      case 3:
+        return <Step4 />;
+      case 4:
+        return <Step5 />;
+      case 5:
+        return <Step6 />;
+      default:
+        return <div>default steps forms</div>;
+    }
+  };
+
+  return (
+    <div>
+      {renderStepperItem(step)}
+      {renderStepPage(step)}
+    </div>
+  );
 };
 
 export default OrganizeMatchPage;

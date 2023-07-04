@@ -66,12 +66,7 @@ const Step3 = (props: Step3Props) => {
   }, [betState]);
 
   return (
-    <div style={{ height: "86%" }}>
-      <Row>
-        <Text b size={"$3xl"}>
-          {"Mettre vote mise en jeu"}
-        </Text>
-      </Row>
+    <div style={{ height: "80vh" }}>
       <div className={styles.step3}>
         <Row justify="center" align="center">
           <Text size={"$8xl"}>{betState}</Text>
