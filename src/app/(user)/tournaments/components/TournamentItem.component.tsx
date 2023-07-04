@@ -56,7 +56,13 @@ export const TournamentItem: React.FunctionComponent<TournamentItemProps> = ({
         {t.Participants.map((p) => (
           <motion.div key={p.id} whileHover={{ scale: 1.1 }}>
             <Tooltip content={p.name}>
-              <Avatar src={p.picture} size={"xl"} />
+              <Avatar
+                src={p.picture}
+                size={"lg"}
+                css={{
+                  border: `2px solid ${isDark ? "#fff" : "#333"}`,
+                }}
+              />
             </Tooltip>
           </motion.div>
         ))}
