@@ -13,7 +13,7 @@ import {
 import { convertApiTypeToType } from "@utils/utils";
 import { addMinutes, format, isAfter } from "date-fns";
 import fr from "date-fns/locale/fr";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
@@ -21,6 +21,7 @@ import { createMatchFormState, matchesState } from "src/store/matches/selector";
 import {
   setStepCreateForm,
   useCreateMatchMutation,
+  useGetMatchesQuery,
 } from "src/store/matches/slice";
 import { walletState } from "src/store/wallet/selector";
 
@@ -33,21 +34,53 @@ const Step4 = (props: Step4Props) => {
   const { user } = useSelector(applicationState);
   const { credits } = useSelector(walletState);
   const { matches } = useSelector(matchesState);
+  const { refetch } = useGetMatchesQuery();
   const [createMatchMutation, { data, isError, isLoading, error }] =
     useCreateMatchMutation();
 
   // A monster can't have 2 matches at the same time (5 minutes diff while battling)
+  // TODO : CHANGER CES NOM DE VARIABLES et FONCTION
   const checkMonsterAlreadyHaveMatchAroundDate = () => {
     if (!monster || !date) return false;
 
     const result = matches.filter((match) => {
-      const matchStartDate = new Date(match.matchStartDate);
-      const minimumDate = addMinutes(matchStartDate, 5);
+      const mt = new Date(match.matchStartDate);
+      const mt5 = addMinutes(mt, 5);
+      const n = new Date(date);
+      console.log(
+        "Date existante",
+        format(new Date(mt), "dd/MM/yyyy HH:mm:ss", { locale: fr })
+      );
+      console.log(
+        "Date existante + 5 minutes",
+        format(new Date(mt5), "dd/MM/yyyy HH:mm:ss", { locale: fr })
+      );
+      console.log(
+        "Date nouveau match",
+        format(new Date(n), "dd/MM/yyyy HH:mm:ss", {
+          locale: fr,
+        })
+      );
+      console.log(
+        "Est-ce que n > mt5",
+        (match.fk_monster_1 === monster?.id ||
+          match.fk_monster_2 === monster?.id) &&
+          isAfter(n, mt5)
+      );
+      console.log("monster ID", monster?.id);
+      console.log("match.fk_monster_1", match.fk_monster_1);
+
+      console.log("----------------------");
       return (
         (match.fk_monster_1 === monster?.id ||
           match.fk_monster_2 === monster?.id) &&
-        isAfter(new Date(date), minimumDate)
+        isAfter(n, mt5)
       );
+    });
+
+    console.log({
+      result,
+      returned: result.length > 0,
     });
 
     return result.length > 0;
@@ -77,12 +110,17 @@ const Step4 = (props: Step4Props) => {
       return false;
     }
 
-    if (checkMonsterAlreadyHaveMatchAroundDate()) {
+    if (!checkMonsterAlreadyHaveMatchAroundDate()) {
       toast.error(
         "Ce monstre a déjà un match de prévu à cette date. Un match dure environ 5 minutes (performance, arbitrage...). Veuillez choisir une autre date."
       );
       return false;
     }
+
+    // TODO : Checker qu'on peut pas créer de match dans le passé (avant la date d'aujourd'hui)
+
+    toast.success("ÇA MARCHE");
+    return false;
 
     // TODO check arena is not already in a match at the same date
 
@@ -92,7 +130,10 @@ const Step4 = (props: Step4Props) => {
   const [visible, setVisible] = useState(false);
 
   const ConfirmPaymentHandler = async () => {
-    if (!canCreateMatch()) return;
+    if (!canCreateMatch()) {
+      closeModaleHandler();
+      return;
+    }
 
     if (!monster || !arena || !date) return;
 
@@ -124,6 +165,10 @@ const Step4 = (props: Step4Props) => {
   const hasStripeAccount =
     // @ts-ignore
     !user?.StripeAccount || !user?.StripeBankAccount;
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <>

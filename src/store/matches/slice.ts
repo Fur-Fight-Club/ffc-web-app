@@ -36,8 +36,8 @@ export const matchesApi = createApi({
 
       onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
         try {
-          const response = await queryFulfilled;
-          dispatch(matchesSlice.actions.setMatches(response.data));
+          const { data } = await queryFulfilled;
+          dispatch(matchesSlice.actions.setMatches(data));
         } catch (err) {
           const error = err as GenericApiError;
           getMatchesErrorHandler(error);
@@ -83,7 +83,8 @@ export const matchesApi = createApi({
         console.log({ resource });
 
         try {
-          const response = await queryFulfilled;
+          const { data } = await queryFulfilled;
+          dispatch(updateMatches(data));
         } catch (err) {
           const error = err as GenericApiError;
           getMatchesErrorHandler(error);
@@ -236,6 +237,9 @@ export const matchesSlice = createSlice({
     setMatches: (state, action: PayloadAction<Match[]>) => {
       state.matches = action.payload;
     },
+    updateMatches: (state, action: PayloadAction<Match>) => {
+      state.matches.push(action.payload);
+    },
   },
 });
 
@@ -254,7 +258,7 @@ export const createMatchFormSlice = createSlice({
       /* @ts-ignore */
       state.arena = action.payload;
     },
-    SetDateCreateForm: (state, action: PayloadAction<Date | null>) => {
+    SetDateCreateForm: (state, action: PayloadAction<string | null>) => {
       state.date = action.payload;
     },
     setBetCreateForm: (state, action: PayloadAction<number>) => {
@@ -269,7 +273,7 @@ export const createMatchFormSlice = createSlice({
   },
 });
 
-export const { setMatches } = matchesSlice.actions;
+export const { setMatches, updateMatches } = matchesSlice.actions;
 
 export const {
   setStepCreateForm,
