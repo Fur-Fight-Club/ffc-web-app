@@ -55,10 +55,51 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
             {
               id: 19753,
               nextMatchId: null,
-              participants: [],
-              startTime: "2021-05-30",
-              state: "SCHEDULED",
-              tournamentRoundText: "3",
+              participants: [
+                {
+                  id: t.Matches[6].Monster1?.id ?? matchsHelpers.generateUuid(),
+                  isWinner:
+                    t.Matches[6].fk_winner === t.Matches[6].Monster1?.id
+                      ? true
+                      : false,
+                  name: t.Matches[6].Monster1?.name ?? "",
+                  picture: t.Matches[6].Monster1?.picture ?? "",
+                  resultText:
+                    t.Matches[6].fk_winner === undefined
+                      ? ""
+                      : t.Matches[6].fk_winner === t.Matches[6].Monster1?.id
+                      ? "Victoire"
+                      : "Defaite",
+                  status:
+                    t.Matches[6].fk_winner === undefined ? null : "PLAYED",
+                },
+                {
+                  id: t.Matches[6].Monster2?.id ?? matchsHelpers.generateUuid(),
+                  isWinner:
+                    t.Matches[6].fk_winner === t.Matches[6].Monster2?.id
+                      ? true
+                      : false,
+                  name: t.Matches[6].Monster2?.name ?? "",
+                  picture: t.Matches[6].Monster2?.picture ?? "",
+                  resultText:
+                    t.Matches[6].fk_winner === undefined
+                      ? ""
+                      : t.Matches[6].fk_winner === t.Matches[6].Monster2?.id
+                      ? "Victoire"
+                      : "Defaite",
+                  status:
+                    t.Matches[6].fk_winner === undefined ? null : "PLAYED",
+                },
+              ],
+              startTime: t.Matches[6].matchEndDate
+                ? new Date(t.Matches[6].matchEndDate).toLocaleString()
+                : "Non joué",
+              state: t.Matches[6].matchEndDate
+                ? "PLAYED"
+                : t.Matches[6].matchStartDate
+                ? "RUNNING"
+                : "NO_SHOW",
+              tournamentRoundText: "1",
             },
             // Match 5 - Demi Finale 1
             {
@@ -66,16 +107,48 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
               nextMatchId: 19753,
               participants: [
                 {
-                  id: "14754a1a-932c-4992-8dec-f7f94a339960",
-                  isWinner: false,
-                  name: "CoKe BoYz",
-                  picture: "teamlogos/client_team_default_logo",
-                  resultText: "",
-                  status: null,
+                  id: t.Matches[4].Monster1?.id ?? matchsHelpers.generateUuid(),
+                  isWinner:
+                    t.Matches[4].fk_winner === t.Matches[4].Monster1?.id
+                      ? true
+                      : false,
+                  name: t.Matches[4].Monster1?.name ?? "",
+                  picture: t.Matches[4].Monster1?.picture ?? "",
+                  resultText:
+                    t.Matches[4].fk_winner === undefined
+                      ? ""
+                      : t.Matches[4].fk_winner === t.Matches[4].Monster1?.id
+                      ? "Victoire"
+                      : "Defaite",
+                  status:
+                    t.Matches[4].fk_winner === undefined ? null : "PLAYED",
+                },
+                {
+                  id: t.Matches[4].Monster2?.id ?? matchsHelpers.generateUuid(),
+                  isWinner:
+                    t.Matches[4].fk_winner === t.Matches[4].Monster2?.id
+                      ? true
+                      : false,
+                  name: t.Matches[4].Monster2?.name ?? "",
+                  picture: t.Matches[4].Monster2?.picture ?? "",
+                  resultText:
+                    t.Matches[4].fk_winner === undefined
+                      ? ""
+                      : t.Matches[4].fk_winner === t.Matches[4].Monster2?.id
+                      ? "Victoire"
+                      : "Defaite",
+                  status:
+                    t.Matches[4].fk_winner === undefined ? null : "PLAYED",
                 },
               ],
-              startTime: "2021-05-30",
-              state: "SCHEDULED",
+              startTime: t.Matches[0].matchEndDate
+                ? new Date(t.Matches[0].matchEndDate).toLocaleString()
+                : "Non joué",
+              state: t.Matches[0].matchEndDate
+                ? "PLAYED"
+                : t.Matches[0].matchStartDate
+                ? "RUNNING"
+                : "NO_SHOW",
               tournamentRoundText: "2",
             },
             // Match 1
@@ -182,9 +255,50 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
             {
               id: 19757,
               nextMatchId: 19753,
-              participants: [],
-              startTime: "2021-05-30",
-              state: "SCHEDULED",
+              participants: [
+                {
+                  id: t.Matches[5].Monster1?.id ?? matchsHelpers.generateUuid(),
+                  isWinner:
+                    t.Matches[5].fk_winner === t.Matches[5].Monster1?.id
+                      ? true
+                      : false,
+                  name: t.Matches[5].Monster1?.name ?? "",
+                  picture: t.Matches[5].Monster1?.picture ?? "",
+                  resultText:
+                    t.Matches[5].fk_winner === undefined
+                      ? ""
+                      : t.Matches[5].fk_winner === t.Matches[5].Monster1?.id
+                      ? "Victoire"
+                      : "Defaite",
+                  status:
+                    t.Matches[5].fk_winner === undefined ? null : "PLAYED",
+                },
+                {
+                  id: t.Matches[5].Monster2?.id ?? matchsHelpers.generateUuid(),
+                  isWinner:
+                    t.Matches[5].fk_winner === t.Matches[5].Monster2?.id
+                      ? true
+                      : false,
+                  name: t.Matches[5].Monster2?.name ?? "",
+                  picture: t.Matches[5].Monster2?.picture ?? "",
+                  resultText:
+                    t.Matches[5].fk_winner === undefined
+                      ? ""
+                      : t.Matches[5].fk_winner === t.Matches[5].Monster2?.id
+                      ? "Victoire"
+                      : "Defaite",
+                  status:
+                    t.Matches[5].fk_winner === undefined ? null : "PLAYED",
+                },
+              ],
+              startTime: t.Matches[5].matchEndDate
+                ? new Date(t.Matches[5].matchEndDate).toLocaleString()
+                : "Non joué",
+              state: t.Matches[5].matchEndDate
+                ? "PLAYED"
+                : t.Matches[5].matchStartDate
+                ? "RUNNING"
+                : "NO_SHOW",
               tournamentRoundText: "2",
             },
             // Match 2
