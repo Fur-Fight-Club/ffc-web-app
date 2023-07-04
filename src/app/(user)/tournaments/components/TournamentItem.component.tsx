@@ -1,23 +1,53 @@
 "use client";
 
 import { Button } from "@components/UI/Button/Button.component";
-import { Avatar, Spacer, Text, Tooltip, useTheme } from "@nextui-org/react";
+import {
+  Avatar,
+  Modal,
+  Spacer,
+  Text,
+  Tooltip,
+  useTheme,
+} from "@nextui-org/react";
+import { Select } from "antd";
 import { motion } from "framer-motion";
 import * as React from "react";
+import { useEffect, useContext } from "react";
+import { useSelector } from "react-redux";
+import { SocketContext } from "src/contexts/socket.context";
+import { applicationState } from "src/store/application/selector";
+import { useJoinTournamentMutation } from "src/store/tournament/slice";
 import { Tournament } from "src/store/tournament/tournament.model";
 
 interface TournamentItemProps {
   tournament: Tournament;
   selected: boolean;
   onPress: () => void;
+  onRefresh: () => void;
 }
 
 export const TournamentItem: React.FunctionComponent<TournamentItemProps> = ({
   tournament: t,
   selected,
   onPress,
+  onRefresh,
 }) => {
   const { isDark } = useTheme();
+  const { user } = useSelector(applicationState);
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [selectedMonster, setSelectedMonster] = React.useState<number>(-1);
+  const [joinTournament, { isSuccess: isSuccessJoin }] =
+    useJoinTournamentMutation();
+
+  const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    if (isSuccessJoin) {
+      setModalVisible(false);
+      socket.emit("match", { update: true });
+      onRefresh();
+    }
+  }, [isSuccessJoin]);
   return (
     <motion.div
       onClick={onPress}
@@ -97,6 +127,65 @@ export const TournamentItem: React.FunctionComponent<TournamentItemProps> = ({
             La mise a gagner est de <Text b>{t.entry_cost * 7}</Text> jetons !
           </Text>
           <Spacer y={1} />
+          <Button
+            css={{
+              width: "100%",
+            }}
+          >
+            Faire participer mon monstre
+          </Button>
+          <Spacer y={1} />
+          <Modal
+            closeButton
+            aria-labelledby="modal-title"
+            open={modalVisible}
+            onClose={() => setModalVisible(false)}
+          >
+            <Modal.Header>
+              <Text id="modal-title" size={"1.2rem"}>
+                Participer au tournoi <Text b>{t.name}</Text>
+              </Text>
+            </Modal.Header>
+            <Modal.Body>
+              <Text>Avez qui voulez-vous participer au tournoi ?</Text>
+              <Select
+                showSearch
+                placeholder="Selectionner mon monstre"
+                optionFilterProp="children"
+                size="large"
+                onChange={(e) => setSelectedMonster(+e)}
+                dropdownStyle={{ zIndex: 9999 }}
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={user?.Monster.map((m) => ({
+                  value: m.id,
+                  label: m.name,
+                }))}
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                auto
+                flat
+                color="error"
+                onPress={() => setModalVisible(false)}
+              >
+                Annuler
+              </Button>
+              <Button
+                auto
+                onPress={() =>
+                  joinTournament({ id: t.id, monster_id: selectedMonster })
+                }
+                disabled={selectedMonster === -1}
+              >
+                On se lance !
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       )}
     </motion.div>
