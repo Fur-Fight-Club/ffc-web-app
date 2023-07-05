@@ -18,9 +18,9 @@ import {
   reducerPath,
 } from "./constants";
 import { getMatchesErrorHandler } from "./errors/get";
+import { joinMatchesErrorHandler } from "./errors/join";
 import { placeBetErrorHandler } from "./errors/placeBet";
 import { Match, PlaceBet } from "./matches.model";
-import { joinMatchesErrorHandler } from "./errors/join";
 
 export const matchesApi = createApi({
   reducerPath,
