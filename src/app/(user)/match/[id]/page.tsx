@@ -45,7 +45,7 @@ export default function MatchPage({ params }: { params: { id: string } }) {
       setMonster1Bets(0);
       setMonster2Bets(0);
       data.Transaction.forEach((transaction) => {
-        if (transaction.monsterId === data.Monster1.id) {
+        if (transaction.monsterId === data?.Monster1?.id) {
           setMonster1Bets((prev) => prev + transaction.amount);
         } else {
           setMonster2Bets((prev) => prev + transaction.amount);
@@ -117,7 +117,7 @@ export default function MatchPage({ params }: { params: { id: string } }) {
         justifyContent: "center",
       }}
     >
-      {user.role === "ADMIN" && (
+      {user.role === "ADMIN" && data?.fk_tournament !== null && (
         <div
           style={{
             position: "absolute",
@@ -172,11 +172,11 @@ export default function MatchPage({ params }: { params: { id: string } }) {
                 onClick={() => {
                   endMatch({
                     matchId: +params.id,
-                    winner: data?.Monster1.id ?? -1,
+                    winner: data?.Monster1?.id ?? -1,
                   });
                 }}
               >
-                Victoire de {data?.Monster1.name}
+                Victoire de {data?.Monster1?.name}
               </NUIButton>
               <Spacer x={1} />
               <NUIButton
@@ -185,11 +185,11 @@ export default function MatchPage({ params }: { params: { id: string } }) {
                 onClick={() => {
                   endMatch({
                     matchId: +params.id,
-                    winner: data?.Monster2.id ?? -1,
+                    winner: data?.Monster2?.id ?? -1,
                   });
                 }}
               >
-                Victoire de {data?.Monster2.name}
+                Victoire de {data?.Monster2?.name}
               </NUIButton>
             </Modal.Footer>
           </Modal>
@@ -266,9 +266,9 @@ export default function MatchPage({ params }: { params: { id: string } }) {
                       {data?.Transaction.map((transaction, index) => (
                         <Table.Row key={index}>
                           <Table.Cell>
-                            {transaction.monsterId === data.Monster1.id
-                              ? data.Monster1.name
-                              : data.Monster2.name}
+                            {transaction.monsterId === data.Monster1?.id
+                              ? data.Monster1?.name
+                              : data.Monster2?.name}
                           </Table.Cell>
                           <Table.Cell>{transaction.amount} jetons</Table.Cell>
                           <Table.Cell>

@@ -11,6 +11,7 @@
     "prettify:scss": "stylelint --fix \"./**/*.scss\""
   },
   "dependencies": {
+    "@g-loot/react-tournament-brackets": "^1.0.30",
     "@hookform/resolvers": "^3.1.0",
     "@nextui-org/react": "^1.0.0-beta.12",
     "@phosphor-icons/react": "^2.0.9",
@@ -25,7 +26,7 @@
     "date-fns": "^2.30.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
-    "ffc-prisma-package": "^2.15.0",
+    "ffc-prisma-package": "^2.17.2",
     "firebase": "^9.23.0",
     "framer-motion": "^10.12.16",
     "lottie-react": "^2.4.0",

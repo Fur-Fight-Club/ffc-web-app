@@ -19,15 +19,17 @@ export interface MatchWaitingList {
 
 export interface Match {
   id: number;
-  Monster1: Monster;
-  Monster2: Monster;
-  fk_monster1: number;
-  fk_monster2: number;
+  Monster1?: Monster;
+  Monster2?: Monster;
+  fk_monster1?: number;
+  fk_monster2?: number;
   matchStartDate: Date;
   matchEndDate: Date;
   MatchWaitingList: MatchWaitingList[];
   Arena: Arena;
   fk_arena: number;
+  winner?: Monster;
+  fk_tournament?: number;
   fk_winner?: number;
   MatchMessage: MatchMessage[];
   weight_category: WeightCategoryType;

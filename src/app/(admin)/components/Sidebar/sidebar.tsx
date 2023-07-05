@@ -17,6 +17,7 @@ import {
   MapPin,
   SignOut,
   UserRectangle,
+  UsersFour,
 } from "@phosphor-icons/react";
 import { Menu, MenuItem, Sidebar, useProSidebar } from "react-pro-sidebar";
 import { Flex } from "src/styles/flex";
@@ -122,6 +123,21 @@ export const SidebarAdmin = () => {
             style={pathname === "/admin/arena" ? { fontWeight: "bold" } : {}}
           >
             Arènes
+          </MenuItem>
+          <MenuItem
+            component={<Link href="/admin/tournaments" />}
+            icon={
+              pathname === "/admin/tournaments" ? (
+                <UsersFour size={25} color="black" weight="fill" />
+              ) : (
+                <UsersFour size={25} color="#e0dfdb" weight="light" />
+              )
+            }
+            style={
+              pathname === "/admin/tournaments" ? { fontWeight: "bold" } : {}
+            }
+          >
+            Tournois
           </MenuItem>
 
           <MenuItem

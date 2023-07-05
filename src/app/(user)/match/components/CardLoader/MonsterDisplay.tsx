@@ -20,10 +20,16 @@ import {
 import { Button } from "@components/UI/Button/Button.component";
 import NumberScroller from "number-scroller";
 import { Coins } from "@phosphor-icons/react";
-import { usePlaceBetMutation } from "src/store/matches/slice";
+import {
+  useJoinMatchMutation,
+  usePlaceBetMutation,
+} from "src/store/matches/slice";
 import { useEffect } from "react";
 import { useMotionValue, useTransform, animate, motion } from "framer-motion";
 import { SocketContext } from "src/contexts/socket.context";
+import { Select } from "antd";
+import { applicationState } from "src/store/application/selector";
+import { useSelector } from "react-redux";
 
 interface MonsterDisplayProps {
   monster?: Monster;
@@ -43,9 +49,13 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
   winner,
 }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [modalVisibleMonsters, setModalVisibleMonsters] = React.useState(false);
   const [betAmount, setBetAmount] = React.useState(0);
   const [placeBet, { isSuccess: isBettingSuccess }] = usePlaceBetMutation();
   const { isDark } = useTheme();
+  const { user } = useSelector(applicationState);
+  const [selectedMonster, setSelectedMonster] = React.useState<number>(-1);
+  const [joinMatch, { isSuccess: isSuccessJoin }] = useJoinMatchMutation();
 
   const socket = React.useContext(SocketContext);
 
@@ -59,11 +69,13 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
   };
 
   useEffect(() => {
-    if (isBettingSuccess) {
+    if (isBettingSuccess || isSuccessJoin) {
       refetch();
       socket.emit("match", { update: true });
+      setModalVisibleMonsters(false);
+      setModalVisible(false);
     }
-  }, [isBettingSuccess]);
+  }, [isBettingSuccess, isSuccessJoin]);
 
   const count = useMotionValue(0);
   const rounded = useTransform(count, Math.round);
@@ -99,6 +111,7 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
       <Avatar
         src={monster?.picture}
         css={{ width: "10rem", height: "10rem" }}
+        text="+"
       />
       <Spacer y={1} />
       <Text h3 transform="uppercase" color="#ba1918" weight={"black"}>
@@ -125,11 +138,13 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
             ),
           }}
         >
-          {monster?.weight}KG
+          {monster?.weight}
+          {monster?.weight ? "KG" : "—"}
         </Badge>
         <Spacer x={0.5} />
         <Badge size={"lg"} color={"primary"}>
-          {monster?.mmr} MMR
+          {monster?.mmr}
+          {monster?.weight ? " MMR" : "—"}
         </Badge>
       </div>
       <Spacer y={1} />
@@ -147,13 +162,17 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
       </Badge>
       <Spacer y={1} />
       <Button
-        analyticsId="bet-on-monster"
+        analyticsId="bet-or-join"
         auto
         size={"lg"}
-        onPress={() => setModalVisible(true)}
+        onPress={
+          monster
+            ? () => setModalVisible(true)
+            : () => setModalVisibleMonsters(true)
+        }
         disabled={matchEnded}
       >
-        Parier sur {monster?.name}
+        {monster ? `Parier sur ${monster?.name}` : "Rejoindre le combat"}
       </Button>
       <Modal
         closeButton
@@ -200,6 +219,53 @@ export const MonsterDisplay: React.FunctionComponent<MonsterDisplayProps> = ({
             color={"warning"}
           >
             Parier !
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        closeButton
+        aria-labelledby="modal-title"
+        open={modalVisibleMonsters}
+        onClose={() => setModalVisibleMonsters(false)}
+      >
+        <Modal.Header>
+          <Text id="modal-title" size={"1.2rem"}>
+            Participer au match
+          </Text>
+        </Modal.Header>
+        <Modal.Body>
+          <Text>Avez qui voulez-vous participer au match ?</Text>
+          <Select
+            showSearch
+            placeholder="Selectionner mon monstre"
+            optionFilterProp="children"
+            size="large"
+            onChange={(e) => setSelectedMonster(+e)}
+            dropdownStyle={{ zIndex: 9999 }}
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+            options={user?.Monster.map((m) => ({
+              value: m.id,
+              label: `${m.name} (${m.mmr} MMR)`,
+            }))}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            auto
+            flat
+            color="error"
+            onPress={() => setModalVisibleMonsters(false)}
+          >
+            Annuler
+          </Button>
+          <Button
+            auto
+            onPress={() => joinMatch({ matchId, monsterId: selectedMonster })}
+            disabled={selectedMonster === -1}
+          >
+            On se lance !
           </Button>
         </Modal.Footer>
       </Modal>

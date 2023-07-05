@@ -19,6 +19,7 @@ import {
 import { getMatchesErrorHandler } from "./errors/get";
 import { placeBetErrorHandler } from "./errors/placeBet";
 import { Match, PlaceBet } from "./matches.model";
+import { joinMatchesErrorHandler } from "./errors/join";
 
 export const matchesApi = createApi({
   reducerPath,
@@ -81,7 +82,7 @@ export const matchesApi = createApi({
     // Join a match
     joinMatch: builder.mutation<Match, { matchId: number; monsterId: number }>({
       query: ({ matchId, monsterId }) => ({
-        url: `${endpoint.joinMatch(matchId)}/join`,
+        url: `${endpoint.joinMatch(matchId)}`,
         method: "PATCH",
         body: { monster: monsterId },
       }),
@@ -89,9 +90,10 @@ export const matchesApi = createApi({
       onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
         try {
           const response = await queryFulfilled;
+          toast.success("Vous avez rejoint le match avec succès !");
         } catch (err) {
           const error = err as GenericApiError;
-          getMatchesErrorHandler(error);
+          joinMatchesErrorHandler(error);
         }
       },
     }),
