@@ -11,12 +11,19 @@ import {
   Text,
 } from "@nextui-org/react";
 import { convertApiTypeToType } from "@utils/utils";
+import { addMinutes, format, isAfter } from "date-fns";
+import fr from "date-fns/locale/fr";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
-import { createMatchFormState } from "src/store/matches/selector";
-import { setStepCreateForm } from "src/store/matches/slice";
+import { createMatchFormState, matchesState } from "src/store/matches/selector";
+import {
+  setStepCreateForm,
+  useCreateMatchMutation,
+  useGetMatchesQuery,
+} from "src/store/matches/slice";
+import { walletState } from "src/store/wallet/selector";
 
 type Step4Props = {};
 
@@ -25,12 +32,104 @@ const Step4 = (props: Step4Props) => {
 
   const { monster, step, arena, bet, date } = useSelector(createMatchFormState);
   const { user } = useSelector(applicationState);
+  const { credits } = useSelector(walletState);
+  const { matches } = useSelector(matchesState);
+  const { refetch } = useGetMatchesQuery();
+  const [createMatchMutation, { data, isError, isLoading, error }] =
+    useCreateMatchMutation();
 
-  console.log("user 🤷‍♀️", user);
+  // A monster can't have 2 matches at the same time (5 minutes diff while battling)
+  // TODO : CHANGER CES NOM DE VARIABLES et FONCTION
+  const checkMonsterAlreadyHaveMatchAroundDate = () => {
+    if (!monster || !date) return false;
+
+    const result = matches.filter((match) => {
+      const existingMatchStartDate = new Date(match.matchStartDate);
+      const existingMatchStartDatePlus5Minutes = addMinutes(
+        existingMatchStartDate,
+        5
+      );
+      const newMatchStartDate = new Date(date);
+      return (
+        (match.fk_monster_1 === monster?.id ||
+          match.fk_monster_2 === monster?.id) &&
+        isAfter(newMatchStartDate, existingMatchStartDatePlus5Minutes)
+      );
+    });
+
+    return result.length > 0;
+  };
+
+  const canCreateMatch = () => {
+    if (!monster || !arena || !bet || !date) {
+      toast.error("Une erreur est survenue. Veuillez recommencer.");
+      return false;
+    }
+
+    // @ts-ignore
+    if (!user?.StripeAccount || !user?.StripeBankAccount) {
+      toast.error("Vous devez avoir enregistré un compte bancaire pour miser");
+      return false;
+    }
+
+    if (bet > credits) {
+      toast.error(
+        "Vous ne pouvez pas miser plus que ce que vous avez sur votre compte"
+      );
+      return false;
+    }
+
+    if (bet < 100) {
+      toast.error("Vous devez miser au moins 100 jetons");
+      return false;
+    }
+
+    if (!checkMonsterAlreadyHaveMatchAroundDate()) {
+      toast.error(
+        "Ce monstre a déjà un match de prévu à cette date. Un match dure environ 5 minutes (performance, arbitrage...). Veuillez choisir une autre date."
+      );
+      return false;
+    }
+
+    // TODO : Checker qu'on peut pas créer de match dans le passé (avant la date d'aujourd'hui)
+
+    // TODO check arena is not already in a match at the same date
+
+    return true;
+  };
 
   const [visible, setVisible] = useState(false);
-  const closeHandler = useCallback(() => setVisible(false), []);
-  const openHandler = useCallback(() => setVisible(true), []);
+
+  const ConfirmPaymentHandler = async () => {
+    if (!canCreateMatch()) {
+      closeModaleHandler();
+      return;
+    }
+
+    if (!monster || !arena || !date) return;
+
+    await createMatchMutation({
+      monster1: monster.id,
+      weight_category: monster.weight_category,
+      fk_arena: arena.id,
+      matchStartDate: new Date(date),
+      entry_cost: bet,
+    });
+
+    if (isError) {
+      toast.error(
+        "Une erreur est survenue durant la création de match. Veuillez recommencer."
+      );
+      return;
+    }
+
+    setVisible(false);
+    dispatch(setStepCreateForm(4));
+  };
+
+  const closeModaleHandler = useCallback(() => setVisible(false), []);
+
+  const openModaleHandler = useCallback(() => setVisible(true), []);
 
   const handleStepBack = () => {
     dispatch(setStepCreateForm(2));
@@ -41,10 +140,8 @@ const Step4 = (props: Step4Props) => {
     !user?.StripeAccount || !user?.StripeBankAccount;
 
   useEffect(() => {
-    if (hasStripeAccount) {
-      toast.error("Vous devez avoir un compte Stripe pour créer un match");
-    }
-  }, [hasStripeAccount]);
+    refetch();
+  }, []);
 
   return (
     <>
@@ -82,7 +179,10 @@ const Step4 = (props: Step4Props) => {
                 {arena?.country}
               </Text>
               {/* @ts-ignore */}
-              <Text>Date : {date}</Text>
+              <Text>
+                {/* @ts-ignore */}
+                Date : {format(new Date(date), "dd/MM/yyyy", { locale: fr })}
+              </Text>
             </Col>
           </Card>
           <Spacer y={1} />
@@ -92,7 +192,7 @@ const Step4 = (props: Step4Props) => {
           <Spacer y={0.5} />
           <Card css={{ padding: "1rem" }}>
             <Col>
-              <Text>Mise : {bet}</Text>
+              <Text>Mise : {bet} jetons</Text>
             </Col>
           </Card>
         </Col>
@@ -101,7 +201,7 @@ const Step4 = (props: Step4Props) => {
             Retour
           </Button>
           <Spacer x={0.5} />
-          <Button onClick={openHandler}>Suivant</Button>
+          <Button onClick={openModaleHandler}>Suivant</Button>
         </Row>
       </div>
       <Modal
@@ -109,7 +209,7 @@ const Step4 = (props: Step4Props) => {
         blur
         aria-labelledby="modal-title"
         open={visible}
-        onClose={closeHandler}
+        onClose={closeModaleHandler}
       >
         <Modal.Header>
           <Col>
@@ -146,10 +246,10 @@ const Step4 = (props: Step4Props) => {
         </Modal.Header>
         <Modal.Body></Modal.Body>
         <Modal.Footer>
-          <Button auto flat color="error" onPress={closeHandler}>
+          <Button auto flat color="error" onPress={closeModaleHandler}>
             Fermer
           </Button>
-          <Button auto onPress={closeHandler}>
+          <Button auto onPress={ConfirmPaymentHandler}>
             Confirmer le paiement
           </Button>
         </Modal.Footer>

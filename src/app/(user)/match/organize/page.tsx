@@ -1,8 +1,9 @@
 "use client";
 
 import { Steps } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createMatchFormState } from "src/store/matches/selector";
+import { resetCreateForm } from "src/store/matches/slice";
 import Step1 from "./components/Step1";
 import Step2 from "./components/Step2";
 import Step3 from "./components/Step3/Step3";
@@ -13,6 +14,7 @@ type OrganizeMatchPageProps = {};
 
 const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
   const { step } = useSelector(createMatchFormState);
+  const dispatch = useDispatch();
 
   const renderStepperItem = (step: number) => (
     <Steps
@@ -51,6 +53,7 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
       case 4:
         return <Step5 />;
       default:
+        dispatch(resetCreateForm());
         return <div>default steps forms</div>;
     }
   };
