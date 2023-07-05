@@ -17,6 +17,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
+import { useGetUserQuery } from "src/store/application/slice";
 import { createMatchFormState, matchesState } from "src/store/matches/selector";
 import {
   setStepCreateForm,
@@ -35,6 +36,7 @@ const Step4 = (props: Step4Props) => {
   const { credits } = useSelector(walletState);
   const { matches } = useSelector(matchesState);
   const { refetch } = useGetMatchesQuery();
+  const { refetch: userRefetch } = useGetUserQuery("");
   const [createMatchMutation, { data, isError, isLoading, error }] =
     useCreateMatchMutation();
 
@@ -55,6 +57,11 @@ const Step4 = (props: Step4Props) => {
           match.fk_monster_2 === monster?.id) &&
         isAfter(newMatchStartDate, existingMatchStartDatePlus5Minutes)
       );
+    });
+
+    console.log({
+      result,
+      returned: result.length > 0,
     });
 
     return result.length > 0;
@@ -141,6 +148,7 @@ const Step4 = (props: Step4Props) => {
 
   useEffect(() => {
     refetch();
+    userRefetch();
   }, []);
 
   return (

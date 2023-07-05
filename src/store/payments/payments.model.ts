@@ -32,6 +32,7 @@ export interface Transaction {
   Invoice: Invoice;
   invoiceId: number;
   StripePayments?: StripePayments;
+  amount?: number;
 }
 
 export interface StripeAccount {
