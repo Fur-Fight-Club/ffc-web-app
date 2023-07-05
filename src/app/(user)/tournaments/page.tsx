@@ -1,7 +1,10 @@
 "use client";
 import { Card, Grid, Text } from "@nextui-org/react";
 import { useEffect, useState, useContext } from "react";
-import { useGetAllTournamentsQuery } from "src/store/tournament/slice";
+import {
+  useGetAllTournamentsQuery,
+  useStartTournamentMutation,
+} from "src/store/tournament/slice";
 import { TournamentItem } from "./components/TournamentItem.component";
 import { TournamentCard } from "./components/TournamentCard.component";
 import { motion } from "framer-motion";
@@ -16,10 +19,6 @@ export default function Tournaments() {
   useEffect(() => {
     refetchTournaments();
   }, []);
-
-  useEffect(() => {
-    console.log(tournaments);
-  }, [tournaments]);
 
   const [selectedTournament, setSelectedTournament] = useState<
     number | undefined
