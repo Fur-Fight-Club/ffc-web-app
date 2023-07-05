@@ -123,6 +123,7 @@ export default function Tournaments() {
                   tournament={
                     tournaments?.find((t) => t.id === selectedTournament)!
                   }
+                  refetch={() => refetchTournaments()}
                 />
               ) : (
                 <Text i>

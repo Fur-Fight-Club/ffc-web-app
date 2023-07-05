@@ -31,10 +31,12 @@ import { SocketContext } from "src/contexts/socket.context";
 
 interface TournamentCardProps {
   tournament: Tournament;
+  refetch: () => void;
 }
 
 export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
   tournament: t,
+  refetch,
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [width, setWidth] = React.useState(500);
@@ -47,9 +49,11 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
 
   useEffect(() => {
     if (isSuccessEndRound) {
+      console.log("end round success");
       socket.emit("match", { update: true });
+      refetch();
     }
-  }, []);
+  }, [isSuccessEndRound]);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -93,13 +97,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[6].Monster1?.name ?? "",
                   picture: t.Matches[6].Monster1?.picture ?? "",
                   resultText:
-                    t.Matches[6].fk_winner === undefined
+                    t.Matches[6].fk_winner === null
                       ? ""
                       : t.Matches[6].fk_winner === t.Matches[6].Monster1?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[6].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[6].fk_winner === null ? null : "PLAYED",
                 },
                 {
                   id: t.Matches[6].Monster2?.id ?? matchsHelpers.generateUuid(),
@@ -110,13 +113,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[6].Monster2?.name ?? "",
                   picture: t.Matches[6].Monster2?.picture ?? "",
                   resultText:
-                    t.Matches[6].fk_winner === undefined
+                    t.Matches[6].fk_winner === null
                       ? ""
                       : t.Matches[6].fk_winner === t.Matches[6].Monster2?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[6].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[6].fk_winner === null ? null : "PLAYED",
                 },
               ],
               startTime: t.Matches[6].matchEndDate
@@ -143,13 +145,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[4].Monster1?.name ?? "",
                   picture: t.Matches[4].Monster1?.picture ?? "",
                   resultText:
-                    t.Matches[4].fk_winner === undefined
+                    t.Matches[4].fk_winner === null
                       ? ""
                       : t.Matches[4].fk_winner === t.Matches[4].Monster1?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[4].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[4].fk_winner === null ? null : "PLAYED",
                 },
                 {
                   id: t.Matches[4].Monster2?.id ?? matchsHelpers.generateUuid(),
@@ -160,13 +161,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[4].Monster2?.name ?? "",
                   picture: t.Matches[4].Monster2?.picture ?? "",
                   resultText:
-                    t.Matches[4].fk_winner === undefined
+                    t.Matches[4].fk_winner === null
                       ? ""
                       : t.Matches[4].fk_winner === t.Matches[4].Monster2?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[4].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[4].fk_winner === null ? null : "PLAYED",
                 },
               ],
               startTime: t.Matches[0].matchEndDate
@@ -193,13 +193,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[0].Monster1?.name ?? "",
                   picture: t.Matches[0].Monster1?.picture ?? "",
                   resultText:
-                    t.Matches[0].fk_winner === undefined
+                    t.Matches[0].fk_winner === null
                       ? ""
                       : t.Matches[0].fk_winner === t.Matches[0].Monster1?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[0].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[0].fk_winner === null ? null : "PLAYED",
                 },
                 {
                   id: t.Matches[0].Monster2?.id ?? matchsHelpers.generateUuid(),
@@ -210,13 +209,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[0].Monster2?.name ?? "",
                   picture: t.Matches[0].Monster2?.picture ?? "",
                   resultText:
-                    t.Matches[0].fk_winner === undefined
+                    t.Matches[0].fk_winner === null
                       ? ""
                       : t.Matches[0].fk_winner === t.Matches[0].Monster2?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[0].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[0].fk_winner === null ? null : "PLAYED",
                 },
               ],
               startTime: t.Matches[0].matchEndDate
@@ -243,13 +241,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[2].Monster1?.name ?? "",
                   picture: t.Matches[2].Monster1?.picture ?? "",
                   resultText:
-                    t.Matches[2].fk_winner === undefined
+                    t.Matches[2].fk_winner === null
                       ? ""
                       : t.Matches[2].fk_winner === t.Matches[2].Monster1?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[2].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[2].fk_winner === null ? null : "PLAYED",
                 },
                 {
                   id: t.Matches[2].Monster2?.id ?? matchsHelpers.generateUuid(),
@@ -260,13 +257,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[2].Monster2?.name ?? "",
                   picture: t.Matches[2].Monster2?.picture ?? "",
                   resultText:
-                    t.Matches[2].fk_winner === undefined
+                    t.Matches[2].fk_winner === null
                       ? ""
                       : t.Matches[2].fk_winner === t.Matches[2].Monster2?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[2].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[2].fk_winner === null ? null : "PLAYED",
                 },
               ],
               startTime: t.Matches[2].matchEndDate
@@ -293,13 +289,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[5].Monster1?.name ?? "",
                   picture: t.Matches[5].Monster1?.picture ?? "",
                   resultText:
-                    t.Matches[5].fk_winner === undefined
+                    t.Matches[5].fk_winner === null
                       ? ""
                       : t.Matches[5].fk_winner === t.Matches[5].Monster1?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[5].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[5].fk_winner === null ? null : "PLAYED",
                 },
                 {
                   id: t.Matches[5].Monster2?.id ?? matchsHelpers.generateUuid(),
@@ -310,13 +305,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[5].Monster2?.name ?? "",
                   picture: t.Matches[5].Monster2?.picture ?? "",
                   resultText:
-                    t.Matches[5].fk_winner === undefined
+                    t.Matches[5].fk_winner === null
                       ? ""
                       : t.Matches[5].fk_winner === t.Matches[5].Monster2?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[5].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[5].fk_winner === null ? null : "PLAYED",
                 },
               ],
               startTime: t.Matches[5].matchEndDate
@@ -343,13 +337,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[1].Monster1?.name ?? "",
                   picture: t.Matches[1].Monster1?.picture ?? "",
                   resultText:
-                    t.Matches[1].fk_winner === undefined
+                    t.Matches[1].fk_winner === null
                       ? ""
                       : t.Matches[1].fk_winner === t.Matches[1].Monster1?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[1].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[1].fk_winner === null ? null : "PLAYED",
                 },
                 {
                   id: t.Matches[1].Monster2?.id ?? matchsHelpers.generateUuid(),
@@ -360,13 +353,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[1].Monster2?.name ?? "",
                   picture: t.Matches[1].Monster2?.picture ?? "",
                   resultText:
-                    t.Matches[1].fk_winner === undefined
+                    t.Matches[1].fk_winner === null
                       ? ""
                       : t.Matches[1].fk_winner === t.Matches[1].Monster2?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[1].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[1].fk_winner === null ? null : "PLAYED",
                 },
               ],
               startTime: t.Matches[1].matchEndDate
@@ -393,13 +385,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[3].Monster1?.name ?? "",
                   picture: t.Matches[3].Monster1?.picture ?? "",
                   resultText:
-                    t.Matches[3].fk_winner === undefined
+                    t.Matches[3].fk_winner === null
                       ? ""
                       : t.Matches[3].fk_winner === t.Matches[3].Monster1?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[3].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[3].fk_winner === null ? null : "PLAYED",
                 },
                 {
                   id: t.Matches[3].Monster2?.id ?? matchsHelpers.generateUuid(),
@@ -410,13 +401,12 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
                   name: t.Matches[3].Monster2?.name ?? "",
                   picture: t.Matches[3].Monster2?.picture ?? "",
                   resultText:
-                    t.Matches[3].fk_winner === undefined
+                    t.Matches[3].fk_winner === null
                       ? ""
                       : t.Matches[3].fk_winner === t.Matches[3].Monster2?.id
                       ? "Victoire"
                       : "Defaite",
-                  status:
-                    t.Matches[3].fk_winner === undefined ? null : "PLAYED",
+                  status: t.Matches[3].fk_winner === null ? null : "PLAYED",
                 },
               ],
               startTime: t.Matches[3].matchEndDate

@@ -13,6 +13,7 @@ import {
   UpdateTournamentDto,
 } from "./tournament.model";
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-hot-toast";
 
 export const tournamentApi = createApi({
   reducerPath,
@@ -148,7 +149,7 @@ export const tournamentApi = createApi({
     startTournament: builder.mutation<Tournament[], number>({
       query: (id) => ({
         url: `${endpoints.startTournament(id)}`,
-        method: "POST",
+        method: "GET",
       }),
 
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -176,6 +177,7 @@ export const tournamentApi = createApi({
         dispatch(setLoading(true));
         try {
           const { data } = await queryFulfilled;
+          toast.success("Le round a ete clos");
           dispatch(setLoading(false));
         } catch (err) {
           const error = err as GenericApiError;
