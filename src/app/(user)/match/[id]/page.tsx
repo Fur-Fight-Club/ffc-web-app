@@ -117,7 +117,7 @@ export default function MatchPage({ params }: { params: { id: string } }) {
         justifyContent: "center",
       }}
     >
-      {user.role === "ADMIN" && data?.fk_tournament !== undefined && (
+      {user.role === "ADMIN" && data?.fk_tournament !== null && (
         <div
           style={{
             position: "absolute",
