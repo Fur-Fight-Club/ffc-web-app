@@ -1,20 +1,19 @@
 "use client";
 
+import { Card, Col, Row, Table, Text } from "@nextui-org/react";
+import { DownloadSimple } from "@phosphor-icons/react";
+import colors from "@styles/_colors.module.scss";
 import { format } from "date-fns";
 import fr from "date-fns/locale/fr";
-import { Card, Col, Row, Text, Table } from "@nextui-org/react";
-import colors from "@styles/_colors.module.scss";
 import Image from "next/image";
-import {
-  tradTagTransaction,
-  IconTypeTransaction,
-  getImageByAmount,
-} from "./utils";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
-import { DownloadSimple } from "@phosphor-icons/react";
 import { convertMoneyToCredits } from "src/utils/utils";
-import { useEffect } from "react";
+import {
+  IconTypeTransaction,
+  getImageByAmount,
+  tradTagTransaction,
+} from "./utils";
 
 type TransactionHistoryTableProps = {};
 
@@ -37,6 +36,30 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
     { name: "Date", uid: "created_at" },
     { name: "Facture", uid: "Invoice.url" },
   ];
+
+  const formatAmountItemCoinsColumn = (item: any) => {
+    if (
+      (item.tag === "FEE" && item.type === "IN") ||
+      (item.tag === "BET" && item.type === "OUT") ||
+      (item.tag === "BET" && item.type === "IN")
+    ) {
+      return `${item?.amount}`;
+    }
+
+    return `${convertMoneyToCredits(item?.amount / 100)}`;
+  };
+
+  const formatAmountItemEuroColumn = (item: any) => {
+    if (
+      (item.tag === "FEE" && item.type === "IN") ||
+      (item.tag === "BET" && item.type === "OUT") ||
+      (item.tag === "BET" && item.type === "IN")
+    ) {
+      return `0 €`;
+    }
+
+    return `${item?.amount / 100} €`;
+  };
 
   return (
     <Card>
@@ -97,8 +120,8 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
                           size={14}
                           css={{ tt: "capitalize", color: "$accents7" }}
                         >
-                          {/* @ts-ignore */}
-                          {convertMoneyToCredits(item?.amount / 100)}
+                          {formatAmountItemCoinsColumn(item)}
+
                           <Image
                             width={20}
                             height={20}
@@ -121,8 +144,7 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
                           size={14}
                           css={{ tt: "capitalize", color: "$accents7" }}
                         >
-                          {/* @ts-ignore */}
-                          {item?.amount / 100} €
+                          {formatAmountItemEuroColumn(item)}
                         </Text>
                       </Row>
                     </Col>
