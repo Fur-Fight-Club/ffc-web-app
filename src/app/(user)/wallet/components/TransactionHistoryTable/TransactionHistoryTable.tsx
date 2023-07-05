@@ -132,9 +132,14 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
                       <Col>
                         <Row>
                           {/* @ts-ignore */}
-                          {format(new Date(item?.createdAt), "dd/MM/yyyy", {
-                            locale: fr,
-                          })}
+                          {format(
+                            // @ts-ignore
+                            new Date(item?.createdAt ?? new Date()),
+                            "dd/MM/yyyy",
+                            {
+                              locale: fr,
+                            }
+                          )}
                         </Row>
                       </Col>
                     </Col>
