@@ -37,6 +37,38 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
     { name: "Facture", uid: "Invoice.url" },
   ];
 
+  const formatAmountItemCoinsColumn = (item: any) => {
+    if (item.tag === "FEE" && item.type === "IN") {
+      return `${item?.amount}`;
+    }
+
+    if (item.tag === "BET" && item.type === "OUT") {
+      return `${item?.amount}`;
+    }
+
+    if (item.tag === "BET" && item.type === "IN") {
+      return `${item?.amount}`;
+    }
+
+    return `${convertMoneyToCredits(item?.amount / 100)}`;
+  };
+
+  const formatAmountItemEuroColumn = (item: any) => {
+    if (item.tag === "FEE" && item.type === "IN") {
+      return `0 €`;
+    }
+
+    if (item.tag === "BET" && item.type === "OUT") {
+      return `0 €`;
+    }
+
+    if (item.tag === "BET" && item.type === "IN") {
+      return `0 €`;
+    }
+
+    return `${item?.amount / 100} €`;
+  };
+
   return (
     <Card>
       <Card.Header>
@@ -96,13 +128,8 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
                           size={14}
                           css={{ tt: "capitalize", color: "$accents7" }}
                         >
-                          {/* @ts-ignore */}
+                          {formatAmountItemCoinsColumn(item)}
 
-                          {item.tag === "FEE" &&
-                            item.type === "IN" &&
-                            item?.amount}
-                          {!(item.tag === "FEE" && item.type === "IN") &&
-                            convertMoneyToCredits(item.amount / 100)}
                           <Image
                             width={20}
                             height={20}
@@ -125,12 +152,7 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
                           size={14}
                           css={{ tt: "capitalize", color: "$accents7" }}
                         >
-                          {/* @ts-ignore */}
-
-                          {item.tag === "FEE" && item.type === "IN" && "0 €"}
-                          {/* @ts-ignore */}
-                          {!(item.tag === "FEE" && item.type === "IN") &&
-                            `${item?.amount / 100} €`}
+                          {formatAmountItemEuroColumn(item)}
                         </Text>
                       </Row>
                     </Col>
