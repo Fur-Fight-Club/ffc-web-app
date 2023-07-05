@@ -38,15 +38,11 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
   ];
 
   const formatAmountItemCoinsColumn = (item: any) => {
-    if (item.tag === "FEE" && item.type === "IN") {
-      return `${item?.amount}`;
-    }
-
-    if (item.tag === "BET" && item.type === "OUT") {
-      return `${item?.amount}`;
-    }
-
-    if (item.tag === "BET" && item.type === "IN") {
+    if (
+      (item.tag === "FEE" && item.type === "IN") ||
+      (item.tag === "BET" && item.type === "OUT") ||
+      (item.tag === "BET" && item.type === "IN")
+    ) {
       return `${item?.amount}`;
     }
 
@@ -54,15 +50,11 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
   };
 
   const formatAmountItemEuroColumn = (item: any) => {
-    if (item.tag === "FEE" && item.type === "IN") {
-      return `0 €`;
-    }
-
-    if (item.tag === "BET" && item.type === "OUT") {
-      return `0 €`;
-    }
-
-    if (item.tag === "BET" && item.type === "IN") {
+    if (
+      (item.tag === "FEE" && item.type === "IN") ||
+      (item.tag === "BET" && item.type === "OUT") ||
+      (item.tag === "BET" && item.type === "IN")
+    ) {
       return `0 €`;
     }
 
