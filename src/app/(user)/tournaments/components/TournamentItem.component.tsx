@@ -16,7 +16,10 @@ import { useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 import { SocketContext } from "src/contexts/socket.context";
 import { applicationState } from "src/store/application/selector";
-import { useJoinTournamentMutation } from "src/store/tournament/slice";
+import {
+  useJoinTournamentMutation,
+  useStartTournamentMutation,
+} from "src/store/tournament/slice";
 import { Tournament } from "src/store/tournament/tournament.model";
 
 interface TournamentItemProps {
@@ -39,10 +42,13 @@ export const TournamentItem: React.FunctionComponent<TournamentItemProps> = ({
   const [joinTournament, { isSuccess: isSuccessJoin }] =
     useJoinTournamentMutation();
 
+  const [startTournament, { isSuccess: isSuccessStart }] =
+    useStartTournamentMutation();
+
   const socket = useContext(SocketContext);
 
   useEffect(() => {
-    if (isSuccessJoin) {
+    if (isSuccessJoin || isSuccessStart) {
       setModalVisible(false);
       socket.emit("match", { update: true });
       onRefresh();
@@ -116,6 +122,24 @@ export const TournamentItem: React.FunctionComponent<TournamentItemProps> = ({
           </Text>
           <Spacer y={1} />
         </div>
+      ) : t.Participants.length === 8 ? (
+        <div>
+          <Text h4>Le tournoi est plein, il va bientot commencer !</Text>
+          <Spacer y={1} />
+          {user.role === "ADMIN" && (
+            <>
+              <Button
+                css={{
+                  width: "100%",
+                }}
+                onPress={() => startTournament(t.id)}
+              >
+                Demarrer le tournoi
+              </Button>
+              <Spacer y={1} />
+            </>
+          )}
+        </div>
       ) : (
         <div>
           <Text h4>
@@ -131,6 +155,7 @@ export const TournamentItem: React.FunctionComponent<TournamentItemProps> = ({
             css={{
               width: "100%",
             }}
+            onPress={() => setModalVisible(true)}
           >
             Faire participer mon monstre
           </Button>
@@ -162,7 +187,7 @@ export const TournamentItem: React.FunctionComponent<TournamentItemProps> = ({
                 }
                 options={user?.Monster.map((m) => ({
                   value: m.id,
-                  label: m.name,
+                  label: `${m.name} (${m.mmr} MMR)`,
                 }))}
               />
             </Modal.Body>
