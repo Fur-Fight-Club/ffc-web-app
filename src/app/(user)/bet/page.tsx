@@ -1,5 +1,6 @@
 "use client";
-import { Card, Grid, Text } from "@nextui-org/react";
+import { Button, Card, Grid, Text } from "@nextui-org/react";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { Match } from "src/store/matches/matches.model";
 import { useGetMatchesQuery } from "src/store/matches/slice";
@@ -29,6 +30,40 @@ const BetPage = (props: BetPageProps) => {
 
   return (
     <Card>
+      <Card.Header>
+        <Grid.Container
+          gap={0}
+          alignContent="center"
+          justify="center"
+          alignItems="center"
+        >
+          <Grid xs={4} justify="flex-start">
+            <Button
+              auto
+              icon={<CaretLeft size={32} />}
+              onPress={() =>
+                setSelectedDate(
+                  new Date(selectedDate.setDate(selectedDate.getDate() - 1))
+                )
+              }
+            />
+          </Grid>
+          <Grid xs={4} justify="center">
+            <Text h5>{selectedDate.toLocaleDateString("fr-FR")}</Text>
+          </Grid>
+          <Grid xs={4} justify="flex-end">
+            <Button
+              auto
+              icon={<CaretRight size={32} />}
+              onPress={() =>
+                setSelectedDate(
+                  new Date(selectedDate.setDate(selectedDate.getDate() + 1))
+                )
+              }
+            />
+          </Grid>
+        </Grid.Container>
+      </Card.Header>
       <Card.Body>
         <Grid.Container gap={2} justify="center">
           {selectedMatches.map((match, index) => (
