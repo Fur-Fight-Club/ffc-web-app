@@ -29,41 +29,56 @@ export const MatchList: React.FunctionComponent<MatchListProps> = ({
       <Grid xs={12} className={styles.matchItem}>
         <Grid.Container gap={2}>
           <Grid xs={6} justify="center" alignItems="center" direction="column">
-            <Avatar src={match.Monster1.picture} css={{ size: "$20" }} />
-            <Text h4>{match.Monster1.name}</Text>
+            <Avatar src={match.Monster1?.picture} css={{ size: "$20" }} />
+            <Text h4>{match.Monster1?.name}</Text>
             <div>
               <Badge
                 css={{
                   backgroundColor: weightCategoryColors(
-                    match.Monster1.weight_category
+                    match.Monster1?.weight_category
                   ),
                   color: textColor(
-                    weightCategoryColors(match.Monster1.weight_category)
+                    weightCategoryColors(match.Monster1?.weight_category)
                   ),
                 }}
               >
-                {match.Monster1.weight}kg
+                {match.Monster1?.weight}kg
               </Badge>
-              <Badge>{match.Monster1.mmr} MMR</Badge>
+              <Badge>
+                {match.Monster1?.mmr}
+                {match.Monster1?.mmr ? " MMR" : "—"}
+              </Badge>
             </div>
           </Grid>
           <Grid xs={6} justify="center" alignItems="center" direction="column">
-            <Avatar src={match.Monster2.picture} css={{ size: "$20" }} />
-            <Text h4>{match.Monster2.name}</Text>
+            <Avatar
+              src={match.Monster2?.picture}
+              css={{
+                size: "$20",
+                cursor: match.Monster2 === undefined ? "pointer" : "default",
+              }}
+              text="+"
+              onClick={match.Monster2 === undefined ? () => {} : undefined}
+            />
+            <Text h4>{match.Monster2?.name}</Text>
             <div>
               <Badge
                 css={{
                   backgroundColor: weightCategoryColors(
-                    match.Monster2.weight_category
+                    match.Monster2?.weight_category
                   ),
                   color: textColor(
-                    weightCategoryColors(match.Monster2.weight_category)
+                    weightCategoryColors(match.Monster2?.weight_category)
                   ),
                 }}
               >
-                {match.Monster2.weight}kg
+                {match.Monster2?.weight}
+                {match.Monster2?.weight ? "kg" : "—"}
               </Badge>
-              <Badge>{match.Monster2.mmr} MMR</Badge>
+              <Badge>
+                {match.Monster2?.mmr}
+                {match.Monster2?.mmr ? " MMR" : "—"}
+              </Badge>
             </div>
           </Grid>
           {match.fk_winner && (
@@ -77,9 +92,9 @@ export const MatchList: React.FunctionComponent<MatchListProps> = ({
                 Match terminé !
               </Text>
               <Text h5>
-                {match.fk_winner === match.Monster1.id
-                  ? match.Monster1.name
-                  : match.Monster2.name}{" "}
+                {match.fk_winner === match.Monster1?.id
+                  ? match.Monster1?.name
+                  : match.Monster2?.name}{" "}
                 a gagné !
               </Text>
             </Grid>
