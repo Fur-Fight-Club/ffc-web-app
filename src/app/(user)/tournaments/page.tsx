@@ -9,6 +9,7 @@ import { TournamentItem } from "./components/TournamentItem.component";
 import { TournamentCard } from "./components/TournamentCard.component";
 import { motion } from "framer-motion";
 import { SocketContext } from "src/contexts/socket.context";
+import dynamic from "next/dynamic";
 
 export default function Tournaments() {
   const { data: tournaments, refetch: refetchTournaments } =
@@ -33,6 +34,16 @@ export default function Tournaments() {
       socket.off("match-server-response");
     };
   }, []);
+
+  const TournamentCardNoSSR = dynamic(
+    () =>
+      import("./components/TournamentCard.component").then(
+        (mod) => mod.TournamentCard
+      ),
+    {
+      ssr: false,
+    }
+  );
 
   return (
     <Grid.Container
@@ -108,7 +119,7 @@ export default function Tournaments() {
             </Card.Header>
             <Card.Body>
               {selectedTournament ? (
-                <TournamentCard
+                <TournamentCardNoSSR
                   tournament={
                     tournaments?.find((t) => t.id === selectedTournament)!
                   }
