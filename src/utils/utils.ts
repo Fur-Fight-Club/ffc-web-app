@@ -156,7 +156,7 @@ export const monsterType = [
   "MAGICAL",
 ];
 
-export const weightCategoryColors = (weightCategory: WeightCategoryType) => {
+export const weightCategoryColors = (weightCategory?: WeightCategoryType) => {
   switch (weightCategory) {
     case "A_FINE_BOI":
       return "#ff8080";
