@@ -59,9 +59,9 @@ const Dashboard = (props: DashboardProps) => {
         </Grid>
         <Grid xs={4}>
           <KpiCardsGraph
-            kpiMaxValue={totalMatches}
+            kpiMaxValue={totalMatches ? totalMatches : 0}
+            kpiValue={totalWins ? totalWins : 0}
             firstString="Combat gagnés"
-            kpiValue={totalWins}
             secondString="de match gagnées"
           />
         </Grid>

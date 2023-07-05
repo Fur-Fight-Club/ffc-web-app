@@ -22,7 +22,11 @@ const KpiCardsGraph: React.FunctionComponent<TemplateProps> = ({
   firstString,
   secondString,
 }) => {
-  const percentage = Math.round((kpiValue / kpiMaxValue) * 100);
+  let percentage = Math.round((kpiValue / kpiMaxValue) * 100);
+
+  if (kpiValue === 0 || kpiMaxValue === 0) {
+    percentage = 0;
+  }
 
   return (
     <Card
