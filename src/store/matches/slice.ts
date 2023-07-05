@@ -4,6 +4,7 @@ import {
   MatchMessage,
   Monster,
   Transaction,
+  WeightCategoryName,
 } from "ffc-prisma-package/dist/client";
 import { toast } from "react-hot-toast";
 import { baseQuery } from "../api";
@@ -35,8 +36,8 @@ export const matchesApi = createApi({
 
       onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
         try {
-          const response = await queryFulfilled;
-          dispatch(matchesSlice.actions.setMatches(response.data));
+          const { data } = await queryFulfilled;
+          dispatch(matchesSlice.actions.setMatches(data));
         } catch (err) {
           const error = err as GenericApiError;
           getMatchesErrorHandler(error);
@@ -62,16 +63,28 @@ export const matchesApi = createApi({
     }),
 
     // Create a match
-    createMatch: builder.mutation<Match, Match>({
-      query: ({ id, ...body }) => ({
+    createMatch: builder.mutation<
+      Match,
+      {
+        fk_arena: number;
+        weight_category: WeightCategoryName;
+        matchStartDate: Date;
+        monster1: number;
+        entry_cost: number;
+      }
+    >({
+      query: (body) => ({
         url: `${endpoint.createMatch}`,
         method: "POST",
         body,
       }),
 
       onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
+        console.log({ resource });
+
         try {
-          const response = await queryFulfilled;
+          const { data } = await queryFulfilled;
+          dispatch(updateMatches(data));
         } catch (err) {
           const error = err as GenericApiError;
           getMatchesErrorHandler(error);
@@ -224,6 +237,9 @@ export const matchesSlice = createSlice({
     setMatches: (state, action: PayloadAction<Match[]>) => {
       state.matches = action.payload;
     },
+    updateMatches: (state, action: PayloadAction<Match>) => {
+      state.matches.push(action.payload);
+    },
   },
 });
 
@@ -242,7 +258,7 @@ export const createMatchFormSlice = createSlice({
       /* @ts-ignore */
       state.arena = action.payload;
     },
-    SetDateCreateForm: (state, action: PayloadAction<Date | null>) => {
+    SetDateCreateForm: (state, action: PayloadAction<string | null>) => {
       state.date = action.payload;
     },
     setBetCreateForm: (state, action: PayloadAction<number>) => {
@@ -257,7 +273,7 @@ export const createMatchFormSlice = createSlice({
   },
 });
 
-export const { setMatches } = matchesSlice.actions;
+export const { setMatches, updateMatches } = matchesSlice.actions;
 
 export const {
   setStepCreateForm,

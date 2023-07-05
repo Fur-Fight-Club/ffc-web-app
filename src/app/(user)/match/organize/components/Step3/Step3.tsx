@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { createMatchFormState } from "src/store/matches/selector";
 import { setBetCreateForm, setStepCreateForm } from "src/store/matches/slice";
+import { walletState } from "src/store/wallet/selector";
 import styles from "./Step3.module.scss";
 import BetButton from "./components/BetButton";
 
@@ -19,6 +20,7 @@ const Step3 = (props: Step3Props) => {
   const dispatch = useDispatch();
   const { monster, step, arena, bet } = useSelector(createMatchFormState);
   const { user } = useSelector(applicationState);
+  const { credits } = useSelector(walletState);
 
   const [betState, setBetState] = useState<number>(bet);
   const [isResetDisplayed, setIsResetDisplayed] = useState<boolean>(
@@ -54,7 +56,8 @@ const Step3 = (props: Step3Props) => {
     checkedBet >= 100;
 
   // TODO : check if the user has enough money
-  const handleUserHasEnoughCoins = (checkedBet: number) => checkedBet <= 10000;
+  const handleUserHasEnoughCoins = (checkedBet: number) =>
+    checkedBet <= credits;
 
   const isButtonClickable = (betToAdd: number) =>
     handleBetIsAt100CoinsMinimum(betState + betToAdd) &&
