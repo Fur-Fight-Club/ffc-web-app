@@ -25,7 +25,7 @@ const MatchPage = (props: MatchPageProps) => {
       >
         <div className={styles.textContent}>
           <Text h2 size={"$6xl"} weight={"black"} color={colors.white}>
-            Participez
+            Rejoindre
           </Text>
           <Text h3 size={"$xl"} weight={"black"} color={colors.white}>
             Défier un adversaire sur son propre terrain
