@@ -71,7 +71,7 @@ const Step2 = (props: Step2Props) => {
   }, [refetch]);
 
   return (
-    <div style={{ height: "95%" }}>
+    <div style={{ height: "85vh" }}>
       <Grid.Container css={{ height: "100%", position: "relative" }} gap={2}>
         <Grid xs={4}>
           <div
