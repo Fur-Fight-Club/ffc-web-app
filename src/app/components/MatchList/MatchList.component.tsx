@@ -50,7 +50,13 @@ export const MatchList: React.FunctionComponent<MatchListProps> = ({
               </Badge>
             </div>
           </Grid>
-          <Grid xs={6} justify="center" alignItems="center" direction="column">
+          <Grid
+            xs={6}
+            justify="center"
+            alignItems="center"
+            direction="column"
+            css={{ cursor: "pointer" }}
+          >
             <Avatar
               src={match.Monster2?.picture}
               css={{
