@@ -44,43 +44,17 @@ const Step4 = (props: Step4Props) => {
     if (!monster || !date) return false;
 
     const result = matches.filter((match) => {
-      const mt = new Date(match.matchStartDate);
-      const mt5 = addMinutes(mt, 5);
-      const n = new Date(date);
-      console.log(
-        "Date existante",
-        format(new Date(mt), "dd/MM/yyyy HH:mm:ss", { locale: fr })
+      const existingMatchStartDate = new Date(match.matchStartDate);
+      const existingMatchStartDatePlus5Minutes = addMinutes(
+        existingMatchStartDate,
+        5
       );
-      console.log(
-        "Date existante + 5 minutes",
-        format(new Date(mt5), "dd/MM/yyyy HH:mm:ss", { locale: fr })
-      );
-      console.log(
-        "Date nouveau match",
-        format(new Date(n), "dd/MM/yyyy HH:mm:ss", {
-          locale: fr,
-        })
-      );
-      console.log(
-        "Est-ce que n > mt5",
-        (match.fk_monster_1 === monster?.id ||
-          match.fk_monster_2 === monster?.id) &&
-          isAfter(n, mt5)
-      );
-      console.log("monster ID", monster?.id);
-      console.log("match.fk_monster_1", match.fk_monster_1);
-
-      console.log("----------------------");
+      const newMatchStartDate = new Date(date);
       return (
         (match.fk_monster_1 === monster?.id ||
           match.fk_monster_2 === monster?.id) &&
-        isAfter(n, mt5)
+        isAfter(newMatchStartDate, existingMatchStartDatePlus5Minutes)
       );
-    });
-
-    console.log({
-      result,
-      returned: result.length > 0,
     });
 
     return result.length > 0;
@@ -119,9 +93,6 @@ const Step4 = (props: Step4Props) => {
 
     // TODO : Checker qu'on peut pas créer de match dans le passé (avant la date d'aujourd'hui)
 
-    toast.success("ÇA MARCHE");
-    return false;
-
     // TODO check arena is not already in a match at the same date
 
     return true;
@@ -145,10 +116,12 @@ const Step4 = (props: Step4Props) => {
       entry_cost: bet,
     });
 
-    console.log("data", data);
-    console.error("error", error);
-
-    if (isError) return; // TODO : remove later
+    if (isError) {
+      toast.error(
+        "Une erreur est survenue durant la création de match. Veuillez recommencer."
+      );
+      return;
+    }
 
     setVisible(false);
     dispatch(setStepCreateForm(4));
