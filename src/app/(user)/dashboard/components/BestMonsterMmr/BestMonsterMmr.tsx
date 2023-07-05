@@ -1,28 +1,35 @@
 "use client";
 
 import React from "react";
-import { Text, Card } from "@nextui-org/react";
+import { Text, Card, Button } from "@nextui-org/react";
 import colors from "@styles/_colors.module.scss";
 import { Monster } from "ffc-prisma-package/dist/client";
 import Image from "next/image";
 import styles from "./BestMonsterMmr.module.scss";
 import { convertApiTypeToLogoOnly } from "@utils/utils";
+import { useRouter } from "next/navigation";
 
 type BestMonsterMmrProps = {
   monster?: Monster | null;
 };
 
 const BestMonsterMmr = ({ monster }: BestMonsterMmrProps) => {
+  const router = useRouter;
+
   if (!monster) {
     return (
       <>
         <Text
           h3
-          size={"$lg"}
+          style={{ height: "100%" }}
           css={{ textAlign: "center" }}
           color={colors.primaryT300}
         ></Text>
-        <div className={styles.monterCardPreviewEmpty}></div>
+        <div className={styles.monterCardPreviewEmpty}>
+          <Button auto onPress={() => router.push("/profile")}>
+            Créer mon premier monstre
+          </Button>
+        </div>
       </>
     );
   }

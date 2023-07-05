@@ -8,21 +8,27 @@ import BestMonsterMmr from "./components/BestMonsterMmr/BestMonsterMmr";
 import { useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type DashboardProps = {};
 
 const Dashboard = (props: DashboardProps) => {
   const { user } = useSelector(applicationState);
+  const [bestMonster, setBestMonster] = useState({});
   const router = useRouter();
 
-  const bestMonster = user.Monster.reduce((prev, current) =>
-    prev.mmr > current.mmr ? prev : current
-  );
-
+  useEffect(() => {
+    if (user.Monster.length > 0) {
+      setBestMonster(
+        user?.Monster?.reduce((prev, current) =>
+          prev.mmr > current.mmr ? prev : current
+        )
+      );
+    }
+  }, [user?.Monster]);
 
   let totalMatches = 0;
   let totalWins = 0;
-
 
   user.Monster?.forEach((monster) => {
     totalMatches += monster.MatchFighter1.length + monster.MatchFighter2.length;
@@ -32,8 +38,6 @@ const Dashboard = (props: DashboardProps) => {
       monster.MatchFighter2.filter((match) => match.fk_winner === monster.id)
         .length;
   });
-
-  const winPercentage = totalMatches > 0 ? (totalWins / totalMatches) * 100 : 0;
 
   return (
     <div className={styles.dashboardContainer}>
@@ -49,15 +53,7 @@ const Dashboard = (props: DashboardProps) => {
           {user?.Monster?.length > 0 ? (
             <BestMonsterMmr monster={bestMonster} />
           ) : (
-            <Card
-              variant="flat"
-              css={{ padding: "2rem", height: "100%", background: "#FAF8F4" }}
-            >
-              {" "}
-              <Button auto onPress={() => router.push("/profile")}>
-                Profile
-              </Button>
-            </Card>
+            <BestMonsterMmr monster={null} />
           )}
         </Grid>
         <Grid xs={4}>
