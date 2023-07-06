@@ -16,9 +16,12 @@ interface MatchListProps {
 
 export const MatchList: React.FunctionComponent<MatchListProps> = ({
   match,
-  onClickActive,
+  onClickActive = true,
 }) => {
   const router = useRouter();
+  const goToMatch = (matchId: number) => {
+    router.push(`/match/${matchId}`);
+  };
   return (
     <motion.div
       style={{
@@ -26,9 +29,7 @@ export const MatchList: React.FunctionComponent<MatchListProps> = ({
       }}
       whileHover={onClickActive ? { scale: 1.02 } : undefined}
       whileTap={onClickActive ? { scale: 0.98 } : undefined}
-      onClick={
-        onClickActive ? () => router.push(`/match/${match.id}`) : undefined
-      }
+      onClick={onClickActive ? () => goToMatch(match.id) : undefined}
     >
       <Grid xs={12} className={styles.matchItem}>
         <Grid.Container gap={2}>

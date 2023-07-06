@@ -19,10 +19,15 @@ const BetPage = (props: BetPageProps) => {
       matches?.filter(
         (match) =>
           new Date(match.matchStartDate).toLocaleDateString("fr-FR") ===
-          selectedDate.toLocaleDateString("fr-FR")
+            selectedDate.toLocaleDateString("fr-FR") &&
+          match.fk_monster_1 !== null &&
+          match.fk_monster_2 !== null &&
+          match.winner === null
       ) ?? []
     );
   }, [matches, selectedDate]);
+
+  // ne pas pouvoir parier sur un match terminer ou un match qui n'a qu'un seul monstre en participant
 
   useEffect(() => {
     refetch();
@@ -70,7 +75,10 @@ const BetPage = (props: BetPageProps) => {
             <MatchList match={match} key={index} />
           ))}
           {selectedMatches.length === 0 && (
-            <Text h4>Aucun match de prevu pour cette date 😔</Text>
+            <Text h4>
+              Il n'y a actuellement aucun match sur lequel parier à cette date
+              😔
+            </Text>
           )}
         </Grid.Container>
       </Card.Body>

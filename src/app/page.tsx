@@ -7,6 +7,7 @@ import { Button } from "@components/UI/Button/Button.component";
 import { Card, Grid, Text, useTheme } from "@nextui-org/react";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import Lottie from "lottie-react";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Match } from "src/store/matches/matches.model";
