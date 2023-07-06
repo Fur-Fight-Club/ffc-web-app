@@ -1,105 +1,90 @@
 "use client";
 
 import CardList from "@components/CardList/components/CardList";
-import { Button, Row, Spacer } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { Button, Grid, Row, Spacer } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { Match } from "src/store/matches/matches.model";
+import { applicationState } from "src/store/application/selector";
 import { joinMatchFormState } from "src/store/matches/selector";
-import {
-  setMatchJoinForm,
-  setStepJoinForm,
-  useGetMatchesQuery,
-} from "src/store/matches/slice";
+import { setMonsterJoinForm, setStepJoinForm } from "src/store/matches/slice";
 import { Monster } from "src/store/monsters/monsters.model";
-import MonsterCardPreview from "../../../organize/components/MonsterCardPreview/MonsterCardPreview";
-import styles from "./Step2.module.scss";
+import MonsterCardDetails from "../../../organize/components/MonsterCardDetails";
+import MonsterCardPreview from "../../../organize/components/MonsterCardPreview";
 
-type Step2PropsType = {};
+type Step2Props = {};
 
-const Step2 = (props: Step2PropsType) => {
-  const { data: matches, refetch } = useGetMatchesQuery();
+const Step2 = (props: Step2Props) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  const { match: matchStore } = useSelector(joinMatchFormState);
+  const { user } = useSelector(applicationState);
+  const monsters = user?.Monster;
 
-  const selectableMatches =
-    matches
-      ?.filter((match) => !match.fk_winner && !match.fk_monster_2)
-      .sort((a, b) => {
-        const dateA: any = new Date(a?.matchStartDate ?? new Date());
+  const { monster } = useSelector(joinMatchFormState);
 
-        const dateB: any = new Date(b?.matchStartDate ?? new Date());
-        return dateB - dateA;
-      }) ?? [];
-
-  const [matchesState, setMatchesState] = useState<Match[]>(selectableMatches);
-  const [monsterOpponent, setMonsterOpponent] = useState<Monster | null>(null);
-
-  const handleDisplayOpponent = (monster: Monster) => {
-    if (monsterOpponent?.id !== monster.id) {
-      setMonsterOpponent(monster);
-      return;
-    }
-
-    setMonsterOpponent(null);
-  };
-
-  const handleMatchClick = (match: Match) => {
-    handleDisplayOpponent(match.Monster1);
-    dispatch(setMatchJoinForm(matchStore ? null : match));
+  const handleOnClick = (selectedMonster: Monster) => {
+    monster?.id === selectedMonster.id
+      ? dispatch(setMonsterJoinForm(null))
+      : // @ts-ignore
+        dispatch(setMonsterJoinForm(selectedMonster));
   };
 
   const handleNextStep = () => {
-    toast.success("Match sélectionné");
+    dispatch(setStepJoinForm(1));
+    toast.success("Monstre sélectionné");
   };
 
   const handleStepBack = () => {
     dispatch(setStepJoinForm(0));
   };
 
-  useEffect(() => {
-    refetch();
-    setMatchesState(selectableMatches);
-  }, []);
-
   return (
-    <div className={styles.step2}>
-      <Spacer y={1} />
-      <div className={styles.content}>
-        <div className={styles.cardList}>
-          <CardList>
-            {matchesState?.map((match) => (
-              <CardList.MatchItem
-                key={match.id}
-                match={match}
-                onClick={() => handleMatchClick(match)}
-              />
-            ))}
-          </CardList>
-        </div>
-        <Spacer x={1} />
-        <div className={styles.previews}>
-          <MonsterCardPreview
-            // @ts-ignore
-            monster={monsterOpponent}
-            labelPreview="Adversaire"
-          />
-          <Spacer y={1} />
-          <MonsterCardPreview labelPreview="Vous" />
-        </div>
-      </div>
-      <Spacer y={1} />
+    <div style={{ height: "95%" }}>
+      <Grid.Container css={{ height: "100%", position: "relative" }} gap={2}>
+        <Grid xs={4}>
+          <div style={{ width: "100%" }}>
+            <div>Vos monstres</div>
+            <CardList>
+              {monsters?.map((monsterItem) => (
+                <CardList.MonsterItem
+                  key={monsterItem.id}
+                  monster={monsterItem}
+                  onClick={() => handleOnClick(monsterItem)}
+                  isSelected={monster?.id === monsterItem.id}
+                />
+              ))}
+            </CardList>
+          </div>
+        </Grid>
+        <Grid xs={4}>
+          <div style={{ width: "100%" }}>
+            <div>Fiche</div>
+            {/* @ts-ignore */}
+            <MonsterCardDetails monster={monster} />
+          </div>
+        </Grid>
+        <Grid xs={4}>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {/* @ts-ignore */}
+            <MonsterCardPreview monster={monster} />
+          </div>
+        </Grid>
+      </Grid.Container>
       <Row justify="flex-end">
         <Button bordered onClick={handleStepBack}>
           Retour
         </Button>
         <Spacer x={0.5} />
-        <Button
-          {...(!matchStore && { disabled: true })}
-          onClick={handleNextStep}
-        >
+        <Button {...(!monster && { disabled: true })} onClick={handleNextStep}>
           Suivant
         </Button>
       </Row>
