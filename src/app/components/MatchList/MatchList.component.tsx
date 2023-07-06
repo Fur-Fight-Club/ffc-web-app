@@ -11,10 +11,12 @@ import styles from "./MatchList.module.scss";
 
 interface MatchListProps {
   match: Match;
+  onClickActive?: boolean;
 }
 
 export const MatchList: React.FunctionComponent<MatchListProps> = ({
   match,
+  onClickActive,
 }) => {
   const router = useRouter();
   return (
@@ -22,9 +24,11 @@ export const MatchList: React.FunctionComponent<MatchListProps> = ({
       style={{
         width: "100%",
       }}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={() => router.push(`/match/${match.id}`)}
+      whileHover={onClickActive ? { scale: 1.02 } : undefined}
+      whileTap={onClickActive ? { scale: 0.98 } : undefined}
+      onClick={
+        onClickActive ? () => router.push(`/match/${match.id}`) : undefined
+      }
     >
       <Grid xs={12} className={styles.matchItem}>
         <Grid.Container gap={2}>
