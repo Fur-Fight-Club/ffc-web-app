@@ -80,7 +80,12 @@ const ProfilePage = (props: ProfilePageProps) => {
       return;
     }
 
-    updateEmail({ id: user?.id, email: email, oldEmail: user?.email });
+    if (email != user.email) {
+      toast.error("Veuillez entrer une adresse email différente");
+      return;
+    }
+
+    updateUser({ id: user?.id, email: email });
   };
 
   const [updatePassword] = usePasswordUpdateMutation();
@@ -110,6 +115,8 @@ const ProfilePage = (props: ProfilePageProps) => {
       oldPassword: oldPassword,
       password: password,
     });
+
+    handleVisibleFormPassword();
   };
 
   useEffect(() => {
