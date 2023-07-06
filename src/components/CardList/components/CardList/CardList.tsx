@@ -8,6 +8,7 @@ import { mergeClassNames } from "@utils/main";
 import { useState } from "react";
 import { ArenaItemProps } from "../ArenaItem";
 import ArenaItem from "../ArenaItem/";
+import MatchItem, { MatchItemProps } from "../MatchItem";
 import MonsterItem, { MonsterItemProps } from "../MonsterItem";
 import styles from "./CardList.module.scss";
 
@@ -19,6 +20,7 @@ type CardListProps = {
 type CardListType = React.FC<CardListProps> & {
   MonsterItem: React.FC<MonsterItemProps>;
   ArenaItem: React.FC<ArenaItemProps>;
+  MatchItem: React.FC<MatchItemProps>;
 };
 
 const CardList: CardListType = ({ children, className }: CardListProps) => {
@@ -35,5 +37,6 @@ const CardList: CardListType = ({ children, className }: CardListProps) => {
 
 CardList.MonsterItem = MonsterItem;
 CardList.ArenaItem = ArenaItem;
+CardList.MatchItem = MatchItem;
 
 export default CardList;

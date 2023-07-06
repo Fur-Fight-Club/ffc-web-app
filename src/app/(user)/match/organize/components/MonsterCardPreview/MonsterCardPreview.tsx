@@ -6,20 +6,27 @@ import Image from "next/image";
 import styles from "./MonsterCardPreview.module.scss";
 
 type MonsterCardPreviewProps = {
-  monster?: Monster | null;
+  monster?: Monster | null | undefined;
+  labelPreview?: string;
 };
 
-const MonsterCardPreview = ({ monster }: MonsterCardPreviewProps) => {
+const MonsterCardPreview = ({
+  monster,
+  labelPreview,
+}: MonsterCardPreviewProps) => {
   if (!monster) {
     return (
       <>
-        <Text
-          h3
-          size={"$lg"}
-          css={{ textAlign: "center" }}
-          color={colors.primaryT300}
-        ></Text>
-        <div className={styles.monterCardPreviewEmpty}></div>
+        <div className={styles.monterCardPreviewEmpty}>
+          <Text
+            h3
+            size={"$lg"}
+            css={{ textAlign: "center" }}
+            color={colors.primaryT300}
+          >
+            {labelPreview && labelPreview}
+          </Text>
+        </div>
       </>
     );
   }

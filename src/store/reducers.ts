@@ -3,6 +3,7 @@ import { ArenaApi, arenaSlice } from "./arenas/slice";
 import { bankAccountApi, bankAccountSlice } from "./bank-account/slice";
 import {
   createMatchFormSlice,
+  joinMatchFormSlice,
   matchesApi,
   matchesSlice,
 } from "./matches/slice";
@@ -18,6 +19,7 @@ export const reducers = {
   [matchesApi.reducerPath]: matchesApi.reducer,
   [matchesSlice.name]: matchesSlice.reducer,
   [createMatchFormSlice.name]: createMatchFormSlice.reducer,
+  [joinMatchFormSlice.name]: joinMatchFormSlice.reducer,
   [walletSlice.name]: walletSlice.reducer,
   [walletApi.reducerPath]: walletApi.reducer,
   [bankAccountSlice.name]: bankAccountSlice.reducer,

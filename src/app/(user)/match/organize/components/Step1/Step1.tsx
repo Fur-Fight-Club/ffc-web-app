@@ -58,6 +58,7 @@ const Step1 = (props: Step1Props) => {
         <Grid xs={4}>
           <div style={{ width: "100%" }}>
             <div>Fiche</div>
+            {/* @ts-ignore */}
             <MonsterCardDetails monster={monster} />
           </div>
         </Grid>
@@ -71,6 +72,7 @@ const Step1 = (props: Step1Props) => {
               alignItems: "center",
             }}
           >
+            {/* @ts-ignore */}
             <MonsterCardPreview monster={monster} />
           </div>
         </Grid>

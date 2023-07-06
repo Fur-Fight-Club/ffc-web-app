@@ -1,0 +1,46 @@
+@import "/src/styles";
+
+.arenaItem {
+  cursor: pointer;
+
+  position: relative;
+
+  padding: 0.5rem;
+
+  background: #f4f4f4;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0.2rem rgba($black, 0.1);
+
+  transition: all 0.15s ease-in-out;
+}
+
+.arenaItemActive {
+  background: $secondary;
+}
+
+.imageContainer {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.date {
+  position: absolute;
+  z-index: 1000;
+  left: 50%;
+  transform: translateX(-50%);
+
+  padding: 0.25rem 0.4rem;
+
+  color: $white;
+
+  background: #0c0c0c;
+  border-radius: 0.25rem;
+}
