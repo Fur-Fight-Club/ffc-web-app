@@ -3,8 +3,11 @@
 import CardList from "@components/CardList/components/CardList";
 import { Button, Row, Spacer } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { Match } from "src/store/matches/matches.model";
-import { useGetMatchesQuery } from "src/store/matches/slice";
+import { joinMatchFormState } from "src/store/matches/selector";
+import { setMatchJoinForm, useGetMatchesQuery } from "src/store/matches/slice";
 import { Monster } from "src/store/monsters/monsters.model";
 import MonsterCardPreview from "../../../organize/components/MonsterCardPreview/MonsterCardPreview";
 import styles from "./Step1.module.scss";
@@ -13,6 +16,9 @@ type Step1PropsType = {};
 
 const Step1 = (props: Step1PropsType) => {
   const { data: matches, refetch } = useGetMatchesQuery();
+  const dispatch = useDispatch();
+
+  const { match: matchStore } = useSelector(joinMatchFormState);
 
   const selectableMatches =
     matches
@@ -27,13 +33,22 @@ const Step1 = (props: Step1PropsType) => {
   const [matchesState, setMatchesState] = useState<Match[]>(selectableMatches);
   const [monsterOpponent, setMonsterOpponent] = useState<Monster | null>(null);
 
-  const handleMatchClick = (monster: Monster) => {
+  const handleDisplayOpponent = (monster: Monster) => {
     if (monsterOpponent?.id !== monster.id) {
       setMonsterOpponent(monster);
       return;
     }
 
     setMonsterOpponent(null);
+  };
+
+  const handleMatchClick = (match: Match) => {
+    handleDisplayOpponent(match.Monster1);
+    dispatch(setMatchJoinForm(matchStore ? null : match));
+  };
+
+  const handleNextStep = () => {
+    toast.success("Match sélectionné");
   };
 
   useEffect(() => {
@@ -51,16 +66,15 @@ const Step1 = (props: Step1PropsType) => {
               <CardList.MatchItem
                 key={match.id}
                 match={match}
-                // @ts-ignore
-                onClick={() => handleMatchClick(match.Monster1)}
+                onClick={() => handleMatchClick(match)}
               />
             ))}
           </CardList>
         </div>
         <Spacer x={1} />
         <div className={styles.previews}>
-          {/* @ts-ignore */}
           <MonsterCardPreview
+            // @ts-ignore
             monster={monsterOpponent}
             labelPreview="Adversaire"
           />
@@ -72,7 +86,12 @@ const Step1 = (props: Step1PropsType) => {
       <Row justify="flex-end">
         <Button bordered>Retour</Button>
         <Spacer x={0.5} />
-        <Button>Suivant</Button>
+        <Button
+          {...(!matchStore && { disabled: true })}
+          onClick={handleNextStep}
+        >
+          Suivant
+        </Button>
       </Row>
     </div>
   );
