@@ -53,7 +53,7 @@ export const TournamentItem: React.FunctionComponent<TournamentItemProps> = ({
       socket.emit("match", { update: true });
       onRefresh();
     }
-  }, [isSuccessJoin]);
+  }, [isSuccessJoin, isSuccessStart]);
   return (
     <motion.div
       onClick={onPress}
