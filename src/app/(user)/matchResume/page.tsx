@@ -10,7 +10,7 @@ import { useGetAllMonsterFromOneUserQuery } from "src/store/monsters/slice";
 import { Match } from "src/store/matches/matches.model";
 import { Monster } from "src/store/monsters/monsters.model";
 
-import { Text } from "@nextui-org/react";
+import { Spacer, Text } from "@nextui-org/react";
 import { MatchList } from "../../components/MatchList/MatchList.component";
 
 export default function matchResume() {
@@ -46,18 +46,24 @@ export default function matchResume() {
     return matchesInclude;
   };
 
+  const MatchTest = MatchsWhereUserMonsterisInclude(userMonsters, matchesData);
+
+  useEffect(() => {
+    console.log("MatchTest", MatchTest);
+  }, [MatchTest]);
+
   return (
     <>
       <Text h2>Résumé de tout ces matches</Text>
 
-      {MatchsWhereUserMonsterisInclude(userMonsters, matchesData).length > 0 ? (
-        MatchsWhereUserMonsterisInclude(userMonsters, matchesData).map(
-          (match: Match) => {
-            <MatchList match={match} key={match.id} />;
-          }
-        )
+      <Spacer y={2} />
+
+      {MatchTest?.length > 0 ? (
+        MatchTest?.map((match: Match) => {
+          return <MatchList match={match} key={match.id} />;
+        })
       ) : (
-        <p>Vous n'avez pas de matches</p>
+        <Text h3>Vous n'avez pas encore de matchs</Text>
       )}
     </>
   );
