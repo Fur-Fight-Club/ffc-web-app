@@ -22,7 +22,7 @@ const BetPage = (props: BetPageProps) => {
             selectedDate.toLocaleDateString("fr-FR") &&
           match.fk_monster_1 !== null &&
           match.fk_monster_2 !== null &&
-          match.winner === null
+          match.fk_winner === null
       ) ?? []
     );
   }, [matches, selectedDate]);
@@ -31,7 +31,7 @@ const BetPage = (props: BetPageProps) => {
 
   useEffect(() => {
     refetch();
-  }, [matches]);
+  }, []);
 
   return (
     <Card>
