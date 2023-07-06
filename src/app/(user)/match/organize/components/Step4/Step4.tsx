@@ -47,21 +47,29 @@ const Step4 = (props: Step4Props) => {
 
     const result = matches.filter((match) => {
       const existingMatchStartDate = new Date(match.matchStartDate);
+
       const existingMatchStartDatePlus5Minutes = addMinutes(
         existingMatchStartDate,
         5
       );
       const newMatchStartDate = new Date(date);
+
+      console.log("existingMatchStartDate", existingMatchStartDate);
+      console.log(
+        "existingMatchStartDatePlus5Minutes",
+        existingMatchStartDatePlus5Minutes
+      );
+      console.table({
+        monster1: match.fk_monster_1,
+        monster2: match.fk_monster_2,
+        monsterId: monster?.id,
+      });
+
       return (
         (match.fk_monster_1 === monster?.id ||
           match.fk_monster_2 === monster?.id) &&
         isAfter(newMatchStartDate, existingMatchStartDatePlus5Minutes)
       );
-    });
-
-    console.log({
-      result,
-      returned: result.length > 0,
     });
 
     return result.length > 0;
@@ -91,12 +99,12 @@ const Step4 = (props: Step4Props) => {
       return false;
     }
 
-    if (!checkMonsterAlreadyHaveMatchAroundDate()) {
-      toast.error(
-        "Ce monstre a déjà un match de prévu à cette date. Un match dure environ 5 minutes (performance, arbitrage...). Veuillez choisir une autre date."
-      );
-      return false;
-    }
+    // if (!checkMonsterAlreadyHaveMatchAroundDate()) {
+    //   toast.error(
+    //     "Ce monstre a déjà un match de prévu à cette date. Un match dure environ 5 minutes (performance, arbitrage...). Veuillez choisir une autre date."
+    //   );
+    //   return false;
+    // }
 
     // TODO : Checker qu'on peut pas créer de match dans le passé (avant la date d'aujourd'hui)
 
