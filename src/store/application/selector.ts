@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect';
-import { store } from '../store';
+import { createSelector } from "reselect";
+import { store } from "../store";
 
 type RootState = ReturnType<typeof store.getState>;
 

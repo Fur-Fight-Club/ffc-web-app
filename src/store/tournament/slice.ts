@@ -1,8 +1,10 @@
+import { createSlice } from "@reduxjs/toolkit";
 import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import { reducerPath, CACHE_KEY, endpoints, initialState } from "./constants";
+import { toast } from "react-hot-toast";
 import { baseQuery } from "../api";
 import { setLoading } from "../application/slice";
 import { GenericApiError } from "../store.model";
+import { CACHE_KEY, endpoints, initialState, reducerPath } from "./constants";
 import { getTournamentsErrorsHandler } from "./errors/tournaments";
 import {
   CreateTournamentDto,
@@ -12,8 +14,6 @@ import {
   Tournament,
   UpdateTournamentDto,
 } from "./tournament.model";
-import { createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-hot-toast";
 
 export const tournamentApi = createApi({
   reducerPath,

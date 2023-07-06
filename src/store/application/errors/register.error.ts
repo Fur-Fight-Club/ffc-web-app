@@ -1,20 +1,20 @@
-import toast from 'react-hot-toast';
-import { GenericApiError } from '../../store.model';
+import toast from "react-hot-toast";
+import { GenericApiError } from "../../store.model";
 
 export enum RegisterErrors {
-  VALIDATION = 'Validation failed',
-  NOT_FOUND = 'User not found',
-  INVALID_CREDENTIALS = 'Invalid credentials',
+  VALIDATION = "Validation failed",
+  NOT_FOUND = "User not found",
+  INVALID_CREDENTIALS = "Invalid credentials",
 }
 
 export const registerErrorsHandler = (error: GenericApiError) => {
   switch (error.error.data.message) {
     case RegisterErrors.VALIDATION:
-      toast.error('Veuillez vérifier votre adresse mail');
+      toast.error("Veuillez vérifier votre adresse mail");
       break;
     case RegisterErrors.NOT_FOUND:
     case RegisterErrors.INVALID_CREDENTIALS:
-      toast.error('Vos identifiants ne semblent pas corrects');
+      toast.error("Vos identifiants ne semblent pas corrects");
       break;
 
     default:

@@ -5,7 +5,10 @@ import { GenericApiError } from "../store.model";
 import { baseQuery } from "./../api";
 import { StripeAccount, StripeBankAccount } from "./../payments/payments.model";
 
+import { exchangeRate } from "@utils/utils";
+import { Wallet } from "ffc-prisma-package/dist/client";
 import { Monster } from "../monsters/monsters.model";
+import { setWallet } from "../wallet/slice";
 import {
   DeleteNotificationTokenRequest,
   DemographicData,
@@ -38,9 +41,6 @@ import {
 } from "./constants";
 import { loginErrorsHandler } from "./errors/login.error";
 import { registerErrorsHandler } from "./errors/register.error";
-import { setWallet } from "../wallet/slice";
-import { Wallet } from "ffc-prisma-package/dist/client";
-import { convertCreditsToMoney, exchangeRate } from "@utils/utils";
 
 export const applicationApi = createApi({
   reducerPath,
