@@ -3,7 +3,7 @@
 import { IconButton } from "@components/IconButton";
 import { Button } from "@components/UI/Button/Button.component";
 import { Col, Row, Spacer, Table, Text, Tooltip } from "@nextui-org/react";
-import { ImageSquare, Trash } from "@phosphor-icons/react";
+import { ImageSquare } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { Arena } from "src/store/arenas/arenas.model";
 import {
@@ -96,11 +96,11 @@ export default function ArenaAdmin() {
                 </IconButton>
               </Tooltip>
               <Spacer x={0.3} />
-              <Tooltip content="Supprimer">
+              {/* <Tooltip content="Supprimer">
                 <IconButton onClick={() => onDelete(arena.id)}>
                   <Trash size={20} color="#889096" weight="fill" />
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
             </Col>
           </Row>
         );
