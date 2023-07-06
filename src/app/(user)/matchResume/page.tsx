@@ -1,5 +1,6 @@
 "use client";
 
+import { format } from "date-fns";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -57,7 +58,11 @@ export default function matchResume() {
       {MatchTest?.length > 0 ? (
         MatchTest?.map((match: Match) => {
           return (
-            <MatchList match={match} key={match.id} onClickActive={false} />
+            <>
+              {format(new Date(match.matchStartDate), "dd/MM/yyyy HH:mm")}
+              <Spacer y={1} />
+              <MatchList match={match} key={match.id} onClickActive={false} />
+            </>
           );
         })
       ) : (
