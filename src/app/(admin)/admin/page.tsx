@@ -56,10 +56,12 @@ export default function AdminPage() {
   const heatMapImage = (route: string) => {
     switch (route) {
       case "/":
-        return "https://i.imgur.com/xd0cGER.png";
+        return "https://i.imgur.com/DV6r8Xy.png";
+      case "/tournaments":
+        return "https://i.imgur.com/HnxKs1N.png";
 
       default:
-        return "https://i.imgur.com/xd0cGER.png";
+        return "https://i.imgur.com/DV6r8Xy.png";
     }
   };
 
@@ -170,6 +172,7 @@ export default function AdminPage() {
             <KpiAdminCard
               label="Debounce rate"
               amount={statsCards?.debounce}
+              // @ts-ignore
               unityLabel="%"
             />
           </Grid>
@@ -349,7 +352,10 @@ export default function AdminPage() {
                       defaultValue="/"
                       style={{ width: "100%" }}
                       onChange={(value) => setRoute(value)}
-                      options={[{ value: "/", label: "Page d'accueil" }]}
+                      options={[
+                        { value: "/", label: "Page d'accueil" },
+                        { value: "/tournaments", label: "Page des tournois" },
+                      ]}
                     />
                   </Grid>
                   <Grid xs={12} md={6}>
