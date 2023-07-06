@@ -4,6 +4,7 @@ import { Steps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { joinMatchFormState } from "src/store/matches/selector";
 import { resetJoinForm } from "src/store/matches/slice";
+import Step1 from "./components/Step1";
 
 type OrganizeMatchPageProps = {};
 
@@ -35,7 +36,7 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
   const renderStepPage = (step: number) => {
     switch (step) {
       case 0:
-        return <div>step 1 JOIN</div>;
+        return <Step1 />;
       default:
         dispatch(resetJoinForm());
         return <div>default steps forms</div>;
