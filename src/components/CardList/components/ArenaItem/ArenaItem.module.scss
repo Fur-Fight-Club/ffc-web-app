@@ -9,8 +9,9 @@
   height: 6rem;
   padding: 0.5rem;
 
-  background: $whiteT100;
+  background: #f4f4f4;
   border-radius: 0.75rem;
+  box-shadow: 0 0 0.2rem rgba($black, 0.1);
 
   transition: all 0.15s ease-in-out;
 }
