@@ -5,12 +5,12 @@ import { Button } from "@components/UI/Button/Button.component";
 import { Col, Row, Spacer, Table, Text, Tooltip } from "@nextui-org/react";
 import { Trash } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
-import { ModalCreateTournament } from "./components/modalCreateTournament";
 import {
   useDeleteTournamentMutation,
   useGetAllTournamentsQuery,
 } from "src/store/tournament/slice";
 import { Tournament } from "src/store/tournament/tournament.model";
+import { ModalCreateTournament } from "./components/modalCreateTournament";
 
 export default function ArenaAdmin() {
   const [tournaments, setTournaments] = useState([]);
@@ -38,7 +38,6 @@ export default function ArenaAdmin() {
     if (data) {
       // @ts-ignore
       setTournaments(data);
-      console.log(data);
     }
   }, [data]);
 

@@ -54,11 +54,6 @@ const Step4 = (props: Step4Props) => {
       );
       const newMatchStartDate = new Date(date);
 
-      console.log("existingMatchStartDate", existingMatchStartDate);
-      console.log(
-        "existingMatchStartDatePlus5Minutes",
-        existingMatchStartDatePlus5Minutes
-      );
       console.table({
         monster1: match.fk_monster_1,
         monster2: match.fk_monster_2,

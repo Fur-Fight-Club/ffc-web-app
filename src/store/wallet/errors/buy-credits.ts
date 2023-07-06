@@ -6,8 +6,6 @@ export enum Errors {
 }
 
 export const buyCreditsErrorsHandler = (error: GenericApiError) => {
-  console.log({ buyCreditsErrorsHandler: JSON.stringify(error) });
-
   switch (error.error.data.message) {
     case Errors.VALIDATION:
       toast.error("Impossible d'acheter cette quantité de crédits.");

@@ -1,4 +1,13 @@
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
+import { toast } from "react-hot-toast";
+import { baseQuery } from "../api";
+import { setLoading } from "../application/slice";
+import { GenericApiError } from "../store.model";
 import { CACHE_KEY, endpoint, initialState, reducerPath } from "./constants";
+import { buyCreditsErrorsHandler } from "./errors/buy-credits";
+import { getBalanceErrorsHandler } from "./errors/get-balance";
+import { withdrawErrorsHandler } from "./errors/withdraw";
 import {
   BuyCreditsRequest,
   BuyCreditsResponse,
@@ -6,15 +15,6 @@ import {
   WithdrawRequest,
   WithdrawResponse,
 } from "./wallet.model";
-import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { withdrawErrorsHandler } from "./errors/withdraw";
-import { getBalanceErrorsHandler } from "./errors/get-balance";
-import { buyCreditsErrorsHandler } from "./errors/buy-credits";
-import { baseQuery } from "../api";
-import { setLoading } from "../application/slice";
-import { GenericApiError } from "../store.model";
-import { toast } from "react-hot-toast";
 
 export const walletApi = createApi({
   reducerPath,
@@ -76,7 +76,6 @@ export const walletApi = createApi({
         dispatch(setLoading(true));
         try {
           const { data } = await queryFulfilled;
-          console.log({ data });
 
           dispatch(setLoading(false));
           toast.success(

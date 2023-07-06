@@ -8,8 +8,6 @@ export enum Errors {
 }
 
 export const withdrawErrorsHandler = (error: GenericApiError) => {
-  console.log({ withdrawErrorsHandler: error.error.data.message });
-
   switch (error.error.data.message) {
     case Errors.VALIDATION:
       toast.error("Veuillez saisir un montant valide.");

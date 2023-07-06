@@ -6,8 +6,6 @@ export enum Errors {
 }
 
 export const updateMonstersHandler = (error: GenericApiError) => {
-  console.log({ updateMonstersHandler: JSON.stringify(error.error.data) });
-
   switch (error.error.data.message) {
     case Errors.VALIDATION:
       toast.error("Vérifiez tous les champs et réessayez.");

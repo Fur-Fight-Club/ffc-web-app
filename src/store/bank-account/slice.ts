@@ -2,7 +2,11 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import toast from "react-hot-toast";
 import { baseQuery } from "../api";
-import { setLoading } from "../application/slice";
+import {
+  setLoading,
+  setStripeAccount,
+  setStripeBankAccount,
+} from "../application/slice";
 import { GenericApiError } from "../store.model";
 import {
   AddBankAccountRequest,
@@ -13,7 +17,6 @@ import { CACHE_KEY, endpoint, initialState, reducerPath } from "./constants";
 import { createBankAccountErrorsHandler } from "./errors/create";
 import { deleteBankAccountErrorsHandler } from "./errors/delete";
 import { getBankAccountErrorsHandler } from "./errors/get";
-import { setStripeBankAccount, setStripeAccount } from "../application/slice";
 
 export const bankAccountApi = createApi({
   reducerPath,
@@ -86,7 +89,6 @@ export const bankAccountApi = createApi({
         dispatch(setLoading(true));
         try {
           const { data } = await queryFulfilled;
-          console.log({ bankAccount: data });
 
           dispatch(setLoading(false));
           dispatch(setBankAccount(data));

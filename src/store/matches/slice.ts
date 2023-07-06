@@ -83,8 +83,6 @@ export const matchesApi = createApi({
       }),
 
       onQueryStarted: async (resource, { dispatch, queryFulfilled }) => {
-        console.log({ resource });
-
         try {
           const { data } = await queryFulfilled;
           dispatch(updateMatches(data));

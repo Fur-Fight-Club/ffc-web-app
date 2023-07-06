@@ -10,8 +10,6 @@ export enum Errors {
 }
 
 export const getTournamentsErrorsHandler = (error: GenericApiError) => {
-  console.log({ buyCreditsErrorsHandler: error.error.data });
-
   switch (error.error.data.message) {
     case Errors.ALREADY_ENDED:
       toast.error("La manche est déjà terminée.");

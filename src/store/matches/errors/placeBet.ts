@@ -8,8 +8,6 @@ export enum Errors {
 }
 
 export const placeBetErrorHandler = (error: GenericApiError) => {
-  console.log({ placeBetErrorHandler: error.error.data.message });
-
   switch (error.error.data.message) {
     case Errors.VALIDATION:
       toast.error("Veuillez vérifier le montant que vous avez saisi.");

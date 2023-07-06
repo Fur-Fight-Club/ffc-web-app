@@ -9,9 +9,6 @@ export enum Errors {
 }
 
 export const joinMatchesErrorHandler = (error: GenericApiError) => {
-  console.log({ getMatchesErrorHandler: error.error.data.message });
-  console.log(JSON.stringify(error.error.data));
-
   switch (error.error.data.message) {
     case Errors.MMR_TOO_LOW:
       toast.error(

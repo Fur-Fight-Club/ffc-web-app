@@ -1,33 +1,30 @@
 "use client";
 
-import * as React from "react";
+import { Button } from "@components/UI/Button/Button.component";
 import {
-  BracketMatch,
-  Tournament,
-} from "src/store/tournament/tournament.model";
-import {
-  SingleEliminationBracket,
   Match,
   SVGViewer,
+  SingleEliminationBracket,
 } from "@g-loot/react-tournament-brackets";
-import { matchsHelpers } from "../utils/matches.utils";
-import { useEffect, useContext } from "react";
 import {
-  Grid,
-  Spacer,
-  useTheme,
-  Text,
-  Table,
   Card,
+  Grid,
   Button as NUIButton,
+  Spacer,
+  Table,
+  Text,
+  useTheme,
 } from "@nextui-org/react";
-import { Button } from "@components/UI/Button/Button.component";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
+import * as React from "react";
+import { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { SocketContext } from "src/contexts/socket.context";
 import { applicationState } from "src/store/application/selector";
 import { useEndRoundMutation } from "src/store/tournament/slice";
-import { SocketContext } from "src/contexts/socket.context";
+import { Tournament } from "src/store/tournament/tournament.model";
+import { matchsHelpers } from "../utils/matches.utils";
 
 interface TournamentCardProps {
   tournament: Tournament;
@@ -49,7 +46,6 @@ export const TournamentCard: React.FunctionComponent<TournamentCardProps> = ({
 
   useEffect(() => {
     if (isSuccessEndRound) {
-      console.log("end round success");
       socket.emit("match", { update: true });
       refetch();
     }
