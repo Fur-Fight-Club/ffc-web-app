@@ -1,5 +1,7 @@
 "use client";
 
+import { Button, Row, Spacer } from "@nextui-org/react";
+import { Trash } from "@phosphor-icons/react";
 import { Steps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { joinMatchFormState } from "src/store/matches/selector";
@@ -52,6 +54,13 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
   return (
     <div>
       {renderStepperItem(step)}
+      <Row justify="flex-end">
+        <Button auto flat onClick={() => dispatch(resetJoinForm())}>
+          <p>Recommencer</p>
+          <Spacer x={0.5} />
+          <Trash size={15} color="white" weight="light" />
+        </Button>
+      </Row>
       {renderStepPage(step)}
     </div>
   );

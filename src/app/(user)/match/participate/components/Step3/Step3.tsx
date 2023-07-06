@@ -60,13 +60,6 @@ const Step3 = (props: Step3Props) => {
       return false;
     }
 
-    if (!match?.entryCost) {
-      toast.error(
-        "Une erreur est survenue. Aucune mise n'a été définie pour ce match. Veuillez sélectionner un autre match."
-      );
-      return false;
-    }
-
     // if (match?.entryCost < 100) {
     //   toast.error("Vous devez miser au moins 100 jetons");
     //   return false;
@@ -175,15 +168,15 @@ const Step3 = (props: Step3Props) => {
             </Col>
           </Card>
           <Spacer y={1} />
-          <Text b size={"$1xl"}>
-            3 - Mise
-          </Text>
-          <Spacer y={0.5} />
-          <Card css={{ padding: "1rem" }}>
-            <Col>
-              <Text>Mise : {match?.entryCost ?? "0"} jetons</Text>
-            </Col>
-          </Card>
+          {/* <Text b size={"$1xl"}> */}
+          {/* 3 - Mise */}
+          {/* </Text> */}
+          {/* <Spacer y={0.5} /> */}
+          {/* <Card css={{ padding: "1rem" }}> */}
+          {/* <Col> */}
+          {/* <Text>Mise : {match?.entryCost ?? "0"} jetons</Text> */}
+          {/* </Col> */}
+          {/* </Card> */}
         </Col>
         <Row justify="flex-end">
           <Button bordered onClick={handleStepBack}>

@@ -7,12 +7,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Match } from "src/store/matches/matches.model";
+import { joinMatchFormState } from "src/store/matches/selector";
 import {
   setMatchJoinForm,
   setStepJoinForm,
   useGetMatchesQuery,
 } from "src/store/matches/slice";
-import { joinMatchFormState } from "src/store/matches/selector";
 import { Monster } from "src/store/monsters/monsters.model";
 import MonsterCardPreview from "../../../organize/components/MonsterCardPreview/MonsterCardPreview";
 import styles from "./Step1.module.scss";
@@ -28,7 +28,10 @@ const Step1 = (props: Step1PropsType) => {
 
   const selectableMatches =
     matches
-      ?.filter((match) => !match.fk_winner && !match.fk_monster_2)
+      ?.filter(
+        (match) =>
+          !match.fk_winner && !match.fk_monster_2 && !match?.fk_tournament
+      )
       .sort((a, b) => {
         const dateA: any = new Date(a?.matchStartDate ?? new Date());
 
