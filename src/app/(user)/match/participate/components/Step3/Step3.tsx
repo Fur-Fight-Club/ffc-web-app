@@ -13,13 +13,19 @@ import {
 import { convertApiTypeToType } from "@utils/utils";
 import { format } from "date-fns";
 import fr from "date-fns/locale/fr";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { useGetUserQuery } from "src/store/application/slice";
 import { joinMatchFormState, matchesState } from "src/store/matches/selector";
-import { setStepJoinForm, useGetMatchesQuery } from "src/store/matches/slice";
+import {
+  resetJoinForm,
+  setStepJoinForm,
+  useGetMatchesQuery,
+  useJoinMatchMutation,
+} from "src/store/matches/slice";
 import { walletState } from "src/store/wallet/selector";
 
 type Step3Props = {};
@@ -33,6 +39,8 @@ const Step3 = (props: Step3Props) => {
   const { matches } = useSelector(matchesState);
   const { refetch } = useGetMatchesQuery();
   const { refetch: userRefetch } = useGetUserQuery("");
+  const [joinMatch, { isSuccess: isSuccessJoin }] = useJoinMatchMutation();
+  const router = useRouter();
   // const [createMatchMutation, { data, isError, isLoading, error }] =
   //   useCreateMatchMutation();
 
@@ -101,8 +109,14 @@ const Step3 = (props: Step3Props) => {
     // }
 
     setVisible(false);
-    toast.success("OK POUR LA REQUETE");
-    // dispatch(setStepJoinForm(1));
+
+    joinMatch({ matchId: match?.id, monsterId: monster?.id }).then(
+      (response) => {
+        toast.success("Vous avez rejoint le match avec succès");
+        dispatch(resetJoinForm());
+        router.push("/match");
+      }
+    );
   };
 
   const closeModaleHandler = useCallback(() => setVisible(false), []);
@@ -120,7 +134,7 @@ const Step3 = (props: Step3Props) => {
   useEffect(() => {
     refetch();
     userRefetch();
-  }, []);
+  }, [isSuccessJoin]);
 
   return (
     <>
