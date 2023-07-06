@@ -1,10 +1,14 @@
 "use client";
 
-import { Button, Row, Spacer, Text } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+
 import { createMatchFormState } from "src/store/matches/selector";
-import { setStepCreateForm } from "src/store/matches/slice";
+import { resetCreateForm, setStepCreateForm } from "src/store/matches/slice";
+
+import thanks from "@assets/animations/thanks.json";
+import { Button, Row, Spacer, Text } from "@nextui-org/react";
+import Lottie from "lottie-react";
 
 type Step5Props = {};
 
@@ -21,15 +25,40 @@ const Step5 = (props: Step5Props) => {
     dispatch(setStepCreateForm(3));
   };
 
+  const finishStep = () => {
+    router.push("/");
+
+    setTimeout(() => {
+      dispatch(resetCreateForm());
+    }, 300);
+  };
+
   return (
-    <div style={{ height: "80vh" }}>
-      <Text>Paiment</Text>
-      <Row justify="flex-end">
-        <Button bordered onClick={handleStepBack}>
-          Retour
-        </Button>
+    <div
+      style={{
+        height: "80vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      <Lottie
+        animationData={thanks}
+        style={{
+          height: "100%",
+          width: "100%",
+          position: "absolute",
+          top: 0,
+          left: 0,
+        }}
+      />
+
+      <Row justify="center">
+        <Text h1>MERCI !</Text>
+      </Row>
+      <Row justify="center">
         <Spacer x={0.5} />
-        <Button onClick={handleNextStep}>Suivant</Button>
+        <Button onClick={finishStep}>Terminer</Button>
       </Row>
     </div>
   );
