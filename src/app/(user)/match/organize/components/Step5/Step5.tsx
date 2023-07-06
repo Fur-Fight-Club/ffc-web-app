@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 
 import { createMatchFormState } from "src/store/matches/selector";
-import { setStepCreateForm } from "src/store/matches/slice";
+import { resetCreateForm, setStepCreateForm } from "src/store/matches/slice";
 
 import thanks from "@assets/animations/thanks.json";
 import { Button, Row, Spacer, Text } from "@nextui-org/react";
@@ -27,6 +27,10 @@ const Step5 = (props: Step5Props) => {
 
   const finishStep = () => {
     router.push("/");
+
+    setTimeout(() => {
+      dispatch(resetCreateForm());
+    }, 300);
   };
 
   return (
