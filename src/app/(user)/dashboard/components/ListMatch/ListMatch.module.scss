@@ -1,0 +1,24 @@
+@import '/src/styles';
+
+.main{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: 100%;
+  height: 100%;
+}
+
+.buttonEndCard{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.chart{
+  width: 40%;
+}

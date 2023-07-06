@@ -1,14 +1,15 @@
 "use client";
 
 import { Card, Grid } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { applicationState } from "src/store/application/selector";
-import BestMonsterMmr from "./components/BestMonsterMmr/BestMonsterMmr";
 import KpiCardsGraph from "./components/KPI/KpiCardGraph.component";
 import UserOverview from "./components/UserOverview/UserOverview";
 import styles from "./page.module.scss";
+import BestMonsterMmr from "./components/BestMonsterMmr/BestMonsterMmr";
+import { useSelector } from "react-redux";
+import { applicationState } from "src/store/application/selector";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import ListMatch from "./components/ListMatch/ListMatch.component";
 
 type DashboardProps = {};
 
@@ -65,7 +66,9 @@ const Dashboard = (props: DashboardProps) => {
             secondString="de match gagnées"
           />
         </Grid>
-        <Grid xs={4}>pouet</Grid>
+        <Grid xs={6}>
+          <ListMatch monsters={user.Monster} />
+        </Grid>
         <Grid xs={4}>pouet</Grid>
         <Grid xs={4}></Grid>
       </Grid.Container>
