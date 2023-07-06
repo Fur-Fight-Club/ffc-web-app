@@ -43,7 +43,7 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
       (item.tag === "BET" && item.type === "OUT") ||
       (item.tag === "BET" && item.type === "IN")
     ) {
-      return `${item?.amount}`;
+      return `${item?.amount.toFixed()}`;
     }
 
     return `${convertMoneyToCredits(item?.amount / 100)}`;
