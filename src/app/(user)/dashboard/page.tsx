@@ -10,6 +10,7 @@ import { applicationState } from "src/store/application/selector";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ListMatch from "./components/ListMatch/ListMatch.component";
+import KpiCards from "./components/KpiCards";
 
 type DashboardProps = {};
 
@@ -59,6 +60,12 @@ const Dashboard = (props: DashboardProps) => {
           )}
         </Grid>
         <Grid xs={4}>
+          <KpiCards transactions={user.transaction} />
+        </Grid>
+        <Grid xs={6}>
+          <ListMatch monsters={user.Monster} />
+        </Grid>
+        <Grid xs={6}>
           <KpiCardsGraph
             kpiMaxValue={totalMatches ? totalMatches : 0}
             kpiValue={totalWins ? totalWins : 0}
@@ -66,11 +73,6 @@ const Dashboard = (props: DashboardProps) => {
             secondString="de match gagnées"
           />
         </Grid>
-        <Grid xs={6}>
-          <ListMatch monsters={user.Monster} />
-        </Grid>
-        <Grid xs={4}>pouet</Grid>
-        <Grid xs={4}></Grid>
       </Grid.Container>
     </div>
   );

@@ -177,12 +177,16 @@ const ListMatch: React.FunctionComponent<ListMatchProps> = ({ monsters }) => {
               )}
             </Table.Body>
 
-            <Table.Pagination shadow noMargin align="center" rowsPerPage={4} />
+            <Table.Pagination noMargin align="center" rowsPerPage={4} />
           </Table>
         ) : (
-          <Row justify="center">
-            <Text weight={"bold"} css={{ mb: "$4" }}>
-              Vous n'avez pas encore de transaction faite.
+          <Row
+            align="center"
+            justify="center"
+            css={{ width: "100%", height: "100%" }}
+          >
+            <Text weight={"medium"} css={{ mb: "$4" }}>
+              Vous ne participez à aucun match.
             </Text>
           </Row>
         )}

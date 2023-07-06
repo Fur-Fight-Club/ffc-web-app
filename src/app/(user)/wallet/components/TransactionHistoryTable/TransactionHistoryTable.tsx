@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Col, Row, Table, Text } from "@nextui-org/react";
+import { Card, Col, Row, Table, Text, Spacer } from "@nextui-org/react";
 import { DownloadSimple } from "@phosphor-icons/react";
 import colors from "@styles/_colors.module.scss";
 import { format } from "date-fns";
@@ -120,8 +120,7 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
                           size={14}
                           css={{ tt: "capitalize", color: "$accents7" }}
                         >
-                          {formatAmountItemCoinsColumn(item)}
-
+                          {formatAmountItemCoinsColumn(item)}{" "}
                           <Image
                             width={20}
                             height={20}
@@ -183,11 +182,11 @@ const TransactionHistoryTable = ({}: TransactionHistoryTableProps) => {
               )}
             </Table.Body>
 
-            <Table.Pagination shadow noMargin align="center" rowsPerPage={9} />
+            <Table.Pagination noMargin align="center" rowsPerPage={9} />
           </Table>
         ) : (
-          <Row justify="center">
-            <Text weight={"bold"} css={{ mb: "$4" }}>
+          <Row align="center" justify="center" css={{ width: "100%" }}>
+            <Text weight={"medium"} css={{ mb: "$4" }}>
               Vous n'avez pas encore de transaction faite.
             </Text>
           </Row>

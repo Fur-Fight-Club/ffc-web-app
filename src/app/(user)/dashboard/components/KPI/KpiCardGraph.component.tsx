@@ -10,7 +10,6 @@ import styles from "./kpiCardGraph.module.scss";
 interface TemplateProps {
   kpiValue: number;
   kpiMaxValue: number;
-  kpiButtonRoute?: string;
   firstString?: string;
   secondString?: string;
 }
@@ -18,7 +17,6 @@ interface TemplateProps {
 const KpiCardsGraph: React.FunctionComponent<TemplateProps> = ({
   kpiValue,
   kpiMaxValue,
-  kpiButtonRoute,
   firstString,
   secondString,
 }) => {
@@ -29,24 +27,22 @@ const KpiCardsGraph: React.FunctionComponent<TemplateProps> = ({
   }
 
   return (
-    <Card
-      variant="flat"
-      css={{ padding: "2rem", height: "100%", background: "#FAF8F4" }}
-    >
+    <Card variant="flat" css={{ padding: "2rem", height: "100%" }}>
       <div className={styles.main}>
         <Row>
-          <Text weight="semibold" size={30}>
+          <Text h5 weight={"bold"} size={"$2xl"}>
             {kpiValue}{" "}
           </Text>
-          <Text weight="semibold" size={30}>
+          <Text h5 weight={"bold"} size={"$2xl"}>
             /
           </Text>
-          <Text weight="semibold" size={30} css={{ color: "#9B9488" }}>
+          <Spacer x={0.1} />
+          <Text h5 weight={"bold"} size={"$2xl"}>
             {" "}
             {kpiMaxValue}
           </Text>
         </Row>
-        <Text size={15} css={{ color: "#7D7B88" }}>
+        <Text h5 weight={"medium"} size={"$2xl"}>
           {firstString}
         </Text>
 
@@ -54,10 +50,10 @@ const KpiCardsGraph: React.FunctionComponent<TemplateProps> = ({
 
         <Row justify="space-between">
           <Col>
-            <Text weight="semibold" size={30}>
+            <Text h5 weight={"bold"} size={"$2xl"}>
               {percentage}
             </Text>
-            <Text size={15} css={{ color: "#7D7B88" }}>
+            <Text h5 weight={"medium"} size={"$2xl"}>
               % {secondString}
             </Text>
           </Col>
@@ -77,8 +73,8 @@ const KpiCardsGraph: React.FunctionComponent<TemplateProps> = ({
                   strokeWidth={50}
                   counterClockwise
                   styles={buildStyles({
-                    trailColor: "#F5EFDF",
-                    pathColor: "#DCCEB5",
+                    trailColor: "#c03030",
+                    pathColor: "#d57575",
                     strokeLinecap: "butt",
                   })}
                 />

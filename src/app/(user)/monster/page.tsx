@@ -186,12 +186,7 @@ const MonsterPage = (props: MonsterPageProps) => {
                 )}
               </Table.Body>
 
-              <Table.Pagination
-                shadow
-                noMargin
-                align="center"
-                rowsPerPage={3}
-              />
+              <Table.Pagination noMargin align="center" rowsPerPage={3} />
             </Table>
           ) : (
             <Row justify="center">
