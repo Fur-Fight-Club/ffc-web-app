@@ -9,6 +9,7 @@ import { resetJoinForm } from "src/store/matches/slice";
 import Step1 from "./components/Step1";
 import Step2 from "./components/Step2";
 import Step3 from "./components/Step3";
+import Step4 from "./components/Step4";
 
 type OrganizeMatchPageProps = {};
 
@@ -45,6 +46,8 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
         return <Step2 />;
       case 2:
         return <Step3 />;
+      case 3:
+        return <Step4 />;
       default:
         dispatch(resetJoinForm());
         return <div>default steps forms</div>;

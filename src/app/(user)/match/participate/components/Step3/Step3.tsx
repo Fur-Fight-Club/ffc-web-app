@@ -21,7 +21,6 @@ import { applicationState } from "src/store/application/selector";
 import { useGetUserQuery } from "src/store/application/slice";
 import { joinMatchFormState, matchesState } from "src/store/matches/selector";
 import {
-  resetJoinForm,
   setStepJoinForm,
   useGetMatchesQuery,
   useJoinMatchMutation,
@@ -39,10 +38,9 @@ const Step3 = (props: Step3Props) => {
   const { matches } = useSelector(matchesState);
   const { refetch } = useGetMatchesQuery();
   const { refetch: userRefetch } = useGetUserQuery("");
-  const [joinMatch, { isSuccess: isSuccessJoin }] = useJoinMatchMutation();
+  const [joinMatch, { isSuccess: isSuccessJoin, isError: isErrorJoin }] =
+    useJoinMatchMutation();
   const router = useRouter();
-  // const [createMatchMutation, { data, isError, isLoading, error }] =
-  //   useCreateMatchMutation();
 
   const canCreateMatch = () => {
     if (!monster || !match) {
@@ -63,22 +61,10 @@ const Step3 = (props: Step3Props) => {
       return false;
     }
 
-    if (match?.fk_monster_2 === monster?.id) {
+    if (match?.fk_monster_1 === monster?.id) {
       toast.error("Vous ne pouvez pas vous battre contre vous même");
       return false;
     }
-
-    // if (match?.entryCost < 100) {
-    //   toast.error("Vous devez miser au moins 100 jetons");
-    //   return false;
-    // }
-
-    // if (!checkMonsterAlreadyHaveMatchAroundDate()) {
-    //   toast.error(
-    //     "Ce monstre a déjà un match de prévu à cette date. Un match dure environ 5 minutes (performance, arbitrage...). Veuillez choisir une autre date."
-    //   );
-    //   return false;
-    // }
 
     return true;
   };
@@ -93,30 +79,9 @@ const Step3 = (props: Step3Props) => {
 
     if (!monster || !match) return;
 
-    // await createMatchMutation({
-    // monster1: monster.id,
-    // weight_category: monster.weight_category,
-    // fk_arena: arena.id,
-    // matchStartDate: new Date(date),
-    // entry_cost: bet,
-    // });
-
-    // if (isError) {
-    // toast.error(
-    // "Une erreur est survenue durant la création de match. Veuillez recommencer."
-    // );
-    // return;
-    // }
-
     setVisible(false);
 
-    joinMatch({ matchId: match?.id, monsterId: monster?.id }).then(
-      (response) => {
-        toast.success("Vous avez rejoint le match avec succès");
-        dispatch(resetJoinForm());
-        router.push("/match");
-      }
-    );
+    joinMatch({ matchId: match?.id, monsterId: monster?.id });
   };
 
   const closeModaleHandler = useCallback(() => setVisible(false), []);
@@ -134,7 +99,16 @@ const Step3 = (props: Step3Props) => {
   useEffect(() => {
     refetch();
     userRefetch();
-  }, [isSuccessJoin]);
+
+    if (isErrorJoin) {
+      toast.error(
+        "Une erreur est survenue durant la création de match. Veuillez recommencer."
+      );
+    } else if (isSuccessJoin) {
+      toast.success("Vous avez bien rejoint le match !");
+      dispatch(setStepJoinForm(3));
+    }
+  }, [isErrorJoin, isSuccessJoin]);
 
   return (
     <>
