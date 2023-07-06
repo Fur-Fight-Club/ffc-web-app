@@ -1,4 +1,4 @@
-import { CreateMatchForm, Matches } from "./matches.model";
+import { CreateMatchForm, JoinMatchForm, Matches } from "./matches.model";
 
 export const initialState: Matches = {
   matches: [],
@@ -10,6 +10,12 @@ export const createMatchFormInitialState: CreateMatchForm = {
   arena: null,
   date: null,
   bet: 100,
+};
+
+export const joinMatchFormInitialState: JoinMatchForm = {
+  step: 0,
+  match: null,
+  monster: null,
 };
 
 export const reducerPath = "matchesApi";

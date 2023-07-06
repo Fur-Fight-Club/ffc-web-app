@@ -15,6 +15,7 @@ import {
   createMatchFormInitialState,
   endpoint,
   initialState,
+  joinMatchFormInitialState,
   reducerPath,
 } from "./constants";
 import { getMatchesErrorHandler } from "./errors/get";
@@ -275,6 +276,31 @@ export const createMatchFormSlice = createSlice({
   },
 });
 
+export const joinMatchFormSlice = createSlice({
+  name: "joinMatchForm",
+  initialState: joinMatchFormInitialState,
+  reducers: {
+    setStepJoinForm: (state, action: PayloadAction<number>) => {
+      state.step = action.payload;
+    },
+
+    setMatchJoinForm: (state, action: PayloadAction<Match | null>) => {
+      state.match = action.payload;
+    },
+
+    setMonsterJoinForm: (state, action: PayloadAction<Monster | null>) => {
+      // @ts-ignore
+      state.monster = action.payload;
+    },
+
+    resetJoinForm: (state) => {
+      state.step = 0;
+      state.match = null;
+      state.monster = null;
+    },
+  },
+});
+
 export const { setMatches, updateMatches } = matchesSlice.actions;
 
 export const {
@@ -285,6 +311,13 @@ export const {
   setBetCreateForm,
   resetCreateForm,
 } = createMatchFormSlice.actions;
+
+export const {
+  setStepJoinForm,
+  setMatchJoinForm,
+  setMonsterJoinForm,
+  resetJoinForm,
+} = joinMatchFormSlice.actions;
 
 export const {
   useGetMatchQuery,

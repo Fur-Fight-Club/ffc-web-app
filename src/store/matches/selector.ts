@@ -11,3 +11,9 @@ export const createMatchFormState = createSelector(
   getCreateMatchForm,
   (create) => create
 );
+
+const getJoinMatchForm = (state: RootState) => state.joinMatchForm;
+export const joinMatchFormState = createSelector(
+  getJoinMatchForm,
+  (join) => join
+);

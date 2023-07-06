@@ -65,3 +65,9 @@ export interface MatchFormState {
 export interface CreateMatchForm extends MatchFormState {
   bet: number;
 }
+
+export interface JoinMatchForm {
+  step: number;
+  match: Match | null;
+  monster: Monster | null;
+}
