@@ -150,6 +150,12 @@ const NavbarTest = () => {
                 </Text>
               </Dropdown.Item>
 
+              <Dropdown.Item key="resume">
+                <Text onClick={() => router.push("/matchResume")}>
+                  Historique de combat
+                </Text>
+              </Dropdown.Item>
+
               <Dropdown.Item key="logout" color="error" withDivider>
                 <Text onClick={handleLogout}>Déconnexion</Text>
               </Dropdown.Item>
