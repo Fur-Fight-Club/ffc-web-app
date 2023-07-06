@@ -59,6 +59,8 @@ export default function AdminPage() {
         return "https://i.imgur.com/DV6r8Xy.png";
       case "/tournaments":
         return "https://i.imgur.com/HnxKs1N.png";
+      case "/match":
+        return "https://i.imgur.com/fsOEQwR.png";
 
       default:
         return "https://i.imgur.com/DV6r8Xy.png";
@@ -355,6 +357,10 @@ export default function AdminPage() {
                       options={[
                         { value: "/", label: "Page d'accueil" },
                         { value: "/tournaments", label: "Page des tournois" },
+                        {
+                          value: "/match",
+                          label: "Page participer/organiser match",
+                        },
                       ]}
                     />
                   </Grid>
