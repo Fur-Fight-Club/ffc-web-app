@@ -1,19 +1,19 @@
 @import '/src/styles/';
 
-.main {
-  height: 100vh;
-}
+
 
 .header {
   position: relative;
   display: flex;
-  height: 100%;
+  height: 88vh;
+  
 }
 
 .headerContent {
   z-index: 10;
   display: flex;
   padding: 1.6rem;
+  
 }
 
 .matchCard {
@@ -28,7 +28,7 @@
 
 .lottieWarriors {
   position: absolute;
-  height: 100vh;
+  height: 100%;
 }
 
 .catchPhrase {

@@ -108,7 +108,7 @@ export default function Home() {
             className={styles.lottieWarriors}
           />
         </header>
-        <section className={styles.section}>
+        {/* <section className={styles.section}>
           <h2 className={styles.title}>{"Qu'est-ce que le FFC ?"} </h2>
         </section>
         <section className={styles.section}>
@@ -123,7 +123,7 @@ export default function Home() {
             <li>pouet</li>
             <li>pouet</li>
           </ul>
-        </footer>
+        </footer> */}
       </main>
     </>
   );
