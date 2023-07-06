@@ -48,10 +48,6 @@ export default function matchResume() {
 
   const MatchTest = MatchsWhereUserMonsterisInclude(userMonsters, matchesData);
 
-  useEffect(() => {
-    console.log("MatchTest", MatchTest);
-  }, [MatchTest]);
-
   return (
     <>
       <Text h2>Résumé de tout ces matches</Text>
@@ -60,7 +56,9 @@ export default function matchResume() {
 
       {MatchTest?.length > 0 ? (
         MatchTest?.map((match: Match) => {
-          return <MatchList match={match} key={match.id} />;
+          return (
+            <MatchList match={match} key={match.id} onClickActive={false} />
+          );
         })
       ) : (
         <Text h3>Vous n'avez pas encore de matchs</Text>
