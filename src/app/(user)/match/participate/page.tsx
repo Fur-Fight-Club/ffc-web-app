@@ -6,6 +6,7 @@ import { joinMatchFormState } from "src/store/matches/selector";
 import { resetJoinForm } from "src/store/matches/slice";
 import Step1 from "./components/Step1";
 import Step2 from "./components/Step2";
+import Step3 from "./components/Step3";
 
 type OrganizeMatchPageProps = {};
 
@@ -40,6 +41,8 @@ const OrganizeMatchPage = (props: OrganizeMatchPageProps) => {
         return <Step1 />;
       case 1:
         return <Step2 />;
+      case 2:
+        return <Step3 />;
       default:
         dispatch(resetJoinForm());
         return <div>default steps forms</div>;

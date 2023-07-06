@@ -31,7 +31,7 @@ const Step2 = (props: Step2Props) => {
   };
 
   const handleNextStep = () => {
-    dispatch(setStepJoinForm(1));
+    dispatch(setStepJoinForm(2));
     toast.success("Monstre sélectionné");
   };
 

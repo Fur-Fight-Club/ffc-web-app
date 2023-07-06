@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { applicationState } from "src/store/application/selector";
 import { useGetUserQuery } from "src/store/application/slice";
 import { joinMatchFormState, matchesState } from "src/store/matches/selector";
-import { useGetMatchesQuery, setStepJoinForm } from "src/store/matches/slice";
+import { setStepJoinForm, useGetMatchesQuery } from "src/store/matches/slice";
 import { walletState } from "src/store/wallet/selector";
 
 type Step3Props = {};
@@ -33,8 +33,8 @@ const Step3 = (props: Step3Props) => {
   const { matches } = useSelector(matchesState);
   const { refetch } = useGetMatchesQuery();
   const { refetch: userRefetch } = useGetUserQuery("");
-  const [createMatchMutation, { data, isError, isLoading, error }] =
-    useCreateMatchMutation();
+  // const [createMatchMutation, { data, isError, isLoading, error }] =
+  //   useCreateMatchMutation();
 
   const canCreateMatch = () => {
     if (!monster || !match) {
@@ -51,6 +51,18 @@ const Step3 = (props: Step3Props) => {
     if (match?.entryCost > credits) {
       toast.error(
         "Vous ne pouvez pas miser plus que ce que vous avez sur votre compte"
+      );
+      return false;
+    }
+
+    if (match?.fk_monster_2 === monster?.id) {
+      toast.error("Vous ne pouvez pas vous battre contre vous même");
+      return false;
+    }
+
+    if (!match?.entryCost) {
+      toast.error(
+        "Une erreur est survenue. Aucune mise n'a été définie pour ce match. Veuillez sélectionner un autre match."
       );
       return false;
     }
@@ -80,23 +92,24 @@ const Step3 = (props: Step3Props) => {
 
     if (!monster || !match) return;
 
-    await createMatchMutation({
-      monster1: monster.id,
-      weight_category: monster.weight_category,
-      fk_arena: arena.id,
-      matchStartDate: new Date(date),
-      entry_cost: bet,
-    });
+    // await createMatchMutation({
+    // monster1: monster.id,
+    // weight_category: monster.weight_category,
+    // fk_arena: arena.id,
+    // matchStartDate: new Date(date),
+    // entry_cost: bet,
+    // });
 
-    if (isError) {
-      toast.error(
-        "Une erreur est survenue durant la création de match. Veuillez recommencer."
-      );
-      return;
-    }
+    // if (isError) {
+    // toast.error(
+    // "Une erreur est survenue durant la création de match. Veuillez recommencer."
+    // );
+    // return;
+    // }
 
     setVisible(false);
-    dispatch(setStepJoinForm(1));
+    toast.success("OK POUR LA REQUETE");
+    // dispatch(setStepJoinForm(1));
   };
 
   const closeModaleHandler = useCallback(() => setVisible(false), []);
@@ -104,7 +117,7 @@ const Step3 = (props: Step3Props) => {
   const openModaleHandler = useCallback(() => setVisible(true), []);
 
   const handleStepBack = () => {
-    dispatch(setStepCreateForm(2));
+    dispatch(setStepJoinForm(1));
   };
 
   const hasStripeAccount =
@@ -141,23 +154,6 @@ const Step3 = (props: Step3Props) => {
           </Card>
           <Spacer y={1} />
           <Text b size={"$1xl"}>
-            1 - Monstre de l'adversaire
-          </Text>
-          <Spacer y={0.5} />
-          <Card css={{ padding: "1rem" }}>
-            <Col>
-              <Text>Nom : {match?.fk_monster_1?.name}</Text>
-              <Text>MMR : {match?.fk_monster_1?.mmr}</Text>
-              <Text>Poids : {match?.fk_monster_1?.weight}</Text>
-              <Text>Category : {match?.fk_monster_1?.weight_category}</Text>
-              {/* @ts-ignore */}
-              <Text>
-                Type : {convertApiTypeToType(match?.fk_monster_1?.monster_type)}
-              </Text>
-            </Col>
-          </Card>
-          <Spacer y={1} />
-          <Text b size={"$1xl"}>
             2 - Arène
           </Text>
           <Spacer y={0.5} />
@@ -171,7 +167,7 @@ const Step3 = (props: Step3Props) => {
               {/* @ts-ignore */}
               <Text>
                 {/* @ts-ignore */}
-                Date :{" "}
+                Date : {/* @ts-ignore */}
                 {format(new Date(match?.matchStartDate), "dd/MM/yyyy", {
                   locale: fr,
                 })}
@@ -185,7 +181,7 @@ const Step3 = (props: Step3Props) => {
           <Spacer y={0.5} />
           <Card css={{ padding: "1rem" }}>
             <Col>
-              <Text>Mise : {match?.entryCost} jetons</Text>
+              <Text>Mise : {match?.entryCost ?? "0"} jetons</Text>
             </Col>
           </Card>
         </Col>
