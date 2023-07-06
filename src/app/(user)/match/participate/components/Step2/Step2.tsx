@@ -2,7 +2,6 @@
 
 import CardList from "@components/CardList/components/CardList";
 import { Button, Row, Spacer } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,14 +14,13 @@ import {
 } from "src/store/matches/slice";
 import { Monster } from "src/store/monsters/monsters.model";
 import MonsterCardPreview from "../../../organize/components/MonsterCardPreview/MonsterCardPreview";
-import styles from "./Step1.module.scss";
+import styles from "./Step2.module.scss";
 
-type Step1PropsType = {};
+type Step2PropsType = {};
 
-const Step1 = (props: Step1PropsType) => {
+const Step2 = (props: Step2PropsType) => {
   const { data: matches, refetch } = useGetMatchesQuery();
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const { match: matchStore } = useSelector(joinMatchFormState);
 
@@ -50,15 +48,15 @@ const Step1 = (props: Step1PropsType) => {
 
   const handleMatchClick = (match: Match) => {
     handleDisplayOpponent(match.Monster1);
-
-    matchStore?.id === match.id
-      ? dispatch(setMatchJoinForm(null))
-      : dispatch(setMatchJoinForm(match));
+    dispatch(setMatchJoinForm(matchStore ? null : match));
   };
 
   const handleNextStep = () => {
     toast.success("Match sélectionné");
-    dispatch(setStepJoinForm(1));
+  };
+
+  const handleStepBack = () => {
+    dispatch(setStepJoinForm(0));
   };
 
   useEffect(() => {
@@ -67,7 +65,7 @@ const Step1 = (props: Step1PropsType) => {
   }, []);
 
   return (
-    <div className={styles.step1}>
+    <div className={styles.step2}>
       <Spacer y={1} />
       <div className={styles.content}>
         <div className={styles.cardList}>
@@ -94,7 +92,7 @@ const Step1 = (props: Step1PropsType) => {
       </div>
       <Spacer y={1} />
       <Row justify="flex-end">
-        <Button bordered onClick={() => router.back()}>
+        <Button bordered onClick={handleStepBack}>
           Retour
         </Button>
         <Spacer x={0.5} />
@@ -109,4 +107,4 @@ const Step1 = (props: Step1PropsType) => {
   );
 };
 
-export default Step1;
+export default Step2;
