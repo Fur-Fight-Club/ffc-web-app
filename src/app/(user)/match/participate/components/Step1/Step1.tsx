@@ -28,7 +28,10 @@ const Step1 = (props: Step1PropsType) => {
 
   const selectableMatches =
     matches
-      ?.filter((match) => !match.fk_winner && !match.fk_monster_2)
+      ?.filter(
+        (match) =>
+          !match.fk_winner && !match.fk_monster_2 && !match?.fk_tournament
+      )
       .sort((a, b) => {
         const dateA: any = new Date(a?.matchStartDate ?? new Date());
 
