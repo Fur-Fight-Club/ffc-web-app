@@ -41,6 +41,7 @@ const BetPage = (props: BetPageProps) => {
           alignContent="center"
           justify="center"
           alignItems="center"
+          css={{ overflowY: "scroll" }}
         >
           <Grid xs={4} justify="flex-start">
             <Button
